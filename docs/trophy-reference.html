@@ -1,0 +1,292 @@
+<title>Dummy Challenge Trophäen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: single column, max 760px, sections stacked with generous gaps.
+   Level badges read as small inline chips; trophies as a medallion grid. */
+:root{
+  --bg:#F5F7F3; --surface:#FFFFFF; --surface-2:#EDF1EA;
+  --fg:#151D16; --muted:#5A6B5D; --line:#DCE3D9;
+  --accent:#2F6B3F; --accent-soft:#2F6B3F1A;
+  --bronze:#9A5B33; --silver:#7E858B; --gold:#A8762C;
+  --glow:#A8762C40;
+  --font-display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --font-body:'Public Sans',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111610; --surface:#1A211A; --surface-2:#222B21;
+  --fg:#EDF2E9; --muted:#9AAC9C; --line:#2C362C;
+  --accent:#6FBF7B; --accent-soft:#6FBF7B24;
+  --bronze:#C98152; --silver:#B6BDC3; --gold:#E0AC4A;
+  --glow:#E0AC4A45;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#111610; --surface:#1A211A; --surface-2:#222B21;
+  --fg:#EDF2E9; --muted:#9AAC9C; --line:#2C362C;
+  --accent:#6FBF7B; --accent-soft:#6FBF7B24;
+  --bronze:#C98152; --silver:#B6BDC3; --gold:#E0AC4A;
+  --glow:#E0AC4A45;
+  color-scheme:dark;
+}
+
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 64px;padding-left:20px;padding-right:20px;
+  display:flex;flex-direction:column;gap:44px}
+
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,6vw,38px);
+  line-height:1.08;letter-spacing:-.02em;text-wrap:balance;margin-bottom:10px}
+h2{font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.01em;margin-bottom:4px}
+.lede{color:var(--muted);font-size:16px;max-width:60ch}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:8px}
+.note{color:var(--muted);font-size:14px;margin-top:14px;max-width:62ch}
+
+.themebar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tbtn{font-family:var(--font-body);font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.tbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .tbtn[aria-pressed="true"],
+:root:not([data-theme="light"]) .tbtn[aria-pressed="true"]{color:#10170F}
+
+/* ── Level badges ─────────────────────────────── */
+.levelrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.lvl{display:flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;border-radius:12px;
+  background:var(--surface);border:1.5px solid var(--line);font-size:14px;font-weight:600}
+.lvl.on{border-color:currentColor}
+.lvl.b.on{color:var(--bronze)} .lvl.s.on{color:var(--silver)} .lvl.g.on{color:var(--gold)}
+.lvl .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;
+  border:2px solid currentColor;font-size:11px}
+.lvl.off{color:var(--muted);border-style:dashed}
+.lvl .cnt{font-size:12px;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* ── Trophy grid ──────────────────────────────── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:18px}
+.tro{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 14px 15px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;min-width:0}
+.tro .nm{font-family:var(--font-display);font-weight:600;font-size:14px;line-height:1.25}
+.tro .ds{font-size:12px;color:var(--muted);line-height:1.4}
+.tro.locked{opacity:.55}
+.tro.locked .medal{filter:grayscale(1)}
+.medal{width:72px;height:72px;flex:0 0 auto;position:relative}
+.medal svg{display:block;width:100%;height:100%;overflow:visible}
+
+/* idle shimmer on earned trophies */
+@keyframes shimmer{0%,88%{transform:translateX(-120%) skewX(-18deg);opacity:0}
+  93%{opacity:.85}100%{transform:translateX(120%) skewX(-18deg);opacity:0}}
+.medal .shine{position:absolute;inset:0;overflow:hidden;border-radius:50%;pointer-events:none}
+.medal .shine::after{content:"";position:absolute;top:0;bottom:0;width:38%;
+  background:linear-gradient(90deg,transparent,#fff9,transparent);
+  animation:shimmer 5.5s ease-in-out infinite}
+.tro.locked .shine{display:none}
+.tro:nth-child(2) .shine::after{animation-delay:1.1s}
+.tro:nth-child(3) .shine::after{animation-delay:2.3s}
+.tro:nth-child(4) .shine::after{animation-delay:3.4s}
+
+/* ── Unlock overlay ───────────────────────────── */
+.cta{align-self:flex-start;font-family:var(--font-display);font-weight:700;font-size:16px;
+  padding:14px 24px;border-radius:14px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+:root[data-theme="dark"] .cta,:root:not([data-theme="light"]) .cta{color:#10170F}
+.ctarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.cta.alt{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+
+#ov{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;
+  background:#060A06E6;backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s}
+#ov.show{opacity:1;pointer-events:auto}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:24px;
+  padding:38px 28px 26px;max-width:330px;width:100%;text-align:center;position:relative;overflow:hidden;
+  transform:scale(.55);opacity:0}
+#ov.show .card{animation:cardin .5s cubic-bezier(.2,1.3,.4,1) forwards}
+@keyframes cardin{to{transform:scale(1);opacity:1}}
+.card .halo{position:absolute;top:-30%;left:50%;width:300px;height:300px;transform:translateX(-50%);
+  background:radial-gradient(circle,var(--glow),transparent 62%);pointer-events:none}
+.bigmedal{width:124px;height:124px;margin:0 auto 18px;position:relative}
+#ov.show .bigmedal{animation:pop .75s cubic-bezier(.16,1.4,.3,1) .12s both}
+@keyframes pop{0%{transform:scale(.3) rotate(-22deg);opacity:0}
+  60%{transform:scale(1.1) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.flash{position:absolute;inset:-14px;border-radius:50%;opacity:0;pointer-events:none;
+  background:radial-gradient(circle,#fff 0,var(--glow) 42%,transparent 68%)}
+#ov.show .flash{animation:flash .5s ease-out .18s forwards}
+@keyframes flash{0%{opacity:0;transform:scale(.5)}35%{opacity:.9}100%{opacity:0;transform:scale(1.5)}}
+.spark{position:absolute;top:50%;left:50%;width:var(--s);height:var(--s);background:var(--c);opacity:0;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+#ov.show .spark{animation:fly var(--dur) cubic-bezier(.12,.75,.3,1) var(--del) forwards}
+@keyframes fly{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(0)}
+  12%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(var(--e)) rotate(var(--r))}}
+.card .ttl{font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:-.02em;
+  color:var(--gold);margin-bottom:6px}
+.card .sub{font-size:15px;color:var(--muted);margin-bottom:22px}
+#ov.show .ttl,#ov.show .sub{animation:up .45s ease .4s both}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.kicker{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:999px;margin-bottom:14px}
+.close{width:100%;font-family:var(--font-display);font-weight:700;font-size:15px;padding:13px;
+  border-radius:12px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+:root[data-theme="dark"] .close,:root:not([data-theme="light"]) .close{color:#10170F}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::after{animation:none!important;transition:none!important}
+  .card{transform:none;opacity:1}
+  .spark{display:none}
+}
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Design-Vorschau</div>
+    <h1>Trophäen und Level-Badges</h1>
+    <p class="lede">Zwei getrennte Ebenen. Die Badges zeigen laufend den Fortschritt, die Trophäen belohnen im Moment des Freischaltens. Gleichzeitig ein Muster für das neue Farb- und Schriftsystem.</p>
+    <div class="themebar" style="margin-top:18px">
+      <button class="tbtn" id="tL" aria-pressed="false">Hell</button>
+      <button class="tbtn" id="tD" aria-pressed="false">Dunkel</button>
+      <button class="tbtn" id="tS" aria-pressed="true">System</button>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">Ebene 1</div>
+    <h2>Level-Badges</h2>
+    <p class="lede">24 Stück, je drei pro Track. Immer sichtbar, klein, ohne Animation. Der Zähler zeigt die bestätigten Durchgänge.</p>
+    <div class="levelrow">
+      <span class="lvl b on"><span class="dot">✓</span>Bronze<span class="cnt">3/3</span></span>
+      <span class="lvl s on"><span class="dot">✓</span>Silber<span class="cnt">3/3</span></span>
+      <span class="lvl g off"><span class="dot">G</span>Gold<span class="cnt">1/3</span></span>
+    </div>
+    <p class="note">Beispiel Track A, Stopp-Pfiff: Bronze und Silber sitzen, Gold läuft. Ein Tippen auf den Zähler setzt ihn zurück.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Ebene 2</div>
+    <h2>Trophäen-Vitrine</h2>
+    <p class="lede">17 Stück: acht für Gold in einem Track, neun Meilensteine. Verdiente schimmern alle paar Sekunden, gesperrte bleiben grau.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Ebene 2</div>
+    <h2>Der Moment des Freischaltens</h2>
+    <p class="lede">Erscheint direkt nach dem Loggen der Session, einmalig, mit Ton aus. Danach wandert die Trophäe in die Vitrine.</p>
+    <div class="ctarow">
+      <button class="cta" data-fire="gold">Track-Trophäe zeigen</button>
+      <button class="cta alt" data-fire="final">Abschluss-Trophäe zeigen</button>
+    </div>
+    <p class="note">Bei aktivierter Systemeinstellung „Bewegung reduzieren“ erscheint dieselbe Karte ohne Animation.</p>
+  </section>
+
+</div>
+
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="ovt" hidden>
+  <div class="card">
+    <div class="halo"></div>
+    <div class="bigmedal" id="bigm"></div>
+    <div class="kicker" id="ovk">Track abgeschlossen</div>
+    <div class="ttl" id="ovt">Stopp-Pfiff gemeistert</div>
+    <div class="sub" id="ovs">Gold in Track A erreicht. Eddy stoppt auf 40 Meter, auch bei Ablenkung.</div>
+    <button class="close" id="ovc">Weiter so, Eddy</button>
+  </div>
+</div>
+
+<script>
+// ── Theme toggle ──────────────────────────────
+const root=document.documentElement;
+const btns={light:tL,dark:tD,system:tS};
+function setTheme(m){
+  if(m==="system")root.removeAttribute("data-theme");else root.setAttribute("data-theme",m);
+  for(const k in btns)btns[k].setAttribute("aria-pressed",String(k===m));
+  try{localStorage.setItem("edc-theme",m)}catch(e){}
+}
+for(const k in btns)btns[k].addEventListener("click",()=>setTheme(k));
+try{const s=localStorage.getItem("edc-theme");if(s)setTheme(s)}catch(e){}
+
+// ── Medal SVG ─────────────────────────────────
+// ring + inner disc + glyph. tier drives the metal colour.
+const GLYPH={
+  whistle:'<path d="M20 29h13l9-6v14l-9-6H20z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M47 24c3 4 3 11 0 15M53 20c5 6 5 18 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>',
+  paw:'<circle cx="25" cy="27" r="5"/><circle cx="36" cy="23" r="5"/><circle cx="47" cy="27" r="5"/><path d="M36 33c7 0 12 5 12 10s-5 7-12 7-12-2-12-7 5-10 12-10z"/>',
+  brain:'<path d="M36 18c-8 0-13 5-13 11 0 3 1 5 3 7-2 2-3 4-3 7 0 6 6 11 13 11s13-5 13-11c0-3-1-5-3-7 2-2 3-4 3-7 0-6-5-11-13-11z" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M36 18v36M28 29h16M28 43h16" stroke="currentColor" stroke-width="2.6" fill="none"/>',
+  target:'<circle cx="36" cy="36" r="17" fill="none" stroke="currentColor" stroke-width="3.2"/><circle cx="36" cy="36" r="9" fill="none" stroke="currentColor" stroke-width="3.2"/><circle cx="36" cy="36" r="3"/>',
+  compass:'<circle cx="36" cy="36" r="18" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M44 28l-5 13-13 5 5-13z"/>',
+  drop:'<path d="M36 17c7 10 12 16 12 23a12 12 0 01-24 0c0-7 5-13 12-23z" fill="none" stroke="currentColor" stroke-width="3.2"/>',
+  star:'<path d="M36 17l5.6 12.2L55 30.8l-9.8 9.1 2.6 13.3L36 46.8l-11.8 6.4 2.6-13.3L17 30.8l13.4-1.6z"/>',
+  hand:'<path d="M27 38V24a3.5 3.5 0 017 0v12m0-13a3.5 3.5 0 017 0v13m0-10a3.5 3.5 0 017 0v17c0 7-5 12-12 12s-12-4-12-11v-9a3.5 3.5 0 017 0" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/>',
+  crown:'<path d="M19 46l-3-22 11 8 9-15 9 15 11-8-3 22z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M19 50h34" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>'
+};
+const TIER={
+  gold:{a:"#F0CE7A",b:"#A8762C",c:"#6E4A16"},
+  silver:{a:"#E4E8EC",b:"#9AA2A9",c:"#6B7278"},
+  bronze:{a:"#E0A87C",b:"#9A5B33",c:"#653venueA"},
+  final:{a:"#FFE9A8",b:"#C8911F",c:"#7A520F"}
+};
+TIER.bronze.c="#653A1A";
+function medal(glyph,tier){
+  const t=TIER[tier]||TIER.gold,id="g"+Math.random().toString(36).slice(2,8);
+  return `<svg viewBox="0 0 72 72" aria-hidden="true">
+    <defs>
+      <linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${t.a}"/><stop offset=".55" stop-color="${t.b}"/><stop offset="1" stop-color="${t.c}"/>
+      </linearGradient>
+    </defs>
+    <circle cx="36" cy="36" r="34" fill="url(#${id})"/>
+    <circle cx="36" cy="36" r="34" fill="none" stroke="${t.c}" stroke-width="2" opacity=".55"/>
+    <circle cx="36" cy="36" r="27" fill="none" stroke="${t.c}" stroke-width="1.6" opacity=".45"/>
+    <g fill="${t.c}" color="${t.c}" opacity=".92">${GLYPH[glyph]||GLYPH.star}</g>
+  </svg><span class="shine"></span>`;
+}
+
+// ── Trophy case ───────────────────────────────
+const TROPHIES=[
+  {g:"whistle",t:"gold",  n:"Stopp-Pfiff",   d:"Gold in Track A",            on:1},
+  {g:"paw",    t:"gold",  n:"Fuß",           d:"Gold in Track C",            on:1},
+  {g:"hand",   t:"gold",  n:"Abgabe",        d:"Gold in Track E",            on:1},
+  {g:"star",   t:"silver",n:"Dranbleiber",   d:"10 Sessions dokumentiert",   on:1},
+  {g:"brain",  t:"gold",  n:"Steadiness",    d:"Gold in Track D",            on:0},
+  {g:"target", t:"gold",  n:"Marking",       d:"Gold in Track F",            on:0},
+  {g:"drop",   t:"silver",n:"Wasserratte",   d:"Erste Wasserarbeit",         on:0},
+  {g:"compass",t:"gold",  n:"One-Cast Blind",d:"Blind ohne Korrektur",       on:0},
+];
+grid.innerHTML=TROPHIES.map(x=>`<div class="tro ${x.on?"":"locked"}">
+  <div class="medal">${medal(x.g,x.t)}</div>
+  <div class="nm">${x.n}</div><div class="ds">${x.d}</div></div>`).join("");
+
+// ── Unlock moment ─────────────────────────────
+const SHOW={
+  gold:{g:"whistle",t:"gold",k:"Track abgeschlossen",ttl:"Stopp-Pfiff gemeistert",
+        sub:"Gold in Track A erreicht. Eddy stoppt auf 40 Meter, auch bei Ablenkung."},
+  final:{g:"crown",t:"final",k:"Alle acht Tracks",ttl:"Gundog",
+        sub:"Jeder Track auf Gold. Eddy arbeitet nach britischer Field-Trial-Tradition."}
+};
+function sparks(tier){
+  const hot=tier==="silver"?["#E8EDF2","#B9C2CA","#fff"]:["#FFE9A8","#E0AC4A","#fff"];
+  const out=[];
+  // zwei Wellen: grosse Sterne weit, kleine Sterne dicht und leicht versetzt
+  const ring=(n,rMin,rMax,sMin,sMax,del,dur,off)=>{
+    for(let i=0;i<n;i++){
+      const a=(i/n)*Math.PI*2+off, r=rMin+Math.random()*(rMax-rMin),
+            s=sMin+Math.random()*(sMax-sMin), rot=(Math.random()*220-110|0)+"deg";
+      out.push(`<span class="spark" style="--x:${(Math.cos(a)*r).toFixed(1)}px;--y:${(Math.sin(a)*r).toFixed(1)}px;`
+        +`--s:${s.toFixed(1)}px;--c:${hot[i%3]};--r:${rot};--e:${(.25+Math.random()*.4).toFixed(2)};`
+        +`--dur:${dur}s;--del:${(del+i*.012).toFixed(3)}s"></span>`);
+    }
+  };
+  ring(10, 86, 124, 13, 20, .20, 1.05, 0);
+  ring(14, 46,  84,  6, 11, .26,  .85, .22);
+  return out.join("");
+}
+function fire(key){
+  const s=SHOW[key];
+  bigm.innerHTML=medal(s.g,s.t)+'<span class="flash"></span>'+sparks(s.t);
+  ovk.textContent=s.k;ovt.textContent=s.ttl;ovs.textContent=s.sub;
+  ov.hidden=false;requestAnimationFrame(()=>ov.classList.add("show"));
+}
+document.querySelectorAll("[data-fire]").forEach(b=>b.addEventListener("click",()=>fire(b.dataset.fire)));
+function hide(){ov.classList.remove("show");setTimeout(()=>{ov.hidden=true},260)}
+ovc.addEventListener("click",hide);
+ov.addEventListener("click",e=>{if(e.target===ov)hide()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!ov.hidden)hide()});
+</script>
