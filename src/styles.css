@@ -17,6 +17,8 @@
   --glow: #A8762C40;
   --danger: #A33A2F;
   --scrim: #060A06B3;
+  --nav-bg: #FFFFFF;
+  --nav-shadow: 0 -2px 12px #151D1614;
 
   --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Public Sans', system-ui, -apple-system, sans-serif;
@@ -47,6 +49,8 @@
     --glow: #E0AC4A45;
     --danger: #E07A6E;
     --scrim: #000000B3;
+    --nav-bg: #1C241B;
+    --nav-shadow: none;
     color-scheme: dark;
   }
 }
@@ -67,6 +71,8 @@
   --glow: #E0AC4A45;
   --danger: #E07A6E;
   --scrim: #000000B3;
+  --nav-bg: #1C241B;
+  --nav-shadow: none;
   color-scheme: dark;
 }
 
@@ -116,7 +122,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .header-title { flex: 1; min-width: 0; }
 .header-title h1 { font-size: 22px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.header-sub { font-size: var(--fs-label); color: var(--muted); }
+.header-sub { font-size: 15px; font-weight: 600; color: var(--fg); }
 
 .main {
   flex: 1;
@@ -133,8 +139,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   right: 0;
   bottom: 0;
   z-index: 10;
-  background: var(--surface);
+  background: var(--nav-bg);
   border-top: 1px solid var(--line);
+  box-shadow: var(--nav-shadow);
   padding-bottom: env(safe-area-inset-bottom);
 }
 .nav-inner {
@@ -157,11 +164,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 600;
   cursor: pointer;
 }
-.nav-btn[aria-current="page"] { color: var(--accent); }
+.nav-btn[aria-current="page"] { color: var(--accent); font-weight: 700; }
 .nav-btn[aria-current="page"] .nav-ico { background: var(--accent-soft); }
 .nav-ico {
-  width: 56px;
-  height: 30px;
+  width: 60px;
+  height: 34px;
   border-radius: 999px;
   display: grid;
   place-items: center;
@@ -321,15 +328,12 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   text-align: center;
 }
 .splash-logo {
-  width: min(200px, 55vw);
+  width: min(65vw, 320px);
   height: auto;
   aspect-ratio: 1;
-  border-radius: 50%;
-  box-shadow: 0 0 0 6px var(--accent-soft), 0 0 60px var(--glow);
   animation: splash-in 0.6s cubic-bezier(0.2, 1.2, 0.4, 1) both;
 }
-.splash-title { font-size: 28px; font-weight: 800; letter-spacing: 0.02em; }
-.splash-title span { color: var(--accent); }
+.splash-tagline { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
 @keyframes splash-in { from { transform: scale(0.85); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* ─── Onboarding ────────────────────────────────────────────── */

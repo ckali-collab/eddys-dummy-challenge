@@ -17,9 +17,9 @@ const TABS = [
 // ─── Splash ───────────────────────────────────────────────────
 const Splash = () => (
   <div className="splash">
-    <img className="splash-logo" src={LOGO} alt="" width="200" height="200" />
+    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="320" height="320" />
     <div>
-      <h1 className="splash-title">Eddy’s Dummy <span>Challenge</span></h1>
+      <p className="splash-tagline">Dummytraining mit System</p>
       <p className="small muted" style={{ marginTop: 6 }}>British Field Trial Method</p>
     </div>
   </div>
@@ -112,7 +112,7 @@ export default function App() {
             <button key={id} className="nav-btn"
               aria-current={!settingsOpen && tab === id ? "page" : undefined}
               onClick={() => { setTab(id); setSettingsOpen(false); }}>
-              <span className="nav-ico"><Icon /></span>
+              <span className="nav-ico"><Icon size={26} /></span>
               {label}
             </button>
           ))}
