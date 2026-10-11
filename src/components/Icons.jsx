@@ -46,3 +46,23 @@ export const IconBack = (p) => (
     <path d="M15 18l-6-6 6-6" />
   </Svg>
 );
+
+export const IconLock = (p) => (
+  <Svg {...p}>
+    <rect x="5" y="11" width="14" height="10" rx="2" />
+    <path d="M8 11V7a4 4 0 018 0v4" />
+  </Svg>
+);
+
+export const IconCheck = (p) => (
+  <Svg {...p}>
+    <path d="M20 6L9 17l-5-5" />
+  </Svg>
+);
+
+export const IconAlert = (p) => (
+  <Svg {...p}>
+    <path d="M12 3l10 18H2L12 3z" />
+    <path d="M12 10v5M12 18h.01" />
+  </Svg>
+);

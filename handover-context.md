@@ -9,9 +9,21 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Theme: Tokens nur in `styles.css`. Wahl Hell/Dunkel/System liegt in `settings.theme` im State.
   Inline-Script in `index.html` setzt `data-theme` vor dem ersten Paint (liest `edc-v3` direkt, Key dort mitpflegen).
 - Schriften: Archivo + Public Sans über `@fontsource` lokal gebündelt (offline-fähig, im Precache).
-- Logo liegt als `public/logo.webp` (1125×1056, transparent, nicht quadratisch). Base64-Altlast entfernt → JS-Bundle 409 KB → 168 KB.
+- Logo-Set (aus einem Sammelbild ausgeschnitten): `public/logo.webp` (977×928, Splash), `logo-mark.webp`
+  (rundes Icon, Onboarding-Kopf), `icon-192/512.png` (eckiges Icon, Manifest „any“), `icon-maskable-512.png`
+  (rundes Icon auf 78 % auf Dunkelgrün, Android-Safe-Zone), `apple-touch-icon.png` (Ecken dunkel gefüllt, iOS rundet selbst),
+  `favicon.png`. Quelle der Icons nur ~470 px → 512er leicht hochskaliert; bei Bedarf höher aufgelöste Einzeldateien nachliefern.
 - Storage: neuer Key `edc-v3` mit `schemaVersion: 1`. `edc-v2` wird ignoriert, nicht migriert → Testdaten weg.
 - Tabs Heute/Tracks/Trophäen/Basics sind Platzhalter.
+
+## Umbau Schritt 2/6: Tracks-Tab (2026-10-11)
+- `src/components/TracksTab.jsx` (Übersicht, Level-Badges), `LevelDetail.jsx` (Detailseite), Logik in `src/lib/progress.js`.
+- Freischaltung: `requires` sperrt Tracks, Level innerhalb eines Tracks öffnen nacheinander. Bereits gezählter
+  Fortschritt bleibt immer erreichbar, auch wenn eine Voraussetzung später zurückgesetzt wird.
+- Storage: Level haben zusätzlich `dates` (ISO-Zeitstempel je Durchgang) für den Same-Day-Hinweis.
+  Additiv, `normalize()` füllt fehlende `dates` mit `[]` → kein Schema-Bump nötig, Profil bleibt erhalten.
+- Gelenkwarnungen: Zuordnung Level → Warnung in `JOINT_WARNING_LEVELS` (training.js), aktiv bei Gelenkbefund leicht/deutlich.
+- Heute/Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
@@ -24,7 +36,7 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 
 ## Offene Punkte (priorisiert)
 1. Live-Check nach Deploy: DevTools → Application → Manifest (Icons, Installierbarkeit) und Service Worker; Offline-Haken + Reload. Danach Lighthouse auf der Live-URL.
-2. Maskable Icon: Aktuell wird `icon-512.png` auch als `maskable` genutzt. Wenn das Logo auf Android abgeschnitten wirkt, ein eigenes Icon mit Safe-Zone (innere 80 %) bauen (Test: maskable.app).
+2. ~~Maskable Icon~~ erledigt: eigenes `icon-maskable-512.png` mit Safe-Zone. Auf dem Gerät prüfen (Test: maskable.app).
 3. ~~Logo als Base64~~ erledigt in Umbau Schritt 1.
 4. Daten liegen nur in localStorage. iOS kann den Storage nach 7 Tagen ohne Nutzung löschen, wenn die App nicht installiert ist → Export/Backup oder Sync erwägen.
 

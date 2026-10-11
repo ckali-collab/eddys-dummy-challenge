@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { freshState, loadState, saveState, applyTheme } from "./lib/storage.js";
 import ProfileForm from "./components/ProfileForm.jsx";
 import Settings from "./components/Settings.jsx";
+import TracksTab from "./components/TracksTab.jsx";
+import LevelDetail from "./components/LevelDetail.jsx";
+import { getTrack, countRep, resetLevel } from "./lib/progress.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
 const SPLASH_MS = 2000;
 const LOGO = "/logo.webp";
+const LOGO_MARK = "/logo-mark.webp";
 
 const TABS = [
   { id: "heute",     label: "Heute",    Icon: IconToday },
@@ -17,7 +21,7 @@ const TABS = [
 // ─── Splash ───────────────────────────────────────────────────
 const Splash = () => (
   <div className="splash">
-    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="1125" height="1056" />
+    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="977" height="928" />
     <div>
       <p className="splash-tagline">Dummytraining mit System</p>
       <p className="small muted" style={{ marginTop: 6 }}>British Field Trial Method</p>
@@ -29,7 +33,7 @@ const Splash = () => (
 const Onboarding = ({ dog, onDone }) => (
   <div className="onboard">
     <div className="onboard-head">
-      <img src={LOGO} alt="" width="1125" height="1056" />
+      <img src={LOGO_MARK} alt="" width="256" height="256" />
       <div>
         <div className="eyebrow">Willkommen</div>
         <h1>Dein Hund</h1>
@@ -56,7 +60,8 @@ export default function App() {
   const [st, setSt] = useState(() => loadState() || freshState());
   const [screen, setScreen] = useState("splash");
   const [tab, setTab] = useState("heute");
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  // Unterseite über dem Tab: null | { type: "settings" } | { type: "level", trackId, levelId }
+  const [view, setView] = useState(null);
 
   useEffect(() => {
     const t = setTimeout(() => setScreen(st.dog.name ? "app" : "onboard"), SPLASH_MS);
@@ -68,10 +73,13 @@ export default function App() {
   // Erst speichern, wenn ein Profil existiert. Vorher gibt es nichts zu sichern.
   useEffect(() => { if (st.dog.name) saveState(st); }, [st]);
 
-  useEffect(() => { window.scrollTo(0, 0); }, [tab, settingsOpen]);
+  useEffect(() => { window.scrollTo(0, 0); }, [tab, view]);
 
   const setDog = (dog) => setSt((p) => ({ ...p, dog }));
   const setTheme = (theme) => setSt((p) => ({ ...p, settings: { ...p.settings, theme } }));
+  const onCount = (trackId, levelId) => setSt((p) => countRep(p, trackId, levelId));
+  const onReset = (trackId, levelId) => setSt((p) => resetLevel(p, trackId, levelId));
+  const openLevel = (trackId, levelId) => setView({ type: "level", trackId, levelId });
 
   if (screen === "splash") return <Splash />;
 
@@ -80,38 +88,46 @@ export default function App() {
   }
 
   const current = TABS.find((t) => t.id === tab);
+  const head =
+    view?.type === "settings" ? { title: "Einstellungen" } :
+    view?.type === "level" ? { title: getTrack(view.trackId).name, sub: `Track ${view.trackId}` } :
+    { title: current.label, sub: st.dog.name };
+
+  const content =
+    view?.type === "settings" ? <Settings state={st} onTheme={setTheme} onProfile={setDog} /> :
+    view?.type === "level" ? <LevelDetail st={st} trackId={view.trackId} levelId={view.levelId} onCount={onCount} onReset={onReset} /> :
+    tab === "tracks" ? <TracksTab st={st} onOpen={openLevel} /> :
+    <Placeholder tab={current} />;
 
   return (
     <div className="shell">
       <header className="header">
-        {settingsOpen && (
-          <button className="icon-btn" aria-label="Zurück" onClick={() => setSettingsOpen(false)}>
+        {view && (
+          <button className="icon-btn" aria-label="Zurück" onClick={() => setView(null)}>
             <IconBack />
           </button>
         )}
         <div className="header-title">
-          <h1>{settingsOpen ? "Einstellungen" : current.label}</h1>
-          {!settingsOpen && <div className="header-sub">{st.dog.name}</div>}
+          <h1>{head.title}</h1>
+          {head.sub && <div className="header-sub">{head.sub}</div>}
         </div>
-        {!settingsOpen && (
-          <button className="icon-btn" aria-label="Einstellungen" onClick={() => setSettingsOpen(true)}>
+        {!view && (
+          <button className="icon-btn" aria-label="Einstellungen" onClick={() => setView({ type: "settings" })}>
             <IconGear />
           </button>
         )}
       </header>
 
       <main className="main">
-        {settingsOpen
-          ? <Settings state={st} onTheme={setTheme} onProfile={setDog} />
-          : <Placeholder tab={current} />}
+        {content}
       </main>
 
       <nav className="nav" aria-label="Hauptnavigation">
         <div className="nav-inner">
           {TABS.map(({ id, label, Icon }) => (
             <button key={id} className="nav-btn"
-              aria-current={!settingsOpen && tab === id ? "page" : undefined}
-              onClick={() => { setTab(id); setSettingsOpen(false); }}>
+              aria-current={view?.type !== "settings" && tab === id ? "page" : undefined}
+              onClick={() => { setTab(id); setView(null); }}>
               <span className="nav-ico"><Icon size={26} /></span>
               {label}
             </button>

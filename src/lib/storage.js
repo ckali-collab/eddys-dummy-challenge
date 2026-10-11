@@ -11,7 +11,7 @@ const freshTracks = () =>
   Object.fromEntries(
     TRACKS.map((t) => [
       t.id,
-      Object.fromEntries(t.levels.map((l) => [l.id, { reps: 0, doneAt: null }])),
+      Object.fromEntries(t.levels.map((l) => [l.id, { reps: 0, dates: [], doneAt: null }])),
     ])
   );
 
@@ -32,7 +32,10 @@ const normalize = (raw) => {
   for (const id of Object.keys(tracks)) {
     for (const lvl of Object.keys(tracks[id])) {
       const r = raw.tracks?.[id]?.[lvl];
-      if (r) tracks[id][lvl] = { reps: Number(r.reps) || 0, doneAt: r.doneAt ?? null };
+      if (!r) continue;
+      // dates kam nachträglich dazu (Zeitstempel je Durchgang). Fehlt es, bleibt es leer.
+      const dates = Array.isArray(r.dates) ? r.dates.filter((d) => typeof d === "string") : [];
+      tracks[id][lvl] = { reps: Number(r.reps) || 0, dates, doneAt: r.doneAt ?? null };
     }
   }
   return {

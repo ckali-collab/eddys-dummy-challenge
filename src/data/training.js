@@ -691,6 +691,20 @@ export const JOINT_WARNINGS = {
   directions: "Enge Wendungen begrenzen.",
 };
 
+// Welche Level von welcher Gelenkwarnung betroffen sind ("Track:Level" → Keys aus JOINT_WARNINGS)
+export const JOINT_WARNING_LEVELS = {
+  "A:silber": ["hardStop"],
+  "A:gold":   ["hardStop"],
+  "E:gold":   ["water", "multiMark"],
+  "F:silber": ["multiMark"],
+  "F:gold":   ["multiMark"],
+  "H:silber": ["directions"],
+  "H:gold":   ["directions"],
+};
+
+// Profilwerte, bei denen Gelenkwarnungen eingeblendet werden
+export const JOINT_RESTRICTED = ["leicht", "deutlich"];
+
 export const DISCLAIMER =
   "Die App ersetzt keine tierärztliche Beratung. Bei bekannten Vorerkrankungen Belastungsgrenzen mit dem Tierarzt abstimmen.";
 
