@@ -8,7 +8,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      includeAssets: ['icon-192.png', 'icon-512.png', 'logo.png'],
+      includeAssets: ['icon-192.png', 'icon-512.png', 'logo.webp'],
       manifest: {
         name: "Eddy's Dummy Challenge",
         short_name: 'Dummy Challenge',
@@ -26,7 +26,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,ico,webmanifest,woff2}'],
+        globPatterns: ['**/*.{js,css,html,png,webp,svg,ico,webmanifest,woff2}'],
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,
       },

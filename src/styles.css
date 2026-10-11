@@ -330,7 +330,6 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .splash-logo {
   width: min(65vw, 320px);
   height: auto;
-  aspect-ratio: 1;
   animation: splash-in 0.6s cubic-bezier(0.2, 1.2, 0.4, 1) both;
 }
 .splash-tagline { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
@@ -348,7 +347,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   gap: 24px;
 }
 .onboard-head { display: flex; align-items: center; gap: 14px; }
-.onboard-head img { width: 56px; height: 56px; border-radius: 50%; }
+.onboard-head img { width: 64px; height: auto; flex: 0 0 auto; }
 
 /* ─── Platzhalter ───────────────────────────────────────────── */
 .placeholder {

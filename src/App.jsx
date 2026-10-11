@@ -5,7 +5,7 @@ import Settings from "./components/Settings.jsx";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
 const SPLASH_MS = 2000;
-const LOGO = "/logo.png";
+const LOGO = "/logo.webp";
 
 const TABS = [
   { id: "heute",     label: "Heute",    Icon: IconToday },
@@ -17,7 +17,7 @@ const TABS = [
 // ─── Splash ───────────────────────────────────────────────────
 const Splash = () => (
   <div className="splash">
-    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="320" height="320" />
+    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="1125" height="1056" />
     <div>
       <p className="splash-tagline">Dummytraining mit System</p>
       <p className="small muted" style={{ marginTop: 6 }}>British Field Trial Method</p>
@@ -29,7 +29,7 @@ const Splash = () => (
 const Onboarding = ({ dog, onDone }) => (
   <div className="onboard">
     <div className="onboard-head">
-      <img src={LOGO} alt="" width="56" height="56" />
+      <img src={LOGO} alt="" width="1125" height="1056" />
       <div>
         <div className="eyebrow">Willkommen</div>
         <h1>Dein Hund</h1>

@@ -9,7 +9,7 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Theme: Tokens nur in `styles.css`. Wahl Hell/Dunkel/System liegt in `settings.theme` im State.
   Inline-Script in `index.html` setzt `data-theme` vor dem ersten Paint (liest `edc-v3` direkt, Key dort mitpflegen).
 - Schriften: Archivo + Public Sans über `@fontsource` lokal gebündelt (offline-fähig, im Precache).
-- Logo aus dem Base64-String nach `public/logo.png` ausgelagert → JS-Bundle 409 KB → 168 KB.
+- Logo liegt als `public/logo.webp` (1125×1056, transparent, nicht quadratisch). Base64-Altlast entfernt → JS-Bundle 409 KB → 168 KB.
 - Storage: neuer Key `edc-v3` mit `schemaVersion: 1`. `edc-v2` wird ignoriert, nicht migriert → Testdaten weg.
 - Tabs Heute/Tracks/Trophäen/Basics sind Platzhalter.
 
