@@ -2,23 +2,23 @@
    Palette und Schriften aus docs/trophy-reference.html.
    Farben ausschließlich hier definieren, Komponenten nutzen nur var(--…). */
 :root {
-  --bg: #F5F7F3;
-  --surface: #FFFFFF;
-  --surface-2: #EDF1EA;
-  --fg: #151D16;
-  --muted: #5A6B5D;
-  --line: #DCE3D9;
-  --accent: #2F6B3F;
-  --accent-soft: #2F6B3F1A;
-  --on-accent: #FFFFFF;
+  --bg: #F0EBE1;
+  --surface: #FAF7F1;
+  --surface-2: #E7E0D3;
+  --fg: #221E18;
+  --muted: #6B6355;
+  --line: #D8CFBF;
+  --accent: #2C6238;
+  --accent-soft: #2C62381A;
+  --on-accent: #FDFBF7;
   --bronze: #9A5B33;
-  --silver: #7E858B;
-  --gold: #A8762C;
+  --silver: #646B71;
+  --gold: #8E6222;
   --glow: #A8762C40;
   --danger: #A33A2F;
   --scrim: #060A06B3;
-  --nav-bg: #FFFFFF;
-  --nav-shadow: 0 -2px 12px #151D1614;
+  --nav-bg: #E9E2D6;
+  --nav-shadow: 0 -2px 12px #221E1814;
 
   --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Public Sans', system-ui, -apple-system, sans-serif;
