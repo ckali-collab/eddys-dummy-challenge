@@ -4,6 +4,7 @@ import ProfileForm from "./components/ProfileForm.jsx";
 import Settings from "./components/Settings.jsx";
 import TracksTab from "./components/TracksTab.jsx";
 import LevelDetail from "./components/LevelDetail.jsx";
+import SplashScene from "./components/SplashScene.jsx";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
@@ -21,6 +22,7 @@ const TABS = [
 // ─── Splash ───────────────────────────────────────────────────
 const Splash = () => (
   <div className="splash">
+    <SplashScene />
     <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="600" height="570" />
     <div>
       <p className="splash-tagline">Dummytraining mit System</p>

@@ -4,6 +4,7 @@ import {
   missingRequirements, reqLabel,
 } from "../lib/progress.js";
 import { IconLock, IconCheck } from "./Icons.jsx";
+import Medal from "./Medal.jsx";
 
 const LevelBadge = ({ st, track, level, onOpen }) => {
   const prog = levelProgress(st, track.id, level.id);
@@ -16,8 +17,9 @@ const LevelBadge = ({ st, track, level, onOpen }) => {
     <button type="button" className={`lvl lvl-${level.id} is-${state}`} disabled={!open}
       onClick={() => onOpen(track.id, level.id)}
       aria-label={`${label}: ${done ? "geschafft" : open ? `${prog.reps} von ${level.reps}` : "gesperrt"}`}>
-      <span className="lvl-dot">
-        {done ? <IconCheck size={14} /> : !open ? <IconLock size={13} /> : null}
+      <span className="lvl-medal">
+        <Medal level={level.id} />
+        {done && <span className="lvl-check"><IconCheck size={11} /></span>}
       </span>
       <span className="lvl-text">
         <span className="lvl-name">{label}</span>
