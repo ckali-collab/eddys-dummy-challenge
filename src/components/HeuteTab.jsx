@@ -1,23 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SESSION_TYPES, SESSION_FALLBACKS } from "../data/training.js";
 import { LEVEL_LABEL, getLevel, levelProgress, jointWarnings } from "../lib/progress.js";
-import { buildPlan, restStatus, recordSession, getSessionType, trackName } from "../lib/session.js";
+import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
+import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
 
-const RATINGS = [
-  { id: "gut", label: "gut", mark: "✓" },
-  { id: "okay", label: "okay", mark: "~" },
-  { id: "nein", label: "noch nicht", mark: "✗" },
-];
-const ratingOf = (id) => RATINGS.find((r) => r.id === id);
-
-const fmtDate = (iso) =>
-  new Date(iso).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
-
 // ─── Letzte Sessions ──────────────────────────────────────────
-const RecentSessions = ({ sessions }) => {
-  const recent = sessions.filter((s) => s?.date && Array.isArray(s.blocks)).slice(-3).reverse();
+// Nur der jüngste Eintrag ist rücknehmbar, ältere sind fix.
+const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
+  const [confirm, setConfirm] = useState(false);
+  const armedAt = useRef(0);
+  useEffect(() => {
+    if (!confirm) return;
+    const t = setTimeout(() => setConfirm(false), 4000);
+    return () => clearTimeout(t);
+  }, [confirm]);
+
+  // Ungefiltert, damit der oberste Eintrag garantiert der letzte in sessions[] ist
+  const recent = sessions.slice(-3).reverse();
   if (!recent.length) return null;
   return (
     <details className="recent">
@@ -26,25 +27,33 @@ const RecentSessions = ({ sessions }) => {
         <span className="recent-count">{recent.length}</span>
         <IconChevron size={20} />
       </summary>
-      <ul className="recent-list">
-        {recent.map((s) => (
-          <li key={s.id || s.date}>
-            <p className="recent-head">
-              <strong>{fmtDate(s.date)}</strong> · {getSessionType(s.type).short}
-            </p>
-            <p className="recent-blocks">
-              {s.blocks.map((b, i) => (
-                <span key={i} className="recent-block">
-                  {b.trackId ? `${b.trackId} ${LEVEL_LABEL[b.levelId]}` : "frei"}
-                  <span className={`rate-mark rate-${b.rating}`} aria-label={ratingOf(b.rating)?.label}>
-                    {ratingOf(b.rating)?.mark}
-                  </span>
-                </span>
-              ))}
-            </p>
-          </li>
+      <div className="recent-list">
+        {recent.map((s, i) => (
+          <div key={s?.id || s?.date || i}>
+            <SessionItem s={s || {}} />
+            {i === 0 && (
+              <div className="undo-row">
+                {confirm ? (
+                  <>
+                    <span className="small">Durchgänge zurücknehmen und Eintrag löschen?</span>
+                    <button type="button" className="link-btn danger-text" onClick={() => {
+                      if (Date.now() - armedAt.current < 500) return; // Doppeltipp-Schutz
+                      setConfirm(false);
+                      onUndo();
+                    }}>Ja, rückgängig</button>
+                    <button type="button" className="link-btn" onClick={() => setConfirm(false)}>Abbrechen</button>
+                  </>
+                ) : (
+                  <button type="button" className="link-btn" onClick={() => { armedAt.current = Date.now(); setConfirm(true); }}>
+                    Rückgängig
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         ))}
-      </ul>
+        <button type="button" className="link-btn all-link" onClick={onOpenAll}>Alle Sessions</button>
+      </div>
     </details>
   );
 };
@@ -135,7 +144,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
 };
 
 // ─── Tab ──────────────────────────────────────────────────────
-export default function HeuteTab({ st, setSt, today, setToday, onOpen }) {
+export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll }) {
   const [mode, setMode] = useState("plan"); // plan | rate | done
   const [result, setResult] = useState(null);
   const plan = buildPlan(st, today.type, today.offsets);
@@ -149,7 +158,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen }) {
   const save = (ratings) => {
     const r = recordSession(st, plan, ratings);
     setSt(r.state);
-    setResult(r.counted);
+    setResult({ counted: r.counted, prevToday: today });
     setToday((t) => ({ ...t, offsets: {} }));
     setMode("done");
     window.scrollTo(0, 0);
@@ -162,9 +171,9 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen }) {
       <section className="section">
         <div className="card done-card">
           <p className="done-title"><IconCheck size={22} /> Session gespeichert</p>
-          {result.length ? (
+          {result.counted.length ? (
             <ul className="done-list">
-              {result.map((c) => (
+              {result.counted.map((c) => (
                 <li key={`${c.trackId}:${c.levelId}`}>
                   +1 {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]} ({c.reps} von {c.of})
                   {c.completed && <strong className="done-badge"> geschafft</strong>}
@@ -174,6 +183,12 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen }) {
           ) : (
             <p className="muted">Kein Durchgang gezählt. Das ist in Ordnung – lieber ehrlich als schnell.</p>
           )}
+          <button type="button" className="link-btn undo-link" onClick={() => {
+            setSt((p) => undoLastSession(p));
+            setToday(result.prevToday);
+            setResult(null);
+            setMode("plan");
+          }}>Rückgängig</button>
         </div>
         <button type="button" className="btn" onClick={() => { setMode("plan"); setResult(null); }}>
           Nächste Session planen
@@ -194,7 +209,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen }) {
         </div>
       )}
 
-      <RecentSessions sessions={st.sessions} />
+      <RecentSessions sessions={st.sessions} onUndo={() => setSt((p) => undoLastSession(p))} onOpenAll={onOpenAll} />
 
       <section className="section">
         <div className="segmented" role="group" aria-label="Sessiontyp">

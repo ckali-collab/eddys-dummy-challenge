@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { freshState, loadState, saveState, applyTheme } from "./lib/storage.js";
+import { freshState, loadState, saveState, applyTheme, STORAGE_KEY } from "./lib/storage.js";
 import ProfileForm from "./components/ProfileForm.jsx";
 import Settings from "./components/Settings.jsx";
 import TracksTab from "./components/TracksTab.jsx";
 import LevelDetail from "./components/LevelDetail.jsx";
 import SplashScene from "./components/SplashScene.jsx";
 import HeuteTab from "./components/HeuteTab.jsx";
+import SessionsView from "./components/SessionsView.jsx";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
@@ -86,6 +87,19 @@ export default function App() {
   const onReset = (trackId, levelId) => setSt((p) => resetLevel(p, trackId, levelId));
   const openLevel = (trackId, levelId) => setView({ type: "level", trackId, levelId });
 
+  // ─── Zurücksetzen (Einstellungen) ───────────────────────────
+  const clearSessions = () => setSt((p) => ({ ...p, sessions: [] }));
+  const resetProgress = () => setSt((p) => ({ ...p, tracks: freshState().tracks, sessions: [], trophies: [] }));
+  const resetApp = () => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    // Frischer State hat keinen Hundenamen und wird deshalb nicht erneut gespeichert
+    setSt(freshState());
+    setToday({ type: "voll", offsets: {} });
+    setView(null);
+    setTab("heute");
+    setScreen("onboard");
+  };
+
   if (screen === "splash") return <Splash />;
 
   if (screen === "onboard") {
@@ -95,14 +109,20 @@ export default function App() {
   const current = TABS.find((t) => t.id === tab);
   const head =
     view?.type === "settings" ? { title: "Einstellungen" } :
+    view?.type === "sessions" ? { title: "Alle Sessions", sub: st.dog.name } :
     view?.type === "level" ? { title: getTrack(view.trackId).name, sub: `Track ${view.trackId}` } :
     { title: current.label, sub: st.dog.name };
 
   const content =
-    view?.type === "settings" ? <Settings state={st} onTheme={setTheme} onProfile={setDog} /> :
+    view?.type === "settings" ? (
+      <Settings state={st} onTheme={setTheme} onProfile={setDog}
+        onClearSessions={clearSessions} onResetProgress={resetProgress} onResetApp={resetApp} />
+    ) :
+    view?.type === "sessions" ? <SessionsView sessions={st.sessions} /> :
     view?.type === "level" ? <LevelDetail st={st} trackId={view.trackId} levelId={view.levelId} onCount={onCount} onReset={onReset} /> :
     tab === "tracks" ? <TracksTab st={st} onOpen={openLevel} /> :
-    tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel} /> :
+    tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel}
+      onOpenAll={() => setView({ type: "sessions" })} /> :
     <Placeholder tab={current} />;
 
   return (

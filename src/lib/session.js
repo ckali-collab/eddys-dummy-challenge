@@ -175,6 +175,8 @@ export const recordSession = (st, plan, ratings, now = new Date()) => {
     id: now.toISOString(),
     date: now.toISOString(),
     type: plan.type,
+    load: plan.load,
+    limit: plan.limit,
     blocks: plan.blocks.map((b, i) => ({
       role: b.role,
       trackId: b.trackId ?? null,
@@ -183,8 +185,31 @@ export const recordSession = (st, plan, ratings, now = new Date()) => {
       counts: !!b.counts,
       rating: ratings[i],
     })),
+    counted: counted.map(({ trackId, levelId, reps, of }) => ({ trackId, levelId, reps, of })),
   };
   return { state: { ...next, sessions: [...next.sessions, session] }, counted };
+};
+
+// Nimmt die jüngste Session zurück. Jeder gezählte Durchgang trägt als Zeitstempel exakt das
+// Session-Datum (recordSession nutzt dasselbe "now"). Genau diese Einträge werden entfernt –
+// funktioniert damit auch für Einträge ohne "counted"-Feld, ohne zu raten.
+export const undoLastSession = (st) => {
+  const last = st.sessions[st.sessions.length - 1];
+  if (!last) return st;
+  const d = last.date;
+  const tracks = Object.fromEntries(Object.entries(st.tracks).map(([tid, levels]) => [
+    tid,
+    Object.fromEntries(Object.entries(levels).map(([lid, p]) => {
+      const i = d ? p.dates.lastIndexOf(d) : -1;
+      if (i < 0) return [lid, p];
+      return [lid, {
+        reps: Math.max(0, p.reps - 1),
+        dates: p.dates.filter((_, j) => j !== i),
+        doneAt: p.doneAt === d ? null : p.doneAt,
+      }];
+    })),
+  ]));
+  return { ...st, tracks, sessions: st.sessions.slice(0, -1) };
 };
 
 export const trackName = (trackId) => getTrack(trackId)?.name || "";

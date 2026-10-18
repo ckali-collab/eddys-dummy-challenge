@@ -41,6 +41,17 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Ruhetag: nur Vollsessions zählen. Hinweis bei Vollsession heute, innerhalb `restDays` oder ≥ `sessionsPerWeek` in 7 Tagen.
 - Frischer Start / kein Kandidat: Ersatz-Blöcke aus `SESSION_FALLBACKS` (zählen keine Wiederholungen, nicht tauschbar).
 - Session-Eintrag: `{ id, date, type, blocks: [{ role, trackId, levelId, reps, counts, rating: gut|okay|nein }] }`.
+
+## Zwischenschritt: Rücknehmen, Verlauf, Zurücksetzen (2026-10-18)
+- `undoLastSession` (session.js): nimmt nur die jüngste Session zurück. Entfernt in allen Leveln genau den Zeitstempel,
+  der dem Session-Datum entspricht (recordSession zählt mit demselben `now`), setzt `doneAt` zurück, wenn es dieses Datum war.
+  Funktioniert damit auch für alte Einträge ohne `counted`. Ruhetag-Hinweis verschwindet automatisch.
+- Rückgängig auf der Bestätigungskarte (ohne Rückfrage, stellt auch Sessiontyp und Tausch-Offsets wieder her) und am
+  jüngsten Eintrag in „Letzte Sessions“ (mit Rückfrage). Ältere Einträge sind fix.
+- Session-Eintrag zusätzlich: `load`, `limit`, `counted: [{ trackId, levelId, reps, of }]`.
+- `SessionItem.jsx`: aufklappbarer Eintrag, fehlende Felder → „–“. `SessionsView.jsx`: „Alle Sessions“ (View `sessions`), nach Monat.
+- Einstellungen → Gefahrenbereich: Sessions löschen / Fortschritt zurücksetzen (tracks, sessions, trophies) / App zurücksetzen
+  (Key `edc-v3` entfernen, Onboarding). Jede Aktion mit Rückfrage, die konkret nennt, was gelöscht wird.
 - Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy
