@@ -30,14 +30,17 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   Bronze vor Silber vor Gold → niedrigster Fortschritt → nicht der Track des letzten Hauptteils → Track-Reihenfolge.
   Warm-up/Abschluss = geschaffte Level, Sortierung: anderer Track als Hauptteil → Vorzugs-Tracks (`SESSION_ROLE_PREFS`) → leichtere Stufe.
   Hauptteil Gold → Warm-up/Abschluss nur Bronze. Tauschen = Offset in der sortierten Kandidatenliste.
-- Apport-Budget: `retrievesPerSession` begrenzt Apports, nicht Übungen. Nur Level mit `counts: true` (training.js) zählen.
-  Seitenblöcke mit Apport je 2 (bei Limit < 6 je 1). Hauptteil mit Apport: Restbudget bis `mainReps`, mindestens 2.
-  Hauptteil ohne Apport: `drillReps` (3 voll, 2 kurz/mini). Bei knappem Budget werden Seitenblöcke ohne Apport bevorzugt,
-  notfalls weicht ein Apport-Seitenblock dem Ersatz-Block. Limit = strengster Wert aus default, Alter, Gelenkbefund.
+- Belastung: `retrievesPerSession` begrenzt nur Level mit `counts: true` (training.js: A Silber/Gold, E–H). Fachlich ist
+  ein Apport nur E–H; Stopp-Pfiff Silber/Gold zählt trotzdem in die Belastung. UI sagt daher „Belastung“ und „Durchgänge“.
+  Seitenblöcke je 2 Durchgänge (bei Limit < 6 je 1). Hauptteil mit counts: Restlimit bis `mainReps`, mindestens 2.
+  Hauptteil ohne counts: `drillReps` (3 voll, 2 kurz/mini). Bei knappem Limit werden Seitenblöcke ohne counts bevorzugt,
+  notfalls weicht ein belastender Seitenblock dem Ersatz-Block. Limit = strengster Wert aus default, Alter, Gelenkbefund.
+- Kein Level zweimal pro Session: belegte Level sind für die anderen Blöcke ausgeschlossen (auch beim Tauschen).
+  Fehlt ein zweites geschafftes Level, kommt der Ersatz-Block.
 - Bewertung: nur „gut“ auf dem Hauptteil zählt. Nichts verringert je einen Zähler.
 - Ruhetag: nur Vollsessions zählen. Hinweis bei Vollsession heute, innerhalb `restDays` oder ≥ `sessionsPerWeek` in 7 Tagen.
 - Frischer Start / kein Kandidat: Ersatz-Blöcke aus `SESSION_FALLBACKS` (zählen keine Wiederholungen, nicht tauschbar).
-- Session-Eintrag: `{ id, date, type, blocks: [{ role, trackId, levelId, reps, apport, rating: gut|okay|nein }] }`.
+- Session-Eintrag: `{ id, date, type, blocks: [{ role, trackId, levelId, reps, counts, rating: gut|okay|nein }] }`.
 - Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy

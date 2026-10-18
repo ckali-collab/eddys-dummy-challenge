@@ -78,16 +78,18 @@ const doneLevels = (st, type) =>
   TRACKS.filter((t) => type.allowedTracks.includes(t.id))
     .flatMap((t) => t.levels.filter((l) => isLevelDone(st, t.id, l.id)).map((l) => ({ trackId: t.id, levelId: l.id })));
 
-// Warm-up/Abschluss: nur geschaffte Level. Bevorzugt anderer Track als der Hauptteil,
-// dann die Vorzugs-Tracks der Rolle, dann die leichtere Stufe.
-const sideCandidates = (st, type, role, main, avoid, preferNoApport) => {
-  let list = doneLevels(st, type);
+// Warm-up/Abschluss: nur geschaffte Level. Ein Level kommt pro Session nie zweimal vor:
+// belegte Level (Hauptteil, anderer Seitenblock) sind ausgeschlossen, auch beim Tauschen.
+// Bevorzugt anderer Track als Hauptteil und anderer Seitenblock, dann Vorzugs-Tracks, dann leichtere Stufe.
+const sideCandidates = (st, type, role, main, other, preferNoLoad) => {
+  const taken = new Set([main, other].filter(Boolean).map(key));
+  let list = doneLevels(st, type).filter((c) => !taken.has(key(c)));
   if (main?.levelId === "gold") list = list.filter((c) => c.levelId === "bronze"); // nie zwei schwere Blöcke
   const prefs = SESSION_ROLE_PREFS[role] || [];
   const score = (c) => [
-    preferNoApport && countsApport(c) ? 1 : 0,
+    preferNoLoad && countsLoad(c) ? 1 : 0,
     main && c.trackId === main.trackId ? 1 : 0,
-    avoid && key(c) === key(avoid) ? 1 : 0,
+    other && c.trackId === other.trackId ? 1 : 0,
     prefs.includes(c.trackId) ? 0 : 1,
     RANK[c.levelId],
     TRACK_ORDER[c.trackId],
@@ -98,10 +100,11 @@ const sideCandidates = (st, type, role, main, avoid, preferNoApport) => {
 const pick = (list, offset) => (list.length ? list[((offset % list.length) + list.length) % list.length] : null);
 
 // ─── Plan ─────────────────────────────────────────────────────
-// retrievesPerSession begrenzt Apports, nicht Übungen. Nur Level mit counts: true verbrauchen Budget.
-export const countsApport = (c) => !!c && !!getLevel(c.trackId, c.levelId)?.counts;
+// Belastung: retrievesPerSession begrenzt nur Level mit counts: true (Apports und Stopp-Pfiff ab Silber).
+// Übungen ohne counts gehen nicht in die Belastung ein.
+export const countsLoad = (c) => !!c && !!getLevel(c.trackId, c.levelId)?.counts;
 
-const MIN_MAIN_APPORTS = 2;
+const MIN_MAIN_LOAD = 2;
 
 export const buildPlan = (st, typeId, offsets = {}) => {
   const type = getSessionType(typeId);
@@ -110,21 +113,21 @@ export const buildPlan = (st, typeId, offsets = {}) => {
 
   const mains = mainCandidates(st, type);
   const main = pick(mains, offsets.main || 0);
-  const mainApports = countsApport(main);
-  // Knapp: Hauptteil-Minimum plus zwei Apport-Seitenblöcke passt nicht ins Budget
-  const tight = (mainApports ? MIN_MAIN_APPORTS : 0) + 2 * sideReps > limit;
+  const mainCounts = countsLoad(main);
+  // Knapp: Hauptteil-Minimum plus zwei belastende Seitenblöcke passt nicht ins Limit
+  const tight = (mainCounts ? MIN_MAIN_LOAD : 0) + 2 * sideReps > limit;
   const warms = sideCandidates(st, type, "warmup", main, null, tight);
   let warm = pick(warms, offsets.warmup || 0);
   const cools = sideCandidates(st, type, "cooldown", main, warm, tight);
   let cool = pick(cools, offsets.cooldown || 0);
 
-  // Reicht das Budget trotzdem nicht, weicht ein Apport-Seitenblock dem Ersatz-Block (Abschluss zuerst)
-  const used = () => (countsApport(warm) ? sideReps : 0) + (countsApport(cool) ? sideReps : 0);
-  if (mainApports && limit - used() < MIN_MAIN_APPORTS && countsApport(cool)) cool = null;
-  if (mainApports && limit - used() < MIN_MAIN_APPORTS && countsApport(warm)) warm = null;
+  // Reicht das Limit trotzdem nicht, weicht ein belastender Seitenblock dem Ersatz-Block (Abschluss zuerst)
+  const used = () => (countsLoad(warm) ? sideReps : 0) + (countsLoad(cool) ? sideReps : 0);
+  if (mainCounts && limit - used() < MIN_MAIN_LOAD && countsLoad(cool)) cool = null;
+  if (mainCounts && limit - used() < MIN_MAIN_LOAD && countsLoad(warm)) warm = null;
 
   const mainReps = !main ? 0
-    : mainApports ? Math.max(MIN_MAIN_APPORTS, Math.min(type.mainReps, limit - used()))
+    : mainCounts ? Math.max(MIN_MAIN_LOAD, Math.min(type.mainReps, limit - used()))
     : type.drillReps;
   const reps = { warmup: sideReps, main: mainReps, cooldown: sideReps };
 
@@ -139,14 +142,14 @@ export const buildPlan = (st, typeId, offsets = {}) => {
       minutes: tpl.minutes,
       hint: tpl.hint,
       reps: c ? reps[tpl.role] : 0, // Ersatz-Blöcke sind keine Wiederholungen
-      apport: countsApport(c),
+      counts: countsLoad(c),
       options: counts[tpl.role],
       ...(c ? { kind: "level", trackId: c.trackId, levelId: c.levelId } : { kind: "fallback" }),
     };
   });
 
-  const apports = blocks.reduce((n, b) => n + (b.apport ? b.reps : 0), 0);
-  return { type: type.id, limit, apports, blocks };
+  const load = blocks.reduce((n, b) => n + (b.counts ? b.reps : 0), 0);
+  return { type: type.id, limit, load, blocks };
 };
 
 // ─── Abschließen ──────────────────────────────────────────────
@@ -177,7 +180,7 @@ export const recordSession = (st, plan, ratings, now = new Date()) => {
       trackId: b.trackId ?? null,
       levelId: b.levelId ?? null,
       reps: b.reps,
-      apport: !!b.apport,
+      counts: !!b.counts,
       rating: ratings[i],
     })),
   };

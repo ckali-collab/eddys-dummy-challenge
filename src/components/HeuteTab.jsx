@@ -51,8 +51,7 @@ const RecentSessions = ({ sessions }) => {
 
 // ─── Block-Karte ──────────────────────────────────────────────
 const BlockCard = ({ st, block, onSwap, onOpen }) => {
-  // Nur Blöcke mit Apport zeigen eine Zahl. Alles andere zeigt die Dauer.
-  const meta = `${block.minutes} Min${block.apport ? ` · ${block.reps} ${block.reps === 1 ? "Apport" : "Apports"}` : ""}`;
+  const meta = `${block.minutes} Min · ${block.reps} ${block.reps === 1 ? "Durchgang" : "Durchgänge"}`;
 
   if (block.kind === "fallback") {
     const fb = SESSION_FALLBACKS[block.role];
@@ -206,7 +205,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen }) {
           ))}
         </div>
         <p className="small muted">
-          {type.duration} · {type.desc} · {plan.apports} von max. {plan.limit} Apports
+          {type.duration} · {type.desc} · Belastung: {plan.load} von max. {plan.limit}
         </p>
       </section>
 
