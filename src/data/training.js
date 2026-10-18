@@ -103,6 +103,7 @@ export const TRACKS = [
         title: "Stopp im Nahbereich",
         criteria: "Sitzt sofort auf einen leisen Pip, fünf von fünf Fällen, an drei verschiedenen Tagen.",
         reps: 3,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Hund geht bei Fuß. Leise Pip pfeifen. Er setzt sich sofort hin.",
@@ -122,6 +123,7 @@ export const TRACKS = [
         title: "Stopp auf Distanz und aus der Bewegung",
         criteria: "Stopp auf 25 Meter, auch beim Schnüffeln oder Laufen. Vier saubere Stopps in Folge, drei verschiedene Orte.",
         reps: 4,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Hund sucht oder schnüffelt frei auf etwa 25 Meter. Pip. Er stoppt, sitzt, schaut dich an.",
@@ -139,6 +141,7 @@ export const TRACKS = [
         title: "Stopp im Lauf auf den Dummy",
         criteria: "Stopp auf 40 Meter während des Laufs zum Dummy, und Stopp bei realer Ablenkung. Je drei saubere Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Dummy werfen, Hund schicken.",
@@ -169,6 +172,7 @@ export const TRACKS = [
         title: "Rückruf aus ruhiger Situation",
         criteria: "20 Meter, gerade Linie, Vorsitzen. Fünf schnelle Reaktionen auf das erste Signal in Folge.",
         reps: 5,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
@@ -186,6 +190,7 @@ export const TRACKS = [
         title: "Rückruf aus der Beschäftigung",
         criteria: "40 Meter, Hund ist aktiv am Schnüffeln oder Suchen. Fünf schnelle Reaktionen in Folge.",
         reps: 5,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
@@ -201,6 +206,7 @@ export const TRACKS = [
         title: "Rückruf unter sozialer Ablenkung",
         criteria: "Kommt auf das erste Signal, während andere Hunde in der Nähe spielen. Drei Durchgänge an verschiedenen Tagen.",
         reps: 3,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
@@ -232,6 +238,7 @@ export const TRACKS = [
         title: "50 Meter ohne Ziehen",
         criteria: "50 Meter off-lead bei Fuß auf bekanntem Weg, keine Leinenspannung, kein Vorlaufen.",
         reps: 3,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Bewusste Fuß-Phase ankündigen, 50 Meter gehen, dann freigeben.",
@@ -245,6 +252,7 @@ export const TRACKS = [
         title: "Tempo- und Richtungswechsel",
         criteria: "Bleibt bei Fuß bei abrupten Tempo- und Richtungswechseln, 100 Meter am Stück.",
         reps: 3,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Tempo variieren, Kehrtwendungen gehen, stehenbleiben und weitergehen.",
@@ -258,6 +266,7 @@ export const TRACKS = [
         title: "Automatisches Sitzen unter Ablenkung",
         criteria: "Du bleibst stehen, Hund sitzt automatisch ohne Kommando - auch bei Fahrrad oder Jogger. Fünf Mal in Folge.",
         reps: 5,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "An belebteren Wegen üben.",
@@ -284,6 +293,7 @@ export const TRACKS = [
         title: "Warten nach dem Wurf",
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, vier Durchgänge ohne Durchbrechen.",
         reps: 4,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Hund sitzt off-lead in Fuß oder Ran.",
@@ -302,6 +312,7 @@ export const TRACKS = [
         title: "Warten bei Bewegung und zweitem Dummy",
         criteria: "Hält den Sitz, während du fünf Schritte weggehst oder ein zweiter Dummy fliegt. Vier Durchgänge.",
         reps: 4,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
@@ -317,6 +328,7 @@ export const TRACKS = [
         title: "Walk-up und Honouring",
         criteria: "Bleibt bei Fuß, wenn ein Dummy aus der Bewegung heraus fliegt. Und bleibt ruhig sitzen, während ein anderer Hund arbeitet. Je drei Durchgänge.",
         reps: 3,
+        counts: false, // zählt gegen das Apport-Limit
         diagram: "walkup",
         steps: [
           "Walk-up: Hund läuft off-lead bei Fuß, ihr geht gemeinsam.",
@@ -345,6 +357,7 @@ export const TRACKS = [
         title: "In die Hand, ohne Ablegen",
         criteria: "Bringt den Dummy bis in die Hand, legt nicht ab, bei zehn Retrieves hintereinander.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Kurze Retrieves, maximal 10 Meter.",
@@ -362,6 +375,7 @@ export const TRACKS = [
         title: "Sitzen bei der Abgabe",
         criteria: "Sitzt vor dir ab und hält den Dummy, bis du ihn nimmst. Zehn Retrieves.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Erst wenn Bronze sicher sitzt.",
@@ -376,6 +390,7 @@ export const TRACKS = [
         title: "Abgabe unter Erregung",
         criteria: "Saubere Abgabe nach langem Retrieve, nach Wasserarbeit und nach Mehrfachmarken. Je drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
@@ -405,6 +420,7 @@ export const TRACKS = [
         title: "Einzelmarke",
         criteria: "Direkter Weg hin und zurück, sauberes Apportieren, 20 bis 30 Meter, auf drei verschiedenen Geländearten je drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: "single-mark",
         steps: [
           "Hund sitzt in Fuß oder Ran neben dir.",
@@ -423,6 +439,7 @@ export const TRACKS = [
         title: "Doppelmarke",
         criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: "double-mark",
         steps: [
           "Ersten Dummy werfen, etwa auf 10 Uhr, 25 Meter. Markierstab setzen.",
@@ -441,6 +458,7 @@ export const TRACKS = [
         title: "Dreifachmarke",
         criteria: "Alle drei in richtiger Reihenfolge, zwei komplette Sequenzen ohne Hilfe.",
         reps: 2,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: "triple-mark",
         steps: [
           "Drei Dummys in etwa 120-Grad-Abständen werfen.",
@@ -471,6 +489,7 @@ export const TRACKS = [
         title: "Zone auf kurzer Distanz",
         criteria: "Findet selbstständig ohne Hilfe, 15 Meter, kurzes Gras, drei verschiedene Richtungen.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Dummy ablegen, während der Hund wegschaut. Markierstab setzen.",
@@ -490,6 +509,7 @@ export const TRACKS = [
         title: "Größere Zone mit Zeitverzögerung",
         criteria: "30 Meter, mittleres Gras, 2 Minuten Verzögerung, drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Dummy auf 30 Meter ablegen, Markierstab setzen.",
@@ -504,6 +524,7 @@ export const TRACKS = [
         title: "Komplexes Gelände",
         criteria: "50 Meter und mehr, hohes Gras oder Waldrand, 5 Minuten Verzögerung, drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: null,
         steps: [
           "Dummy in schwierigem Gelände ablegen, Markierstab setzen.",
@@ -530,6 +551,7 @@ export const TRACKS = [
         title: "Memory Retrieve und Voran",
         criteria: "Läuft auf Voran mindestens 35 Meter geradeaus auf einen unsichtbaren Dummy, auf zwei Geländestufen je drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: "memory-retrieve",
         steps: [
           "Memory Retrieve: Hund bei Fuß, gemeinsam zum Ablagepunkt gehen, etwa 30 Meter.",
@@ -552,6 +574,7 @@ export const TRACKS = [
         title: "Back, Links, Rechts und Memory Blind",
         criteria: "Nimmt alle drei Richtungssignale nach Stopp-Pfiff an, auf 15 Meter je drei Durchgänge pro Richtung. Plus Memory Blind auf 35 Meter mit maximal einer Korrektur.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: "directions",
         steps: [
           "Schritt 1: Back allein. Stopp-Pfiff, Arm über Kopf, Back. Kennt er als Voran-Variante, daher sofortiger Erfolg.",
@@ -572,6 +595,7 @@ export const TRACKS = [
         title: "Cold Blind, Clock Face, Kombination",
         criteria: "Findet einen unbekannten Blind auf 30 Meter mit maximal zwei Korrekturen, auf drei Geländestufen je drei Durchgänge.",
         reps: 3,
+        counts: true, // zählt gegen das Apport-Limit
         diagram: "clockface",
         steps: [
           "Clock Face: Hund sitzt in der Mitte. 12 Uhr Back, 3 Uhr Rechts, 6 Uhr zu dir hin, 9 Uhr Links.",
@@ -613,6 +637,9 @@ export const SESSION_TYPES = [
   {
     id: "voll",
     name: "Vollsession",
+    short: "Vollsession",
+    mainReps: 5,   // Obergrenze Apports im Hauptteil
+    drillReps: 3,  // Wiederholungen, wenn der Hauptteil keinen Apport enthält
     icon: "target",
     duration: "15-20 Min",
     desc: "Mit Equipment, gezielter Fokus",
@@ -626,6 +653,9 @@ export const SESSION_TYPES = [
   {
     id: "kurz",
     name: "Kurzübung im Spaziergang",
+    short: "Kurzübung",
+    mainReps: 3,
+    drillReps: 2,
     icon: "walk",
     duration: "5-10 Min",
     desc: "Kein Equipment nötig",
@@ -639,6 +669,9 @@ export const SESSION_TYPES = [
   {
     id: "mini",
     name: "Mini-Session",
+    short: "Mini-Session",
+    mainReps: 3,
+    drillReps: 2,
     icon: "pocket",
     duration: "5-10 Min",
     desc: "Pocket Dummy in der Jacke",
@@ -650,6 +683,28 @@ export const SESSION_TYPES = [
     allowedTracks: ["A", "B", "C", "D", "E", "G"],
   },
 ];
+
+// Bevorzugte Tracks für Warm-up und Abschluss (aus den Block-Hinweisen oben)
+export const SESSION_ROLE_PREFS = {
+  warmup:   ["A", "B", "C"],
+  cooldown: ["G", "F"],
+};
+
+// Ersatz-Blöcke, wenn kein passendes Level existiert (z.B. frischer Start ohne abgeschlossenes Level)
+export const SESSION_FALLBACKS = {
+  warmup: {
+    title: "Lockeres Ankommen",
+    desc: "Ein paar Meter entspannt gehen, Blickkontakt belohnen, kurz spielen. Noch kein Kommando, das sitzen muss.",
+  },
+  main: {
+    title: "Alles offen geschafft",
+    desc: "In diesem Sessiontyp ist gerade kein Level offen. Wähle einen anderen Sessiontyp oder wiederhole ein Level, das sicher sitzt.",
+  },
+  cooldown: {
+    title: "Sicherer Abschluss",
+    desc: "Etwas, das garantiert klappt: ein kurzer Rückruf aus der Nähe oder ein Leckerli im Gras suchen lassen. Positiv beenden.",
+  },
+};
 
 export const SESSION_RULES = [
   "Der Hauptteil bestimmt den Sessiontyp. Braucht er Equipment, ist es eine Vollsession.",

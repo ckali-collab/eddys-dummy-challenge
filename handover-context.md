@@ -23,7 +23,22 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Storage: Level haben zusätzlich `dates` (ISO-Zeitstempel je Durchgang) für den Same-Day-Hinweis.
   Additiv, `normalize()` füllt fehlende `dates` mit `[]` → kein Schema-Bump nötig, Profil bleibt erhalten.
 - Gelenkwarnungen: Zuordnung Level → Warnung in `JOINT_WARNING_LEVELS` (training.js), aktiv bei Gelenkbefund leicht/deutlich.
-- Heute/Trophäen/Basics noch Platzhalter.
+
+## Umbau Schritt 3/6: Heute-Tab (2026-10-18)
+- `src/components/HeuteTab.jsx`, Logik als reine Funktionen in `src/lib/session.js` (buildPlan, restStatus, recordSession, loadLimits).
+- Hauptteil = offenes Level aus freigeschalteten Tracks des Sessiontyps. Sortierung: angefangen (reps > 0) vor unberührt →
+  Bronze vor Silber vor Gold → niedrigster Fortschritt → nicht der Track des letzten Hauptteils → Track-Reihenfolge.
+  Warm-up/Abschluss = geschaffte Level, Sortierung: anderer Track als Hauptteil → Vorzugs-Tracks (`SESSION_ROLE_PREFS`) → leichtere Stufe.
+  Hauptteil Gold → Warm-up/Abschluss nur Bronze. Tauschen = Offset in der sortierten Kandidatenliste.
+- Apport-Budget: `retrievesPerSession` begrenzt Apports, nicht Übungen. Nur Level mit `counts: true` (training.js) zählen.
+  Seitenblöcke mit Apport je 2 (bei Limit < 6 je 1). Hauptteil mit Apport: Restbudget bis `mainReps`, mindestens 2.
+  Hauptteil ohne Apport: `drillReps` (3 voll, 2 kurz/mini). Bei knappem Budget werden Seitenblöcke ohne Apport bevorzugt,
+  notfalls weicht ein Apport-Seitenblock dem Ersatz-Block. Limit = strengster Wert aus default, Alter, Gelenkbefund.
+- Bewertung: nur „gut“ auf dem Hauptteil zählt. Nichts verringert je einen Zähler.
+- Ruhetag: nur Vollsessions zählen. Hinweis bei Vollsession heute, innerhalb `restDays` oder ≥ `sessionsPerWeek` in 7 Tagen.
+- Frischer Start / kein Kandidat: Ersatz-Blöcke aus `SESSION_FALLBACKS` (zählen keine Wiederholungen, nicht tauschbar).
+- Session-Eintrag: `{ id, date, type, blocks: [{ role, trackId, levelId, reps, apport, rating: gut|okay|nein }] }`.
+- Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).

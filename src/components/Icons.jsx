@@ -66,3 +66,15 @@ export const IconAlert = (p) => (
     <path d="M12 10v5M12 18h.01" />
   </Svg>
 );
+
+export const IconSwap = (p) => (
+  <Svg {...p}>
+    <path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7" />
+  </Svg>
+);
+
+export const IconChevron = (p) => (
+  <Svg {...p}>
+    <path d="M6 9l6 6 6-6" />
+  </Svg>
+);

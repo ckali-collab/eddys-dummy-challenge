@@ -5,6 +5,7 @@ import Settings from "./components/Settings.jsx";
 import TracksTab from "./components/TracksTab.jsx";
 import LevelDetail from "./components/LevelDetail.jsx";
 import SplashScene from "./components/SplashScene.jsx";
+import HeuteTab from "./components/HeuteTab.jsx";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
@@ -64,6 +65,8 @@ export default function App() {
   const [tab, setTab] = useState("heute");
   // Unterseite über dem Tab: null | { type: "settings" } | { type: "level", trackId, levelId }
   const [view, setView] = useState(null);
+  // Heute-Plan überlebt den Sprung in die Level-Detailseite
+  const [today, setToday] = useState({ type: "voll", offsets: {} });
 
   useEffect(() => {
     const t = setTimeout(() => setScreen(st.dog.name ? "app" : "onboard"), SPLASH_MS);
@@ -99,6 +102,7 @@ export default function App() {
     view?.type === "settings" ? <Settings state={st} onTheme={setTheme} onProfile={setDog} /> :
     view?.type === "level" ? <LevelDetail st={st} trackId={view.trackId} levelId={view.levelId} onCount={onCount} onReset={onReset} /> :
     tab === "tracks" ? <TracksTab st={st} onOpen={openLevel} /> :
+    tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel} /> :
     <Placeholder tab={current} />;
 
   return (
