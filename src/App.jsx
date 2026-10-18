@@ -21,7 +21,7 @@ const TABS = [
 // ─── Splash ───────────────────────────────────────────────────
 const Splash = () => (
   <div className="splash">
-    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="977" height="928" />
+    <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="600" height="570" />
     <div>
       <p className="splash-tagline">Dummytraining mit System</p>
       <p className="small muted" style={{ marginTop: 6 }}>British Field Trial Method</p>
@@ -107,6 +107,7 @@ export default function App() {
             <IconBack />
           </button>
         )}
+        <img className="header-logo" src={LOGO_MARK} alt="" width="34" height="34" />
         <div className="header-title">
           <h1>{head.title}</h1>
           {head.sub && <div className="header-sub">{head.sub}</div>}

@@ -2,12 +2,12 @@
    Palette und Schriften aus docs/trophy-reference.html.
    Farben ausschließlich hier definieren, Komponenten nutzen nur var(--…). */
 :root {
-  --bg: #F0EBE1;
-  --surface: #FAF7F1;
-  --surface-2: #E7E0D3;
+  --bg: #E9E1D3;
+  --surface: #F7F3EA;
+  --surface-2: #DED5C3;
   --fg: #221E18;
-  --muted: #6B6355;
-  --line: #D8CFBF;
+  --muted: #5E5648;
+  --line: #CFC4AE;
   --accent: #2C6238;
   --accent-soft: #2C62381A;
   --on-accent: #FDFBF7;
@@ -17,8 +17,8 @@
   --glow: #A8762C40;
   --danger: #A33A2F;
   --scrim: #060A06B3;
-  --nav-bg: #E9E2D6;
-  --nav-shadow: 0 -2px 12px #221E1814;
+  --nav-bg: #D9CFBB;
+  --nav-shadow: 0 -4px 22px #221E1824;
   --warn-bg: #F6E3BC;
   --warn-line: #9E6919;
   --warn-fg: #4A3209;
@@ -27,7 +27,7 @@
   --font-body: 'Public Sans', system-ui, -apple-system, sans-serif;
 
   --fs-body: 16px;
-  --fs-label: 13px;
+  --fs-label: 14px;
   --touch: 48px;
   --radius: 14px;
   --nav-h: 64px;
@@ -131,7 +131,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .header-title { flex: 1; min-width: 0; }
 .header-title h1 { font-size: 22px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.header-sub { font-size: 15px; font-weight: 600; color: var(--fg); }
+.header-sub { font-size: 16px; font-weight: 600; color: var(--fg); }
+.header-logo { width: 34px; height: 34px; flex: 0 0 auto; }
 
 .main {
   flex: 1;
@@ -380,7 +381,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   font-size: 17px;
 }
 .track-titles { min-width: 0; }
-.track-short { color: var(--muted); margin-top: 2px; }
+.track-short { color: var(--muted); margin-top: 2px; font-size: 17px; }
 .track-gear { color: var(--muted); }
 .track-gear-label { font-weight: 600; }
 .track-lock {
@@ -427,10 +428,10 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 }
 .lvl-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
 .lvl-name { font-size: 14px; font-weight: 700; color: var(--metal); }
-.lvl-cnt { font-size: var(--fs-label); color: var(--muted); font-variant-numeric: tabular-nums; }
+.lvl-cnt { font-size: 15px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
 .lvl.is-done { border-color: var(--accent); background: var(--accent-soft); }
 .lvl.is-done .lvl-dot { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.lvl.is-done .lvl-cnt { color: var(--accent); font-weight: 600; }
+.lvl.is-done .lvl-cnt { color: var(--accent); }
 .lvl.is-locked {
   border-style: dashed;
   border-color: var(--line);
@@ -459,6 +460,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   color: var(--metal);
   border: 1.5px solid var(--metal);
   border-radius: 999px;
+  background: var(--surface);
   padding: 3px 12px;
 }
 .chip-silber { --metal: var(--silver); }
