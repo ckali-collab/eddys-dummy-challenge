@@ -3,6 +3,7 @@ import { SESSION_TYPES, SESSION_FALLBACKS } from "../data/training.js";
 import { LEVEL_LABEL, getLevel, levelProgress, jointWarnings } from "../lib/progress.js";
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
+import IconTile from "./IconTile.jsx";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
 
@@ -30,7 +31,7 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
       <div className="recent-list">
         {recent.map((s, i) => (
           <div key={s?.id || s?.date || i}>
-            <SessionItem s={s || {}} />
+            <SessionItem s={s || {}} defaultOpen={i === 0} />
             {i === 0 && (
               <div className="undo-row">
                 {confirm ? (
@@ -87,11 +88,12 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
         <span className="block-meta">{meta}</span>
       </div>
       <button type="button" className="block-main" onClick={() => onOpen(block.trackId, block.levelId)}>
-        <Medal level={block.levelId} size={32} />
+        <IconTile trackId={block.trackId} />
         <span className="block-text">
           <span className="block-track">{trackName(block.trackId)}</span>
           <span className="block-level">
-            {LEVEL_LABEL[block.levelId]} · {level.title}
+            <Medal level={block.levelId} size={16} />
+            <span>{LEVEL_LABEL[block.levelId]} · {level.title}</span>
           </span>
           <span className="block-prog">{prog.reps} von {level.reps}</span>
         </span>

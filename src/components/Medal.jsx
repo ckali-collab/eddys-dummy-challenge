@@ -8,7 +8,7 @@ export default function Medal({ level, size = 24 }) {
   const m = METAL[level] || "bronze";
   const id = "m" + useId().replace(/:/g, "");
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" style={{ stopColor: `var(--${m}-a)` }} />

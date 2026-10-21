@@ -35,7 +35,9 @@ export default function SessionsView({ sessions }) {
         <section key={g.key} className="section">
           <h2 className="sess-month">{g.key}</h2>
           <div className="sess-list">
-            {g.items.map(({ s, i }) => <SessionItem key={s.id || s.date || i} s={s} />)}
+            {g.items.map(({ s, i }, k) => (
+              <SessionItem key={s.id || s.date || i} s={s} defaultOpen={g === groups[0] && k === 0} />
+            ))}
           </div>
         </section>
       ))}

@@ -5,6 +5,7 @@ import {
   allSameDay, jointWarnings,
 } from "../lib/progress.js";
 import { IconAlert, IconCheck } from "./Icons.jsx";
+import IconTile, { GearList } from "./IconTile.jsx";
 
 const Section = ({ title, children }) => (
   <section className="section">
@@ -44,7 +45,11 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   return (
     <>
       <header className="detail-top">
-        <span className={`chip chip-${levelId}`}>{LEVEL_LABEL[levelId]}</span>
+        <div className="detail-track">
+          <IconTile trackId={trackId} />
+          <span className="detail-track-name">{track.name}</span>
+          <span className={`chip chip-${levelId}`}>{LEVEL_LABEL[levelId]}</span>
+        </div>
         <h2 className="detail-title">{level.title}</h2>
         {terrain && <p className="small muted">Gelände: {terrain.label}</p>}
       </header>
@@ -75,7 +80,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       )}
 
       <Section title="Equipment">
-        <p>{track.gear.length ? track.gear.join(", ") : "Kein Equipment nötig."}</p>
+        {track.gear.length ? <GearList gear={track.gear} /> : <p>Kein Equipment nötig.</p>}
       </Section>
 
       <Section title="Fortschritt">

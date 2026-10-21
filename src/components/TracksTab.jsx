@@ -5,6 +5,7 @@ import {
 } from "../lib/progress.js";
 import { IconLock, IconCheck } from "./Icons.jsx";
 import Medal from "./Medal.jsx";
+import IconTile, { GearList } from "./IconTile.jsx";
 
 const LevelBadge = ({ st, track, level, onOpen }) => {
   const prog = levelProgress(st, track.id, level.id);
@@ -36,7 +37,7 @@ const TrackCard = ({ st, track, onOpen }) => {
   return (
     <article className={`card track ${unlocked ? "" : "is-locked"}`}>
       <div className="track-head">
-        <span className="track-id" aria-hidden="true">{track.id}</span>
+        <IconTile trackId={track.id} large />
         <div className="track-titles">
           <h2>{track.name}</h2>
           <p className="track-short">{track.short}</p>
@@ -56,10 +57,10 @@ const TrackCard = ({ st, track, onOpen }) => {
         ))}
       </div>
 
-      <p className="track-gear small">
-        <span className="track-gear-label">Equipment:</span>{" "}
-        {track.gear.length ? track.gear.join(", ") : "keins nötig"}
-      </p>
+      <div className="track-gear small">
+        <span className="track-gear-label">Equipment:</span>
+        {track.gear.length ? <GearList gear={track.gear} /> : <span>keins nötig</span>}
+      </div>
     </article>
   );
 };

@@ -110,7 +110,7 @@ export default function App() {
   const head =
     view?.type === "settings" ? { title: "Einstellungen" } :
     view?.type === "sessions" ? { title: "Alle Sessions", sub: st.dog.name } :
-    view?.type === "level" ? { title: getTrack(view.trackId).name, sub: `Track ${view.trackId}` } :
+    view?.type === "level" ? { title: getTrack(view.trackId).name, sub: st.dog.name } :
     { title: current.label, sub: st.dog.name };
 
   const content =

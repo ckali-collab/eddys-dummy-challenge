@@ -4,7 +4,7 @@ const SCENE = "M0.0,200.0 L0.0,130.0 L6.8,113.4 L13.6,131.5 L20.5,112.2 L27.3,12
 
 export default function SplashScene() {
   return (
-    <svg className="splash-scene" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg className="splash-scene" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
       <path d={SCENE} fill="currentColor" />
     </svg>
   );

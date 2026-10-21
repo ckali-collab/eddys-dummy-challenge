@@ -92,7 +92,8 @@ export const TRACKS = [
   {
     id: "A",
     name: "Stopp-Pfiff",
-    icon: "whistle",
+    icon: "stop-whistle",
+    group: "grund",
     short: "Anhalten und Sitzen auf einen kurzen Pip",
     desc: "Grundlage für alles. Ohne zuverlässigen Stopp ist kein Handling möglich.",
     gear: ["Pfeife"],
@@ -161,7 +162,8 @@ export const TRACKS = [
   {
     id: "B",
     name: "Rückruf",
-    icon: "return",
+    icon: "recall",
+    group: "grund",
     short: "Direktes Zurückkommen auf zwei lange Töne",
     desc: "Gerade Linie, kein Zickzack, kein Schnüffeln unterwegs.",
     gear: ["Pfeife"],
@@ -227,7 +229,8 @@ export const TRACKS = [
   {
     id: "C",
     name: "Fuß",
-    icon: "paw",
+    icon: "heel",
+    group: "grund",
     short: "Position, Tempo, Richtung",
     desc: "Ruhig neben dir, ohne Ziehen, ohne Vorauslaufen. In bewussten Phasen, nicht den ganzen Spaziergang.",
     gear: [],
@@ -282,7 +285,8 @@ export const TRACKS = [
   {
     id: "D",
     name: "Steadiness",
-    icon: "brain",
+    icon: "steadiness",
+    group: "apport",
     short: "Warten statt Losrennen",
     desc: "Erweiterung des Grundgehorsams. Der Hund entscheidet selbst zu warten. Immer off-lead - mit Leine trainierst du nichts.",
     gear: ["Dummy", "Pfeife"],
@@ -346,7 +350,8 @@ export const TRACKS = [
   {
     id: "E",
     name: "Abgabe",
-    icon: "hand",
+    icon: "delivery",
+    group: "apport",
     short: "Sauber in die Hand geben",
     desc: "Die meisten Abgabeprobleme entstehen drei bis vier Schritte vor dem Hundeführer.",
     gear: ["Dummy"],
@@ -409,7 +414,8 @@ export const TRACKS = [
   {
     id: "F",
     name: "Marking",
-    icon: "target",
+    icon: "marking",
+    group: "suche",
     short: "Einzel-, Doppel-, Dreifachmarke",
     desc: "Marking heißt: die Flugbahn verfolgen und sich die Position merken. Nicht den Dummy liegen sehen. Hohes Gras ist deshalb kein Hindernis.",
     gear: ["1-3 Dummys", "Markierstäbe"],
@@ -478,7 +484,8 @@ export const TRACKS = [
   {
     id: "G",
     name: "Nasenarbeit",
-    icon: "nose",
+    icon: "scenting",
+    group: "suche",
     short: "Zone absuchen mit der Nase",
     desc: "Der Hund wird in eine Zone geschickt und sucht dort selbstständig. Kein Richtungskommando.",
     gear: ["Dummy", "Markierstab"],
@@ -540,7 +547,8 @@ export const TRACKS = [
   {
     id: "H",
     name: "Richtung und Blind",
-    icon: "compass",
+    icon: "directions",
+    group: "handling",
     short: "Voran, Back, Links, Rechts, Blind",
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
     gear: ["Dummys", "Pfeife", "Markierstäbe"],

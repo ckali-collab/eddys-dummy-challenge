@@ -52,6 +52,16 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - `SessionItem.jsx`: aufklappbarer Eintrag, fehlende Felder → „–“. `SessionsView.jsx`: „Alle Sessions“ (View `sessions`), nach Monat.
 - Einstellungen → Gefahrenbereich: Sessions löschen / Fortschritt zurücksetzen (tracks, sessions, trophies) / App zurücksetzen
   (Key `edc-v3` entfernen, Onboarding). Jede Aktion mit Rückfrage, die konkret nennt, was gelöscht wird.
+
+## Icons und Gruppenfarben (2026-10-21)
+- `TrackIcons.jsx` (12 Icons, `TRACK_ICONS`), bewusst nicht `icons.jsx`: kollidiert unter Windows mit `Icons.jsx` (UI-Icons).
+- Tracks haben `icon` und `group` (grund/apport/suche/handling). Tokens `--grp-*-bg/-fg` in allen drei Theme-Blöcken.
+- `IconTile.jsx`: Kachel 38px / 46px (`large`), Farbe über Klasse `.grp-<group>`. `GearList` + `gearIcon()`:
+  Equipment-Icon per Schlüsselwort (pocket, dummy, pfeife, markierstab/markierstäb), ohne Kachel, in `--muted`.
+- Regeln: Icon nie ohne Text, keine Icons auf Level-Badges, alle svg `aria-hidden` + `focusable="false"`.
+- Verlaufszeile: Bewertungspunkt + Klartext, einzeilig; passt sie nicht, entfällt der Abschluss (Messung in `SummaryLine`).
+  Ganze Zeile ist der Schalter, jüngster Eintrag offen.
+- Offen für den Trophäen-Schritt: `TROPHIES.desc` enthält noch „Gold in Track A erreicht“ (Buchstabe sichtbar).
 - Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy
