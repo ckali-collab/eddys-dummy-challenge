@@ -24,7 +24,16 @@ export function TrackIcon({ name, size = 34 }) {
   );
 }
 
-export function IconTile({ name, size = 46, icon = 34, radius = 14 }) {
+// fit: Größe kommt aus CSS (Variante "card" | "block"), passend zum Textblock daneben.
+// Ohne fit gelten size/icon/radius als feste Werte (z.B. Equipment 24/18/7).
+export function IconTile({ name, size = 46, icon = 34, radius = 14, fit }) {
+  if (fit) {
+    return (
+      <span className={`icon-tile is-fit fit-${fit}`}>
+        <TrackIcon name={name} size={icon} />
+      </span>
+    );
+  }
   return (
     <span className="icon-tile" style={{ width: size, height: size, borderRadius: radius }}>
       <TrackIcon name={name} size={icon} />

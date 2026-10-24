@@ -47,7 +47,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
     <>
       <header className="detail-top">
         <div className="detail-track">
-          <IconTile name={track.icon} size={46} icon={34} radius={14} />
+          <IconTile name={track.icon} fit="head" />
           <span className="detail-track-name">{track.name}</span>
           <span className={`chip chip-${levelId}`}>{LEVEL_LABEL[levelId]}</span>
         </div>
