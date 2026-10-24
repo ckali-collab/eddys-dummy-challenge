@@ -8,6 +8,8 @@ import SplashScene from "./components/SplashScene.jsx";
 import HeuteTab from "./components/HeuteTab.jsx";
 import SessionsView from "./components/SessionsView.jsx";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
+import { daysBetween } from "./lib/session.js";
+import { setUpdateHold } from "./lib/updateGate.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
 const SPLASH_MS = 2000;
@@ -80,6 +82,13 @@ export default function App() {
   useEffect(() => { if (st.dog.name) saveState(st); }, [st]);
 
   useEffect(() => { window.scrollTo(0, 0); }, [tab, view]);
+
+  // Update zurückhalten, solange der heutige Plan im Heute-Tab offen ist. Der Plan (Typ, getauschte Blöcke)
+  // liegt nur im State; ein Reload würde ihn zurücksetzen. Gilt auch für Detailseite/Einstellungen aus Heute.
+  const doneToday = st.sessions.some((s) => s?.date && !isNaN(new Date(s.date)) && daysBetween(new Date(s.date), new Date()) === 0);
+  useEffect(() => {
+    setUpdateHold("plan", screen === "app" && tab === "heute" && !doneToday);
+  }, [screen, tab, doneToday]);
 
   const setDog = (dog) => setSt((p) => ({ ...p, dog }));
   const setTheme = (theme) => setSt((p) => ({ ...p, settings: { ...p.settings, theme } }));

@@ -85,12 +85,15 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 ## Architektur-Entscheidungen dieser Session
 - **vite-plugin-pwa statt handgeschriebenem `sw.js`**: Precache-Manifest mit Hashes wird automatisch erzeugt, es gibt kein manuelles Bumpen der Cache-Version und damit kein „alte Version hängt"-Problem.
 - **`autoUpdate`** statt Update-Banner: Solo-App ohne kritischen In-Flight-State, ein neuer SW darf sofort übernehmen.
-- **Update-Fix (2026-10-24):** vite-plugin-pwa 2.0 setzt bei `autoUpdate` weder `skipWaiting` noch `clientsClaim`, und das alte
-  injizierte `registerSW.js` schickte kein `SKIP_WAITING`. Neue Versionen warteten deshalb, bis alle App-Instanzen geschlossen
-  waren (installierte PWA: tagelang alt). Jetzt: `workbox.skipWaiting/clientsClaim: true`, `injectRegister: false`,
-  Registrierung in `src/main.jsx` über `virtual:pwa-register` + `registration.update()` bei `visibilitychange`
-  (höchstens alle 60 s). Neue Version übernimmt und lädt die Seite automatisch neu. End-to-end getestet.
-- **`navigateFallback: '/index.html'`**: SPA bleibt offline bei jeder URL erreichbar.
+- **Update-Mechanismus (2026-10-24):** vite-plugin-pwa 2.0 setzt bei `autoUpdate` weder `skipWaiting` noch `clientsClaim`;
+  neue Versionen warteten deshalb, bis alle App-Instanzen geschlossen waren (installierte PWA: tagelang alt).
+  Jetzt: `registerType: 'prompt'`, `injectRegister: false`, Registrierung in `src/main.jsx` (`virtual:pwa-register`).
+  `registration.update()` bei `visibilitychange` (max. alle 60 s). Die App gibt eine wartende Version per SKIP_WAITING
+  nur frei, wenn `updateGate` nichts zurückhält: „rating“ (Bewertungsdialog offen) oder „plan“ (Heute-Tab aktiv,
+  heute noch keine Session gespeichert; gilt auch für Detail/Einstellungen aus Heute). Sonst beim nächsten
+  Vordergrund-Check oder App-Start. Auch ein vom Browser selbst aktivierter SW lädt nicht neu, solange gehalten wird
+  (`onNeedReload`). Grund: Der Sessionplan (Typ, getauschte Blöcke) liegt nur im State, nicht in edc-v3.
+  Alle Fälle end-to-end mit Testversionen geprüft.
 
 ## Nicht anfassen / Gotchas
 - Kein `public/manifest.json` und kein manueller `<link rel="manifest">` in `index.html` wieder einführen. Das Plugin erzeugt beides, ein zweites Manifest würde kollidieren.
@@ -98,4 +101,3 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - `babel.config.json` wird von `@vitejs/plugin-react` nicht gelesen (Altlast, wirkungslos). Erst entfernen, wenn klar ist, dass kein anderes Tool sie braucht.
 - `SCHEMA_VERSION` in `src/lib/storage.js`: bei jeder Änderung am State-Shape (`freshState()`) bumpen. Default ist Wipe statt Migration.
 - Der SW ist nur im Build aktiv (`npm run build && npx vite preview`), nicht in `npm run dev`.
-- `netlify.toml` enthält noch eine Header-Regel für `/registerSW.js`; die Datei wird seit dem Update-Fix nicht mehr erzeugt (harmlos).

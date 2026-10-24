@@ -4,6 +4,7 @@ import { LEVEL_LABEL, getTrack, getLevel, levelProgress, jointWarnings } from ".
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
+import { setUpdateHold } from "../lib/updateGate.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
 
@@ -148,6 +149,11 @@ const Rating = ({ plan, onSave, onCancel }) => {
 // ─── Tab ──────────────────────────────────────────────────────
 export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll }) {
   const [mode, setMode] = useState("plan"); // plan | rate | done
+  // Bewertung offen: kein automatischer Reload durch ein Update
+  useEffect(() => {
+    setUpdateHold("rating", mode === "rate");
+    return () => setUpdateHold("rating", false);
+  }, [mode]);
   const [result, setResult] = useState(null);
   const plan = buildPlan(st, today.type, today.offsets);
   const rest = restStatus(st);

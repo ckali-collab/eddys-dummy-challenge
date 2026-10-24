@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt', // Übernahme steuert src/main.jsx (Update zurückhalten während der Arbeit)
       injectRegister: false, // Registrierung in src/main.jsx (virtual:pwa-register) mit Update-Check
       includeAssets: ['icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'favicon.png', 'logo.webp', 'logo-mark.webp'],
       manifest: {
@@ -26,9 +26,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // autoUpdate: neue Version übernimmt sofort, statt zu warten, bis alle App-Instanzen geschlossen sind.
-        // vite-plugin-pwa 2.0 setzt das nicht selbst; ohne beides blieb die installierte PWA tagelang alt.
-        skipWaiting: true,
+        // Kein automatisches skipWaiting: die App schickt SKIP_WAITING, wenn gerade nicht gearbeitet wird.
         clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,png,webp,svg,ico,webmanifest,woff2}'],
         navigateFallback: '/index.html',
