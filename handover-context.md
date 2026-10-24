@@ -65,6 +65,22 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Verlaufszeile: Bewertungspunkt + Klartext, einzeilig; passt sie nicht, entfällt der Abschluss (Messung in `SummaryLine`).
   Ganze Zeile ist der Schalter, jüngster Eintrag offen.
 - Offen für den Trophäen-Schritt: `TROPHIES.desc` enthält noch „Gold in Track A erreicht“ (Buchstabe sichtbar).
+
+## Bündel 2: Durchgang, Belastung, Equipment, Rotation (2026-10-24)
+- Quelle: `docs/durchgaenge.md`. Je Level `run` (was ein Durchgang ist), `reps` = Tage, `load` = Belastungspunkte.
+  `steps` = Aufbau über mehrere Wochen. Zähler zählt höchstens einmal pro Level und Tag (`countedToday`).
+- `LOAD_LIMITS.*.loadPerSession` begrenzt die Summe der `load` der drei Blöcke. Sprengt der Hauptteil das Limit allein,
+  wird er über `amount` proportional gekürzt („6 statt 10 Retrieves wegen Gelenkbefund“). Spanne (`amount.min`, F Bronze):
+  innerhalb der Spanne kein „statt“, nur die Zahl. „Belastung: X von max. Y“ entfällt bei 0.
+- Equipment je Level: `gear: [{ id, n, optional }]` + `dummyType` (null | standard | both). Anzeige/Packliste in `src/lib/gear.js`,
+  Gewicht 250/500 g aus dem Profil. Packliste „Mitnehmen“ im Heute-Tab: Pflicht-Equipment, höchste Stückzahl, standard schlägt both.
+  `EQUIPMENT_NOTES` + `WATER_MODULE.gearLabel` für den Basics-Tab (noch nicht gerendert).
+- Rotation Hauptteil (`mainCandidates`): Track mit dem am längsten zurückliegenden Hauptteil zuerst, im Track angefangen vor
+  unberührt, dann Bronze→Gold. Vollsession: ohne Apport-Track (`APPORT_TRACKS`) unter den letzten drei Vollsessions bekommt
+  der älteste Apport-Track den Vorzug.
+- Sessionplan in edc-v3: `plan = { date, type, offsets, picks }` (additiv, kein Schema-Bump). Von heute: unverändert, sonst neu
+  (bei Ruhetag startet Kurzübung). Update-Sperre nur noch für den Bewertungsdialog.
+- Hauptteil ohne offenes Level: „Session abschließen“ gesperrt, Hinweis auf Sessiontypen mit offenen Leveln.
 - Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy
@@ -89,10 +105,10 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   neue Versionen warteten deshalb, bis alle App-Instanzen geschlossen waren (installierte PWA: tagelang alt).
   Jetzt: `registerType: 'prompt'`, `injectRegister: false`, Registrierung in `src/main.jsx` (`virtual:pwa-register`).
   `registration.update()` bei `visibilitychange` (max. alle 60 s). Die App gibt eine wartende Version per SKIP_WAITING
-  nur frei, wenn `updateGate` nichts zurückhält: „rating“ (Bewertungsdialog offen) oder „plan“ (Heute-Tab aktiv,
-  heute noch keine Session gespeichert; gilt auch für Detail/Einstellungen aus Heute). Sonst beim nächsten
+  nur frei, wenn `updateGate` nichts zurückhält: „rating“ (Bewertungsdialog offen). Die frühere Sperre „plan“ ist seit
+  Bündel 2 weg, weil der Sessionplan in edc-v3 liegt. Sonst beim nächsten
   Vordergrund-Check oder App-Start. Auch ein vom Browser selbst aktivierter SW lädt nicht neu, solange gehalten wird
-  (`onNeedReload`). Grund: Der Sessionplan (Typ, getauschte Blöcke) liegt nur im State, nicht in edc-v3.
+  (`onNeedReload`).
   Alle Fälle end-to-end mit Testversionen geprüft.
 
 ## Nicht anfassen / Gotchas

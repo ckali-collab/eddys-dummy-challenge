@@ -8,8 +8,7 @@ import SplashScene from "./components/SplashScene.jsx";
 import HeuteTab from "./components/HeuteTab.jsx";
 import SessionsView from "./components/SessionsView.jsx";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
-import { daysBetween } from "./lib/session.js";
-import { setUpdateHold } from "./lib/updateGate.js";
+import { dayKeyOf, restStatus } from "./lib/session.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
 const SPLASH_MS = 2000;
@@ -68,8 +67,6 @@ export default function App() {
   const [tab, setTab] = useState("heute");
   // Unterseite über dem Tab: null | { type: "settings" } | { type: "level", trackId, levelId }
   const [view, setView] = useState(null);
-  // Heute-Plan überlebt den Sprung in die Level-Detailseite
-  const [today, setToday] = useState({ type: "voll", offsets: {} });
 
   useEffect(() => {
     const t = setTimeout(() => setScreen(st.dog.name ? "app" : "onboard"), SPLASH_MS);
@@ -83,12 +80,17 @@ export default function App() {
 
   useEffect(() => { window.scrollTo(0, 0); }, [tab, view]);
 
-  // Update zurückhalten, solange der heutige Plan im Heute-Tab offen ist. Der Plan (Typ, getauschte Blöcke)
-  // liegt nur im State; ein Reload würde ihn zurücksetzen. Gilt auch für Detailseite/Einstellungen aus Heute.
-  const doneToday = st.sessions.some((s) => s?.date && !isNaN(new Date(s.date)) && daysBetween(new Date(s.date), new Date()) === 0);
-  useEffect(() => {
-    setUpdateHold("plan", screen === "app" && tab === "heute" && !doneToday);
-  }, [screen, tab, doneToday]);
+  // Heutiger Sessionplan liegt in edc-v3 (st.plan). Von heute: unverändert. Älter oder keiner: neu planen,
+  // bei fälligem Ruhetag startet der Umschalter auf Kurzübung. Ein Reload ändert den Plan dadurch nicht mehr;
+  // die Update-Sperre gilt deshalb nur noch für den offenen Bewertungsdialog (HeuteTab).
+  const freshPlan = (state) => ({ date: dayKeyOf(), type: restStatus(state) ? "kurz" : "voll", offsets: {}, picks: null });
+  const today = st.plan?.date === dayKeyOf() ? st.plan : freshPlan(st);
+  const setToday = (upd) =>
+    setSt((p) => {
+      const cur = p.plan?.date === dayKeyOf() ? p.plan : freshPlan(p);
+      const next = typeof upd === "function" ? upd(cur) : upd;
+      return { ...p, plan: { ...next, date: dayKeyOf() } };
+    });
 
   const setDog = (dog) => setSt((p) => ({ ...p, dog }));
   const setTheme = (theme) => setSt((p) => ({ ...p, settings: { ...p.settings, theme } }));
@@ -98,12 +100,11 @@ export default function App() {
 
   // ─── Zurücksetzen (Einstellungen) ───────────────────────────
   const clearSessions = () => setSt((p) => ({ ...p, sessions: [] }));
-  const resetProgress = () => setSt((p) => ({ ...p, tracks: freshState().tracks, sessions: [], trophies: [] }));
+  const resetProgress = () => setSt((p) => ({ ...p, tracks: freshState().tracks, sessions: [], trophies: [], plan: null }));
   const resetApp = () => {
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
     // Frischer State hat keinen Hundenamen und wird deshalb nicht erneut gespeichert
     setSt(freshState());
-    setToday({ type: "voll", offsets: {} });
     setView(null);
     setTab("heute");
     setScreen("onboard");

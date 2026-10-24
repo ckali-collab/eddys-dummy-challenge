@@ -22,7 +22,8 @@ const fmtLong = (iso) =>
 
 const typeLabel = (id) => SESSION_TYPES.find((t) => t.id === id)?.short ?? NA;
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : NA);
-const durchgaenge = (n) => (typeof n === "number" && n > 0 ? `${n} ${n === 1 ? "Durchgang" : "Durchgänge"}` : NA);
+// Belastung je Block (neu). Alte Einträge hatten stattdessen reps mit anderer Bedeutung: dann "–".
+const blockLoad = (b) => (typeof b?.load === "number" ? (b.load ? `Belastung ${b.load}` : "ohne Belastung") : NA);
 
 const levelName = (trackId, levelId) => {
   const t = getTrack(trackId);
@@ -86,7 +87,7 @@ const RatingPill = ({ id }) => {
 const countedText = (s) => {
   if (!Array.isArray(s.counted)) return `Gezählt: ${NA}`;
   if (!s.counted.length) return "Nichts gezählt";
-  return s.counted.map((c) => `+1 ${levelName(c?.trackId, c?.levelId)} (${num(c?.reps)} von ${num(c?.of)})`).join(", ");
+  return s.counted.map((c) => `+1 Tag ${levelName(c?.trackId, c?.levelId)} (${num(c?.reps)} von ${num(c?.of)})`).join(", ");
 };
 
 export default function SessionItem({ s, defaultOpen = false }) {
@@ -106,14 +107,14 @@ export default function SessionItem({ s, defaultOpen = false }) {
       </button>
       {open && <div className="sess-body">
         <p className="sess-meta">
-          {fmtLong(s.date)} · {typeLabel(s.type)} · Belastung: {num(s.load)} von max. {num(s.limit)}
+          {fmtLong(s.date)} · {typeLabel(s.type)}{s.load !== 0 && ` · Belastung: ${num(s.load)} von max. ${num(s.limit)}`}
         </p>
         <ul className="sess-blocks">
           {blocks.map((b, i) => (
             <li key={i}>
               <span className="sess-role">{ROLE_LABEL[b?.role] ?? NA}</span>
               <span className="sess-name">{blockName(b)}</span>
-              <span className="sess-reps">{b?.trackId ? durchgaenge(b.reps) : NA}</span>
+              <span className="sess-reps">{b?.trackId ? blockLoad(b) : NA}{b?.cut ? ` · ${b.cut}` : ""}</span>
               <RatingPill id={b?.rating} />
             </li>
           ))}

@@ -22,6 +22,7 @@ export const freshState = () => ({
   sessions: [],
   trophies: [],
   settings: { theme: "system" },
+  plan: null, // heutiger Sessionplan: { date, type, offsets, picks }
 });
 
 // Guards an der Datengrenze: fehlende Tracks/Level (z.B. nach Datenerweiterung)
@@ -44,6 +45,15 @@ const normalize = (raw) => {
     tracks,
     sessions: Array.isArray(raw.sessions) ? raw.sessions : [],
     trophies: Array.isArray(raw.trophies) ? raw.trophies : [],
+    // plan kam nachträglich dazu. Unvollständig oder kaputt → neu planen.
+    plan: raw.plan && typeof raw.plan.date === "string" && typeof raw.plan.type === "string"
+      ? {
+          date: raw.plan.date,
+          type: raw.plan.type,
+          offsets: raw.plan.offsets && typeof raw.plan.offsets === "object" ? raw.plan.offsets : {},
+          picks: raw.plan.picks && typeof raw.plan.picks === "object" ? raw.plan.picks : null,
+        }
+      : null,
     settings: {
       theme: THEMES.includes(raw.settings?.theme) ? raw.settings.theme : "system",
     },

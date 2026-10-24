@@ -1,25 +1,31 @@
-import { IconTile } from "./TrackIcon.jsx";
+import { IconTile, TrackIcon } from "./TrackIcon.jsx";
+import { gearLabel, gearIcon } from "../lib/gear.js";
 
-// Equipment-Zuordnung über Schlüsselwörter (vorläufig, wird im Equipment-Schritt sauberer)
-export const gearIcon = (label) => {
-  const s = label.toLowerCase();
-  if (s.includes("pocket")) return "pocket-dummy";
-  if (s.includes("dummy")) return "dummy";
-  if (s.includes("pfeife")) return "whistle";
-  if (s.includes("markierstab") || s.includes("markierstäb")) return "marker-pole";
-  return null;
-};
-
-// Equipment im Fließtext: kleine Kachel in --tile-icon, damit die dunkelbraune Kontur
-// auch im Dunkelmodus nie direkt auf der dunklen Karte steht. Text immer daneben.
-export const GearList = ({ gear }) => (
+// Equipment im Fließtext (Track-Karte, Detailseite): kleine Kachel in --tile-icon, damit die dunkelbraune
+// Kontur auch im Dunkelmodus nie direkt auf der dunklen Karte steht. Text immer daneben.
+export const GearList = ({ gear, dummyType, dog }) => (
   <ul className="gear-list">
-    {gear.map((g) => {
-      const name = gearIcon(g);
+    {gear.map((item) => {
+      const icon = gearIcon(item, dummyType);
       return (
-        <li key={g} className="gear-item">
-          {name && <IconTile name={name} size={24} icon={18} radius={7} />}
-          <span>{g}</span>
+        <li key={item.id} className={`gear-item${item.optional ? " is-optional" : ""}`}>
+          {icon && <IconTile name={icon} size={24} icon={18} radius={7} />}
+          <span>{gearLabel(item, dummyType, dog)}</span>
+        </li>
+      );
+    })}
+  </ul>
+);
+
+// Packliste im Heute-Tab: Icons ohne Kachel (Vorgabe), Text daneben
+export const PackList = ({ list, dog }) => (
+  <ul className="gear-list pack-list">
+    {list.items.map((item) => {
+      const icon = gearIcon(item, list.dummyType);
+      return (
+        <li key={item.id} className="gear-item">
+          {icon && <TrackIcon name={icon} size={22} />}
+          <span>{gearLabel(item, list.dummyType, dog)}</span>
         </li>
       );
     })}

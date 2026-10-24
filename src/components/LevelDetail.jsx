@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { TERRAIN } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
-  allSameDay, jointWarnings,
+  countedToday, jointWarnings,
 } from "../lib/progress.js";
 import { IconAlert, IconCheck } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -30,6 +30,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const level = getLevel(trackId, levelId);
   const prog = levelProgress(st, trackId, levelId);
   const done = isLevelDone(st, trackId, levelId);
+  const today = countedToday(prog);
   const next = nextLevel(track, levelId);
   const terrain = TERRAIN.find((t) => t.level === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
@@ -59,7 +60,12 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         <p className="criteria">{level.criteria}</p>
       </Section>
 
-      <Section title="Ablauf">
+      <Section title="Ein Durchgang">
+        <p className="run">{level.run}</p>
+      </Section>
+
+      <Section title="Aufbau über mehrere Wochen">
+        <p className="muted">In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen.</p>
         <ol className="steps">
           {level.steps.map((s, i) => <li key={i}>{s}</li>)}
         </ol>
@@ -81,13 +87,16 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       )}
 
       <Section title="Equipment">
-        {track.gear.length ? <GearList gear={track.gear} /> : <p>Kein Equipment nötig.</p>}
+        {level.gear.length
+          ? <GearList gear={level.gear} dummyType={level.dummyType} dog={st.dog} />
+          : <p>Kein Equipment nötig.</p>}
       </Section>
 
       <Section title="Fortschritt">
         <div className={`card progress ${done ? "is-done" : ""}`}>
+          {/* Der Zähler zählt Tage mit gelungenem Durchgang, nicht Wiederholungen */}
           <p className="progress-count" aria-live="polite">
-            <strong>{prog.reps}</strong> von {level.reps}
+            <strong>{prog.reps}</strong> von {level.reps} {level.reps === 1 ? "Tag" : "Tagen"}
           </p>
           <div className="pips" aria-hidden="true">
             {Array.from({ length: level.reps }, (_, i) => (
@@ -101,14 +110,12 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
               {next && <p className="small">{LEVEL_LABEL[next.id]} ist jetzt offen.</p>}
             </div>
           )}
-          {done && allSameDay(prog) && (
-            <p className="notice">Alle Durchgänge am selben Tag – prüfe es noch an einem anderen Ort.</p>
-          )}
 
           <div className="stack" style={{ gap: 10 }}>
-            <button type="button" className="btn" disabled={done} onClick={() => onCount(trackId, levelId)}>
-              Durchgang zählen
+            <button type="button" className="btn" disabled={done || today} onClick={() => onCount(trackId, levelId)}>
+              {today && !done ? "Heute schon gezählt" : "Heutigen Durchgang zählen"}
             </button>
+            {!done && <p className="small muted">Zählt einmal pro Tag. Ein Level gilt erst, wenn es an verschiedenen Tagen klappt.</p>}
             {confirmReset ? (
               <button type="button" className="btn btn-danger"
                 onClick={() => {

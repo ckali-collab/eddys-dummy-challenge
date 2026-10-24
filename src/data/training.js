@@ -96,15 +96,17 @@ export const TRACKS = [
     group: "grund",
     short: "Anhalten und Sitzen auf einen kurzen Pip",
     desc: "Grundlage für alles. Ohne zuverlässigen Stopp ist kein Handling möglich.",
-    gear: ["Pfeife"],
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "Stopp im Nahbereich",
         criteria: "Sitzt sofort auf einen leisen Pip, fünf von fünf Fällen, an drei verschiedenen Tagen.",
-        reps: 3,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "5 Stopps auf den leisen Pip aus einer der vier Varianten, über den Spaziergang verteilt. Dazwischen normal weitergehen.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Hund geht bei Fuß. Leise Pip pfeifen. Er setzt sich sofort hin.",
@@ -115,7 +117,7 @@ export const TRACKS = [
         tips: [
           "Immer leise pfeifen. Lautstärke ist keine Steigerung, sondern Lärm.",
           "Im Alltag das Wort Sitz durch den Pfiff ersetzen. Kostet keine Trainingszeit.",
-          "Maximal drei bis vier Stopps pro Spaziergang.",
+          "Ein Durchgang pro Spaziergang, nicht mehr.",
         ],
         warning: "Zu viele Wiederholungen führen dazu, dass der Hund beim Rausschicken von selbst stoppt.",
       },
@@ -123,8 +125,11 @@ export const TRACKS = [
         id: "silber",
         title: "Stopp auf Distanz und aus der Bewegung",
         criteria: "Stopp auf 25 Meter, auch beim Schnüffeln oder Laufen. Vier saubere Stopps in Folge, drei verschiedene Orte.",
-        reps: 4,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "4 saubere Stopps auf 25 Meter an einem Ort, jeder Stopp wird belohnt (Rückruf oder Dummywurf).",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 2, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Hund sucht oder schnüffelt frei auf etwa 25 Meter. Pip. Er stoppt, sitzt, schaut dich an.",
@@ -141,8 +146,11 @@ export const TRACKS = [
         id: "gold",
         title: "Stopp im Lauf auf den Dummy",
         criteria: "Stopp auf 40 Meter während des Laufs zum Dummy, und Stopp bei realer Ablenkung. Je drei saubere Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "Ein Stopp während des Laufs auf den Dummy, danach weiterschicken. Mehr nicht.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 2, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Dummy werfen, Hund schicken.",
@@ -166,15 +174,17 @@ export const TRACKS = [
     group: "grund",
     short: "Direktes Zurückkommen auf zwei lange Töne",
     desc: "Gerade Linie, kein Zickzack, kein Schnüffeln unterwegs.",
-    gear: ["Pfeife"],
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "Rückruf aus ruhiger Situation",
         criteria: "20 Meter, gerade Linie, Vorsitzen. Fünf schnelle Reaktionen auf das erste Signal in Folge.",
-        reps: 5,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "5 Rückrufe auf 20 Meter, jeder mit Vorsitzen, Lob und anschließender Freigabe.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
@@ -191,8 +201,11 @@ export const TRACKS = [
         id: "silber",
         title: "Rückruf aus der Beschäftigung",
         criteria: "40 Meter, Hund ist aktiv am Schnüffeln oder Suchen. Fünf schnelle Reaktionen in Folge.",
-        reps: 5,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "5 Rückrufe auf 40 Meter, jedes Mal erst abwarten, bis er wirklich vertieft ist.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
@@ -207,8 +220,11 @@ export const TRACKS = [
         id: "gold",
         title: "Rückruf unter sozialer Ablenkung",
         criteria: "Kommt auf das erste Signal, während andere Hunde in der Nähe spielen. Drei Durchgänge an verschiedenen Tagen.",
-        reps: 3,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "Ein Rückruf auf der aktuellen Distanzstufe, danach wieder freigeben und weiterspielen lassen.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
@@ -233,15 +249,17 @@ export const TRACKS = [
     group: "grund",
     short: "Position, Tempo, Richtung",
     desc: "Ruhig neben dir, ohne Ziehen, ohne Vorauslaufen. In bewussten Phasen, nicht den ganzen Spaziergang.",
-    gear: [],
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "50 Meter ohne Ziehen",
         criteria: "50 Meter off-lead bei Fuß auf bekanntem Weg, keine Leinenspannung, kein Vorlaufen.",
-        reps: 3,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "2 bewusste Fuß-Phasen à 50 Meter, jeweils angekündigt und mit Freigabe beendet.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Bewusste Fuß-Phase ankündigen, 50 Meter gehen, dann freigeben.",
@@ -254,8 +272,11 @@ export const TRACKS = [
         id: "silber",
         title: "Tempo- und Richtungswechsel",
         criteria: "Bleibt bei Fuß bei abrupten Tempo- und Richtungswechseln, 100 Meter am Stück.",
-        reps: 3,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "100 Meter am Stück mit mindestens 4 Tempowechseln und 2 Kehrtwendungen.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Tempo variieren, Kehrtwendungen gehen, stehenbleiben und weitergehen.",
@@ -268,8 +289,11 @@ export const TRACKS = [
         id: "gold",
         title: "Automatisches Sitzen unter Ablenkung",
         criteria: "Du bleibst stehen, Hund sitzt automatisch ohne Kommando - auch bei Fahrrad oder Jogger. Fünf Mal in Folge.",
-        reps: 5,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "5 Halts ohne Kommando, davon mindestens 2 mit vorbeikommender Ablenkung.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 0, // Belastungspunkte pro Durchgang
+        gear: [],
+        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "An belebteren Wegen üben.",
@@ -289,15 +313,17 @@ export const TRACKS = [
     group: "apport",
     short: "Warten statt Losrennen",
     desc: "Erweiterung des Grundgehorsams. Der Hund entscheidet selbst zu warten. Immer off-lead - mit Leine trainierst du nichts.",
-    gear: ["Dummy", "Pfeife"],
     requires: ["C:bronze"],
     levels: [
       {
         id: "bronze",
         title: "Warten nach dem Wurf",
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, vier Durchgänge ohne Durchbrechen.",
-        reps: 4,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "4 Würfe mit Wartezeit auf der aktuellen Stufe (3, 5 oder 8 Sekunden), danach Apport.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 2, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }],
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Hund sitzt off-lead in Fuß oder Ran.",
@@ -315,8 +341,11 @@ export const TRACKS = [
         id: "silber",
         title: "Warten bei Bewegung und zweitem Dummy",
         criteria: "Hält den Sitz, während du fünf Schritte weggehst oder ein zweiter Dummy fliegt. Vier Durchgänge.",
-        reps: 4,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "4 Wiederholungen einer Variante (Schritt zur Seite, Weggehen, Markierstab setzen, zweiter Dummy).",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 2, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 1 }],
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
@@ -331,8 +360,11 @@ export const TRACKS = [
         id: "gold",
         title: "Walk-up und Honouring",
         criteria: "Bleibt bei Fuß, wenn ein Dummy aus der Bewegung heraus fliegt. Und bleibt ruhig sitzen, während ein anderer Hund arbeitet. Je drei Durchgänge.",
-        reps: 3,
-        counts: false, // zählt gegen die Belastung (retrievesPerSession)
+        run: "Eine Walk-up-Sequenz mit seitlichem Wurf und eine Honouring-Phase, während ein anderer Hund arbeitet.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 1, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }],
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: "walkup",
         steps: [
           "Walk-up: Hund läuft off-lead bei Fuß, ihr geht gemeinsam.",
@@ -354,15 +386,18 @@ export const TRACKS = [
     group: "apport",
     short: "Sauber in die Hand geben",
     desc: "Die meisten Abgabeprobleme entstehen drei bis vier Schritte vor dem Hundeführer.",
-    gear: ["Dummy"],
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "In die Hand, ohne Ablegen",
         criteria: "Bringt den Dummy bis in die Hand, legt nicht ab, bei zehn Retrieves hintereinander.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "10 kurze Retrieves bis 10 Meter, jedes Mal rückwärts gehen und ruhig abnehmen.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 5, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }],
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
         steps: [
           "Kurze Retrieves, maximal 10 Meter.",
@@ -379,8 +414,12 @@ export const TRACKS = [
         id: "silber",
         title: "Sitzen bei der Abgabe",
         criteria: "Sitzt vor dir ab und hält den Dummy, bis du ihn nimmst. Zehn Retrieves.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "10 Retrieves mit Vorsitzen und Halten, bis du den Dummy nimmst.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 5, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }],
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
         steps: [
           "Erst wenn Bronze sicher sitzt.",
@@ -394,8 +433,11 @@ export const TRACKS = [
         id: "gold",
         title: "Abgabe unter Erregung",
         criteria: "Saubere Abgabe nach langem Retrieve, nach Wasserarbeit und nach Mehrfachmarken. Je drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 Abgaben in hoher Erregung, je eine nach langem Retrieve, nach Wasser und nach Mehrfachmarke.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 3, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 2 }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
@@ -418,15 +460,18 @@ export const TRACKS = [
     group: "suche",
     short: "Einzel-, Doppel-, Dreifachmarke",
     desc: "Marking heißt: die Flugbahn verfolgen und sich die Position merken. Nicht den Dummy liegen sehen. Hohes Gras ist deshalb kein Hindernis.",
-    gear: ["1-3 Dummys", "Markierstäbe"],
     requires: ["D:bronze", "E:bronze"],
     levels: [
       {
         id: "bronze",
         title: "Einzelmarke",
         criteria: "Direkter Weg hin und zurück, sauberes Apportieren, 20 bis 30 Meter, auf drei verschiedenen Geländearten je drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 bis 5 Einzelmarken auf 20 bis 30 Meter auf einer Geländeart.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 4, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1, optional: true }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        amount: { n: 5, min: 3, unit: "Einzelmarken" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "single-mark",
         steps: [
           "Hund sitzt in Fuß oder Ran neben dir.",
@@ -444,8 +489,12 @@ export const TRACKS = [
         id: "silber",
         title: "Doppelmarke",
         criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "2 Doppelmarken-Sequenzen, jeweils zuletzt geworfener Dummy zuerst.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 4, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 2, optional: true }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        amount: { n: 2, unit: "Doppelmarken-Sequenzen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "double-mark",
         steps: [
           "Ersten Dummy werfen, etwa auf 10 Uhr, 25 Meter. Markierstab setzen.",
@@ -463,8 +512,11 @@ export const TRACKS = [
         id: "gold",
         title: "Dreifachmarke",
         criteria: "Alle drei in richtiger Reihenfolge, zwei komplette Sequenzen ohne Hilfe.",
-        reps: 2,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "Eine komplette Dreifachmarken-Sequenz. Danach Ruhetag, bei Gelenkbefund zwei.",
+        reps: 2, // Tage mit gelungenem Durchgang
+        load: 3, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 3 }, { id: "markierstab", n: 3, optional: true }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: "triple-mark",
         steps: [
           "Drei Dummys in etwa 120-Grad-Abständen werfen.",
@@ -473,7 +525,7 @@ export const TRACKS = [
           "Körper jeweils zur nächsten Position drehen.",
         ],
         tips: [
-          "Maximal zwei Sequenzen, danach Ruhetag.",
+          "1 Sequenz pro Session, danach Ruhetag.",
           "Bei Gelenkeinschränkung zwei Ruhetage.",
         ],
         warning: "Hohe geistige und körperliche Beanspruchung.",
@@ -488,15 +540,17 @@ export const TRACKS = [
     group: "suche",
     short: "Zone absuchen mit der Nase",
     desc: "Der Hund wird in eine Zone geschickt und sucht dort selbstständig. Kein Richtungskommando.",
-    gear: ["Dummy", "Markierstab"],
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "Zone auf kurzer Distanz",
         criteria: "Findet selbstständig ohne Hilfe, 15 Meter, kurzes Gras, drei verschiedene Richtungen.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 Zonensuchen auf 15 Meter in drei verschiedenen Richtungen.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 2, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Dummy ablegen, während der Hund wegschaut. Markierstab setzen.",
@@ -515,8 +569,11 @@ export const TRACKS = [
         id: "silber",
         title: "Größere Zone mit Zeitverzögerung",
         criteria: "30 Meter, mittleres Gras, 2 Minuten Verzögerung, drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 Zonensuchen auf 30 Meter, je 2 Minuten Verzögerung.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 3, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Dummy auf 30 Meter ablegen, Markierstab setzen.",
@@ -530,8 +587,11 @@ export const TRACKS = [
         id: "gold",
         title: "Komplexes Gelände",
         criteria: "50 Meter und mehr, hohes Gras oder Waldrand, 5 Minuten Verzögerung, drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 Zonensuchen auf 50 Meter und mehr, je 5 Minuten Verzögerung.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 3, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Dummy in schwierigem Gelände ablegen, Markierstab setzen.",
@@ -551,15 +611,18 @@ export const TRACKS = [
     group: "handling",
     short: "Voran, Back, Links, Rechts, Blind",
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
-    gear: ["Dummys", "Pfeife", "Markierstäbe"],
     requires: ["A:silber"],
     levels: [
       {
         id: "bronze",
         title: "Memory Retrieve und Voran",
         criteria: "Läuft auf Voran mindestens 35 Meter geradeaus auf einen unsichtbaren Dummy, auf zwei Geländestufen je drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 Memory Retrieves auf etwa 30 Meter plus 1 Voran auf der aktuellen Distanzstufe.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 4, // Belastungspunkte pro Durchgang
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1, optional: true }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        amount: { n: 3, unit: "Memory Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "memory-retrieve",
         steps: [
           "Memory Retrieve: Hund bei Fuß, gemeinsam zum Ablagepunkt gehen, etwa 30 Meter.",
@@ -581,8 +644,12 @@ export const TRACKS = [
         id: "silber",
         title: "Back, Links, Rechts und Memory Blind",
         criteria: "Nimmt alle drei Richtungssignale nach Stopp-Pfiff an, auf 15 Meter je drei Durchgänge pro Richtung. Plus Memory Blind auf 35 Meter mit maximal einer Korrektur.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "3 Einweisungen in der aktuellen Stufe, jede nach Stopp-Pfiff, plus 1 Memory Blind.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 4, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }, { id: "markierstab", n: 2, optional: true }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        amount: { n: 3, unit: "Einweisungen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "directions",
         steps: [
           "Schritt 1: Back allein. Stopp-Pfiff, Arm über Kopf, Back. Kennt er als Voran-Variante, daher sofortiger Erfolg.",
@@ -602,8 +669,11 @@ export const TRACKS = [
         id: "gold",
         title: "Cold Blind, Clock Face, Kombination",
         criteria: "Findet einen unbekannten Blind auf 30 Meter mit maximal zwei Korrekturen, auf drei Geländestufen je drei Durchgänge.",
-        reps: 3,
-        counts: true, // zählt gegen die Belastung (retrievesPerSession)
+        run: "1 Cold Blind auf 30 Meter plus eine Clock-Face-Runde über zwei Positionen.",
+        reps: 3, // Tage mit gelungenem Durchgang
+        load: 3, // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }, { id: "markierstab", n: 2 }],
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: "clockface",
         steps: [
           "Clock Face: Hund sitzt in der Mitte. 12 Uhr Back, 3 Uhr Rechts, 6 Uhr zu dir hin, 9 Uhr Links.",
@@ -627,6 +697,7 @@ export const TRACKS = [
 // ─── Wasser-Modul ─────────────────────────────────────────────
 export const WATER_MODULE = {
   name: "Wasser",
+  gearLabel: "1 Dummy, schwimmfähig",
   desc: "Kein eigener Track, sondern eine Variante. Jede Übung aus Marking, Nasenarbeit oder Richtung kann ans Wasser verlegt werden, sobald sie an Land auf Silber sitzt.",
   rules: [
     "Nur im Sommer einführen. Kaltes Wasser beim Erstkontakt kann einen Hund dauerhaft abschrecken.",
@@ -646,8 +717,6 @@ export const SESSION_TYPES = [
     id: "voll",
     name: "Vollsession",
     short: "Vollsession",
-    mainReps: 5,   // Obergrenze Durchgänge im Hauptteil, wenn er in die Belastung zählt
-    drillReps: 3,  // Durchgänge, wenn der Hauptteil nicht in die Belastung zählt
     icon: "target",
     duration: "15-20 Min",
     desc: "Mit Equipment, gezielter Fokus",
@@ -662,8 +731,6 @@ export const SESSION_TYPES = [
     id: "kurz",
     name: "Kurzübung im Spaziergang",
     short: "Kurzübung",
-    mainReps: 3,
-    drillReps: 2,
     icon: "walk",
     duration: "5-10 Min",
     desc: "Kein Equipment nötig",
@@ -678,8 +745,6 @@ export const SESSION_TYPES = [
     id: "mini",
     name: "Mini-Session",
     short: "Mini-Session",
-    mainReps: 3,
-    drillReps: 2,
     icon: "pocket",
     duration: "5-10 Min",
     desc: "Pocket Dummy in der Jacke",
@@ -691,6 +756,9 @@ export const SESSION_TYPES = [
     allowedTracks: ["A", "B", "C", "D", "E", "G"],
   },
 ];
+
+// Tracks mit Dummyarbeit. Vollsession: unter den letzten drei soll mindestens eine einen davon als Hauptteil haben.
+export const APPORT_TRACKS = ["E", "F", "G", "H"];
 
 // Bevorzugte Tracks für Warm-up und Abschluss (aus den Block-Hinweisen oben)
 export const SESSION_ROLE_PREFS = {
@@ -738,13 +806,14 @@ export const PROFILE_FIELDS = {
   ],
 };
 
+// Belastungspunkte pro Session (Summe der load-Werte der Blöcke), siehe docs/durchgaenge.md
 export const LOAD_LIMITS = {
-  default:  { retrievesPerSession: 8, sessionsPerWeek: 2, restDays: 1 },
-  leicht:   { retrievesPerSession: 5, sessionsPerWeek: 2, restDays: 1 },
-  deutlich: { retrievesPerSession: 3, sessionsPerWeek: 1, restDays: 2 },
-  welpe:    { retrievesPerSession: 3, sessionsPerWeek: 2, restDays: 1 },
-  junghund: { retrievesPerSession: 5, sessionsPerWeek: 2, restDays: 1 },
-  senior:   { retrievesPerSession: 5, sessionsPerWeek: 1, restDays: 2 },
+  default:  { loadPerSession: 8, sessionsPerWeek: 2, restDays: 1 },
+  leicht:   { loadPerSession: 5, sessionsPerWeek: 2, restDays: 1 },
+  deutlich: { loadPerSession: 3, sessionsPerWeek: 1, restDays: 2 },
+  welpe:    { loadPerSession: 3, sessionsPerWeek: 2, restDays: 1 },
+  junghund: { loadPerSession: 5, sessionsPerWeek: 2, restDays: 1 },
+  senior:   { loadPerSession: 5, sessionsPerWeek: 1, restDays: 2 },
 };
 
 export const JOINT_WARNINGS = {
@@ -767,6 +836,24 @@ export const JOINT_WARNING_LEVELS = {
 
 // Profilwerte, bei denen Gelenkwarnungen eingeblendet werden
 export const JOINT_RESTRICTED = ["leicht", "deutlich"];
+
+// ─── Equipment ────────────────────────────────────────────────
+// Bezeichnungen für gear-Einträge (id → Einzahl/Mehrzahl, Icon aus public/icons/)
+export const GEAR_ITEMS = {
+  pfeife:      { one: "Pfeife",      many: "Pfeifen",      icon: "whistle" },
+  dummy:       { one: "Dummy",       many: "Dummys",       icon: "dummy" },
+  markierstab: { one: "Markierstab", many: "Markierstäbe", icon: "marker-pole" },
+};
+
+// Dummy-Gewicht aus dem Profil: Welpe/Junghund oder deutlicher Gelenkbefund → 250 g, sonst 500 g
+export const DUMMY_WEIGHT = { light: 250, standard: 500, lightAges: ["welpe", "junghund"], lightJoints: ["deutlich"] };
+
+// Texte für den Basics-Tab (noch nicht gerendert)
+export const EQUIPMENT_NOTES = {
+  gewichte: "Ein Standard-Dummy wiegt 500 Gramm. Für Welpen und Junghunde nimmst du 250 Gramm, damit Gebiss und Gelenke nicht unnötig belastet werden. Bei deutlichem Gelenkbefund bleibst du auch beim erwachsenen Hund bei 250 Gramm.",
+  pocketDummy: "Der Pocket Dummy ist kein Ersatz, sondern ein Zusatz für unterwegs: zu klein und zu leicht, um ihn aus Distanz fliegen zu sehen oder im Wasser zu arbeiten. Für Abgabe und Steadiness im Nahbereich reicht er.",
+  wasser: "Fast alle Canvas-Dummys schwimmen, du brauchst für den Anfang nichts Zusätzliches. Canvas saugt sich im Wasser aber voll, wird schwerer und bleibt lange feucht. Wenn du regelmäßig am Wasser arbeitest, lohnt ein Wasserdummy aus Kunststoff: trocknet sofort und liegt sichtbarer auf der Oberfläche. Helle Farben wie Weiß oder Orange helfen dir, die Linie deines Hundes im Wasser zu verfolgen.",
+};
 
 export const DISCLAIMER =
   "Die App ersetzt keine tierärztliche Beratung. Bei bekannten Vorerkrankungen Belastungsgrenzen mit dem Tierarzt abstimmen.";

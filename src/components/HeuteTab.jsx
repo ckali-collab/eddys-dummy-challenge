@@ -4,6 +4,8 @@ import { LEVEL_LABEL, getTrack, getLevel, levelProgress, jointWarnings } from ".
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
+import { PackList } from "./Gear.jsx";
+import { packingList } from "../lib/gear.js";
 import { setUpdateHold } from "../lib/updateGate.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
@@ -62,7 +64,7 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
 
 // ─── Block-Karte ──────────────────────────────────────────────
 const BlockCard = ({ st, block, onSwap, onOpen }) => {
-  const meta = `${block.minutes} Min · ${block.reps} ${block.reps === 1 ? "Durchgang" : "Durchgänge"}`;
+  const meta = `${block.minutes} Min${block.load ? ` · Belastung ${block.load}` : ""}`;
 
   if (block.kind === "fallback") {
     const fb = SESSION_FALLBACKS[block.role];
@@ -96,11 +98,14 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
             <Medal level={block.levelId} size={16} />
             <span>{LEVEL_LABEL[block.levelId]} · {level.title}</span>
           </span>
-          <span className="block-prog">{prog.reps} von {level.reps}</span>
+          <span className="block-prog">an {prog.reps} von {level.reps} Tagen geschafft</span>
         </span>
       </button>
-      {/* Kriterium statt Vorlagen-Hinweis: konkret, und kein Widerspruch zum Wiederholungs-Limit */}
-      <p className="block-hint">{level.criteria}</p>
+      {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
+      <p className="block-hint">{level.run}</p>
+      {block.cut && (block.cut.neutral
+        ? <p className="block-note">Heute: {block.cut.text}</p>
+        : <p className="block-warn"><IconAlert size={16} /> {block.cut.text}</p>)}
       {joints.map((w, i) => (
         <p key={i} className="block-warn"><IconAlert size={16} /> {w}</p>
       ))}
@@ -121,7 +126,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
   return (
     <section className="section">
       <h2>Wie lief’s?</h2>
-      <p className="muted">Ein „gut“ im Hauptteil zählt einen Durchgang auf dessen Level.</p>
+      <p className="muted">Ein „gut“ im Hauptteil zählt den heutigen Tag für dessen Level, einmal pro Tag.</p>
       {plan.blocks.map((b, i) => (
         <div key={b.role} className="card rate-card">
           <p className="block-role">{b.label}</p>
@@ -155,19 +160,38 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
     return () => setUpdateHold("rating", false);
   }, [mode]);
   const [result, setResult] = useState(null);
-  const plan = buildPlan(st, today.type, today.offsets);
+  const plan = buildPlan(st, today.type, today.offsets, today.picks);
   const rest = restStatus(st);
   const type = getSessionType(today.type);
+  const pack = packingList(plan.blocks);
 
+  // Gewählte Level festhalten, damit ein Reload denselben Plan zeigt
+  const picksKey = JSON.stringify(plan.picks);
+  useEffect(() => {
+    if (JSON.stringify(today.picks) !== picksKey) setToday((t) => ({ ...t, picks: plan.picks }));
+  }, [picksKey]);
+
+  // Tauschen: Seitenblock neu wählen, die anderen beiden bleiben. Hauptteil: Seitenblöcke hängen
+  // an ihm (Budget, kein Level doppelt) und werden mit neu geplant.
   const swap = (role) =>
-    setToday((t) => ({ ...t, offsets: { ...t.offsets, [role]: (t.offsets[role] || 0) + 1 } }));
-  const setType = (id) => setToday({ type: id, offsets: {} });
+    setToday((t) => ({
+      ...t,
+      offsets: { ...t.offsets, [role]: (t.offsets[role] || 0) + 1 },
+      picks: role === "main" || !t.picks ? null : { ...t.picks, [role]: undefined },
+    }));
+  const setType = (id) => setToday((t) => ({ ...t, type: id, offsets: {}, picks: null }));
+
+  // Hauptteil ohne offenes Level: nicht abschließbar; welcher Sessiontyp hat noch etwas offen?
+  const mainOpen = plan.blocks.find((b) => b.role === "main")?.kind === "level";
+  const openElsewhere = mainOpen ? [] : SESSION_TYPES.filter((t) => t.id !== today.type
+    && buildPlan(st, t.id).blocks.find((b) => b.role === "main")?.kind === "level").map((t) => t.short);
 
   const save = (ratings) => {
     const r = recordSession(st, plan, ratings);
     setSt(r.state);
-    setResult({ counted: r.counted, prevToday: today });
-    setToday((t) => ({ ...t, offsets: {} }));
+    setResult({ counted: r.counted, alreadyToday: r.alreadyToday, prevToday: today });
+    // Nächster Plan: neu wählen; ist jetzt ein Ruhetag fällig, steht der Umschalter auf Kurzübung
+    setToday((t) => ({ ...t, type: restStatus(r.state) ? "kurz" : t.type, offsets: {}, picks: null }));
     setMode("done");
     window.scrollTo(0, 0);
   };
@@ -183,7 +207,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
             <ul className="done-list">
               {result.counted.map((c) => (
                 <li key={`${c.trackId}:${c.levelId}`}>
-                  +1 {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]} ({c.reps} von {c.of})
+                  +1 Tag {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]} ({c.reps} von {c.of})
                   {c.completed && <strong className="done-badge"> geschafft</strong>}
                 </li>
               ))}
@@ -191,6 +215,11 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           ) : (
             <p className="muted">Kein Durchgang gezählt. Das ist in Ordnung – lieber ehrlich als schnell.</p>
           )}
+          {result.alreadyToday?.map((c) => (
+            <p key={`${c.trackId}:${c.levelId}`} className="small muted">
+              {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]} war heute schon gezählt. Es zählt einmal pro Tag.
+            </p>
+          ))}
           <button type="button" className="link-btn undo-link" onClick={() => {
             setSt((p) => undoLastSession(p));
             setToday(result.prevToday);
@@ -228,9 +257,16 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           ))}
         </div>
         <p className="small muted">
-          {type.duration} · {type.desc} · Belastung: {plan.load} von max. {plan.limit}
+          {type.duration} · {type.desc}{plan.load > 0 && ` · Belastung: ${plan.load} von max. ${plan.limit}`}
         </p>
       </section>
+
+      {pack.items.length > 0 && (
+        <section className="card pack" aria-labelledby="pack-title">
+          <h3 id="pack-title" className="block-role">Mitnehmen</h3>
+          <PackList list={pack} dog={st.dog} />
+        </section>
+      )}
 
       <div className="stack" style={{ gap: 14 }}>
         {plan.blocks.map((b) => (
@@ -238,9 +274,17 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
         ))}
       </div>
 
-      <button type="button" className="btn" onClick={() => { setMode("rate"); window.scrollTo(0, 0); }}>
+      <button type="button" className="btn" disabled={!mainOpen} onClick={() => { setMode("rate"); window.scrollTo(0, 0); }}>
         Session abschließen
       </button>
+      {!mainOpen && (
+        <p className="small muted">
+          Im Hauptteil ist nichts offen.{" "}
+          {openElsewhere.length
+            ? `Offene Level gibt es noch in: ${openElsewhere.join(", ")}.`
+            : "Alle freigeschalteten Level sind geschafft."}
+        </p>
+      )}
     </>
   );
 }

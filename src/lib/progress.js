@@ -46,11 +46,9 @@ export const reqLabel = ({ trackId, levelId }) => `${getTrack(trackId)?.name} ${
 
 const dayKey = (iso) => new Date(iso).toDateString();
 
-// Nur aussagekräftig, wenn für jeden Durchgang ein Datum vorliegt
-export const allSameDay = (progress) =>
-  progress.dates.length >= 2 &&
-  progress.dates.length === progress.reps &&
-  progress.dates.every((d) => dayKey(d) === dayKey(progress.dates[0]));
+// Der Zähler zählt Tage mit gelungenem Durchgang, nicht Wiederholungen: höchstens einmal pro Tag
+export const countedToday = (progress, now = new Date()) =>
+  progress.dates.some((d) => dayKey(d) === now.toDateString());
 
 export const jointWarnings = (dog, trackId, levelId) => {
   if (!JOINT_RESTRICTED.includes(dog.joints)) return [];
@@ -66,7 +64,7 @@ const setLevel = (st, trackId, levelId, value) => ({
 export const countRep = (st, trackId, levelId, now = new Date()) => {
   const lvl = getLevel(trackId, levelId);
   const cur = levelProgress(st, trackId, levelId);
-  if (!lvl || cur.reps >= lvl.reps) return st;
+  if (!lvl || cur.reps >= lvl.reps || countedToday(cur, now)) return st;
   const reps = cur.reps + 1;
   return setLevel(st, trackId, levelId, {
     reps,

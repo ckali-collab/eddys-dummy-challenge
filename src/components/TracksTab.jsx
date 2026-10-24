@@ -18,7 +18,7 @@ const LevelBadge = ({ st, track, level, onOpen }) => {
   return (
     <button type="button" className={`lvl lvl-${level.id} is-${state}`} disabled={!open}
       onClick={() => onOpen(track.id, level.id)}
-      aria-label={`${label}: ${done ? "geschafft" : open ? `${prog.reps} von ${level.reps}` : "gesperrt"}`}>
+      aria-label={`${label}: ${done ? "geschafft" : open ? `an ${prog.reps} von ${level.reps} Tagen` : "gesperrt"}`}>
       <span className="lvl-medal">
         <Medal level={level.id} />
         {done && <span className="lvl-check"><IconCheck size={11} /></span>}
@@ -34,6 +34,7 @@ const LevelBadge = ({ st, track, level, onOpen }) => {
 const TrackCard = ({ st, track, onOpen }) => {
   const unlocked = isTrackUnlocked(st, track);
   const missing = missingRequirements(st, track);
+  const current = track.levels.find((l) => !isLevelDone(st, track.id, l.id)) ?? track.levels[track.levels.length - 1];
 
   return (
     <article className={`card track ${unlocked ? "" : "is-locked"}`}>
@@ -58,9 +59,12 @@ const TrackCard = ({ st, track, onOpen }) => {
         ))}
       </div>
 
+      {/* Equipment des aktuellen Levels (gear steht je Level, nicht mehr je Track) */}
       <div className="track-gear small">
-        <span className="track-gear-label">Equipment:</span>
-        {track.gear.length ? <GearList gear={track.gear} /> : <span>keins nötig</span>}
+        <span className="track-gear-label">Equipment {LEVEL_LABEL[current.id]}:</span>
+        {current.gear.length
+          ? <GearList gear={current.gear} dummyType={current.dummyType} dog={st.dog} />
+          : <span>keins nötig</span>}
       </div>
     </article>
   );

@@ -450,6 +450,11 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .track { display: flex; flex-direction: column; gap: 14px; }
 .track-head { display: flex; gap: 12px; align-items: flex-start; }
 .gear-item .icon-tile { flex: none; }
+.gear-item.is-optional { color: var(--muted); }
+.pack { display: flex; flex-direction: column; gap: 10px; }
+.pack-list { gap: 8px 18px; font-size: 15px; }
+.pack-list .gear-item img { flex: none; }
+.block-note { font-size: var(--fs-label); color: var(--muted); }
 .track-titles { min-width: 0; }
 .track-short { color: var(--muted); margin-top: 2px; font-size: 17px; }
 .track-gear { color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
@@ -550,6 +555,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   border-left: 3px solid var(--accent);
   padding-left: 12px;
 }
+.run { font-size: 17px; font-weight: 500; }
 .steps, .tips { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .steps { counter-reset: step; }
 .steps li { counter-increment: step; display: grid; grid-template-columns: 30px 1fr; gap: 10px; }
