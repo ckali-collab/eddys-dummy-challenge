@@ -24,11 +24,9 @@
   --warn-fg: #4A3209;
   --danger-bg: #A33A2F12;
   --on-danger: #FDFBF7;
-  /* Track-Gruppenfarben (aus group-tokens.css). Equipment trägt keine Gruppenfarbe. */
-  --grp-grund-bg: #D7E2D0;    --grp-grund-fg: #2B5531;
-  --grp-apport-bg: #F2DBD0;   --grp-apport-fg: #7C3A20;
-  --grp-suche-bg: #F1E3C4;    --grp-suche-fg: #6B5011;
-  --grp-handling-bg: #D8DFEC; --grp-handling-fg: #2E4164;
+  /* Kachel unter den farbigen Icons. Ein Icon-Satz für beide Themes, nur die Kachel wechselt.
+     Auch dunkel bleibt sie hell getönt, sonst verschwindet die dunkelbraune Kontur der Icons. */
+  --tile-icon: #F3EEE3;
   --bronze-ink: #7A4426;
   --silver-ink: #53595F;
   --gold-ink: #704C18;
@@ -85,10 +83,7 @@
     --warn-fg: #F3DDB0;
     --danger-bg: #E07A6E14;
     --on-danger: #1A0F0D;
-    --grp-grund-bg: #26322A;    --grp-grund-fg: #9DC6A4;
-    --grp-apport-bg: #3A261E;   --grp-apport-fg: #E5A585;
-    --grp-suche-bg: #352C16;    --grp-suche-fg: #DFC277;
-    --grp-handling-bg: #212A3A; --grp-handling-fg: #A7BADA;
+    --tile-icon: #C9C0AC;
     --bronze-ink: #E09A68;
     --silver-ink: #B6BDC3;
     --gold-ink: #E0AC4A;
@@ -127,10 +122,7 @@
   --warn-fg: #F3DDB0;
   --danger-bg: #E07A6E14;
   --on-danger: #1A0F0D;
-  --grp-grund-bg: #26322A;    --grp-grund-fg: #9DC6A4;
-  --grp-apport-bg: #3A261E;   --grp-apport-fg: #E5A585;
-  --grp-suche-bg: #352C16;    --grp-suche-fg: #DFC277;
-  --grp-handling-bg: #212A3A; --grp-handling-fg: #A7BADA;
+  --tile-icon: #C9C0AC;
   --bronze-ink: #E09A68;
   --silver-ink: #B6BDC3;
   --gold-ink: #E0AC4A;
@@ -808,31 +800,21 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 }
 .btn-danger-solid { background: var(--danger); color: var(--on-danger); }
 
-/* ─── Icon-Kachel (Track-Gruppenfarbe) ─────────────────────── */
+/* ─── Icon-Kachel (farbige Icons, aus tile.css) ──────────────── */
+/* Größe und Radius setzt IconTile per Prop. Keine Gruppenfarbe: die Icons bringen ihre Palette mit. */
 .icon-tile {
-  --tile-bg: var(--grp-grund-bg);
-  --tile-fg: var(--grp-grund-fg);
   display: grid;
   place-items: center;
   flex: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  background: var(--tile-bg);
-  color: var(--tile-fg);
+  background: var(--tile-icon);
 }
-.icon-tile svg { width: 22px; height: 22px; }
-.icon-tile.is-lg { width: 46px; height: 46px; border-radius: 13px; }
-.icon-tile.is-lg svg { width: 27px; height: 27px; }
-.grp-grund { --tile-bg: var(--grp-grund-bg); --tile-fg: var(--grp-grund-fg); }
-.grp-apport { --tile-bg: var(--grp-apport-bg); --tile-fg: var(--grp-apport-fg); }
-.grp-suche { --tile-bg: var(--grp-suche-bg); --tile-fg: var(--grp-suche-fg); }
-.grp-handling { --tile-bg: var(--grp-handling-bg); --tile-fg: var(--grp-handling-fg); }
+/* Gesperrter Track: Kachel zurücknehmen, damit sie nicht das auffälligste Element der Karte ist */
+.track.is-locked .icon-tile { opacity: 0.45; filter: grayscale(0.7); }
 
 /* Equipment: Icon ohne Kachel, in --muted, Text immer daneben */
 .gear-list { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; padding: 0; list-style: none; }
 .gear-item { display: inline-flex; align-items: center; gap: 6px; }
-.gear-item svg { flex: none; color: var(--muted); }
+.gear-item img { flex: none; }
 
 /* ─── Platzhalter ───────────────────────────────────────────── */
 .placeholder {

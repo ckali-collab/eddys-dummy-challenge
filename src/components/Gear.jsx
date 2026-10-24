@@ -1,0 +1,26 @@
+import { TrackIcon } from "./TrackIcon.jsx";
+
+// Equipment-Zuordnung über Schlüsselwörter (vorläufig, wird im Equipment-Schritt sauberer)
+export const gearIcon = (label) => {
+  const s = label.toLowerCase();
+  if (s.includes("pocket")) return "pocket-dummy";
+  if (s.includes("dummy")) return "dummy";
+  if (s.includes("pfeife")) return "whistle";
+  if (s.includes("markierstab") || s.includes("markierstäb")) return "marker-pole";
+  return null;
+};
+
+// Equipment im Fließtext: Icon ohne Kachel, Text immer daneben
+export const GearList = ({ gear }) => (
+  <ul className="gear-list">
+    {gear.map((g) => {
+      const name = gearIcon(g);
+      return (
+        <li key={g} className="gear-item">
+          {name && <TrackIcon name={name} size={18} />}
+          <span>{g}</span>
+        </li>
+      );
+    })}
+  </ul>
+);

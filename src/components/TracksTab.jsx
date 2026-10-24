@@ -5,7 +5,8 @@ import {
 } from "../lib/progress.js";
 import { IconLock, IconCheck } from "./Icons.jsx";
 import Medal from "./Medal.jsx";
-import IconTile, { GearList } from "./IconTile.jsx";
+import { IconTile } from "./TrackIcon.jsx";
+import { GearList } from "./Gear.jsx";
 
 const LevelBadge = ({ st, track, level, onOpen }) => {
   const prog = levelProgress(st, track.id, level.id);
@@ -37,7 +38,7 @@ const TrackCard = ({ st, track, onOpen }) => {
   return (
     <article className={`card track ${unlocked ? "" : "is-locked"}`}>
       <div className="track-head">
-        <IconTile trackId={track.id} large />
+        <IconTile name={track.icon} size={46} icon={34} radius={14} />
         <div className="track-titles">
           <h2>{track.name}</h2>
           <p className="track-short">{track.short}</p>

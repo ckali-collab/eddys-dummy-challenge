@@ -53,12 +53,14 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Einstellungen → Gefahrenbereich: Sessions löschen / Fortschritt zurücksetzen (tracks, sessions, trophies) / App zurücksetzen
   (Key `edc-v3` entfernen, Onboarding). Jede Aktion mit Rückfrage, die konkret nennt, was gelöscht wird.
 
-## Icons und Gruppenfarben (2026-10-21)
-- `TrackIcons.jsx` (12 Icons, `TRACK_ICONS`), bewusst nicht `icons.jsx`: kollidiert unter Windows mit `Icons.jsx` (UI-Icons).
-- Tracks haben `icon` und `group` (grund/apport/suche/handling). Tokens `--grp-*-bg/-fg` in allen drei Theme-Blöcken.
-- `IconTile.jsx`: Kachel 38px / 46px (`large`), Farbe über Klasse `.grp-<group>`. `GearList` + `gearIcon()`:
-  Equipment-Icon per Schlüsselwort (pocket, dummy, pfeife, markierstab/markierstäb), ohne Kachel, in `--muted`.
-- Regeln: Icon nie ohne Text, keine Icons auf Level-Badges, alle svg `aria-hidden` + `focusable="false"`.
+## Icons (Stand 2026-10-24: farbige WebP statt SVG)
+- `public/icons/<name>.webp` (12 Stück, 96px, transparent), `TrackIcon.jsx`: `TrackIcon` (img) und `IconTile` (Kachel).
+  Ein Icon-Satz für beide Themes, nur die Kachel wechselt: `--tile-icon` hell #F3EEE3, dunkel #C9C0AC (bleibt hell getönt,
+  sonst verschwindet die dunkelbraune Kontur). Keine Gruppenfarben mehr (`--grp-*`, `TrackIcons.jsx` entfernt).
+- Größen: Track-Karte und Detailkopf 46/34, Heute-Blöcke 40/30, Equipment im Text 18 ohne Kachel.
+- Gesperrter Track: Kachel opacity .45 + grayscale(.7). Icons liegen im Precache (globPatterns enthält webp), offline getestet.
+- `Gear.jsx`: `gearIcon()` + `GearList` (Schlüsselwörter pocket, dummy, pfeife, markierstab/markierstäb).
+- Regeln: Icon nie ohne Text, keine Icons auf Level-Badges, Icons sind dekorativ (alt="", aria-hidden).
 - Verlaufszeile: Bewertungspunkt + Klartext, einzeilig; passt sie nicht, entfällt der Abschluss (Messung in `SummaryLine`).
   Ganze Zeile ist der Schalter, jüngster Eintrag offen.
 - Offen für den Trophäen-Schritt: `TROPHIES.desc` enthält noch „Gold in Track A erreicht“ (Buchstabe sichtbar).

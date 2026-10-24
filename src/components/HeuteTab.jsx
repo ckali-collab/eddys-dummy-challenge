@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { SESSION_TYPES, SESSION_FALLBACKS } from "../data/training.js";
-import { LEVEL_LABEL, getLevel, levelProgress, jointWarnings } from "../lib/progress.js";
+import { LEVEL_LABEL, getTrack, getLevel, levelProgress, jointWarnings } from "../lib/progress.js";
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
-import IconTile from "./IconTile.jsx";
+import { IconTile } from "./TrackIcon.jsx";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
 
@@ -88,7 +88,7 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
         <span className="block-meta">{meta}</span>
       </div>
       <button type="button" className="block-main" onClick={() => onOpen(block.trackId, block.levelId)}>
-        <IconTile trackId={block.trackId} />
+        <IconTile name={getTrack(block.trackId)?.icon} size={40} icon={30} radius={12} />
         <span className="block-text">
           <span className="block-track">{trackName(block.trackId)}</span>
           <span className="block-level">
