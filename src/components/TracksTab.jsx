@@ -7,7 +7,6 @@ import { IconLock, IconCheck } from "./Icons.jsx";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
-import useTileFit from "../lib/useTileFit.js";
 
 const LevelBadge = ({ st, track, level, onOpen }) => {
   const prog = levelProgress(st, track.id, level.id);
@@ -35,11 +34,10 @@ const LevelBadge = ({ st, track, level, onOpen }) => {
 const TrackCard = ({ st, track, onOpen }) => {
   const unlocked = isTrackUnlocked(st, track);
   const missing = missingRequirements(st, track);
-  const headRef = useTileFit(".track-titles");
 
   return (
     <article className={`card track ${unlocked ? "" : "is-locked"}`}>
-      <div className="track-head" ref={headRef}>
+      <div className="track-head">
         <IconTile name={track.icon} fit="card" />
         <div className="track-titles">
           <h2>{track.name}</h2>

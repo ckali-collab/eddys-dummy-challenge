@@ -57,10 +57,8 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - `public/icons/<name>.webp` (12 Stück, 96px, transparent), `TrackIcon.jsx`: `TrackIcon` (img) und `IconTile` (Kachel).
   Ein Icon-Satz für beide Themes, nur die Kachel wechselt: `--tile-icon` hell #F3EEE3, dunkel #C9C0AC (bleibt hell getönt,
   sonst verschwindet die dunkelbraune Kontur). Keine Gruppenfarben mehr (`--grp-*`, `TrackIcons.jsx` entfernt).
-- Größen (seit 2026-10-24, Icons 144px): Kachel so hoch wie der Textblock daneben. Grundmaß aus Schriftgröße × Zeilenhöhe
-  (`--tile-base` in `.fit-card`/`.fit-block`), bei Umbruch wächst sie bis 64px mit (`useTileFit` misst den Text → `--text-h`).
-  Icon = 72 % der Kachel über `round(72cqh)`. Detailkopf: Grundmaß der Track-Karte. Equipment: eigene Kachel 24/18, Radius 7.
-  Auf Handybreite bricht die Level-Zeile im Heute-Block meist um (4 Zeilen) → Kachel steht dort am Deckel 64px.
+- Größen (feste Grundmaße aus der Typografie, keine Laufzeitmessung): Track-Karte und Detailkopf 52/37,
+  Heute-Block 62/45, Equipment 24/18 mit eigener Kachel. Bricht Text um, bleibt unten Luft neben der Kachel (gewollt).
 - Gesperrter Track: Kachel opacity .45 + grayscale(.7). Icons liegen im Precache (globPatterns enthält webp), offline getestet.
 - `Gear.jsx`: `gearIcon()` + `GearList` (Schlüsselwörter pocket, dummy, pfeife, markierstab/markierstäb).
 - Regeln: Icon nie ohne Text, keine Icons auf Level-Badges, Icons sind dekorativ (alt="", aria-hidden).
@@ -87,6 +85,11 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 ## Architektur-Entscheidungen dieser Session
 - **vite-plugin-pwa statt handgeschriebenem `sw.js`**: Precache-Manifest mit Hashes wird automatisch erzeugt, es gibt kein manuelles Bumpen der Cache-Version und damit kein „alte Version hängt"-Problem.
 - **`autoUpdate`** statt Update-Banner: Solo-App ohne kritischen In-Flight-State, ein neuer SW darf sofort übernehmen.
+- **Update-Fix (2026-10-24):** vite-plugin-pwa 2.0 setzt bei `autoUpdate` weder `skipWaiting` noch `clientsClaim`, und das alte
+  injizierte `registerSW.js` schickte kein `SKIP_WAITING`. Neue Versionen warteten deshalb, bis alle App-Instanzen geschlossen
+  waren (installierte PWA: tagelang alt). Jetzt: `workbox.skipWaiting/clientsClaim: true`, `injectRegister: false`,
+  Registrierung in `src/main.jsx` über `virtual:pwa-register` + `registration.update()` bei `visibilitychange`
+  (höchstens alle 60 s). Neue Version übernimmt und lädt die Seite automatisch neu. End-to-end getestet.
 - **`navigateFallback: '/index.html'`**: SPA bleibt offline bei jeder URL erreichbar.
 
 ## Nicht anfassen / Gotchas
@@ -95,3 +98,4 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - `babel.config.json` wird von `@vitejs/plugin-react` nicht gelesen (Altlast, wirkungslos). Erst entfernen, wenn klar ist, dass kein anderes Tool sie braucht.
 - `SCHEMA_VERSION` in `src/lib/storage.js`: bei jeder Änderung am State-Shape (`freshState()`) bumpen. Default ist Wipe statt Migration.
 - Der SW ist nur im Build aktiv (`npm run build && npx vite preview`), nicht in `npm run dev`.
+- `netlify.toml` enthält noch eine Header-Regel für `/registerSW.js`; die Datei wird seit dem Update-Fix nicht mehr erzeugt (harmlos).

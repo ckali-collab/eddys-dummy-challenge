@@ -5,7 +5,6 @@ import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, 
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
-import useTileFit from "../lib/useTileFit.js";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
 
 // ─── Letzte Sessions ──────────────────────────────────────────
@@ -62,7 +61,6 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
 
 // ─── Block-Karte ──────────────────────────────────────────────
 const BlockCard = ({ st, block, onSwap, onOpen }) => {
-  const mainRef = useTileFit(".block-text"); // vor dem frühen Return, Hooks immer in gleicher Reihenfolge
   const meta = `${block.minutes} Min · ${block.reps} ${block.reps === 1 ? "Durchgang" : "Durchgänge"}`;
 
   if (block.kind === "fallback") {
@@ -89,7 +87,7 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
         <span className="block-role">{block.label}</span>
         <span className="block-meta">{meta}</span>
       </div>
-      <button type="button" className="block-main" ref={mainRef} onClick={() => onOpen(block.trackId, block.levelId)}>
+      <button type="button" className="block-main" onClick={() => onOpen(block.trackId, block.levelId)}>
         <IconTile name={getTrack(block.trackId)?.icon} fit="block" />
         <span className="block-text">
           <span className="block-track">{trackName(block.trackId)}</span>

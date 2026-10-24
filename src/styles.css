@@ -812,29 +812,19 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 /* Gesperrter Track: Kachel zurücknehmen, damit sie nicht das auffälligste Element der Karte ist */
 .track.is-locked .icon-tile { opacity: 0.45; filter: grayscale(0.7); }
 
-/* Kachel so hoch wie der Textblock daneben: Grundmaß aus Schriftgröße × Zeilenhöhe (wie das Header-Logo).
-   Bricht der Text um, wächst sie mit (--text-h misst useTileFit), höchstens bis --tile-max.
-   Das Icon ist 72 % der Kachelhöhe, auf ganze Pixel gerundet (Container-Einheit cqh). */
+/* Feste Kachelmaße, aus der Typografie des Textblocks daneben abgeleitet (wie das Header-Logo).
+   Kein Mitwachsen: bricht der Text auf mehr Zeilen um, bleibt unten Luft neben der Kachel.
+   Icon jeweils rund 72 % der Kachel. */
 .icon-tile.is-fit {
-  --tile-size: clamp(var(--tile-base), var(--text-h, var(--tile-base)), var(--tile-max));
   width: var(--tile-size);
   height: var(--tile-size);
   border-radius: 14px;
-  container-type: size;
 }
-.icon-tile.is-fit img { width: round(nearest, 72cqh, 1px); height: auto; }
-/* Track-Karte und Detailkopf: Name (h2) + Abstand + Kurzbeschreibung */
-.fit-card, .fit-head {
-  --tile-base: calc(20px * 1.15 + 2px + 17px * 1.55);
-  --tile-max: 64px;
-}
-/* Detailkopf: gleiche Regel wie die Track-Karte, ohne Mitwachsen (kein Textblock daneben) */
-.icon-tile.is-fit.fit-head { --tile-size: var(--tile-base); }
-/* Heute-Block: Trackname + Level-Zeile + Fortschritt (Zeilenhöhe 1.3 aus .block-text) */
-.fit-block {
-  --tile-base: calc(19px * 1.3 + 15px * 1.3 + 14px * 1.3);
-  --tile-max: 64px;
-}
+.icon-tile.is-fit img { width: var(--tile-img); height: var(--tile-img); }
+/* Track-Karte und Detailkopf: Name 20px × 1.15 + 2px + Kurzbeschreibung 17px × 1.55 = 51.35 → 52px */
+.fit-card, .fit-head { --tile-size: 52px; --tile-img: 37px; }
+/* Heute-Block: (19 + 15 + 14)px × 1.3 = 62.4 → 62px */
+.fit-block { --tile-size: 62px; --tile-img: 45px; }
 
 /* Equipment: Icon ohne Kachel, in --muted, Text immer daneben */
 .gear-list { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; padding: 0; list-style: none; }
