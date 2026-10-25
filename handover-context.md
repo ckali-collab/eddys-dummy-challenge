@@ -81,6 +81,10 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Sessionplan in edc-v3: `plan = { date, type, offsets, picks }` (additiv, kein Schema-Bump). Von heute: unverändert, sonst neu
   (bei Ruhetag startet Kurzübung). Update-Sperre nur noch für den Bewertungsdialog.
 - Hauptteil ohne offenes Level: „Session abschließen“ gesperrt, Hinweis auf Sessiontypen mit offenen Leveln.
+- Mini-Session: zusätzlich zu `allowedTracks` nur Level mit `dummyType` null oder "both" (`allowedDummyTypes`).
+  G Bronze ist "both". Packliste nutzt dieselbe 24px-Kachel wie der Fließtext.
+- Kriterien sprechen von „Durchgängen“ nur noch im neuen Sinn (Tage). „in Folge“/„Fünf Mal“ (B, C Gold) beschreibt,
+  was innerhalb eines Durchgangs passiert, und bleibt.
 - Trophäen/Basics noch Platzhalter.
 
 ## Letzter Deploy

@@ -22,11 +22,10 @@ export const WHISTLES = [
       "Wenn er beim Blind von der Linie abweicht",
     ],
     avoid: [
-      "Mehr als drei bis vier Mal pro Spaziergang",
       "Direkt nachdem er den Dummy aufgenommen hat (zerstört den flüssigen Rücklauf)",
       "Wenn du nicht durchsetzen kannst, dass er wirklich stoppt",
     ],
-    note: "Das Signal bedeutet für den Hund: Halt an, pass auf, gleich kommt etwas Gutes. Der Stopp muss sich lohnen.",
+    note: "Das Signal bedeutet für den Hund: Halt an, pass auf, gleich kommt etwas Gutes. Der Stopp muss sich lohnen. Ein Durchgang pro Spaziergang, nicht mehr. Bei Stopp-Pfiff Bronze sind das fünf Stopps.",
   },
   {
     id: "recall",
@@ -145,7 +144,7 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Stopp im Lauf auf den Dummy",
-        criteria: "Stopp auf 40 Meter während des Laufs zum Dummy, und Stopp bei realer Ablenkung. Je drei saubere Durchgänge.",
+        criteria: "Stopp auf 40 Meter während des Laufs zum Dummy. Drei Durchgänge an drei Tagen, davon mindestens einer bei realer Ablenkung.",
         run: "Ein Stopp während des Laufs auf den Dummy, danach weiterschicken. Mehr nicht.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
@@ -318,7 +317,7 @@ export const TRACKS = [
       {
         id: "bronze",
         title: "Warten nach dem Wurf",
-        criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, vier Durchgänge ohne Durchbrechen.",
+        criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Drei Durchgänge.",
         run: "4 Würfe mit Wartezeit auf der aktuellen Stufe (3, 5 oder 8 Sekunden), danach Apport.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
@@ -340,7 +339,7 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Warten bei Bewegung und zweitem Dummy",
-        criteria: "Hält den Sitz, während du fünf Schritte weggehst oder ein zweiter Dummy fliegt. Vier Durchgänge.",
+        criteria: "Hält den Sitz, während du fünf Schritte weggehst oder ein zweiter Dummy fliegt. Drei Durchgänge.",
         run: "4 Wiederholungen einer Variante (Schritt zur Seite, Weggehen, Markierstab setzen, zweiter Dummy).",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
@@ -359,7 +358,7 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Walk-up und Honouring",
-        criteria: "Bleibt bei Fuß, wenn ein Dummy aus der Bewegung heraus fliegt. Und bleibt ruhig sitzen, während ein anderer Hund arbeitet. Je drei Durchgänge.",
+        criteria: "Bleibt bei Fuß, wenn ein Dummy aus der Bewegung heraus fliegt, und bleibt ruhig sitzen, während ein anderer Hund arbeitet. Drei Durchgänge mit beiden Teilen.",
         run: "Eine Walk-up-Sequenz mit seitlichem Wurf und eine Honouring-Phase, während ein anderer Hund arbeitet.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang
@@ -432,7 +431,7 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Abgabe unter Erregung",
-        criteria: "Saubere Abgabe nach langem Retrieve, nach Wasserarbeit und nach Mehrfachmarken. Je drei Durchgänge.",
+        criteria: "Saubere Abgabe bei hoher Erregung. Drei Durchgänge, jeder mit allen drei Situationen: nach langem Retrieve, nach Wasserarbeit, nach Mehrfachmarke.",
         run: "3 Abgaben in hoher Erregung, je eine nach langem Retrieve, nach Wasser und nach Mehrfachmarke.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
@@ -465,7 +464,7 @@ export const TRACKS = [
       {
         id: "bronze",
         title: "Einzelmarke",
-        criteria: "Direkter Weg hin und zurück, sauberes Apportieren, 20 bis 30 Meter, auf drei verschiedenen Geländearten je drei Durchgänge.",
+        criteria: "Direkter Weg hin und zurück, sauberes Apportieren, 20 bis 30 Meter. Drei Durchgänge, verteilt auf drei verschiedene Geländearten.",
         run: "3 bis 5 Einzelmarken auf 20 bis 30 Meter auf einer Geländeart.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
@@ -550,7 +549,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: null,
         steps: [
           "Dummy ablegen, während der Hund wegschaut. Markierstab setzen.",
@@ -616,7 +615,7 @@ export const TRACKS = [
       {
         id: "bronze",
         title: "Memory Retrieve und Voran",
-        criteria: "Läuft auf Voran mindestens 35 Meter geradeaus auf einen unsichtbaren Dummy, auf zwei Geländestufen je drei Durchgänge.",
+        criteria: "Läuft auf Voran mindestens 35 Meter geradeaus auf einen unsichtbaren Dummy. Drei Durchgänge, davon mindestens einer auf anderem Gelände.",
         run: "3 Memory Retrieves auf etwa 30 Meter plus 1 Voran auf der aktuellen Distanzstufe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
@@ -643,7 +642,7 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Back, Links, Rechts und Memory Blind",
-        criteria: "Nimmt alle drei Richtungssignale nach Stopp-Pfiff an, auf 15 Meter je drei Durchgänge pro Richtung. Plus Memory Blind auf 35 Meter mit maximal einer Korrektur.",
+        criteria: "Nimmt alle drei Richtungssignale nach Stopp-Pfiff an, auf 15 Meter. Drei Durchgänge, in jedem zusätzlich ein Memory Blind auf 35 Meter mit höchstens einer Korrektur.",
         run: "3 Einweisungen in der aktuellen Stufe, jede nach Stopp-Pfiff, plus 1 Memory Blind.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
@@ -668,7 +667,7 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Cold Blind, Clock Face, Kombination",
-        criteria: "Findet einen unbekannten Blind auf 30 Meter mit maximal zwei Korrekturen, auf drei Geländestufen je drei Durchgänge.",
+        criteria: "Findet einen unbekannten Blind auf 30 Meter mit höchstens zwei Korrekturen. Drei Durchgänge, verteilt auf drei Geländestufen.",
         run: "1 Cold Blind auf 30 Meter plus eine Clock-Face-Runde über zwei Positionen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
@@ -722,7 +721,7 @@ export const SESSION_TYPES = [
     desc: "Mit Equipment, gezielter Fokus",
     blocks: [
       { role: "warmup",  minutes: 2,  label: "Warm-up",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
-      { role: "main",    minutes: 12, label: "Hauptteil", hint: "Das aktuell offene Level. Maximal 5 Wiederholungen." },
+      { role: "main",    minutes: 12, label: "Hauptteil", hint: "Das aktuell offene Level. Der Umfang richtet sich nach dem Belastungslimit aus dem Hundeprofil." },
       { role: "cooldown", minutes: 3, label: "Abschluss", hint: "Ein Level, das sicher gelingt. Bevorzugt Nasenarbeit oder einfache Marke." },
     ],
     allowedTracks: ["A", "B", "C", "D", "E", "F", "G", "H"],
@@ -754,6 +753,8 @@ export const SESSION_TYPES = [
       { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Zwei kurze Retrieves." },
     ],
     allowedTracks: ["A", "B", "C", "D", "E", "G"],
+    // Zusätzlich zu allowedTracks: nur Level ohne Dummy oder mit Pocket-Dummy-Option (Unterwegs-Szenario)
+    allowedDummyTypes: [null, "both"],
   },
 ];
 

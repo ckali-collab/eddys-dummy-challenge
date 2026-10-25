@@ -81,11 +81,14 @@ const lastMainTimes = (st) => {
 // d) Gleichstand: Trackfolge
 // Vollsession: Hatte keine der letzten drei Vollsessions einen Apport-Track als Hauptteil,
 // bekommt der am längsten nicht trainierte Apport-Track den Vorzug.
+// Sessiontyp kann Level zusätzlich nach dummyType einschränken (Mini-Session: nur null/"both")
+const dummyOk = (type, lvl) => !type.allowedDummyTypes || type.allowedDummyTypes.includes(lvl.dummyType ?? null);
+
 const mainCandidates = (st, type) => {
   const last = lastMainTimes(st);
   const list = TRACKS.filter((t) => type.allowedTracks.includes(t.id) && isTrackUnlocked(st, t))
     .map((t) => {
-      const open = t.levels.filter((l) => !isLevelDone(st, t.id, l.id) && isLevelUnlocked(st, t, l.id));
+      const open = t.levels.filter((l) => !isLevelDone(st, t.id, l.id) && isLevelUnlocked(st, t, l.id) && dummyOk(type, l));
       if (!open.length) return null;
       const lvl = [...open].sort(byKeys((l) => [levelProgress(st, t.id, l.id).reps > 0 ? 0 : 1, RANK[l.id]]))[0];
       return { trackId: t.id, levelId: lvl.id, last: last[t.id] ?? -Infinity };
@@ -104,7 +107,7 @@ const mainCandidates = (st, type) => {
 
 const doneLevels = (st, type) =>
   TRACKS.filter((t) => type.allowedTracks.includes(t.id))
-    .flatMap((t) => t.levels.filter((l) => isLevelDone(st, t.id, l.id)).map((l) => ({ trackId: t.id, levelId: l.id })));
+    .flatMap((t) => t.levels.filter((l) => isLevelDone(st, t.id, l.id) && dummyOk(type, l)).map((l) => ({ trackId: t.id, levelId: l.id })));
 
 // Warm-up/Abschluss: nur geschaffte Level. Ein Level kommt pro Session nie zweimal vor:
 // belegte Level (Hauptteil, anderer Seitenblock) sind ausgeschlossen, auch beim Tauschen.
