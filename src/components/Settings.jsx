@@ -51,7 +51,7 @@ const DangerZone = ({ state, onClearSessions, onResetProgress, onResetApp }) => 
       <p className="small">Diese Aktionen lassen sich nicht rückgängig machen.</p>
       <DangerAction id="sessions" open={open} setOpen={setOpen}
         label="Sessions löschen" confirmLabel={`Ja, ${sessions} löschen`}
-        text={`Löscht ${allSessions} aus dem Verlauf. Der Level-Fortschritt, dein Profil und das Farbschema bleiben.`}
+        text={`Löscht ${allSessions} aus dem Verlauf. Trophäen, die an der Anzahl der Sessions hängen, werden dadurch wieder gesperrt. Der Level-Fortschritt, dein Profil und das Farbschema bleiben.`}
         onConfirm={run(onClearSessions, "Sessions gelöscht.")} disabled={!n} />
       <DangerAction id="progress" open={open} setOpen={setOpen}
         label="Fortschritt zurücksetzen" confirmLabel="Ja, Fortschritt zurücksetzen"

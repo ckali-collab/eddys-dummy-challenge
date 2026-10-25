@@ -195,7 +195,8 @@ export const buildPlan = (st, typeId, offsets = {}, picks = null) => {
 // ─── Abschließen ──────────────────────────────────────────────
 // Nur "gut" auf dem Hauptteil zählt den Tag für dessen Level, höchstens einmal pro Tag.
 // "okay" und "noch nicht" ändern nichts: kein Zähler wird je verringert, kein Level zurückgesetzt.
-export const recordSession = (st, plan, ratings, now = new Date()) => {
+// extra.water: "Heute am Wasser gearbeitet" (nur Vollsession), für Trophäe und spätere Auswertung
+export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) => {
   let next = st;
   const counted = [];
   const alreadyToday = [];
@@ -221,6 +222,7 @@ export const recordSession = (st, plan, ratings, now = new Date()) => {
     type: plan.type,
     load: plan.load,
     limit: plan.limit,
+    ...(extra.water ? { water: true } : {}),
     blocks: plan.blocks.map((b, i) => ({
       role: b.role,
       trackId: b.trackId ?? null,

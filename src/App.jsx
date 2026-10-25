@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { freshState, loadState, saveState, applyTheme, STORAGE_KEY } from "./lib/storage.js";
 import ProfileForm from "./components/ProfileForm.jsx";
 import Settings from "./components/Settings.jsx";
@@ -7,6 +7,9 @@ import LevelDetail from "./components/LevelDetail.jsx";
 import SplashScene from "./components/SplashScene.jsx";
 import HeuteTab from "./components/HeuteTab.jsx";
 import SessionsView from "./components/SessionsView.jsx";
+import TrophiesTab from "./components/TrophiesTab.jsx";
+import TrophyUnlock from "./components/TrophyUnlock.jsx";
+import { syncTrophies, setManualTrophy } from "./lib/trophies.js";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
 import { dayKeyOf, restStatus } from "./lib/session.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
@@ -78,6 +81,20 @@ export default function App() {
   // Erst speichern, wenn ein Profil existiert. Vorher gibt es nichts zu sichern.
   useEffect(() => { if (st.dog.name) saveState(st); }, [st]);
 
+  // Trophäen bei jeder Zustandsänderung mit dem Zustand abgleichen: neu erfüllte freischalten,
+  // nicht mehr erfüllte (Rückgängig, Sessions gelöscht) wieder sperren. Der erste Abgleich nach dem
+  // Laden trägt bereits Erfülltes stillschweigend nach, danach gibt es für Neues die Animation.
+  const [unlockQueue, setUnlockQueue] = useState([]);
+  const syncedOnce = useRef(false);
+  useEffect(() => {
+    if (!st.dog.name) return;
+    const r = syncTrophies(st);
+    if (r.state !== st) setSt(r.state);
+    if (syncedOnce.current && r.unlocked.length) setUnlockQueue((q) => [...q, ...r.unlocked.filter((id) => !q.includes(id))]);
+    syncedOnce.current = true;
+  }, [st]);
+  const onManualTrophy = (id, on) => setSt((p) => setManualTrophy(p, id, on));
+
   useEffect(() => { window.scrollTo(0, 0); }, [tab, view]);
 
   // Heutiger Sessionplan liegt in edc-v3 (st.plan). Von heute: unverändert. Älter oder keiner: neu planen,
@@ -131,6 +148,7 @@ export default function App() {
     view?.type === "sessions" ? <SessionsView sessions={st.sessions} /> :
     view?.type === "level" ? <LevelDetail st={st} trackId={view.trackId} levelId={view.levelId} onCount={onCount} onReset={onReset} /> :
     tab === "tracks" ? <TracksTab st={st} onOpen={openLevel} /> :
+    tab === "trophaeen" ? <TrophiesTab st={st} onManual={onManualTrophy} /> :
     tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel}
       onOpenAll={() => setView({ type: "sessions" })} /> :
     <Placeholder tab={current} />;
@@ -158,6 +176,11 @@ export default function App() {
       <main className="main">
         {content}
       </main>
+
+      {unlockQueue.length > 0 && (
+        <TrophyUnlock id={unlockQueue[0]} dogName={st.dog.name} remaining={unlockQueue.length - 1}
+          onNext={() => setUnlockQueue((q) => q.slice(1))} />
+      )}
 
       <nav className="nav" aria-label="Hauptnavigation">
         <div className="nav-inner">

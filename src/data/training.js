@@ -363,7 +363,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
         diagram: "walkup",
         steps: [
           "Walk-up: Hund läuft off-lead bei Fuß, ihr geht gemeinsam.",
@@ -510,7 +510,7 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Dreifachmarke",
-        criteria: "Alle drei in richtiger Reihenfolge, zwei komplette Sequenzen ohne Hilfe.",
+        criteria: "Alle drei Dummys in richtiger Reihenfolge, ohne Hilfe. Zwei Durchgänge an zwei Tagen, je eine komplette Sequenz.",
         run: "Eine komplette Dreifachmarken-Sequenz. Danach Ruhetag, bei Gelenkbefund zwei.",
         reps: 2, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
@@ -953,7 +953,7 @@ export const TROPHIES = [
   ...TRACKS.map((t) => ({
     id: `track-${t.id}`,
     name: `${t.name} gemeistert`,
-    desc: `Gold in Track ${t.id} erreicht`,
+    desc: `${t.name}: Gold erreicht`,
     type: "track",
     condition: { track: t.id, level: "gold" },
   })),

@@ -3,13 +3,16 @@ import { gearLabel, gearIcon } from "../lib/gear.js";
 
 // Equipment im Fließtext (Track-Karte, Detailseite): kleine Kachel in --tile-icon, damit die dunkelbraune
 // Kontur auch im Dunkelmodus nie direkt auf der dunklen Karte steht. Text immer daneben.
-export const GearList = ({ gear, dummyType, dog }) => (
-  <ul className="gear-list">
+// compact: Heute-Karten, kleinere Kachel (20/15/6), eine Zeile in --muted
+export const GearList = ({ gear, dummyType, dog, compact = false }) => (
+  <ul className={`gear-list${compact ? " is-compact" : ""}`}>
     {gear.map((item) => {
       const icon = gearIcon(item, dummyType);
       return (
         <li key={item.id} className={`gear-item${item.optional ? " is-optional" : ""}`}>
-          {icon && <IconTile name={icon} size={24} icon={18} radius={7} />}
+          {icon && (compact
+            ? <IconTile name={icon} size={20} icon={15} radius={6} />
+            : <IconTile name={icon} size={24} icon={18} radius={7} />)}
           <span>{gearLabel(item, dummyType, dog)}</span>
         </li>
       );

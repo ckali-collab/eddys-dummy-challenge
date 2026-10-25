@@ -85,7 +85,17 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   G Bronze ist "both". Packliste nutzt dieselbe 24px-Kachel wie der Fließtext.
 - Kriterien sprechen von „Durchgängen“ nur noch im neuen Sinn (Tage). „in Folge“/„Fünf Mal“ (B, C Gold) beschreibt,
   was innerhalb eines Durchgangs passiert, und bleibt.
-- Trophäen/Basics noch Platzhalter.
+
+## Bündel 3: Trophäen (2026-10-25)
+- `src/lib/trophies.js`: `syncTrophies` gleicht `trophies[]` (`{ id, at, manual? }`) bei jeder Zustandsänderung mit dem
+  Zustand ab (App-Effekt). Erster Abgleich nach dem Laden still (rückwirkend), danach Overlay für neu Freigeschaltete,
+  nacheinander (`TrophyUnlock`). Nicht mehr Erfülltes wird wieder gesperrt (Rückgängig, Sessions löschen).
+- Wasserratte: Schalter „Heute am Wasser gearbeitet“ im Bewertungsdialog, nur Vollsession, speichert `water: true`.
+- One-Cast Blind: einzige manuelle Trophäe, „Selbst eintragen“/„Zurücknehmen“ auf ihrer Karte (ohne Overlay).
+- `Trophies.jsx`: Metallfarben bewusst hart codiert (nicht tokenisieren), Gradient-id per `useId`.
+- Packliste: optionales Equipment mit „(optional)“, teils Pflicht/teils optional als „2 Markierstäbe (1 optional)“.
+  Heute-Karten: Equipment-Zeile mit Kachel 20/15/6.
+- Basics noch Platzhalter.
 
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).

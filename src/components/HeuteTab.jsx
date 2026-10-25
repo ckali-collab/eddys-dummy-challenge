@@ -4,7 +4,7 @@ import { LEVEL_LABEL, getTrack, getLevel, levelProgress, jointWarnings } from ".
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
-import { PackList } from "./Gear.jsx";
+import { PackList, GearList } from "./Gear.jsx";
 import { packingList } from "../lib/gear.js";
 import { setUpdateHold } from "../lib/updateGate.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
@@ -103,6 +103,9 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
       <p className="block-hint">{level.run}</p>
+      {level.gear.length > 0 && (
+        <GearList gear={level.gear} dummyType={level.dummyType} dog={st.dog} compact />
+      )}
       {block.cut && (block.cut.neutral
         ? <p className="block-note">Heute: {block.cut.text}</p>
         : <p className="block-warn"><IconAlert size={16} /> {block.cut.text}</p>)}
@@ -122,6 +125,8 @@ const blockName = (b) =>
 
 const Rating = ({ plan, onSave, onCancel }) => {
   const [ratings, setRatings] = useState(plan.blocks.map(() => null));
+  const [water, setWater] = useState(false);
+  const waterAllowed = plan.type === "voll"; // entfällt bei Kurzübung und Mini-Session
   const complete = ratings.every(Boolean);
   return (
     <section className="section">
@@ -141,8 +146,15 @@ const Rating = ({ plan, onSave, onCancel }) => {
           </div>
         </div>
       ))}
+      {waterAllowed && (
+        <label className="option water-toggle">
+          <input type="checkbox" checked={water} onChange={(e) => setWater(e.target.checked)} />
+          <span className="check-box" aria-hidden="true" />
+          <span>Heute am Wasser gearbeitet <span className="muted">(optional)</span></span>
+        </label>
+      )}
       <div className="stack" style={{ gap: 10 }}>
-        <button type="button" className="btn" disabled={!complete} onClick={() => onSave(ratings)}>
+        <button type="button" className="btn" disabled={!complete} onClick={() => onSave(ratings, { water: waterAllowed && water })}>
           Session speichern
         </button>
         <button type="button" className="btn btn-ghost" onClick={onCancel}>Zurück zum Plan</button>
@@ -186,8 +198,8 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
   const openElsewhere = mainOpen ? [] : SESSION_TYPES.filter((t) => t.id !== today.type
     && buildPlan(st, t.id).blocks.find((b) => b.role === "main")?.kind === "level").map((t) => t.short);
 
-  const save = (ratings) => {
-    const r = recordSession(st, plan, ratings);
+  const save = (ratings, extra) => {
+    const r = recordSession(st, plan, ratings, new Date(), extra);
     setSt(r.state);
     setResult({ counted: r.counted, alreadyToday: r.alreadyToday, prevToday: today });
     // Nächster Plan: neu wählen; ist jetzt ein Ruhetag fällig, steht der Umschalter auf Kurzübung
