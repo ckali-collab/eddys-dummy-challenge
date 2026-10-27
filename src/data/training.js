@@ -154,6 +154,12 @@ export const LEARNING_PHASES = [
     goal: "Verhalten unter allen Bedingungen" },
 ];
 
+// Überschrift und Einleitung der steps-Liste je stepsType (fundament-umbau-5.md, Abschnitt 3)
+export const STEPS_TYPES = {
+  varianten: { title: "Aufbau über mehrere Wochen", intro: "In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen." },
+  ablauf:    { title: "Ablauf eines Durchgangs",    intro: "So läuft ein Durchgang ab, von oben nach unten." },
+};
+
 // Bei jedem Levelwechsel anzuzeigen (Zvolsky, wörtlich)
 export const LEVEL_CHANGE_WARNING =
   "Vermeiden Sie, eine noch nicht genügend gefestigte Übung mit Ablenkung zu trainieren. Das bereits erreichte Niveau wird gesenkt und somit das vorangegangene Training ad absurdum geführt.";
@@ -193,6 +199,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund geht bei Fuß. Leise Pip pfeifen. Er setzt sich sofort hin.",
           "Hund sitzt 20 große Schritte vor dir. Pip pfeifen. Er bleibt sitzen und schaut dich an.",
@@ -226,6 +233,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund sucht oder schnüffelt frei auf etwa 25 Meter. Pip. Er stoppt, sitzt, schaut dich an.",
           "Nach dem Stopp: Rückruf pfeifen und loben, oder einen Dummy werfen. Der Stopp muss sich lohnen.",
@@ -257,6 +265,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy werfen, Hund schicken.",
           "Während er auf den Dummy zugaloppiert, trittst du vor ihn und pfeifst gleichzeitig Pip.",
@@ -305,6 +314,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
           "Peeeep - peeeep. Er kommt direkt und gerade.",
@@ -336,6 +346,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
           "Peeeep - peeeep einmal.",
@@ -365,6 +376,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
           "Rückruf auf großer Distanz. Erst wenn Schritt 1 sicher sitzt. Hund ist in Sichtweite, aber nicht im Spiel.",
@@ -414,6 +426,7 @@ export const TRACKS = [
         gear: [],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Bewusste Fuß-Phase ankündigen, 50 Meter gehen, dann freigeben.",
           "Wenn er vorzieht: stehen bleiben und warten, bis er zurückkommt. Kein Kommentar.",
@@ -441,6 +454,7 @@ export const TRACKS = [
         gear: [],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Tempo variieren, Kehrtwendungen gehen, stehenbleiben und weitergehen.",
           "Er muss dich beobachten statt nebenher zu laufen.",
@@ -468,6 +482,7 @@ export const TRACKS = [
         gear: [],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "An belebteren Wegen üben.",
           "Du hältst an, sagst nichts. Er sitzt.",
@@ -512,6 +527,7 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 1 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund sitzt off-lead in Fuß oder Ran.",
           "Dummy werfen. Nichts sagen.",
@@ -544,6 +560,7 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
           "Dummy werfen, du gehst vier bis fünf Schritte weg.",
@@ -576,6 +593,7 @@ export const TRACKS = [
         setup: ["Werfer", "Mindestens ein weiteres Gespann oder ein Helfer mit Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "walkup",
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "In der Linie gehen, Hund frei bei Fuß. Walk-up ohne Leine ab etwa 12 Monaten.",
           "Aus der Bewegung fliegt ein Dummy. Die Linie bleibt stehen, der Hund setzt sich ohne Signal.",
@@ -628,6 +646,7 @@ export const TRACKS = [
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Kurze Retrieves, maximal 10 Meter.",
           "Sobald er zurückkommt: nicht stehen bleiben, sondern ein paar Schritte rückwärts gehen. Das zieht ihn bis an dich heran.",
@@ -660,6 +679,7 @@ export const TRACKS = [
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Erst wenn Bronze sicher sitzt.",
           "Er kommt, sitzt vor dir ab, hält.",
@@ -688,6 +708,7 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 2 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
           "Bei Wasser: direkt an der Wasserkante stehen. Verhindert Ablegen am Ufer und Schütteln vor der Abgabe.",
@@ -732,6 +753,7 @@ export const TRACKS = [
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 5, min: 3, unit: "Einzelmarken" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "single-mark",
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund sitzt in Fuß oder Ran neben dir.",
           "Dummy hoch und weit werfen, damit die Flugbahn gut sichtbar ist.",
@@ -760,6 +782,7 @@ export const TRACKS = [
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 2, unit: "Doppelmarken-Sequenzen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "double-mark",
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Ersten Dummy werfen, etwa auf 10 Uhr, 25 Meter. Markierstab setzen.",
           "Hund wartet. Zweiten Dummy werfen, etwa auf 2 Uhr, 20 Meter. Markierstab setzen.",
@@ -789,6 +812,7 @@ export const TRACKS = [
         setup: ["Werfer oder Wurfgerät", "Gelände mit Sichtkante oder Wasser"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm (vorher triple-mark)
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Zwei Dummys werfen lassen, Winkel enger als 90 Grad. Der enge Winkel ist die eigentliche Schwierigkeit, nicht die dritte Marke.",
           "Der Hund wartet beide Würfe ab, ohne einzuspringen.",
@@ -843,17 +867,16 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }, { id: "markierstab", n: 4 }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [ // fundament-umbau-4.md, Abschnitt 2
           "Suchengebiet mit natürlicher Begrenzung wählen, etwa Hecke, Weg oder Grabenkante. Die Begrenzung hält den Hund im Gebiet, ohne dass du lenken musst.",
-          "Sechs bis acht Dummys im Halbkreis um den Hund auslegen, 10 bis 15 Meter Abstand zueinander. Der Hund sieht dabei zu. Der Halbkreis minimiert die Tauschgefahr.",
+          "Zehn oder mehr Dummys im Halbkreis um den Hund auslegen, 10 bis 15 Meter Abstand zueinander. Der Hund sieht dabei zu. Der Halbkreis minimiert die Tauschgefahr.",
           "Hund schicken. Das Suchensignal nicht automatisch geben, sondern genau in dem Moment, in dem er Witterung bekommt.",
           "Zwei bis drei Dummys holen lassen, den Rest selbst holen, sichtbar für den Hund.",
           "Die Anzahl bei jeder Wiederholung ändern, sonst gewöhnt er sich an eine feste Zahl.",
         ],
         tips: [
-          "Zone anfangs klein, etwa 5 Meter Radius.",
           "Nie direkt zum Dummy zeigen.",
-          "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung, also Wasser mitnehmen. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
         ],
         warning: null,
       },
@@ -865,13 +888,14 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3, delay: "2 Minuten zwischen Auslegen und Schicken" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
-        criteria: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter. Auf dem letzten Schritt mit zwei Minuten Verzögerung zwischen Auslegen und Schicken. Drei Durchgänge.",
+        criteria: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter. Auf der letzten Stufe mit zwei Minuten Verzögerung zwischen Auslegen und Schicken. Drei Durchgänge.",
         run: "Zehn oder mehr Dummys im Halbkreis auslegen, den Hund drei bis fünf holen lassen, den Rest selbst holen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [ // fundament-umbau-4.md, Abschnitt 2
           "Zehn oder mehr Dummys im Halbkreis auslegen, ohne dass der Hund zusieht.",
           "Wind prüfen und den Ansatz danach wählen: bei Gegenwind früh revieren lassen, bei Seitenwind den Ansatzpunkt wandern lassen, bei Rückenwind erst tief hinein und dann zurücksuchen.",
@@ -879,8 +903,6 @@ export const TRACKS = [
           "Nur auf der letzten Stufe: zwei Minuten warten, bevor du schickst.",
         ],
         tips: [
-          "Immer nur eine Variable steigern. Erst Distanz, dann Gelände, dann Zeit.",
-          "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung, also Wasser mitnehmen. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
         ],
         warning: null,
       },
@@ -892,13 +914,14 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4, delay: "5 Minuten" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
-        criteria: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter. Auf dem letzten Schritt mit fünf Minuten Verzögerung. Drei Durchgänge.",
+        criteria: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter. Auf der letzten Stufe mit fünf Minuten Verzögerung. Drei Durchgänge.",
         run: "Suchengebiet mit natürlicher Begrenzung abstecken, zehn oder mehr Dummys auslegen, acht holen lassen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [ // fundament-umbau-4.md, Abschnitt 2
           "Suchengebiet von 50 mal 50 Metern abstecken, so groß wie in der Prüfung.",
           "Zehn oder mehr Dummys verdeckt auslegen.",
@@ -908,7 +931,6 @@ export const TRACKS = [
         ],
         tips: [
           "Bei Misserfolg: zurück auf eine Variable, nicht alles gleichzeitig reduzieren.",
-          "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung, also Wasser mitnehmen. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
         ],
         warning: null,
       },
@@ -944,6 +966,7 @@ export const TRACKS = [
         setup: ["Leitlinie im Gelände", "Optional ein Helfer für das Halbblind"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Futterschüssel an einer Leitlinie (Weg, Zaun, Grabenkante) auslegen, Hund daneben ausrichten, Handzeichen, Signal. Die Leitlinie macht die gerade Linie für den Hund selbsterklärend.",
           "Entfernung vergrößern, Leitlinie beibehalten.",
@@ -977,6 +1000,7 @@ export const TRACKS = [
         setup: ["Offenes Gelände"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "directions",
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Bindeglied: Jede Richtungsübung beginnt mit Stopp-Pfiff und erhobenem Arm. Ohne sauberen Stopp kein Richtungssignal.",
           "Back-Timing: Stopp-Pfiff, Arm in neutrale Position vor der Brust, zwei Sekunden Pause, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen.",
@@ -1006,6 +1030,7 @@ export const TRACKS = [
         setup: ["Suchengelände mit natürlicher Begrenzung"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "einweisen-gelaende",
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy ohne Hund auslegen, Auslegefährte vermeiden (nicht auf direktem Weg zurücklaufen).",
           "Hund exakt ausrichten. Buch S. 53: Ist der Hundeführer richtig ausgerichtet, ist der Hund es auch. Die Fuß-Position links existiert genau dafür.",
@@ -1083,7 +1108,7 @@ export const SESSION_TYPES = [
     desc: "Juniordummy 400 g in der Jacke",
     blocks: [
       { role: "warmup",  minutes: 3, label: "Warm-up",   hint: "Zwei Stopps oder ein Rückruf." },
-      { role: "main",    minutes: 6, label: "Hauptteil", hint: "Nasenarbeit oder einfache Marke." },
+      { role: "main",    minutes: 6, label: "Hauptteil", hint: "Appell, Führigkeit, Steadiness oder Abgabe. Kurz, ohne Aufbau." },
       // Laut Abschnitt 8 kein Cool Down bei der Mini-Session; der Block bleibt, weil er Trainingsinhalt hat (gemeldet)
       { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Zwei kurze Retrieves." },
     ],

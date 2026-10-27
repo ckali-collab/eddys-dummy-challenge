@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings,
@@ -67,6 +67,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const exam = examLine(track, level);
   const phase = phaseOf(level);
   const age = minAgeOf(track, level);
+  const stepsType = STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten;
   const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
   const idx = track.levels.findIndex((l) => l.id === levelId);
   // Levelwechsel: Vorgänger geschafft, hier noch nichts passiert
@@ -121,8 +122,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </Section>
       )}
 
-      <Section title="Aufbau über mehrere Wochen">
-        <p className="muted">In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen.</p>
+      <Section title={stepsType.title}>
+        <p className="muted">{stepsType.intro}</p>
         <ol className="steps">
           {level.steps.map((s, i) => <li key={i}>{s}</li>)}
         </ol>

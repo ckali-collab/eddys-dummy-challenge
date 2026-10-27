@@ -145,6 +145,12 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Damit ist der Fundament-Umbau an den Daten abgeschlossen. Offen: Glossar, Basics-Tab, Einwirkung, Rechtskapitel
   (erst Inhalt). `GLOSSARY` bleibt bei einem Eintrag.
 
+## Fundament-Umbau Teil 5 (2026-10-27, Spec: `docs/fundament-umbau-5.md`)
+- Neues Level-Feld `stepsType` ("varianten" | "ablauf"), Überschrift und Einleitung aus `STEPS_TYPES`.
+  "ablauf": alle G- und H-Level, F Gold, D Gold.
+- G Bronze legt zehn oder mehr Dummys aus. G-Kriterien „Auf der letzten Stufe“. Alte G-Tipps und Nasen-Tipp entfernt
+  (Nasen-Text steht nur noch in den Suchen-Regeln). Mini-Session-Hinweis im Hauptteil neu (nur Daten, `hint` wird nicht gerendert).
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.
