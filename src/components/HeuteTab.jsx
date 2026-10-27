@@ -157,7 +157,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
             <Medal level={block.levelId} size={16} />
             <span>{LEVEL_LABEL[block.levelId]} · {level.title}</span>
           </span>
-          <span className="block-prog">an {prog.reps} von {level.reps} Tagen geschafft · Schritt {prog.step ?? 1} von 4</span>
+          <span className="block-prog">an {prog.reps} von {level.reps} Tagen geschafft · Stufe {prog.step ?? 1} von 4</span>
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
@@ -200,7 +200,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
   return (
     <section className="section">
       <h2>Wie lief’s?</h2>
-      <p className="muted">Bewertet wird der Zielschritt im Hauptteil. „gut“ zählt den Tag (einmal pro Tag) und geht einen Schritt weiter, „noch nicht“ geht einen Schritt zurück.</p>
+      <p className="muted">Bewertet wird die Zielstufe im Hauptteil. „gut“ zählt den Tag (einmal pro Tag) und geht eine Stufe weiter, „noch nicht“ geht eine Stufe zurück.</p>
       {plan.blocks.map((b, i) => (
         <div key={b.role} className="card rate-card">
           <p className="block-role">{b.label}</p>
@@ -250,7 +250,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
               <label className="option">
                 <input type="checkbox" checked={downgrade} onChange={(e) => setDowngrade(e.target.checked)} />
                 <span className="check-box" aria-hidden="true" />
-                <span>Hauptteil einen Schritt zurückstufen</span>
+                <span>Hauptteil eine Stufe zurückstufen</span>
               </label>
             </div>
           )}
@@ -345,7 +345,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           )}
           {result.steps?.map((c) => (
             <p key={`s-${c.trackId}:${c.levelId}`} className="small">
-              {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]}: Schritt {c.from} → {c.to}
+              {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]}: Stufe {c.from} → {c.to}
               {c.to < c.from && " (zurückgestuft)"}
               {result.done?.some((x) => x.trackId === c.trackId && x.levelId === c.levelId) && !result.counted.some((x) => x.trackId === c.trackId && x.levelId === c.levelId) && <strong className="done-badge"> geschafft</strong>}
             </p>

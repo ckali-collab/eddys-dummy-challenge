@@ -18,7 +18,7 @@ export const gearLabel = (item, dummyType, dog) => {
     text += ` ${dummyWeight(dog)} g`;
     if (dummyType === "junior" && dummyWeight(dog) > DUMMY_WEIGHT.junior) text += ` (oder Juniordummy ${DUMMY_WEIGHT.junior} g)`;
   }
-  if (item.steps) text += ` (Schritt ${item.steps.join(" und ")})`;
+  if (item.steps) text += ` (Stufe ${item.steps.join(" und ")})`; // item.steps meint Stufen im Pfad
   if (item.optional) return `${text} (optional)`;
   if (item.optionalCount > 0) return `${text} (${item.optionalCount} optional)`;
   return text;

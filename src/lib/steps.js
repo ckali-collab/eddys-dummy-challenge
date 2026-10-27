@@ -1,7 +1,8 @@
 import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES } from "../data/training.js";
 import { getLevel, levelProgress } from "./progress.js";
 
-// Vier-Schritt-Pfad eines Levels (fundament-umbau.md, Abschnitt 7; fundament-umbau-2.md, Abschnitt 1)
+// Vier-Schritt-Pfad eines Levels (fundament-umbau.md, Abschnitt 7; fundament-umbau-2.md, Abschnitt 1).
+// Anzeige heißt "Stufe", Feldnamen (step, path) bleiben (fundament-umbau-4.md, Abschnitt 1).
 
 const byId = (list, id) => list.find((x) => x.id === id);
 
@@ -28,7 +29,7 @@ export const stepParts = (level, n) => {
 
 export const stepText = (level, n) => {
   const s = stepParts(level, n);
-  return s ? `Schritt ${n} - ${s.main}` : `Schritt ${n}`;
+  return s ? `Stufe ${n} - ${s.main}` : `Stufe ${n}`;
 };
 
 // Geländestufen eines Levels aus dem Pfad, z.B. "offen und einsehbar bis niedrige Deckung" (null ohne path)
@@ -52,7 +53,7 @@ export const phaseOf = (level) => LEARNING_PHASES.find((p) => p.id === level?.ph
 
 // Mindestalter: Level-Wert vor Track-Wert (D Gold), nur als Hinweis
 export const minAgeOf = (track, level) => {
-  const suffix = track.minAgeSuffix ?? null; // "nach dem Zahnwechsel", nur E und F
+  const suffix = track.minAgeSuffix ?? null; // "nach dem Zahnwechsel", nur F
   if (level.minAgeMonths !== undefined) return { months: level.minAgeMonths, note: level.minAgeNote, suffix };
   return { months: track.minAgeMonths ?? null, note: track.minAgeNote ?? null, suffix };
 };

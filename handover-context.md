@@ -136,6 +136,15 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Gelenkwarnung F Gold `doubleMarkF`, Track-F-Kurztext neu, `minAgeSuffix` „nach dem Zahnwechsel“ bei E und F,
   Apportier-Hinweis nur bei `MIN_AGE_NOTE_LEVELS` (E Bronze, F Bronze). Glossar bleibt bei einem Eintrag, nicht anzeigen.
 
+## Fundament-Umbau Teil 4 (2026-10-27, Spec: `docs/fundament-umbau-4.md`)
+- Begriffe in der Anzeige: Pfad (`step`, `path`, `conditionPath`) heißt „Stufe“, Ablauf (`steps`) heißt „Schritt“.
+  Feldnamen unverändert. Abschnitt im Übungsdetail: „Stufen“.
+- Track G: `steps` aller drei Level ersetzt, Nasen-Tipp an allen drei, `dummyType` überall "standard" → G nicht mehr in
+  der Mini-Session (12 Level bleiben dort: A–C, D/E Bronze und Silber).
+- „nach dem Zahnwechsel“ nur noch bei F. Farbtext mit „Rot erscheint ihm als sattes Gelb“.
+- Damit ist der Fundament-Umbau an den Daten abgeschlossen. Offen: Glossar, Basics-Tab, Einwirkung, Rechtskapitel
+  (erst Inhalt). `GLOSSARY` bleibt bei einem Eintrag.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.

@@ -110,7 +110,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       </Section>
 
       {stepCount(level) > 0 && (
-        <Section title="Schritt-Pfad">
+        <Section title="Stufen">
           <StepPath level={level} current={prog.step ?? 1} done={done} />
         </Section>
       )}
@@ -193,7 +193,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
             <button type="button" className="btn" disabled={done || today} onClick={() => onCount(trackId, levelId)}>
               {today && !done ? "Heute schon gezählt" : "Heutigen Durchgang zählen"}
             </button>
-            {!done && <p className="small muted">Zählt einmal pro Tag und geht einen Schritt weiter. Geschafft bei {level.reps} Tagen und Schritt 4.</p>}
+            {!done && <p className="small muted">Zählt einmal pro Tag und geht eine Stufe weiter. Geschafft bei {level.reps} Tagen und Stufe 4.</p>}
             {confirmReset ? (
               <button type="button" className="btn btn-danger"
                 onClick={() => {

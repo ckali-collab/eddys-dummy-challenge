@@ -605,7 +605,6 @@ export const TRACKS = [
     examNote: "Kein eigenes Prüfungsfach, wird in jedem Fach mitbewertet.",
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
-    minAgeSuffix: "nach dem Zahnwechsel", // Teil 3, Abschnitt 6
     requires: [],
     levels: [
       {
@@ -714,7 +713,7 @@ export const TRACKS = [
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 10, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Markierungen 8 bis 10 Monate, und nur wenn steady",
-    minAgeSuffix: "nach dem Zahnwechsel", // Teil 3, Abschnitt 6
+    minAgeSuffix: "nach dem Zahnwechsel", // nur F (fundament-umbau-4.md, Abschnitt 4)
     requires: ["D:bronze", "E:bronze"],
     levels: [
       {
@@ -842,18 +841,19 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }, { id: "markierstab", n: 4 }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
-        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        steps: [
-          "Dummy ablegen, während der Hund wegschaut. Markierstab setzen.",
-          "Hund grob in die Richtung drehen.",
-          "Verloren plus Trommelbewegung.",
-          "Nicht eingreifen, solange er sucht.",
-          "Wenn er aufgibt oder herausläuft: pip-peeeep, um ihn in der Zone zu halten.",
+        steps: [ // fundament-umbau-4.md, Abschnitt 2
+          "Suchengebiet mit natürlicher Begrenzung wählen, etwa Hecke, Weg oder Grabenkante. Die Begrenzung hält den Hund im Gebiet, ohne dass du lenken musst.",
+          "Sechs bis acht Dummys im Halbkreis um den Hund auslegen, 10 bis 15 Meter Abstand zueinander. Der Hund sieht dabei zu. Der Halbkreis minimiert die Tauschgefahr.",
+          "Hund schicken. Das Suchensignal nicht automatisch geben, sondern genau in dem Moment, in dem er Witterung bekommt.",
+          "Zwei bis drei Dummys holen lassen, den Rest selbst holen, sichtbar für den Hund.",
+          "Die Anzahl bei jeder Wiederholung ändern, sonst gewöhnt er sich an eine feste Zahl.",
         ],
         tips: [
           "Zone anfangs klein, etwa 5 Meter Radius.",
           "Nie direkt zum Dummy zeigen.",
+          "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung, also Wasser mitnehmen. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
         ],
         warning: null,
       },
@@ -872,12 +872,16 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        steps: [
-          "Dummy auf 30 Meter ablegen, Markierstab setzen.",
-          "Zwei Minuten weitergehen oder etwas anderes machen.",
-          "Dann in die Zone schicken: Verloren plus Trommelbewegung.",
+        steps: [ // fundament-umbau-4.md, Abschnitt 2
+          "Zehn oder mehr Dummys im Halbkreis auslegen, ohne dass der Hund zusieht.",
+          "Wind prüfen und den Ansatz danach wählen: bei Gegenwind früh revieren lassen, bei Seitenwind den Ansatzpunkt wandern lassen, bei Rückenwind erst tief hinein und dann zurücksuchen.",
+          "Hund schicken, drei bis fünf Dummys holen lassen.",
+          "Nur auf der letzten Stufe: zwei Minuten warten, bevor du schickst.",
         ],
-        tips: ["Immer nur eine Variable steigern. Erst Distanz, dann Gelände, dann Zeit."],
+        tips: [
+          "Immer nur eine Variable steigern. Erst Distanz, dann Gelände, dann Zeit.",
+          "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung, also Wasser mitnehmen. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
+        ],
         warning: null,
       },
       {
@@ -895,12 +899,17 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        steps: [
-          "Dummy in schwierigem Gelände ablegen, Markierstab setzen.",
-          "Fünf Minuten spazieren.",
-          "In die Zone schicken. Er muss sich an den Bereich erinnern und systematisch suchen.",
+        steps: [ // fundament-umbau-4.md, Abschnitt 2
+          "Suchengebiet von 50 mal 50 Metern abstecken, so groß wie in der Prüfung.",
+          "Zehn oder mehr Dummys verdeckt auslegen.",
+          "Acht Dummys holen lassen.",
+          "Suchenstil messen: farbige Dummys in farbgleichen Reihen auslegen. An der Farbe der gebrachten Dummys erkennst du, ob der Hund vorne oder hinten sucht.",
+          "Nur auf der letzten Stufe: fünf Minuten warten, bevor du schickst.",
         ],
-        tips: ["Bei Misserfolg: zurück auf eine Variable, nicht alles gleichzeitig reduzieren."],
+        tips: [
+          "Bei Misserfolg: zurück auf eine Variable, nicht alles gleichzeitig reduzieren.",
+          "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung, also Wasser mitnehmen. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
+        ],
         warning: null,
       },
     ],
@@ -1381,7 +1390,7 @@ export const DUMMY_TYPES = [
   { id: "suche",    label: "Suchendummy", grams: 80 },
 ];
 export const DUMMY_FACTS = {
-  farben: "Der Hund hat kein Sehpigment für Grün. Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden. Orange ist für den Menschen gut sichtbar, nicht für den Hund. Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
+  farben: "Der Hund hat kein Sehpigment für Grün. Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden. Rot erscheint ihm als sattes Gelb. Orange ist für den Menschen gut sichtbar, nicht für den Hund. Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
   pocketDummy: "Der Pocket Dummy ist das 80-g-Suchendummy für Suchenpfiff-Training bei geringer Witterung, kein Jackentaschen-Dummy für unterwegs.",
   markierstab: "Der Markierstab ist eine Sichthilfe für den Hund, nicht für den Führer. Praxisregel: mindestens vier aufstellen, damit nicht der Stab selbst zum Ziel wird.",
 };
