@@ -1,13 +1,14 @@
 import { GEAR_ITEMS, DUMMY_WEIGHT } from "../data/training.js";
 import { getLevel } from "./progress.js";
 
-// Dummy-Gewicht aus dem Profil (Pocket Dummy bekommt keine Gewichtsangabe)
+// Dummy-Gewicht aus dem Profil
 export const dummyWeight = (dog) =>
   DUMMY_WEIGHT.lightAges.includes(dog?.age) || DUMMY_WEIGHT.lightJoints.includes(dog?.joints)
     ? DUMMY_WEIGHT.light
     : DUMMY_WEIGHT.standard;
 
-// Anzeige eines gear-Eintrags, z.B. "2 Dummys 500 g", "1 Dummy 250 g (oder Pocket Dummy)", "Pfeife"
+// Anzeige eines gear-Eintrags, z.B. "2 Dummys 500 g", "1 Dummy 500 g (oder Juniordummy 400 g)", "Pfeife".
+// Die Juniordummy-Alternative entfällt, wenn das Profil ohnehin ein leichteres Dummy vorsieht.
 export const gearLabel = (item, dummyType, dog) => {
   const def = GEAR_ITEMS[item.id];
   if (!def) return item.id;
@@ -15,16 +16,15 @@ export const gearLabel = (item, dummyType, dog) => {
   let text = item.id === "pfeife" && item.n === 1 ? def.one : `${item.n} ${noun}`;
   if (item.id === "dummy") {
     text += ` ${dummyWeight(dog)} g`;
-    if (dummyType === "both") text += " (oder Pocket Dummy)";
+    if (dummyType === "junior" && dummyWeight(dog) > DUMMY_WEIGHT.junior) text += ` (oder Juniordummy ${DUMMY_WEIGHT.junior} g)`;
   }
   if (item.optional) return `${text} (optional)`;
   if (item.optionalCount > 0) return `${text} (${item.optionalCount} optional)`;
   return text;
 };
 
-// Icon direkt aus gear und dummyType: "both" zeigt den Pocket Dummy, sonst den Standard-Dummy
-export const gearIcon = (item, dummyType) =>
-  item.id === "dummy" && dummyType === "both" ? "pocket-dummy" : GEAR_ITEMS[item.id]?.icon ?? null;
+// Icon aus gear (der Pocket Dummy entfällt als eigener Eintrag, fundament-umbau-2.md Abschnitt 5)
+export const gearIcon = (item) => GEAR_ITEMS[item.id]?.icon ?? null;
 
 // Packliste einer Session: entdoppelt, je Gegenstand die höchste Stückzahl.
 // Optionales steht mit "(optional)" drin (sonst fehlt draußen der Dummy für eine Variante).
@@ -48,7 +48,7 @@ export const packingList = (blocks) => {
   }
   // Dummy-Typ aus den Pflicht-Dummys; nur wenn es keinen gibt, aus den optionalen
   const types = dummyTypes.required.size ? dummyTypes.required : dummyTypes.optional;
-  const dummyType = types.has("standard") ? "standard" : types.has("both") ? "both" : null;
+  const dummyType = types.has("standard") ? "standard" : types.has("junior") ? "junior" : null;
   return {
     dummyType,
     items: Object.keys(GEAR_ITEMS).filter((id) => need.has(id))

@@ -1,5 +1,5 @@
 import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS } from "../data/training.js";
-import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, countRep, countedToday } from "./progress.js";
+import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday } from "./progress.js";
 
 const RANK = { bronze: 0, silber: 1, gold: 2 };
 const TRACK_ORDER = Object.fromEntries(TRACKS.map((t, i) => [t.id, i]));
@@ -16,17 +16,20 @@ export const dayKeyOf = (d = new Date()) =>
 export const getSessionType = (typeId) => SESSION_TYPES.find((t) => t.id === typeId) || SESSION_TYPES[0];
 
 // ─── Belastung ────────────────────────────────────────────────
-// Strengster Wert aus Grundlimit, Altersgruppe und Gelenkbefund.
-// loadReason nennt, was das Belastungslimit bestimmt (für den Kürzungshinweis auf der Karte).
+// warnAt: Grundwert (LOAD_LIMITS.default), nur Warnschwelle. cap: Obergrenze aus Altersgruppe und
+// Gelenkbefund (strengster Wert), null ohne Einschränkung. loadPerSession: cap, sonst warnAt (Anzeige).
+// loadReason nennt, was die Obergrenze bestimmt (für den Kürzungshinweis auf der Karte).
 export const loadLimits = (dog) => {
   const ls = ["default", dog.age, dog.joints].filter((k) => LOAD_LIMITS[k]).map((k) => LOAD_LIMITS[k]);
-  const loadPerSession = Math.min(...ls.map((l) => l.loadPerSession));
-  const loadReason =
-    LOAD_LIMITS[dog.joints]?.loadPerSession === loadPerSession && loadPerSession < LOAD_LIMITS.default.loadPerSession ? "Gelenkbefund"
-    : LOAD_LIMITS[dog.age]?.loadPerSession === loadPerSession && loadPerSession < LOAD_LIMITS.default.loadPerSession ? "Altersgruppe"
-    : null;
+  const warnAt = LOAD_LIMITS.default.loadPerSession;
+  const caps = [dog.joints, dog.age].filter((k) => k !== "default" && LOAD_LIMITS[k]).map((k) => LOAD_LIMITS[k].loadPerSession);
+  const cap = caps.length ? Math.min(...caps) : null;
+  const loadReason = cap === null ? null
+    : LOAD_LIMITS[dog.joints]?.loadPerSession === cap ? "Gelenkbefund" : "Altersgruppe";
   return {
-    loadPerSession,
+    loadPerSession: cap ?? warnAt,
+    cap,
+    warnAt,
     loadReason,
     sessionsPerWeek: Math.min(...ls.map((l) => l.sessionsPerWeek)),
     restDays: Math.max(...ls.map((l) => l.restDays)),
@@ -81,7 +84,7 @@ const lastMainTimes = (st) => {
 // d) Gleichstand: Trackfolge
 // Vollsession: Hatte keine der letzten drei Vollsessions einen Apport-Track als Hauptteil,
 // bekommt der am längsten nicht trainierte Apport-Track den Vorzug.
-// Sessiontyp kann Level zusätzlich nach dummyType einschränken (Mini-Session: nur null/"both")
+// Sessiontyp kann Level zusätzlich nach dummyType einschränken (Mini-Session: nur null/"junior")
 const dummyOk = (type, lvl) => !type.allowedDummyTypes || type.allowedDummyTypes.includes(lvl.dummyType ?? null);
 
 const mainCandidates = (st, type) => {
@@ -111,14 +114,16 @@ const doneLevels = (st, type) =>
 
 // Warm-up/Abschluss: nur geschaffte Level. Ein Level kommt pro Session nie zweimal vor:
 // belegte Level (Hauptteil, anderer Seitenblock) sind ausgeschlossen, auch beim Tauschen.
-// Nur Level, deren Belastung ins Restbudget passt. Bevorzugt anderer Track als Hauptteil und
-// anderer Seitenblock, dann Vorzugs-Tracks, dann geringere Belastung, dann leichtere Stufe.
-const sideCandidates = (st, type, role, main, other, budget) => {
+// Nur Level, deren Belastung ins Restbudget der Obergrenze passt (budget). Bevorzugt Level, die unter der
+// Warnschwelle bleiben (warnBudget), dann anderer Track als Hauptteil und anderer Seitenblock, dann
+// Vorzugs-Tracks, dann geringere Belastung, dann leichtere Stufe.
+const sideCandidates = (st, type, role, main, other, budget, warnBudget = budget) => {
   const taken = new Set([main, other].filter(Boolean).map(key));
   let list = doneLevels(st, type).filter((c) => !taken.has(key(c)) && levelLoad(c) <= budget);
   if (main?.levelId === "gold") list = list.filter((c) => c.levelId === "bronze"); // nie zwei schwere Blöcke
   const prefs = SESSION_ROLE_PREFS[role] || [];
   const score = (c) => [
+    levelLoad(c) <= warnBudget ? 0 : 1,
     main && c.trackId === main.trackId ? 1 : 0,
     other && c.trackId === other.trackId ? 1 : 0,
     prefs.includes(c.trackId) ? 0 : 1,
@@ -132,7 +137,8 @@ const sideCandidates = (st, type, role, main, other, budget) => {
 const pick = (list, offset) => (list.length ? list[((offset % list.length) + list.length) % list.length] : null);
 
 // ─── Plan ─────────────────────────────────────────────────────
-// Ein Block = ein Durchgang. Belastung = load des Levels (docs/durchgaenge.md), Summe ≤ loadPerSession.
+// Ein Block = ein Durchgang. Belastung = load des Levels (docs/durchgaenge.md).
+// Mit Obergrenze (Alter/Gelenke): Summe ≤ cap. Ohne: Warnschwelle warnAt, darüber geplant mit Hinweis (over).
 export const levelLoad = (c) => (c ? getLevel(c.trackId, c.levelId)?.load ?? 0 : 0);
 
 // Sprengt der Hauptteil das Limit allein, wird der Durchgang proportional gekürzt und das gesagt.
@@ -154,19 +160,21 @@ const cutFor = (c, limit, reason) => {
 export const buildPlan = (st, typeId, offsets = {}, picks = null) => {
   const fixed = (role) => (picks && picks[role] !== undefined ? { set: true, value: picks[role] ? fromKey(picks[role]) : null } : { set: false });
   const type = getSessionType(typeId);
-  const { loadPerSession: limit, loadReason } = loadLimits(st.dog);
+  const { loadPerSession: limit, cap, warnAt, loadReason } = loadLimits(st.dog);
+  const hard = cap ?? Infinity;
 
   const mains = mainCandidates(st, type);
   const fm = fixed("main");
   const main = fm.set ? fm.value : pick(mains, offsets.main || 0);
-  const cut = main ? cutFor(main, limit, loadReason) : null;
-  const mainLoad = Math.min(levelLoad(main), limit);
+  const cut = main && cap !== null ? cutFor(main, cap, loadReason) : null;
+  const mainLoad = Math.min(levelLoad(main), hard);
 
   // Seitenblöcke füllen das Restbudget; passt nichts, kommt der Ersatz-Block
-  const warms = sideCandidates(st, type, "warmup", main, null, limit - mainLoad);
+  const warms = sideCandidates(st, type, "warmup", main, null, hard - mainLoad, limit - mainLoad);
   const fw = fixed("warmup");
   const warm = fw.set ? fw.value : pick(warms, offsets.warmup || 0);
-  const cools = sideCandidates(st, type, "cooldown", main, warm, limit - mainLoad - levelLoad(warm));
+  const used = mainLoad + levelLoad(warm);
+  const cools = sideCandidates(st, type, "cooldown", main, warm, hard - used, limit - used);
   const fc = fixed("cooldown");
   const cool = fc.set ? fc.value : pick(cools, offsets.cooldown || 0);
 
@@ -189,23 +197,41 @@ export const buildPlan = (st, typeId, offsets = {}, picks = null) => {
 
   const load = blocks.reduce((n, b) => n + b.load, 0);
   const planPicks = Object.fromEntries(type.blocks.map((tpl) => [tpl.role, chosen[tpl.role] ? key(chosen[tpl.role]) : null]));
-  return { type: type.id, limit, load, blocks, picks: planPicks };
+  return { type: type.id, limit, capped: cap !== null, over: cap === null && load > warnAt, load, blocks, picks: planPicks };
 };
 
 // ─── Abschließen ──────────────────────────────────────────────
-// Nur "gut" auf dem Hauptteil zählt den Tag für dessen Level, höchstens einmal pro Tag.
-// "okay" und "noch nicht" ändern nichts: kein Zähler wird je verringert, kein Level zurückgesetzt.
+// Bewertet wird nur der Hauptteil (sein Zielschritt), Regel in rateLevel (progress.js):
+// "gut" zählt den Tag (einmal pro Tag) und hebt den Schritt, "noch nicht" senkt nur den Schritt.
+// Kein Zähler wird je verringert, kein abgeschlossenes Level zurückgesetzt.
+// steps: Schrittänderungen dieser Session ({ trackId, levelId, from, to }), für Rückgängig.
 // extra.water: "Heute am Wasser gearbeitet" (nur Vollsession), für Trophäe und spätere Auswertung
+// extra.cause: Fehlerursache (FAILURE_CAUSES id) bei "noch nicht" im Hauptteil
+// extra.signs: angekreuzte Übersprungszeichen (Indizes in DISPLACEMENT_SIGNS)
+// extra.downgrade: vorgeschlagene Rückstufung angenommen → Hauptteil ein Schritt unter den Stand vor der Session
+//   (ersetzt die Schrittwirkung der Bewertung, der Tageszähler bleibt; nie bei abgeschlossenem Level)
 export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) => {
   let next = st;
   const counted = [];
   const alreadyToday = [];
+  const steps = [];
   plan.blocks.forEach((b, i) => {
-    if (b.role !== "main" || b.kind !== "level" || ratings[i] !== "gut") return;
-    const before = levelProgress(next, b.trackId, b.levelId).reps;
-    next = countRep(next, b.trackId, b.levelId, now);
-    const after = levelProgress(next, b.trackId, b.levelId).reps;
-    if (after === before && countedToday(levelProgress(next, b.trackId, b.levelId), now)) {
+    if (b.role !== "main" || b.kind !== "level" || !(["gut", "nein"].includes(ratings[i]) || extra.downgrade)) return;
+    const prev = levelProgress(next, b.trackId, b.levelId);
+    const before = prev.reps;
+    next = rateLevel(next, b.trackId, b.levelId, ratings[i], now);
+    if (extra.downgrade && !isLevelDone(next, b.trackId, b.levelId)) {
+      const p = levelProgress(next, b.trackId, b.levelId);
+      next = { ...next, tracks: { ...next.tracks, [b.trackId]: { ...next.tracks[b.trackId],
+        [b.levelId]: { ...p, step: Math.max(1, (prev.step ?? 1) - 1) } } } };
+    }
+    const cur = levelProgress(next, b.trackId, b.levelId);
+    const after = cur.reps;
+    if ((prev.step ?? 1) !== (cur.step ?? 1)) {
+      steps.push({ trackId: b.trackId, levelId: b.levelId, from: prev.step ?? 1, to: cur.step ?? 1 });
+    }
+    if (ratings[i] !== "gut") return;
+    if (after === before && countedToday(cur, now)) {
       alreadyToday.push({ trackId: b.trackId, levelId: b.levelId });
     }
     if (after > before) {
@@ -222,6 +248,7 @@ export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) =
     type: plan.type,
     load: plan.load,
     limit: plan.limit,
+    capped: !!plan.capped, // false: limit war Warnschwelle (Richtwert), keine Obergrenze
     ...(extra.water ? { water: true } : {}),
     blocks: plan.blocks.map((b, i) => ({
       role: b.role,
@@ -230,15 +257,20 @@ export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) =
       load: b.load,
       ...(b.cut ? { cut: b.cut.text } : {}),
       rating: ratings[i],
+      ...(b.role === "main" && ratings[i] === "nein" && extra.cause ? { cause: extra.cause } : {}),
     })),
     counted: counted.map(({ trackId, levelId, reps, of }) => ({ trackId, levelId, reps, of })),
+    ...(steps.length ? { steps } : {}),
+    ...(extra.signs?.length ? { signs: extra.signs } : {}),
+    ...(extra.downgrade ? { downgraded: true } : {}),
   };
-  return { state: { ...next, sessions: [...next.sessions, session] }, counted, alreadyToday };
+  return { state: { ...next, sessions: [...next.sessions, session] }, counted, alreadyToday, steps };
 };
 
 // Nimmt die jüngste Session zurück. Jeder gezählte Durchgang trägt als Zeitstempel exakt das
 // Session-Datum (recordSession nutzt dasselbe "now"). Genau diese Einträge werden entfernt –
 // funktioniert damit auch für Einträge ohne "counted"-Feld, ohne zu raten.
+// Schritte gehen aus session.steps auf den Wert davor zurück (ältere Einträge ohne steps: Schritt bleibt).
 export const undoLastSession = (st) => {
   const last = st.sessions[st.sessions.length - 1];
   if (!last) return st;
@@ -247,12 +279,14 @@ export const undoLastSession = (st) => {
     tid,
     Object.fromEntries(Object.entries(levels).map(([lid, p]) => {
       const i = d ? p.dates.lastIndexOf(d) : -1;
-      if (i < 0) return [lid, p];
+      const sc = Array.isArray(last.steps) ? last.steps.find((x) => x?.trackId === tid && x?.levelId === lid) : null;
+      if (i < 0 && !sc) return [lid, p];
       return [lid, {
         ...p,
-        reps: Math.max(0, p.reps - 1),
-        dates: p.dates.filter((_, j) => j !== i),
-        doneAt: p.doneAt === d ? null : p.doneAt,
+        reps: i < 0 ? p.reps : Math.max(0, p.reps - 1),
+        dates: i < 0 ? p.dates : p.dates.filter((_, j) => j !== i),
+        doneAt: d && p.doneAt === d ? null : p.doneAt,
+        step: sc && Number.isInteger(sc.from) ? sc.from : p.step,
       }];
     })),
   ]));

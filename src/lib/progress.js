@@ -8,9 +8,13 @@ export const getLevel = (trackId, levelId) => getTrack(trackId)?.levels.find((l)
 export const levelProgress = (st, trackId, levelId) =>
   st.tracks[trackId]?.[levelId] || { reps: 0, dates: [], doneAt: null, step: 1 };
 
+export const STEP_MAX = 4;
+
+// Abgeschlossen bei vollem Durchgangszähler und Schritt 4 (fundament-umbau-2.md, Abschnitt 1)
 export const isLevelDone = (st, trackId, levelId) => {
   const lvl = getLevel(trackId, levelId);
-  return !!lvl && levelProgress(st, trackId, levelId).reps >= lvl.reps;
+  const p = levelProgress(st, trackId, levelId);
+  return !!lvl && p.reps >= lvl.reps && (p.step ?? 1) >= STEP_MAX;
 };
 
 const hasProgress = (st, trackId, levelId) => levelProgress(st, trackId, levelId).reps > 0;
@@ -61,18 +65,36 @@ const setLevel = (st, trackId, levelId, value) => ({
   tracks: { ...st.tracks, [trackId]: { ...st.tracks[trackId], [levelId]: value } },
 });
 
-export const countRep = (st, trackId, levelId, now = new Date()) => {
+// Bewertung des Zielschritts (fundament-umbau-2.md, Abschnitt 1):
+//   gut        → Zähler +1, Schritt +1 (max. 4)
+//   okay       → nichts
+//   nein       → Schritt -1 (min. 1), Zähler bleibt
+// Der Zähler zählt höchstens einmal pro Tag. Der Schritt geht nur mit dem Zähler weiter, damit beide synchron
+// bleiben. Ausnahme: Zähler schon voll (nach einer Rückstufung) → nur der Schritt geht weiter, bis Schritt 4.
+// Ein abgeschlossenes Level ändert sich nie.
+export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
   const lvl = getLevel(trackId, levelId);
+  if (!lvl || isLevelDone(st, trackId, levelId)) return st;
   const cur = levelProgress(st, trackId, levelId);
-  if (!lvl || cur.reps >= lvl.reps || countedToday(cur, now)) return st;
-  const reps = cur.reps + 1;
+  const step = cur.step ?? 1;
+  if (rating === "nein") {
+    return step > 1 ? setLevel(st, trackId, levelId, { ...cur, step: step - 1 }) : st;
+  }
+  if (rating !== "gut") return st;
+  const canCount = cur.reps < lvl.reps && !countedToday(cur, now);
+  if (!canCount && cur.reps < lvl.reps) return st; // heute schon gezählt
+  const reps = canCount ? cur.reps + 1 : cur.reps;
+  const nextStep = Math.min(STEP_MAX, step + 1);
   return setLevel(st, trackId, levelId, {
-    ...cur, // step bleibt, wie er ist: das Weiterschalten im Pfad ist nicht an den Zähler gekoppelt
+    ...cur,
     reps,
-    dates: [...cur.dates, now.toISOString()],
-    doneAt: reps >= lvl.reps ? now.toISOString() : null,
+    dates: canCount ? [...cur.dates, now.toISOString()] : cur.dates,
+    step: nextStep,
+    doneAt: reps >= lvl.reps && nextStep >= STEP_MAX ? now.toISOString() : null,
   });
 };
+
+export const countRep = (st, trackId, levelId, now = new Date()) => rateLevel(st, trackId, levelId, "gut", now);
 
 export const resetLevel = (st, trackId, levelId) =>
   setLevel(st, trackId, levelId, { reps: 0, dates: [], doneAt: null, step: 1 });

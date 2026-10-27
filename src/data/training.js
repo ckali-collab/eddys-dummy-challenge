@@ -90,12 +90,8 @@ export const HAND_SIGNAL_NOTE =
 export const DIRECTION_NOTE =
   "Richtungsangaben sind immer aus deiner Sicht. Du streckst den linken Arm aus, der Hund läuft nach links von dir aus gesehen.";
 
-// ─── Gelaendestufen ───────────────────────────────────────────
-export const TERRAIN = [
-  { level: "bronze", emoji: "🟢", label: "Feldweg, kurzes Gras",            desc: "Kurze Distanz, kaum Ablenkung" },
-  { level: "silber", emoji: "🟡", label: "Wiese, mittleres Gras",           desc: "Mittlere Distanz, leichte Ablenkung" },
-  { level: "gold",   emoji: "🟠", label: "Hohes Gras, Buschwerk, Waldrand", desc: "Volle Distanz, reale Ablenkung" },
-];
+// Die alte TERRAIN-Tabelle (Gelände je Stufe) ist entfallen. Einzige Wahrheitsquelle für Gelände ist
+// TERRAIN_STEPS über den Pfad des Levels (fundament-umbau-2.md, Abschnitt 7).
 
 // ─── Fundament: Distanz, Gelände, Bedingungen, Lernphasen (docs/fundament-umbau.md, Abschnitt 1) ──
 export const DISTANCE_STEPS = [
@@ -173,10 +169,13 @@ export const TRACKS = [
     desc: "Grundlage für alles. Ohne zuverlässigen Stopp ist kein Handling möglich.",
     examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
+    minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
     requires: [],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Stopp im Nahbereich",
         exam: "appell",
         examClass: "DP-E",
@@ -192,7 +191,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Hund geht bei Fuß. Leise Pip pfeifen. Er setzt sich sofort hin.",
@@ -209,6 +208,7 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Stopp auf Distanz und aus der Bewegung",
         exam: "appell",
         examClass: "A",
@@ -224,7 +224,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Hund sucht oder schnüffelt frei auf etwa 25 Meter. Pip. Er stoppt, sitzt, schaut dich an.",
@@ -239,6 +239,7 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Stopp im Lauf auf den Dummy",
         exam: "appell",
         examClass: "F",
@@ -254,7 +255,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Dummy werfen, Hund schicken.",
@@ -280,10 +281,13 @@ export const TRACKS = [
     desc: "Gerade Linie, kein Zickzack, kein Schnüffeln unterwegs.",
     examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
+    minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
     requires: [],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Rückruf aus ruhiger Situation",
         exam: "appell",
         examClass: "DP-E",
@@ -299,7 +303,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
@@ -314,6 +318,7 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Rückruf aus der Beschäftigung",
         exam: "appell",
         examClass: "A",
@@ -329,7 +334,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
@@ -342,6 +347,7 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Rückruf unter sozialer Ablenkung",
         exam: "appell",
         examClass: "F",
@@ -357,7 +363,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
@@ -384,10 +390,13 @@ export const TRACKS = [
     desc: "Ruhig neben dir, ohne Ziehen, ohne Vorauslaufen. In bewussten Phasen, nicht den ganzen Spaziergang.",
     examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
+    minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
     requires: [],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "50 Meter ohne Ziehen",
         exam: "appell",
         examClass: "DP-E",
@@ -403,7 +412,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Bewusste Fuß-Phase ankündigen, 50 Meter gehen, dann freigeben.",
@@ -414,6 +423,7 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Tempo- und Richtungswechsel",
         exam: "appell",
         examClass: "A",
@@ -429,7 +439,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Tempo variieren, Kehrtwendungen gehen, stehenbleiben und weitergehen.",
@@ -440,6 +450,7 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Automatisches Sitzen unter Ablenkung",
         exam: "appell",
         examClass: "F",
@@ -455,7 +466,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [],
-        dummyType: null, // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "An belebteren Wegen üben.",
@@ -477,10 +488,13 @@ export const TRACKS = [
     desc: "Erweiterung des Grundgehorsams. Der Hund entscheidet selbst zu warten. Immer off-lead - mit Leine trainierst du nichts.",
     examSubject: "Appell, ab Gold Walk Up", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
+    minAgeMonths: 10, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Steadiness setzt Markierungen voraus",
     requires: ["C:bronze"],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Warten nach dem Wurf",
         exam: "appell",
         examClass: "DP-E",
@@ -496,7 +510,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Hund sitzt off-lead in Fuß oder Ran.",
@@ -512,6 +526,7 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Warten bei Bewegung und zweitem Dummy",
         exam: "appell",
         examClass: "A",
@@ -526,8 +541,8 @@ export const TRACKS = [
         run: "4 Wiederholungen einer Variante (Schritt zur Seite, Weggehen, Markierstab setzen, zweiter Dummy).",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 1 }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
+        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
@@ -540,8 +555,11 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
+        minAgeMonths: 12, // überschreibt den Track-Wert
+        minAgeNote: "Walk-up ohne Leine ab ca. 12 Monaten",
         title: "Standruhe in Verbindung mit Markieren (Walk Up)",
-        exam: null, // offen: Abschnitt 6 nennt "ab Gold Walk Up", der exam-Enum kennt kein walkup
+        exam: "walkup",
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
@@ -551,20 +569,25 @@ export const TRACKS = [
           { condition: "ort", variant: "Prüfungsgelände" },
         ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Bleibt in der Linie bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn ein anderes Gespann vor dir arbeitet. Drei Durchgänge.",
-        run: "Eine Walk-up-Sequenz mit seitlichem Wurf und eine Honouring-Phase, während ein anderer Hund arbeitet.",
+        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, optional: true }],
+        setup: ["Werfer", "Mindestens ein weiteres Gespann oder ein Helfer mit Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "walkup",
         steps: [
-          "Walk-up: Hund läuft off-lead bei Fuß, ihr geht gemeinsam.",
-          "Eine zweite Person wirft seitlich einen Dummy.",
-          "Hund bleibt bei Fuß, ohne Kommando.",
-          "Du hältst an, er sitzt automatisch. 2 bis 3 Sekunden Pause. Dann Apport.",
-          "Ein anderes Gespann arbeitet zuerst. Dein Hund sitzt und schaut zu. Mit großer Distanz beginnen.",
+          "In der Linie gehen, Hund frei bei Fuß. Walk-up ohne Leine ab etwa 12 Monaten.",
+          "Aus der Bewegung fliegt ein Dummy. Die Linie bleibt stehen, der Hund setzt sich ohne Signal.",
+          "Ein anderes Gespann arbeitet zuerst. Der Hund bleibt sitzen und beobachtet.",
+          "Erst dann wird er geschickt, oder gar nicht.",
+          "Steigerung: Schuss statt Zuruf als Signal für den Wurf.",
         ],
-        tips: ["Krönung aller Steadiness-Arbeit.", "Anfangs langsam gehen und Dummy weit seitlich."],
+        tips: [
+          "80 Prozent der geworfenen Dummys holt der Führer selbst, der Hund nur 20 Prozent. Das ist das Verhältnis, mit dem Steadiness entsteht.",
+          "Springt der Hund ein: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen. Nicht hinterherschicken, das belohnt genau das Einspringen.",
+          "Hände in die Jackentaschen während der Wartezeit. Hunde springen oft ein, weil der Führer mit den Händen herumfuchtelt.",
+        ],
         warning: null,
       },
     ],
@@ -580,10 +603,13 @@ export const TRACKS = [
     examSubject: null, // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
     examNote: "Kein eigenes Prüfungsfach, wird in jedem Fach mitbewertet.",
+    minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
     requires: [],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "In die Hand, ohne Ablegen",
         exam: null,
         examClass: null,
@@ -599,7 +625,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
         steps: [
@@ -615,6 +641,7 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Sitzen bei der Abgabe",
         exam: null,
         examClass: null,
@@ -630,7 +657,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
         steps: [
@@ -643,6 +670,7 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Abgabe unter Erregung",
         exam: null,
         examClass: null,
@@ -658,7 +686,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
@@ -683,10 +711,13 @@ export const TRACKS = [
     desc: "Marking heißt: die Flugbahn verfolgen und sich die Position merken. Nicht den Dummy liegen sehen. Hohes Gras ist deshalb kein Hindernis.",
     examSubject: "Markierung", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
+    minAgeMonths: 10, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Markierungen 8 bis 10 Monate, und nur wenn steady",
     requires: ["D:bronze", "E:bronze"],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Einzelmarke",
         exam: "markierung",
         examClass: "DP-E",
@@ -696,8 +727,8 @@ export const TRACKS = [
         run: "3 bis 5 Einzelmarken auf 20 bis 30 Meter auf einer Geländeart.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1, optional: true }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 5, min: 3, unit: "Einzelmarken" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "single-mark",
         steps: [
@@ -714,17 +745,18 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Doppelmarke",
         exam: "markierung",
         examClass: "A",
         maxDistanceStep: 3,
-        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, drei Durchgänge.",
         run: "2 Doppelmarken-Sequenzen, jeweils zuletzt geworfener Dummy zuerst.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 2, optional: true }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 2, unit: "Doppelmarken-Sequenzen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "double-mark",
         steps: [
@@ -742,29 +774,32 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Doppelmarkierung auf F-Niveau",
         exam: "markierung",
         examClass: "F",
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Drei Durchgänge.",
-        run: "Eine komplette Dreifachmarken-Sequenz. Danach Ruhetag, bei Gelenkbefund zwei.",
+        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 3 }, { id: "markierstab", n: 3, optional: true }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
-        diagram: "triple-mark",
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
+        setup: ["Werfer oder Wurfgerät", "Gelände mit Sichtkante oder Wasser"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
+        diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm (vorher triple-mark)
         steps: [
-          "Drei Dummys in etwa 120-Grad-Abständen werfen.",
-          "Reihenfolge immer rückwärts: zuletzt geworfen zuerst.",
-          "Zwischen den Retrieves kurze Pause und neuer Fokus.",
-          "Körper jeweils zur nächsten Position drehen.",
+          "Zwei Dummys werfen lassen, Winkel enger als 90 Grad. Der enge Winkel ist die eigentliche Schwierigkeit, nicht die dritte Marke.",
+          "Der Hund wartet beide Würfe ab, ohne einzuspringen.",
+          "Reihenfolge vorgeben, in der Prüfung gibt sie der Richter vor. Im Training wechseln, damit der Hund keine Gewohnheit aufbaut.",
+          "Mindestens ein Dummy hinter einer Sichtkante oder über Wasser.",
+          "Zweites Dummy erst schicken, wenn das erste korrekt abgegeben ist.",
         ],
         tips: [
-          "1 Sequenz pro Session, danach Ruhetag.",
-          "Bei Gelenkeinschränkung zwei Ruhetage.",
+          "Nicht immer dieselbe Reihenfolge verlangen, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen.",
+          "Markierstäbe als Sichthilfe für den Hund, mindestens vier aufstellen, sonst wird der einzelne Stab selbst zum Ziel.",
         ],
-        warning: "Hohe geistige und körperliche Beanspruchung.",
+        warning: null,
       },
     ],
   },
@@ -778,10 +813,23 @@ export const TRACKS = [
     desc: "Der Hund wird in eine Zone geschickt und sucht dort selbstständig. Kein Richtungskommando.",
     examSubject: "Suche", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
+    minAgeMonths: 12, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Verlorensuche systematisch ab 12 Monaten",
+    // Suchen-Regeln, gelten in allen drei G-Leveln (fundament-umbau-2.md, Abschnitt 6)
+    searchRules: [
+      "Suchengebiet mit natürlicher Begrenzung, bei Prüfungen 50 mal 50 Meter.",
+      "Halbkreisförmiges Auslegen um den Hund herum, 10 bis 15 Meter Abstand. Das minimiert die Tauschgefahr.",
+      "Immer zehn oder mehr Dummys auslegen, aber den Hund nur einen wechselnden Teil holen lassen. Den Rest holt der Führer selbst, sichtbar für den Hund.",
+      "Anzahl variieren, sonst gewöhnt sich der Hund an eine feste Zahl.",
+      "Wind: Gegenwind bedeutet frühes Revieren. Seitenwind ist leicht, den Ansatzpunkt wandern lassen. Rückenwind heißt erst tief hinein, dann zurücksuchen.",
+      "Suchenstil messen: farbige Dummys in farbgleichen Reihen auslegen. An der Farbe erkennt man, ob der Hund vorne oder hinten sucht.",
+      "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung. Bei Nasenarbeit braucht der Hund genügend Wasser. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
+    ],
     requires: [],
     levels: [
       {
         id: "bronze",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Zone auf kurzer Distanz",
         exam: "suche",
         examClass: "DP-E",
@@ -791,8 +839,8 @@ export const TRACKS = [
         run: "3 Zonensuchen auf 15 Meter in drei verschiedenen Richtungen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
-        dummyType: "both", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Dummy ablegen, während der Hund wegschaut. Markierstab setzen.",
@@ -809,17 +857,18 @@ export const TRACKS = [
       },
       {
         id: "silber",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Größere Zone mit Zeitverzögerung",
         exam: "suche",
         examClass: "A",
         maxDistanceStep: 3,
-        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3, delay: "2 Minuten zwischen Auslegen und Schicken" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
         criteria: "30 Meter, mittleres Gras, 2 Minuten Verzögerung, drei Durchgänge.",
         run: "3 Zonensuchen auf 30 Meter, je 2 Minuten Verzögerung.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Dummy auf 30 Meter ablegen, Markierstab setzen.",
@@ -831,17 +880,18 @@ export const TRACKS = [
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Komplexes Gelände",
         exam: "suche",
         examClass: "F",
         maxDistanceStep: 4,
-        path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4, delay: "5 Minuten" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
         criteria: "50 Meter und mehr, hohes Gras oder Waldrand, 5 Minuten Verzögerung, drei Durchgänge.",
         run: "3 Zonensuchen auf 50 Meter und mehr, je 5 Minuten Verzögerung.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
           "Dummy in schwierigem Gelände ablegen, Markierstab setzen.",
@@ -863,86 +913,99 @@ export const TRACKS = [
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
     examSubject: "Einweisen", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
+    minAgeMonths: 12, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
+    minAgeNote: "Folgt auf Markierung und Suche",
     requires: ["A:silber", "F:silber", "G:silber"],
     levels: [
       {
         id: "bronze",
-        title: "Memory Retrieve und Voran",
+        phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
+        title: "Voran - die gerade Linie",
         exam: "einweisen",
         examClass: "F",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 1, g: 1 }, { d: 2, g: 1 }, { d: 2, g: 1 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Läuft auf Voran mindestens 35 Meter geradeaus auf einen unsichtbaren Dummy. Drei Durchgänge, davon mindestens einer auf anderem Gelände.",
-        run: "3 Memory Retrieves auf etwa 30 Meter plus 1 Voran auf der aktuellen Distanzstufe.",
+        criteria: "Läuft auf Handzeichen und Signal in gerader Linie vom Führer weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Drei Durchgänge.",
+        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 1, optional: true }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
-        amount: { n: 3, unit: "Memory Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        diagram: "memory-retrieve",
+        gear: [{ id: "futterschuessel", n: 1 }, { id: "dummy", n: 1 }],
+        setup: ["Leitlinie im Gelände", "Optional ein Helfer für das Halbblind"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
+        diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm
         steps: [
-          "Voran einführen: Dummy sichtbar auf 15 Meter geradeaus auslegen.",
-          "Hund bei Fuß, beide schauen in dieselbe Richtung. Voran plus Arm vollständig über Kopf.",
-          "Distanz steigern, dann auf unsichtbaren Dummy wechseln.",
+          "Futterschüssel an einer Leitlinie (Weg, Zaun, Grabenkante) auslegen, Hund daneben ausrichten, Handzeichen, Signal. Die Leitlinie macht die gerade Linie für den Hund selbsterklärend.",
+          "Entfernung vergrößern, Leitlinie beibehalten.",
+          "Zwei Schüsseln als Ablenkung, der Hund muss die ausgerichtete nehmen.",
+          "Dummy statt Schüssel.",
+          "Halbblind: Ein Helfer legt nach, während der Hund zurückläuft. Der Hund weiß, dass dort etwas liegt, hat es aber nicht gesehen.",
+          "Vollblind: vorher ausgelegt, der Hund hat nichts gesehen.",
         ],
         tips: [
-          "Einen natürlichen Korridor nutzen: Weg zwischen Büschen, Heckenreihe. Hält ihn auf der Linie.",
+          "Hand hochkant, 20 bis 30 cm vor dem Hundekopf, wie über Kimme und Korn.",
+          "Üben Sie Voran niemals mit Wind von vorn. Bei Gegenwind reviert der Hund statt zu laufen.",
+          "Ritualisieren: immer dieselbe Körperhaltung. Ändert sie sich, fehlt dem Hund die Motivation.",
+          "Pushen: das Signal vor Hindernissen wiederholen.",
+          "Linker Arm für Voran, rechter Arm für Markierungen, als klare Unterscheidung.",
         ],
         warning: null,
       },
       {
         id: "silber",
-        title: "Back, Links, Rechts und Memory Blind",
+        phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
+        title: "Richtungssignale",
         exam: "einweisen",
         examClass: "F",
         maxDistanceStep: 3,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Nimmt alle drei Richtungssignale nach Stopp-Pfiff an, auf 15 Meter. Drei Durchgänge, in jedem zusätzlich ein Memory Blind auf 35 Meter mit höchstens einer Korrektur.",
-        run: "3 Einweisungen in der aktuellen Stufe, jede nach Stopp-Pfiff, plus 1 Memory Blind.",
+        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Bis 30 Meter. Drei Durchgänge.",
+        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }, { id: "markierstab", n: 2, optional: true }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
-        amount: { n: 3, unit: "Einweisungen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }],
+        setup: ["Offenes Gelände"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "directions",
         steps: [
-          "Schritt 1: Back allein. Stopp-Pfiff, Arm über Kopf, Back. Kennt er als Voran-Variante, daher sofortiger Erfolg.",
-          "Schritt 2: Eine Richtung allein. Dummy genau links ablegen, 5 Meter. Stopp-Pfiff, linker Arm, Links. Nur ein Dummy im Feld, er kann nicht falsch laufen.",
-          "Schritt 3: Die andere Richtung allein. Dasselbe nach rechts.",
-          "Schritt 4: Beide Richtungen mit Wahl. Erst hier lernt er den Unterschied.",
+          "Bindeglied: Jede Richtungsübung beginnt mit Stopp-Pfiff und erhobenem Arm. Ohne sauberen Stopp kein Richtungssignal.",
+          "Back-Timing: Stopp-Pfiff, Arm in neutrale Position vor der Brust, zwei Sekunden Pause, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen.",
+          "Drehrichtung beachten: rechter Arm, der Hund dreht über die linke Schulter. Spiegelbildlich, weil er dich ansieht.",
+          "Erst eine Richtung allein, dann die andere allein, dann beide mit Wahl.",
+          "Variante Voran auf der Uhr: enge Winkel beim Voran. Der Hund wird aus derselben Position in leicht versetzte Richtungen geschickt, die Winkel werden schrittweise enger. Das ist eine Voran-Übung, nicht eine Einweisen-Übung nach dem Stopp.",
         ],
         tips: [
-          "Übst du Rechts, legst du den linken Dummy weiter weg. Er dient als Ablenkung, und wenn der Hund falsch läuft, hast du Zeit zu stoppen.",
-          "Immer erst Stopp-Pfiff, dann Handzeichen. Nie Handzeichen ohne vorherigen Stopp.",
+          "Nicht einseitig aus der Fuß-Position üben, sonst kommt der Hund beim Pfiff zurück statt zu stoppen.",
+          "Belohnungsapport für Fortgeschrittene: Dummy über den Hund hinweg nach hinten oder seitlich werfen und mit Back beziehungsweise der Seitenrichtung schicken. So wird der Stopp selbst zur Einweise-Übung.",
         ],
-        warning: null,
+        warning: "Die Reihenfolge ist im Buch festgelegt und darf nicht geändert werden: Voran, dann Back, dann Rechts und Links. Rechts und Links sind für den Hund leichter, werden aber zuletzt aufgebaut, um ihn nicht zu verwirren.",
       },
       {
         id: "gold",
+        phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Einweisen in ein Suchengelände",
         exam: "einweisen",
         examClass: "O",
         maxDistanceStep: 4,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 3, g: 3 }, { d: 4, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Drei Durchgänge.",
-        run: "1 Cold Blind auf 30 Meter plus eine Clock-Face-Runde über zwei Positionen.",
+        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }, { id: "markierstab", n: 2 }],
-        dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
+        setup: ["Suchengelände mit natürlicher Begrenzung"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "einweisen-gelaende",
         steps: [
-          "Clock Face: Hund sitzt in der Mitte. 12 Uhr Back, 3 Uhr Rechts, 6 Uhr zu dir hin, 9 Uhr Links.",
-          "Aufbau mit Markierstäben. Erst zwei Positionen, dann schrittweise mehr Dummys.",
-          "Cold Blind: Dummy ablegen, ohne dass der Hund es sieht. Markierstab.",
-          "Hund exakt ausrichten - sein Körper zeigt auf die Linie. Die Ausrichtung entscheidet.",
-          "Voran plus Arm. Bei Abweichung: Pip, dann Richtungssignal, dann weiter.",
-          "Im Bereich: Verloren plus Trommelbewegung.",
-          "Kombination: Blind vorab ablegen (Zone A), Sichtmarke werfen (Zone B, 90 Grad versetzt). Erst Marke, dann Blind.",
+          "Dummy ohne Hund auslegen, Auslegefährte vermeiden (nicht auf direktem Weg zurücklaufen).",
+          "Hund exakt ausrichten. Buch S. 53: Ist der Hundeführer richtig ausgerichtet, ist der Hund es auch. Die Fuß-Position links existiert genau dafür.",
+          "Voran. Bei Abweichung Stopp-Pfiff, dann Richtungssignal.",
+          "Am Zielgelände das Suchensignal geben, und zwar nicht automatisch, sondern in dem Moment, in dem der Hund Witterung bekommt. Arm seitlich nach unten, Handfläche zum Hund.",
+          "Ab dort arbeitet der Hund selbstständig. Nicht weiter lenken.",
         ],
         tips: [
-          "Ziel ist der One-Cast Blind: hinlaufen, finden, zurückbringen, ohne eine einzige Korrektur.",
-          "Beim Back mit dem rechten Arm soll er nach rechts abdrehen, beim linken Arm nach links. Konsistent bleiben.",
+          "Hier gilt die Kleine Suche: enger Bereich, tiefe Nase, ruhig. Nicht zu verwechseln mit der Großen Suche der freien Verlorensuche.",
+          "Maximal zwei Korrekturen. Im Regelwerk ist zu viel oder zu laute Lenkung ein schwerer Fehler.",
+          "Gegenwind vermeiden, siehe H Bronze.",
         ],
         warning: null,
       },
@@ -953,6 +1016,8 @@ export const TRACKS = [
 // ─── Wasser-Modul ─────────────────────────────────────────────
 export const WATER_MODULE = {
   name: "Wasser",
+  // Wasser ist im D/G-Modell die Geländestufe G4 (fundament-umbau-2.md, Abschnitt 0). Kein eigener Track.
+  examNote: "Wasser ist in Dummy A ein eigenes Prüfungsfach.",
   gearLabel: "1 Dummy, schwimmfähig",
   desc: "Kein eigener Track, sondern eine Variante. Jede Übung aus Marking, Nasenarbeit oder Richtung kann ans Wasser verlegt werden, sobald sie an Land auf Silber sitzt.",
   rules: [
@@ -968,18 +1033,19 @@ export const WATER_MODULE = {
 };
 
 // ─── Session-Vorlagen ─────────────────────────────────────────
+// Minuten für Warm-up und Abschluss (Cool Down) nach fundament-umbau-2.md, Abschnitt 8. duration = Summe der Blöcke.
 export const SESSION_TYPES = [
   {
     id: "voll",
     name: "Vollsession",
     short: "Vollsession",
     icon: "target",
-    duration: "15-20 Min",
+    duration: "37 Min",
     desc: "Mit Equipment, gezielter Fokus",
     blocks: [
-      { role: "warmup",  minutes: 2,  label: "Warm-up",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
+      { role: "warmup",  minutes: 15, label: "Warm-up",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
       { role: "main",    minutes: 12, label: "Hauptteil", hint: "Das aktuell offene Level. Der Umfang richtet sich nach dem Belastungslimit aus dem Hundeprofil." },
-      { role: "cooldown", minutes: 3, label: "Abschluss", hint: "Ein Level, das sicher gelingt. Bevorzugt Nasenarbeit oder einfache Marke." },
+      { role: "cooldown", minutes: 10, label: "Abschluss", hint: "Ein Level, das sicher gelingt. Bevorzugt Nasenarbeit oder einfache Marke." },
     ],
     allowedTracks: ["A", "B", "C", "D", "E", "F", "G", "H"],
   },
@@ -988,12 +1054,12 @@ export const SESSION_TYPES = [
     name: "Kurzübung im Spaziergang",
     short: "Kurzübung",
     icon: "walk",
-    duration: "5-10 Min",
+    duration: "13-15 Min",
     desc: "Kein Equipment nötig",
     blocks: [
-      { role: "warmup",  minutes: 1, label: "Warm-up",   hint: "Kurz ankommen." },
+      { role: "warmup",  minutes: 5, label: "Warm-up",   hint: "Kurz ankommen." },
       { role: "main",    minutes: 5, label: "Hauptteil", hint: "Ein Signal gezielt üben." },
-      { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Sicherer Erfolg." },
+      { role: "cooldown", minutes: "3-5", label: "Abschluss", hint: "Sicherer Erfolg." },
     ],
     allowedTracks: ["A", "B", "C"],
   },
@@ -1002,16 +1068,17 @@ export const SESSION_TYPES = [
     name: "Mini-Session",
     short: "Mini-Session",
     icon: "pocket",
-    duration: "5-10 Min",
-    desc: "Pocket Dummy in der Jacke",
+    duration: "10 Min",
+    desc: "Juniordummy 400 g in der Jacke",
     blocks: [
-      { role: "warmup",  minutes: 1, label: "Warm-up",   hint: "Zwei Stopps oder ein Rückruf." },
+      { role: "warmup",  minutes: 3, label: "Warm-up",   hint: "Zwei Stopps oder ein Rückruf." },
       { role: "main",    minutes: 6, label: "Hauptteil", hint: "Nasenarbeit oder einfache Marke." },
+      // Laut Abschnitt 8 kein Cool Down bei der Mini-Session; der Block bleibt, weil er Trainingsinhalt hat (gemeldet)
       { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Zwei kurze Retrieves." },
     ],
     allowedTracks: ["A", "B", "C", "D", "E", "G"],
-    // Zusätzlich zu allowedTracks: nur Level ohne Dummy oder mit Pocket-Dummy-Option (Unterwegs-Szenario)
-    allowedDummyTypes: [null, "both"],
+    // Zusätzlich zu allowedTracks: nur Level ohne Dummy oder mit Juniordummy-Option (Unterwegs-Szenario)
+    allowedDummyTypes: [null, "junior"],
   },
 ];
 
@@ -1119,9 +1186,11 @@ export const PROFILE_FIELDS = {
   ],
 };
 
-// Belastungspunkte pro Session (Summe der load-Werte der Blöcke), siehe docs/durchgaenge.md
+// Belastungspunkte pro Session (Summe der load-Werte der Blöcke), siehe docs/durchgaenge.md.
+// default.loadPerSession ist seit fundament-umbau-2.md (Abschnitt 0) eine Warnschwelle, keine Sperre:
+// darüber wird weiter geplant und ein Hinweis gezeigt. Die Werte für Alter und Gelenkbefund bleiben Obergrenzen.
 export const LOAD_LIMITS = {
-  default:  { loadPerSession: 8, sessionsPerWeek: 2, restDays: 1 },
+  default:  { loadPerSession: 5, sessionsPerWeek: 2, restDays: 1 },
   leicht:   { loadPerSession: 5, sessionsPerWeek: 2, restDays: 1 },
   deutlich: { loadPerSession: 3, sessionsPerWeek: 1, restDays: 2 },
   welpe:    { loadPerSession: 3, sessionsPerWeek: 2, restDays: 1 },
@@ -1156,20 +1225,30 @@ export const GEAR_ITEMS = {
   pfeife:      { one: "Pfeife",      many: "Pfeifen",      icon: "whistle" },
   dummy:       { one: "Dummy",       many: "Dummys",       icon: "dummy" },
   markierstab: { one: "Markierstab", many: "Markierstäbe", icon: "marker-pole" },
+  futterschuessel: { one: "Futterschüssel", many: "Futterschüsseln", icon: null },
+  schreckschuss:   { one: "Schreckschuss", many: "Schreckschuss", icon: null },
 };
 
-// Dummy-Gewicht aus dem Profil: Welpe/Junghund oder deutlicher Gelenkbefund → 250 g, sonst 500 g
-export const DUMMY_WEIGHT = { light: 250, standard: 500, lightAges: ["welpe", "junghund"], lightJoints: ["deutlich"] };
+// Dummy-Gewicht aus dem Profil: Welpe/Junghund oder deutlicher Gelenkbefund → Welpendummy 200 g, sonst 500 g
+// (fundament-umbau-2.md, Abschnitt 5; alle Gewichte in DUMMY_TYPES)
+export const DUMMY_WEIGHT = { light: 200, junior: 400, standard: 500, lightAges: ["welpe", "junghund"], lightJoints: ["deutlich"] };
 
 // Texte für den Basics-Tab (noch nicht gerendert)
 export const EQUIPMENT_NOTES = {
-  gewichte: "Ein Standard-Dummy wiegt 500 Gramm. Für Welpen und Junghunde nimmst du 250 Gramm, damit Gebiss und Gelenke nicht unnötig belastet werden. Bei deutlichem Gelenkbefund bleibst du auch beim erwachsenen Hund bei 250 Gramm.",
-  pocketDummy: "Der Pocket Dummy ist kein Ersatz, sondern ein Zusatz für unterwegs: zu klein und zu leicht, um ihn aus Distanz fliegen zu sehen oder im Wasser zu arbeiten. Für Abgabe und Steadiness im Nahbereich reicht er.",
+  gewichte: "Ein Standard-Dummy wiegt 500 Gramm. Für Welpen und Junghunde nimmst du 200 Gramm, damit Gebiss und Gelenke nicht unnötig belastet werden. Bei deutlichem Gelenkbefund bleibst du auch beim erwachsenen Hund bei 200 Gramm.",
   wasser: "Fast alle Canvas-Dummys schwimmen, du brauchst für den Anfang nichts Zusätzliches. Canvas saugt sich im Wasser aber voll, wird schwerer und bleibt lange feucht. Wenn du regelmäßig am Wasser arbeitest, lohnt ein Wasserdummy aus Kunststoff: trocknet sofort und liegt sichtbarer auf der Oberfläche. Helle Farben wie Weiß oder Orange helfen dir, die Linie deines Hundes im Wasser zu verfolgen.",
 };
 
 export const DISCLAIMER =
   "Die App ersetzt keine tierärztliche Beratung. Bei bekannten Vorerkrankungen Belastungsgrenzen mit dem Tierarzt abstimmen.";
+
+// ─── Glossar ──────────────────────────────────────────────────
+// Bisher nur der eine Eintrag aus fundament-umbau-2.md, Abschnitt 9 (noch nicht gerendert).
+// Blinken kommt bewusst nicht ins Troubleshooting: keine belegte Ursache-und-Abhilfe-Kette.
+export const GLOSSARY = [
+  { term: "Blinken", kind: "fehler",
+    def: "Der Hund findet das Dummy und zeigt es nicht an, läuft weiter oder nimmt es nicht auf." },
+];
 
 // ─── Troubleshooting ──────────────────────────────────────────
 export const TROUBLESHOOTING = [

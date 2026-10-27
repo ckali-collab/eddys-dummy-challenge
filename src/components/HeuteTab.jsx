@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import { SESSION_TYPES, SESSION_FALLBACKS } from "../data/training.js";
-import { LEVEL_LABEL, getTrack, getLevel, levelProgress, jointWarnings } from "../lib/progress.js";
+import { useState, useEffect, useRef, Fragment } from "react";
+import {
+  SESSION_TYPES, SESSION_FALLBACKS, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
+  FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
+} from "../data/training.js";
+import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings } from "../lib/progress.js";
+import { sessionSteps, stepText } from "../lib/steps.js";
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -62,8 +66,62 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
   );
 };
 
+// ─── Vorbereitung (fundament-umbau.md, Abschnitt 11) ──────────
+// Abhakbar, keine Pflicht, nicht gespeichert
+const Checklist = () => {
+  const [done, setDone] = useState(() => SESSION_GUIDANCE.checklist.map(() => false));
+  const count = done.filter(Boolean).length;
+  return (
+    <details className="recent checklist">
+      <summary>
+        <span>Vorbereitung</span>
+        <span className="recent-count">{count}/{done.length}</span>
+        <IconChevron size={20} />
+      </summary>
+      <div className="checklist-body">
+        {SESSION_GUIDANCE.checklist.map((item, i) => (
+          <label key={i} className="option">
+            <input type="checkbox" checked={done[i]} onChange={(e) => setDone((p) => p.map((v, j) => (j === i ? e.target.checked : v)))} />
+            <span className="check-box" aria-hidden="true" />
+            <span>{item}</span>
+          </label>
+        ))}
+        <p className="small muted">{SESSION_GUIDANCE.handsNote}</p>
+      </div>
+    </details>
+  );
+};
+
+// ─── Einstieg und Ziel (fundament-umbau-2.md, Abschnitt 1) ────
+// Nur im Hauptteil: Er ist der einzige bewertete Block.
+const StepPlan = ({ st, trackId, levelId }) => {
+  const { level, target, entry } = sessionSteps(st, trackId, levelId);
+  return (
+    <div className="step-plan">
+      {entry && (
+        <p className="step-line">
+          <span className="step-tag">Einstieg (zum Erinnern, wird nicht bewertet)</span>
+          <span>{stepText(level, entry)}</span>
+        </p>
+      )}
+      <p className="step-line is-target">
+        <span className="step-tag">Ziel heute (wird bewertet)</span>
+        <span>{stepText(level, target)}</span>
+      </p>
+    </div>
+  );
+};
+
 // ─── Block-Karte ──────────────────────────────────────────────
-const BlockCard = ({ st, block, onSwap, onOpen }) => {
+// Aufwärmen und Cool Down je Sessiontyp (fundament-umbau.md, Abschnitt 10)
+const PhaseNote = ({ typeId, role }) => {
+  const wc = WARMUP_COOLDOWN[typeId];
+  const text = role === "warmup" ? wc?.warmup : role === "cooldown" ? wc?.cooldown : null;
+  if (!text) return null;
+  return <p className="block-note">{role === "warmup" ? "Aufwärmen" : "Cool Down"}: {text}</p>;
+};
+
+const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
   const meta = `${block.minutes} Min${block.load ? ` · Belastung ${block.load}` : ""}`;
 
   if (block.kind === "fallback") {
@@ -76,6 +134,7 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
         </div>
         <h3 className="block-title">{fb.title}</h3>
         <p className="block-hint">{fb.desc}</p>
+        <PhaseNote typeId={typeId} role={block.role} />
       </article>
     );
   }
@@ -98,11 +157,13 @@ const BlockCard = ({ st, block, onSwap, onOpen }) => {
             <Medal level={block.levelId} size={16} />
             <span>{LEVEL_LABEL[block.levelId]} · {level.title}</span>
           </span>
-          <span className="block-prog">an {prog.reps} von {level.reps} Tagen geschafft</span>
+          <span className="block-prog">an {prog.reps} von {level.reps} Tagen geschafft · Schritt {prog.step ?? 1} von 4</span>
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
-      <p className="block-hint">{level.run}</p>
+      <PhaseNote typeId={typeId} role={block.role} />
+      {level.run && <p className="block-hint">{level.run}</p>}
+      {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
       {level.gear.length > 0 && (
         <GearList gear={level.gear} dummyType={level.dummyType} dog={st.dog} compact />
       )}
@@ -126,12 +187,20 @@ const blockName = (b) =>
 const Rating = ({ plan, onSave, onCancel }) => {
   const [ratings, setRatings] = useState(plan.blocks.map(() => null));
   const [water, setWater] = useState(false);
+  const [cause, setCause] = useState(null);
+  const [signs, setSigns] = useState([]);
+  const [downgrade, setDowngrade] = useState(true);
   const waterAllowed = plan.type === "voll"; // entfällt bei Kurzübung und Mini-Session
   const complete = ratings.every(Boolean);
+  const mainIdx = plan.blocks.findIndex((b) => b.role === "main" && b.kind === "level");
+  const mainFailed = mainIdx >= 0 && ratings[mainIdx] === "nein";
+  // Mehr als zwei Übersprungszeichen: Rückstufung vorschlagen (abwählbar)
+  const suggestDowngrade = mainIdx >= 0 && signs.length > DISPLACEMENT_DOWNGRADE_ABOVE;
+  const toggleSign = (i, on) => setSigns((p) => (on ? [...p, i].sort((a, b) => a - b) : p.filter((x) => x !== i)));
   return (
     <section className="section">
       <h2>Wie lief’s?</h2>
-      <p className="muted">Ein „gut“ im Hauptteil zählt den heutigen Tag für dessen Level, einmal pro Tag.</p>
+      <p className="muted">Bewertet wird der Zielschritt im Hauptteil. „gut“ zählt den Tag (einmal pro Tag) und geht einen Schritt weiter, „noch nicht“ geht einen Schritt zurück.</p>
       {plan.blocks.map((b, i) => (
         <div key={b.role} className="card rate-card">
           <p className="block-role">{b.label}</p>
@@ -146,6 +215,47 @@ const Rating = ({ plan, onSave, onCancel }) => {
           </div>
         </div>
       ))}
+      {mainFailed && (
+        <div className="card rate-card">
+          <p className="block-role">Woran lag es?</p>
+          <div className="stack" style={{ gap: 6 }} role="radiogroup" aria-label="Fehlerursache">
+            {FAILURE_CAUSES.map((c) => (
+              <label key={c.id} className="option">
+                <input type="radio" name="cause" checked={cause === c.id} onChange={() => setCause(c.id)} />
+                <span className="check-box is-radio" aria-hidden="true" />
+                <span>{c.label}</span>
+              </label>
+            ))}
+          </div>
+          {cause
+            ? <p className="block-note">{FAILURE_CAUSES.find((c) => c.id === cause).action}</p>
+            : <p className="small muted">{FAILURE_UNCLEAR}</p>}
+        </div>
+      )}
+      {mainIdx >= 0 && (
+        <details className="card rate-card signs">
+          <summary className="block-role">Übersprungszeichen{signs.length ? ` (${signs.length})` : ""}</summary>
+          <div className="stack" style={{ gap: 6, marginTop: 8 }}>
+            {DISPLACEMENT_SIGNS.map((sgn, i) => (
+              <label key={i} className="option">
+                <input type="checkbox" checked={signs.includes(i)} onChange={(e) => toggleSign(i, e.target.checked)} />
+                <span className="check-box" aria-hidden="true" />
+                <span>{sgn}</span>
+              </label>
+            ))}
+          </div>
+          {suggestDowngrade && (
+            <div className="stack" style={{ gap: 6, marginTop: 8 }}>
+              <p className="block-warn"><IconAlert size={16} /> {DISPLACEMENT_NOTE}</p>
+              <label className="option">
+                <input type="checkbox" checked={downgrade} onChange={(e) => setDowngrade(e.target.checked)} />
+                <span className="check-box" aria-hidden="true" />
+                <span>Hauptteil einen Schritt zurückstufen</span>
+              </label>
+            </div>
+          )}
+        </details>
+      )}
       {waterAllowed && (
         <label className="option water-toggle">
           <input type="checkbox" checked={water} onChange={(e) => setWater(e.target.checked)} />
@@ -154,7 +264,12 @@ const Rating = ({ plan, onSave, onCancel }) => {
         </label>
       )}
       <div className="stack" style={{ gap: 10 }}>
-        <button type="button" className="btn" disabled={!complete} onClick={() => onSave(ratings, { water: waterAllowed && water })}>
+        <button type="button" className="btn" disabled={!complete} onClick={() => onSave(ratings, {
+          water: waterAllowed && water,
+          cause: mainFailed ? cause : null,
+          signs,
+          downgrade: suggestDowngrade && downgrade,
+        })}>
           Session speichern
         </button>
         <button type="button" className="btn btn-ghost" onClick={onCancel}>Zurück zum Plan</button>
@@ -201,7 +316,8 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
   const save = (ratings, extra) => {
     const r = recordSession(st, plan, ratings, new Date(), extra);
     setSt(r.state);
-    setResult({ counted: r.counted, alreadyToday: r.alreadyToday, prevToday: today });
+    const mainRating = ratings[plan.blocks.findIndex((b) => b.role === "main")];
+    setResult({ good: mainRating === "gut", counted: r.counted, alreadyToday: r.alreadyToday, steps: r.steps, done: r.steps.filter((x) => isLevelDone(r.state, x.trackId, x.levelId)), prevToday: today });
     // Nächster Plan: neu wählen; ist jetzt ein Ruhetag fällig, steht der Umschalter auf Kurzübung
     setToday((t) => ({ ...t, type: restStatus(r.state) ? "kurz" : t.type, offsets: {}, picks: null }));
     setMode("done");
@@ -227,11 +343,22 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           ) : (
             <p className="muted">Kein Durchgang gezählt. Das ist in Ordnung – lieber ehrlich als schnell.</p>
           )}
+          {result.steps?.map((c) => (
+            <p key={`s-${c.trackId}:${c.levelId}`} className="small">
+              {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]}: Schritt {c.from} → {c.to}
+              {c.to < c.from && " (zurückgestuft)"}
+              {result.done?.some((x) => x.trackId === c.trackId && x.levelId === c.levelId) && !result.counted.some((x) => x.trackId === c.trackId && x.levelId === c.levelId) && <strong className="done-badge"> geschafft</strong>}
+            </p>
+          ))}
           {result.alreadyToday?.map((c) => (
             <p key={`${c.trackId}:${c.levelId}`} className="small muted">
               {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]} war heute schon gezählt. Es zählt einmal pro Tag.
             </p>
           ))}
+          {(result.counted.some((c) => c.completed) || result.done?.length > 0) && (
+            <p className="small muted">{LEVEL_CHANGE_WARNING}</p>
+          )}
+          {result.good && <p className="block-note">{SESSION_GUIDANCE.afterSuccess}</p>}
           <button type="button" className="link-btn undo-link" onClick={() => {
             setSt((p) => undoLastSession(p));
             setToday(result.prevToday);
@@ -269,8 +396,13 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           ))}
         </div>
         <p className="small muted">
-          {type.duration} · {type.desc}{plan.load > 0 && ` · Belastung: ${plan.load} von max. ${plan.limit}`}
+          {type.duration} · {type.desc}
+          {plan.load > 0 && (plan.capped ? ` · Belastung: ${plan.load} von max. ${plan.limit}` : ` · Belastung: ${plan.load}, Richtwert ${plan.limit}`)}
         </p>
+        {plan.type !== "voll" && <p className="small muted">{WARMUP_COOLDOWN.shortNote}</p>}
+        {plan.over && (
+          <p className="block-warn"><IconAlert size={16} /> Belastung über dem Richtwert von {plan.limit}.</p>
+        )}
       </section>
 
       {pack.items.length > 0 && (
@@ -280,9 +412,14 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
         </section>
       )}
 
+      {plan.type === "voll" && <Checklist />}
+
       <div className="stack" style={{ gap: 14 }}>
-        {plan.blocks.map((b) => (
-          <BlockCard key={b.role} st={st} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
+        {plan.blocks.map((b, i) => (
+          <Fragment key={b.role}>
+            {i > 0 && <p className="block-break" title={SESSION_GUIDANCE.blockSeparation}>Pause · Verwechslungsgefahr</p>}
+            <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
+          </Fragment>
         ))}
       </div>
 

@@ -107,7 +107,9 @@ export default function SessionItem({ s, defaultOpen = false }) {
       </button>
       {open && <div className="sess-body">
         <p className="sess-meta">
-          {fmtLong(s.date)} · {typeLabel(s.type)}{s.load !== 0 && ` · Belastung: ${num(s.load)} von max. ${num(s.limit)}`}
+          {fmtLong(s.date)} · {typeLabel(s.type)}{s.load !== 0 && (s.capped === false
+            ? ` · Belastung: ${num(s.load)}, Richtwert ${num(s.limit)}`
+            : ` · Belastung: ${num(s.load)} von max. ${num(s.limit)}`)}
         </p>
         <ul className="sess-blocks">
           {blocks.map((b, i) => (

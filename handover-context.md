@@ -109,6 +109,25 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Offene Widersprüche und Lücken: Bericht im Chat vom 2026-10-27 (u. a. Abschnitt 9 vs. 14, Phasen-Tabelle, Wasser-Track,
   Restinhalte F/D/H Gold, H Bronze/Silber).
 
+## Fundament-Umbau Teil 2 (2026-10-27, Spec: `docs/fundament-umbau-2.md`)
+- Schema 3: Migration v2→v3 – abgeschlossene Level (doneAt) bleiben abgeschlossen: Schritt 4, Zähler auf Sollwert.
+  Sicherung unter `edc-v3-backup-v2`.
+- Schritt-Zähler-Modell in `progress.js` (`rateLevel`): gut = Zähler +1 und Schritt +1, okay = nichts, noch nicht =
+  Schritt -1. Abgeschlossen = Zähler voll **und** Schritt 4 (`isLevelDone`). Schritt geht nur mit dem Zähler weiter
+  (einmal pro Tag); bei vollem Zähler hebt „gut“ nur noch den Schritt. Session speichert `steps` (from/to) für Rückgängig,
+  dazu `cause`, `signs`, `downgraded`, `capped`.
+- Belastung: `LOAD_LIMITS.default` = 5 ist nur Warnschwelle (`plan.over`, „Richtwert“). Alter/Gelenke bleiben Obergrenzen
+  (`loadLimits().cap`), nur dann wird gekürzt.
+- `src/lib/steps.js`: Schritttexte, Einstieg/Ziel, Geländebereich aus `path`, Prüfungsbezug, Phase, Mindestalter.
+- `TERRAIN` entfernt, Gelände nur noch über `TERRAIN_STEPS` im Pfad. `dummyType "both"` heißt jetzt `"junior"`
+  (Juniordummy 400 g). Welpendummy 200 g. Markierstäbe überall 4, Pflicht. Neue gear-ids ohne Icon: futterschuessel,
+  schreckschuss. Neues Level-Feld `setup` (Gelände/Helfer, nicht in der Packliste). `run: null` bei den fünf neu
+  geschriebenen Leveln (kein Text in der Spec).
+- Anzeige: Schritt-Pfad, Prüfungsbezug, Lernphase, Alter, Suchen-Regeln (G) im Übungsdetail; Einstieg/Ziel im Hauptteil,
+  Blocktrennung, Aufwärm-/Cool-Down-Hinweis, Vorbereitungs-Checkliste (nur Vollsession), Fehlerursachen und
+  Übersprungszeichen in der Bewertung, Pausenvorschlag und Levelwechsel-Warnung im Ergebnis.
+- `GLOSSARY` angelegt (nur Blinken), noch nicht gerendert.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.

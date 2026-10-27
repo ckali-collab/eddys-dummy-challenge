@@ -4,7 +4,7 @@ import { TRACKS } from "../data/training.js";
 // Seit dem Fundament-Umbau (docs/fundament-umbau.md, Abschnitt 14) gilt: kein Reset, kein stilles Verwerfen.
 // Der alte Key edc-v2 wird bewusst ignoriert.
 export const STORAGE_KEY = "edc-v3";
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 // Vor jeder Migration wird der unveränderte alte Stand hier abgelegt (je Ausgangsversion ein Key)
 const backupKey = (version) => `${STORAGE_KEY}-backup-v${version}`;
 
@@ -27,6 +27,26 @@ const MIGRATIONS = {
       }
     }
     return { ...raw, tracks, schemaVersion: 2 };
+  },
+  // v2 → v3 (fundament-umbau-2.md, Abschnitt 0; fundament-umbau-3.md, Abschnitt 1):
+  // - Abgeschlossen (doneAt) bleibt abgeschlossen: Schritt 4, Zähler auf den aktuellen Sollwert (nie gesenkt).
+  // - Sonst Schritt aus dem Zähler: nach n guten Durchgängen steht das Level auf Schritt n+1 (max. 4).
+  // - Kein lesbarer Zähler: Zweifelsregel, Schritt 1.
+  2: (raw) => {
+    const tracks = {};
+    for (const [tid, levels] of Object.entries(raw.tracks || {})) {
+      tracks[tid] = {};
+      for (const [lid, p] of Object.entries(levels || {})) {
+        const def = levelDef(tid, lid);
+        if (!def || !p || typeof p !== "object") { tracks[tid][lid] = p; continue; }
+        const reps = p.reps ?? 0;
+        const readable = Number.isInteger(reps) && reps >= 0;
+        tracks[tid][lid] = p.doneAt
+          ? { ...p, step: STEP_COUNT, reps: Math.max(readable ? reps : 0, def.reps) }
+          : { ...p, step: readable ? Math.min(STEP_COUNT, reps + 1) : 1 };
+      }
+    }
+    return { ...raw, tracks, schemaVersion: 3 };
   },
 };
 
