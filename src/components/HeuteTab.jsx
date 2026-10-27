@@ -12,6 +12,7 @@ import { PackList, GearList } from "./Gear.jsx";
 import { packingList } from "../lib/gear.js";
 import { setUpdateHold } from "../lib/updateGate.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
+import { RichText } from "./Glossar.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
 
 // ─── Letzte Sessions ──────────────────────────────────────────
@@ -162,7 +163,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
       <PhaseNote typeId={typeId} role={block.role} />
-      {level.run && <p className="block-hint">{level.run}</p>}
+      {level.run && <p className="block-hint"><RichText text={level.run} gloss /></p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
       {level.gear.length > 0 && (
         <GearList gear={level.gear} dummyType={level.dummyType} dog={st.dog} compact />

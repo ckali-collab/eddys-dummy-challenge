@@ -9,6 +9,8 @@ import HeuteTab from "./components/HeuteTab.jsx";
 import SessionsView from "./components/SessionsView.jsx";
 import TrophiesTab from "./components/TrophiesTab.jsx";
 import TrophyUnlock from "./components/TrophyUnlock.jsx";
+import BasicsTab from "./components/BasicsTab.jsx";
+import { GlossarContext } from "./components/Glossar.jsx";
 import { syncTrophies, setManualTrophy } from "./lib/trophies.js";
 import { getTrack, countRep, resetLevel } from "./lib/progress.js";
 import { dayKeyOf, restStatus } from "./lib/session.js";
@@ -55,14 +57,6 @@ const Onboarding = ({ dog, onDone }) => (
   </div>
 );
 
-// ─── Platzhalter-Tab ──────────────────────────────────────────
-const Placeholder = ({ tab }) => (
-  <div className="placeholder">
-    <h2 style={{ marginBottom: 6 }}>{tab.label}</h2>
-    <p>Kommt in einem der nächsten Schritte.</p>
-  </div>
-);
-
 // ─── APP ──────────────────────────────────────────────────────
 export default function App() {
   const [st, setSt] = useState(() => loadState() || freshState());
@@ -70,6 +64,12 @@ export default function App() {
   const [tab, setTab] = useState("heute");
   // Unterseite über dem Tab: null | { type: "settings" } | { type: "level", trackId, levelId }
   const [view, setView] = useState(null);
+  // Sprung aus einer Glossar-Sprechblase in den Basics-Tab: { id, n }
+  const [glossarFocus, setGlossarFocus] = useState(null);
+  const glossar = {
+    open: (id) => { setTab("basics"); setView(null); setGlossarFocus({ id, n: Date.now() }); },
+    strong: st.dog.experience === "keine", // Profilfeld gibt es noch nicht
+  };
 
   useEffect(() => {
     const t = setTimeout(() => setScreen(st.dog.name ? "app" : "onboard"), SPLASH_MS);
@@ -151,7 +151,7 @@ export default function App() {
     tab === "trophaeen" ? <TrophiesTab st={st} onManual={onManualTrophy} /> :
     tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel}
       onOpenAll={() => setView({ type: "sessions" })} /> :
-    <Placeholder tab={current} />;
+    <BasicsTab st={st} focus={glossarFocus} />;
 
   return (
     <div className="shell">
@@ -174,7 +174,7 @@ export default function App() {
       </header>
 
       <main className="main">
-        {content}
+        <GlossarContext.Provider value={glossar}>{content}</GlossarContext.Provider>
       </main>
 
       {unlockQueue.length > 0 && (

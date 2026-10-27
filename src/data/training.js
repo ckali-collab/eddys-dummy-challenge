@@ -1285,13 +1285,7 @@ export const EQUIPMENT_NOTES = {
 export const DISCLAIMER =
   "Die App ersetzt keine tierärztliche Beratung. Bei bekannten Vorerkrankungen Belastungsgrenzen mit dem Tierarzt abstimmen.";
 
-// ─── Glossar ──────────────────────────────────────────────────
-// Bisher nur der eine Eintrag aus fundament-umbau-2.md, Abschnitt 9 (noch nicht gerendert).
-// Blinken kommt bewusst nicht ins Troubleshooting: keine belegte Ursache-und-Abhilfe-Kette.
-export const GLOSSARY = [
-  { term: "Blinken", kind: "fehler",
-    def: "Der Hund findet das Dummy und zeigt es nicht an, läuft weiter oder nimmt es nicht auf." },
-];
+// Glossar: src/data/glossar.js (docs/glossar-v5.md)
 
 // ─── Troubleshooting ──────────────────────────────────────────
 export const TROUBLESHOOTING = [

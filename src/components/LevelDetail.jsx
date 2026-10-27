@@ -7,6 +7,7 @@ import {
 import { IconAlert, IconCheck } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
+import { RichText } from "./Glossar.jsx";
 import { terrainRange, stepParts, stepCount, examLine, phaseOf, minAgeOf } from "../lib/steps.js";
 
 const Section = ({ title, children }) => (
@@ -107,7 +108,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       )}
 
       <Section title="Kriterium">
-        <p className="criteria">{level.criteria}</p>
+        <p className="criteria"><RichText text={level.criteria} gloss /></p>
       </Section>
 
       {stepCount(level) > 0 && (
@@ -118,14 +119,14 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
 
       {level.run && (
         <Section title="Ein Durchgang">
-          <p className="run">{level.run}</p>
+          <p className="run"><RichText text={level.run} gloss /></p>
         </Section>
       )}
 
       <Section title={stepsType.title}>
         <p className="muted">{stepsType.intro}</p>
         <ol className="steps">
-          {level.steps.map((s, i) => <li key={i}>{s}</li>)}
+          {level.steps.map((s, i) => <li key={i}><span><RichText text={s} gloss /></span></li>)}
         </ol>
       </Section>
 
@@ -140,7 +141,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       {level.tips.length > 0 && (
         <Section title="Tipps">
           <ul className="tips">
-            {level.tips.map((t, i) => <li key={i}>{t}</li>)}
+            {level.tips.map((t, i) => <li key={i}><span><RichText text={t} gloss /></span></li>)}
           </ul>
         </Section>
       )}

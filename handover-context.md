@@ -151,6 +151,18 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - G Bronze legt zehn oder mehr Dummys aus. G-Kriterien „Auf der letzten Stufe“. Alte G-Tipps und Nasen-Tipp entfernt
   (Nasen-Text steht nur noch in den Suchen-Regeln). Mini-Session-Hinweis im Hauptteil neu (nur Daten, `hint` wird nicht gerendert).
 
+## Basics-Tab und Glossar (2026-10-27, Spec: `docs/basics-umsetzung.md`, Inhalt: `docs/basics-tab.md`, `docs/glossar-v5.md`)
+- `src/data/glossar.js` (64 Einträge, `GLOSSAR_GROUPS`, `GLOSSAR_SOURCES`) ersetzt `GLOSSARY` aus training.js.
+  Ohne Evidenzstufen. `long` = Blöcke wie in basics.js, `**fett**` erlaubt.
+- `src/data/basics.js`: 12 Abschnitte als Blöcke (text, lead, list, check, table, quote, note). Klassentabelle aus
+  `DISTANCE_STEPS`, Aufwärm-Tabelle aus `WARMUP_COOLDOWN`, Farbtext aus `DUMMY_FACTS.farben`.
+- `BasicsTab.jsx`: Accordion (details), Glossar-Abschnitt gruppiert. `Glossar.jsx`: `RichText` (fett, Umbruch,
+  antippbare Begriffe), Sprechblase mit Sprung ins Glossar über `GlossarContext` (App: `glossarFocus`).
+  `src/lib/glossar.js`: Begriffserkennung, ganzes Wort, Groß-/Kleinschreibung, je Begriff erstes Vorkommen pro Block.
+  Markiert in Übungsdetail (Kriterium, Kartentext, Schritte, Tipps) und Heute-Karten (Kartentext).
+- Offen: Profil hat weder `experience` noch `signals` → Abschnitt „So fängst du an“ unsichtbar, Markierung immer dezent,
+  Signale zeigen den Platzhalter „(dein …)“. Profilabschnitt „Meine Signale“ (Topf 3) nicht gebaut.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.
