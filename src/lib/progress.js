@@ -6,7 +6,7 @@ export const getTrack = (trackId) => TRACKS.find((t) => t.id === trackId);
 export const getLevel = (trackId, levelId) => getTrack(trackId)?.levels.find((l) => l.id === levelId);
 
 export const levelProgress = (st, trackId, levelId) =>
-  st.tracks[trackId]?.[levelId] || { reps: 0, dates: [], doneAt: null };
+  st.tracks[trackId]?.[levelId] || { reps: 0, dates: [], doneAt: null, step: 1 };
 
 export const isLevelDone = (st, trackId, levelId) => {
   const lvl = getLevel(trackId, levelId);
@@ -67,6 +67,7 @@ export const countRep = (st, trackId, levelId, now = new Date()) => {
   if (!lvl || cur.reps >= lvl.reps || countedToday(cur, now)) return st;
   const reps = cur.reps + 1;
   return setLevel(st, trackId, levelId, {
+    ...cur, // step bleibt, wie er ist: das Weiterschalten im Pfad ist nicht an den Zähler gekoppelt
     reps,
     dates: [...cur.dates, now.toISOString()],
     doneAt: reps >= lvl.reps ? now.toISOString() : null,
@@ -74,4 +75,4 @@ export const countRep = (st, trackId, levelId, now = new Date()) => {
 };
 
 export const resetLevel = (st, trackId, levelId) =>
-  setLevel(st, trackId, levelId, { reps: 0, dates: [], doneAt: null });
+  setLevel(st, trackId, levelId, { reps: 0, dates: [], doneAt: null, step: 1 });

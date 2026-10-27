@@ -249,6 +249,7 @@ export const undoLastSession = (st) => {
       const i = d ? p.dates.lastIndexOf(d) : -1;
       if (i < 0) return [lid, p];
       return [lid, {
+        ...p,
         reps: Math.max(0, p.reps - 1),
         dates: p.dates.filter((_, j) => j !== i),
         doneAt: p.doneAt === d ? null : p.doneAt,

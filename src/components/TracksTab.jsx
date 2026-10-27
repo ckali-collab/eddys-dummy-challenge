@@ -43,6 +43,7 @@ const TrackCard = ({ st, track, onOpen }) => {
         <div className="track-titles">
           <h2>{track.name}</h2>
           <p className="track-short">{track.short}</p>
+          {track.examNote && <p className="track-exam-note small">{track.examNote}</p>}
         </div>
       </div>
 

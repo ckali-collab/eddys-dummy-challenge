@@ -68,13 +68,24 @@ export const COMMANDS = [
   { word: "Fuß",     gesture: "Hund links neben dir",                  when: "Grundposition" },
   { word: "Ran",      gesture: "Hund rechts neben dir",                 when: "Grundposition" },
   { word: "Apport",   gesture: null,                                     when: "Sichtmarke, Hund hat die Flugbahn gesehen" },
-  { word: "Voran",    gesture: "Arm vollständig über Kopf gestreckt",  when: "Gerade Linie von der Grundposition weg" },
-  { word: "Back",     gesture: "Arm über Kopf",                         when: "Nach Stopp-Pfiff: weiter von dir weg" },
+  { word: "Voran",
+    gesture: "Flache Hand auf der Hundeseite über den Kopf des HUNDES, " +
+             "20 bis 30 cm davor, zeigt die Laufrichtung wie über Kimme und Korn",
+    when: "Hund in Grundstellung neben dir" },
+  { word: "Back",
+    gesture: "Arm senkrecht über den EIGENEN Kopf",
+    when: "Nach Stopp-Pfiff, Hund steht entfernt und sieht dich an",
+    note: "Rechter Arm, der Hund dreht über die linke Schulter. " +
+          "Spiegelbildlich, weil er dich ansieht." },
   { word: "Links",    gesture: "Linker Arm waagerecht ausgestreckt",     when: "Nach Stopp-Pfiff" },
   { word: "Rechts",   gesture: "Rechter Arm waagerecht ausgestreckt",    when: "Nach Stopp-Pfiff" },
   { word: "Verloren", gesture: "Trommelbewegung, Handfläche nach unten", when: "Nasenarbeit in der Zone" },
   { word: "Frei",     gesture: "Wischbewegung nach vorn",                when: "Ende der Übung" },
 ];
+
+// Handzeichen allgemein (Zvolsky S. 67 f., belegt) – Hinweis für den Basics-Tab
+export const HAND_SIGNAL_NOTE =
+  "Hunde sind Bewegungsseher und haben kein Sehpigment für Grün. Das deutlichste Handzeichen ist das, das die Silhouette des Führers am stärksten verändert. Ein ausgestreckter Zeigefinger ist auf Distanz schlecht zu erkennen.";
 
 export const DIRECTION_NOTE =
   "Richtungsangaben sind immer aus deiner Sicht. Du streckst den linken Arm aus, der Hund läuft nach links von dir aus gesehen.";
@@ -86,6 +97,71 @@ export const TERRAIN = [
   { level: "gold",   emoji: "🟠", label: "Hohes Gras, Buschwerk, Waldrand", desc: "Volle Distanz, reale Ablenkung" },
 ];
 
+// ─── Fundament: Distanz, Gelände, Bedingungen, Lernphasen (docs/fundament-umbau.md, Abschnitt 1) ──
+export const DISTANCE_STEPS = [
+  { id: 1, maxM: 15, label: "bis 15 m", paces: 20,
+    note: "Einwirkungsbereich. Junghunde bleiben hier." },
+  { id: 2, maxM: 30, label: "bis 30 m", paces: 40,
+    note: "Prüfungsmaß DP-E." },
+  { id: 3, maxM: 50, label: "bis 50 m", paces: 65,
+    note: "Prüfungsmaß Dummy A." },
+  { id: 4, maxM: 80, label: "bis 80 m", paces: 105,
+    note: "Prüfungsmaß Dummy F." },
+];
+
+export const TERRAIN_STEPS = [
+  { id: 1, label: "offen und einsehbar",
+    examples: "Wiese, Acker, Stoppelfeld" },
+  { id: 2, label: "niedrige Deckung",
+    examples: "hohes Gras, Brache, lichter Bewuchs" },
+  { id: 3, label: "hohe Deckung oder ein Geländewechsel",
+    examples: "Mais, Schilf, Waldrand, Graben, Hecke" },
+  { id: 4, label: "Wasser oder mehrere Wechsel",
+    examples: "tiefes Gewässer, Graben plus Hecke" },
+];
+
+// Die acht veränderbaren Bedingungen (Zvolsky S. 71 f.).
+// Variantenachse für alle Tracks ohne Distanzbezug.
+export const CONDITIONS = [
+  { id: "haltung",    label: "Haltung, Gestik, Mimik",
+    examples: "stehend, laufend, Rücken zudrehen, am Boden, hinschauen oder wegschauen" },
+  { id: "ort",        label: "Trainingsort",
+    examples: "Bewuchs, Hintergrund, Untergrund, Haus, Garten" },
+  { id: "gegenstand", label: "Trainingsgegenstände",
+    examples: "Dummygewichte, Ball, Spezialdummy" },
+  { id: "position",   label: "Entfernung und Position des Führers",
+    examples: "neben, vor, nah, fern" },
+  { id: "verleitung", label: "Verleitungen",
+    examples: "andere Hunde, Menschen, Gegenstände, Winkel, andere Sequenzen" },
+  { id: "ausgang",    label: "Ausgangssituation",
+    examples: "sitzt, steht, läuft, liegt, apportiert" },
+  { id: "belohnung",  label: "Aufbewahrungsort der Belohnung",
+    examples: "Jackentasche, Hosentasche, Dummytasche, Schüssel am Boden" },
+  { id: "wetter",     label: "Wetter",
+    examples: "Sonne, Regen, Schnee, Nebel, Wind, Sturm, gegen die Sonne" },
+];
+
+// Lernphasen (Zvolsky S. 70 f.). Pro Level anzeigen, in welcher Phase
+// der Nutzer sich befindet.
+export const LEARNING_PHASES = [
+  { id: "erlernen", label: "Erlernen",
+    reinforce: "jedes Mal, hochwertig",
+    conditions: "immer gleich, ablenkungsarm",
+    goal: "Verhalten entsteht" },
+  { id: "ueben", label: "Üben",
+    reinforce: "unregelmäßig, nur bei optimaler Ausführung",
+    conditions: "Rahmenbedingungen variieren",
+    goal: "Qualität erhöhen" },
+  { id: "festigen", label: "Festigen",
+    reinforce: "variabel, nur bei optimalem Verhalten",
+    conditions: "große Ablenkung, Konfliktsituationen",
+    goal: "Verhalten unter allen Bedingungen" },
+];
+
+// Bei jedem Levelwechsel anzuzeigen (Zvolsky, wörtlich)
+export const LEVEL_CHANGE_WARNING =
+  "Vermeiden Sie, eine noch nicht genügend gefestigte Übung mit Ablenkung zu trainieren. Das bereits erreichte Niveau wird gesenkt und somit das vorangegangene Training ad absurdum geführt.";
+
 // ─── Tracks ───────────────────────────────────────────────────
 export const TRACKS = [
   {
@@ -95,11 +171,22 @@ export const TRACKS = [
     group: "grund",
     short: "Anhalten und Sitzen auf einen kurzen Pip",
     desc: "Grundlage für alles. Ohne zuverlässigen Stopp ist kein Handling möglich.",
+    examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
+    axis: "bedingungen", // "bedingungen" | "distanz"
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "Stopp im Nahbereich",
+        exam: "appell",
+        examClass: "DP-E",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "ausgang", variant: "Hund sitzt" },
+          { condition: "ausgang", variant: "Hund steht" },
+          { condition: "position", variant: "10 m Abstand" },
+          { condition: "position", variant: "25 m Abstand" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Sitzt sofort auf einen leisen Pip, fünf von fünf Fällen, an drei verschiedenen Tagen.",
         run: "5 Stopps auf den leisen Pip aus einer der vier Varianten, über den Spaziergang verteilt. Dazwischen normal weitergehen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -123,6 +210,15 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Stopp auf Distanz und aus der Bewegung",
+        exam: "appell",
+        examClass: "A",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "ausgang", variant: "Hund läuft auf dich zu" },
+          { condition: "ausgang", variant: "Hund läuft von dir weg" },
+          { condition: "position", variant: "35 m" },
+          { condition: "verleitung", variant: "Dummy liegt in Sicht" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Stopp auf 25 Meter, auch beim Schnüffeln oder Laufen. Vier saubere Stopps in Folge, drei verschiedene Orte.",
         run: "4 saubere Stopps auf 25 Meter an einem Ort, jeder Stopp wird belohnt (Rückruf oder Dummywurf).",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -144,6 +240,15 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Stopp im Lauf auf den Dummy",
+        exam: "appell",
+        examClass: "F",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "ausgang", variant: "Hund läuft zum Dummy" },
+          { condition: "verleitung", variant: "fremder Hund in Sicht" },
+          { condition: "verleitung", variant: "Wild oder Vogel" },
+          { condition: "ort", variant: "unbekanntes Gelände" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Stopp auf 40 Meter während des Laufs zum Dummy. Drei Durchgänge an drei Tagen, davon mindestens einer bei realer Ablenkung.",
         run: "Ein Stopp während des Laufs auf den Dummy, danach weiterschicken. Mehr nicht.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -173,11 +278,22 @@ export const TRACKS = [
     group: "grund",
     short: "Direktes Zurückkommen auf zwei lange Töne",
     desc: "Gerade Linie, kein Zickzack, kein Schnüffeln unterwegs.",
+    examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
+    axis: "bedingungen", // "bedingungen" | "distanz"
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "Rückruf aus ruhiger Situation",
+        exam: "appell",
+        examClass: "DP-E",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "ort", variant: "Garten" },
+          { condition: "ort", variant: "bekannte Wiese" },
+          { condition: "verleitung", variant: "ein Mensch" },
+          { condition: "position", variant: "aus dem Rücken gerufen" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "20 Meter, gerade Linie, Vorsitzen. Fünf schnelle Reaktionen auf das erste Signal in Folge.",
         run: "5 Rückrufe auf 20 Meter, jeder mit Vorsitzen, Lob und anschließender Freigabe.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -199,6 +315,15 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Rückruf aus der Beschäftigung",
+        exam: "appell",
+        examClass: "A",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "ort", variant: "unbekanntes Gelände" },
+          { condition: "verleitung", variant: "fremder Hund" },
+          { condition: "ausgang", variant: "aus dem Schnüffeln heraus" },
+          { condition: "ausgang", variant: "aus dem Lauf heraus" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "40 Meter, Hund ist aktiv am Schnüffeln oder Suchen. Fünf schnelle Reaktionen in Folge.",
         run: "5 Rückrufe auf 40 Meter, jedes Mal erst abwarten, bis er wirklich vertieft ist.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -218,6 +343,15 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Rückruf unter sozialer Ablenkung",
+        exam: "appell",
+        examClass: "F",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "verleitung", variant: "spielende Hunde" },
+          { condition: "verleitung", variant: "Wildwitterung" },
+          { condition: "ort", variant: "Wald mit Sichtverlust" },
+          { condition: "wetter", variant: "Wind von vorn" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Kommt auf das erste Signal, während andere Hunde in der Nähe spielen. Drei Durchgänge an verschiedenen Tagen.",
         run: "Ein Rückruf auf der aktuellen Distanzstufe, danach wieder freigeben und weiterspielen lassen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -248,11 +382,22 @@ export const TRACKS = [
     group: "grund",
     short: "Position, Tempo, Richtung",
     desc: "Ruhig neben dir, ohne Ziehen, ohne Vorauslaufen. In bewussten Phasen, nicht den ganzen Spaziergang.",
+    examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
+    axis: "bedingungen", // "bedingungen" | "distanz"
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "50 Meter ohne Ziehen",
+        exam: "appell",
+        examClass: "DP-E",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "haltung", variant: "gerade Linie" },
+          { condition: "haltung", variant: "Richtungswechsel" },
+          { condition: "haltung", variant: "Tempowechsel" },
+          { condition: "haltung", variant: "Stopp aus der Bewegung" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "50 Meter off-lead bei Fuß auf bekanntem Weg, keine Leinenspannung, kein Vorlaufen.",
         run: "2 bewusste Fuß-Phasen à 50 Meter, jeweils angekündigt und mit Freigabe beendet.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -270,6 +415,15 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Tempo- und Richtungswechsel",
+        exam: "appell",
+        examClass: "A",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "verleitung", variant: "Dummys am Boden" },
+          { condition: "ort", variant: "unbekanntes Gelände" },
+          { condition: "verleitung", variant: "Menschen" },
+          { condition: "gegenstand", variant: "mit Dummy im Fang" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Bleibt bei Fuß bei abrupten Tempo- und Richtungswechseln, 100 Meter am Stück.",
         run: "100 Meter am Stück mit mindestens 4 Tempowechseln und 2 Kehrtwendungen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -287,6 +441,15 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Automatisches Sitzen unter Ablenkung",
+        exam: "appell",
+        examClass: "F",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "verleitung", variant: "fremde Hunde" },
+          { condition: "verleitung", variant: "fliegendes Dummy" },
+          { condition: "ort", variant: "Prüfungsähnliche Linie" },
+          { condition: "wetter", variant: "Regen oder Wind" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Du bleibst stehen, Hund sitzt automatisch ohne Kommando - auch bei Fahrrad oder Jogger. Fünf Mal in Folge.",
         run: "5 Halts ohne Kommando, davon mindestens 2 mit vorbeikommender Ablenkung.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -312,11 +475,22 @@ export const TRACKS = [
     group: "apport",
     short: "Warten statt Losrennen",
     desc: "Erweiterung des Grundgehorsams. Der Hund entscheidet selbst zu warten. Immer off-lead - mit Leine trainierst du nichts.",
+    examSubject: "Appell, ab Gold Walk Up", // Prüfungsfach (Abschnitt 6)
+    axis: "bedingungen", // "bedingungen" | "distanz"
     requires: ["C:bronze"],
     levels: [
       {
         id: "bronze",
         title: "Warten nach dem Wurf",
+        exam: "appell",
+        examClass: "DP-E",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "verleitung", variant: "Dummy wird fallen gelassen" },
+          { condition: "verleitung", variant: "Dummy wird kurz geworfen" },
+          { condition: "verleitung", variant: "Dummy weit geworfen" },
+          { condition: "position", variant: "du gehst zwei Schritte weg" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Drei Durchgänge.",
         run: "4 Würfe mit Wartezeit auf der aktuellen Stufe (3, 5 oder 8 Sekunden), danach Apport.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -339,6 +513,15 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Warten bei Bewegung und zweitem Dummy",
+        exam: "appell",
+        examClass: "A",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "verleitung", variant: "zwei Dummys nacheinander" },
+          { condition: "verleitung", variant: "Werfer wirft" },
+          { condition: "position", variant: "du holst selbst" },
+          { condition: "ausgang", variant: "aus der Bewegung" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Hält den Sitz, während du fünf Schritte weggehst oder ein zweiter Dummy fliegt. Drei Durchgänge.",
         run: "4 Wiederholungen einer Variante (Schritt zur Seite, Weggehen, Markierstab setzen, zweiter Dummy).",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -357,8 +540,17 @@ export const TRACKS = [
       },
       {
         id: "gold",
-        title: "Walk-up und Honouring",
-        criteria: "Bleibt bei Fuß, wenn ein Dummy aus der Bewegung heraus fliegt, und bleibt ruhig sitzen, während ein anderer Hund arbeitet. Drei Durchgänge mit beiden Teilen.",
+        title: "Standruhe in Verbindung mit Markieren (Walk Up)",
+        exam: null, // offen: Abschnitt 6 nennt "ab Gold Walk Up", der exam-Enum kennt kein walkup
+        examClass: "F",
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "verleitung", variant: "anderes Gespann arbeitet zuerst" },
+          { condition: "ausgang", variant: "Walk-up-Linie in Bewegung" },
+          { condition: "verleitung", variant: "Schuss" },
+          { condition: "ort", variant: "Prüfungsgelände" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
+        criteria: "Bleibt in der Linie bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn ein anderes Gespann vor dir arbeitet. Drei Durchgänge.",
         run: "Eine Walk-up-Sequenz mit seitlichem Wurf und eine Honouring-Phase, während ein anderer Hund arbeitet.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang
@@ -370,7 +562,7 @@ export const TRACKS = [
           "Eine zweite Person wirft seitlich einen Dummy.",
           "Hund bleibt bei Fuß, ohne Kommando.",
           "Du hältst an, er sitzt automatisch. 2 bis 3 Sekunden Pause. Dann Apport.",
-          "Honouring: Ein anderer Hund arbeitet in Sichtweite. Dein Hund sitzt und schaut zu. Mit großer Distanz beginnen.",
+          "Ein anderes Gespann arbeitet zuerst. Dein Hund sitzt und schaut zu. Mit großer Distanz beginnen.",
         ],
         tips: ["Krönung aller Steadiness-Arbeit.", "Anfangs langsam gehen und Dummy weit seitlich."],
         warning: null,
@@ -385,11 +577,23 @@ export const TRACKS = [
     group: "apport",
     short: "Sauber in die Hand geben",
     desc: "Die meisten Abgabeprobleme entstehen drei bis vier Schritte vor dem Hundeführer.",
+    examSubject: null, // Prüfungsfach (Abschnitt 6)
+    axis: "bedingungen", // "bedingungen" | "distanz"
+    examNote: "Kein eigenes Prüfungsfach, wird in jedem Fach mitbewertet.",
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "In die Hand, ohne Ablegen",
+        exam: null,
+        examClass: null,
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "gegenstand", variant: "Welpendummy 200 g" },
+          { condition: "gegenstand", variant: "Juniordummy 400 g" },
+          { condition: "belohnung", variant: "Hand leer" },
+          { condition: "position", variant: "Abgabe im Stehen vorn" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Bringt den Dummy bis in die Hand, legt nicht ab, bei zehn Retrieves hintereinander.",
         run: "10 kurze Retrieves bis 10 Meter, jedes Mal rückwärts gehen und ruhig abnehmen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -412,6 +616,15 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Sitzen bei der Abgabe",
+        exam: null,
+        examClass: null,
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "gegenstand", variant: "Standard 500 g" },
+          { condition: "gegenstand", variant: "Kaltwild oder Fell" },
+          { condition: "position", variant: "Abgabe seitlich aus Fuß" },
+          { condition: "ausgang", variant: "Festhalten bis zum Aus-Signal" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Sitzt vor dir ab und hält den Dummy, bis du ihn nimmst. Zehn Retrieves.",
         run: "10 Retrieves mit Vorsitzen und Halten, bis du den Dummy nimmst.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -431,6 +644,15 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Abgabe unter Erregung",
+        exam: null,
+        examClass: null,
+        maxDistanceStep: null,
+        conditionPath: [
+          { condition: "gegenstand", variant: "nasses Dummy" },
+          { condition: "gegenstand", variant: "sperriger Gegenstand" },
+          { condition: "verleitung", variant: "zweites Dummy liegt bereit" },
+          { condition: "ort", variant: "Prüfungssituation" },
+        ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Saubere Abgabe bei hoher Erregung. Drei Durchgänge, jeder mit allen drei Situationen: nach langem Retrieve, nach Wasserarbeit, nach Mehrfachmarke.",
         run: "3 Abgaben in hoher Erregung, je eine nach langem Retrieve, nach Wasser und nach Mehrfachmarke.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -459,11 +681,17 @@ export const TRACKS = [
     group: "suche",
     short: "Einzel-, Doppel-, Dreifachmarke",
     desc: "Marking heißt: die Flugbahn verfolgen und sich die Position merken. Nicht den Dummy liegen sehen. Hohes Gras ist deshalb kein Hindernis.",
+    examSubject: "Markierung", // Prüfungsfach (Abschnitt 6)
+    axis: "distanz", // "bedingungen" | "distanz"
     requires: ["D:bronze", "E:bronze"],
     levels: [
       {
         id: "bronze",
         title: "Einzelmarke",
+        exam: "markierung",
+        examClass: "DP-E",
+        maxDistanceStep: 2,
+        path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Direkter Weg hin und zurück, sauberes Apportieren, 20 bis 30 Meter. Drei Durchgänge, verteilt auf drei verschiedene Geländearten.",
         run: "3 bis 5 Einzelmarken auf 20 bis 30 Meter auf einer Geländeart.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -487,6 +715,10 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Doppelmarke",
+        exam: "markierung",
+        examClass: "A",
+        maxDistanceStep: 3,
+        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, drei Durchgänge.",
         run: "2 Doppelmarken-Sequenzen, jeweils zuletzt geworfener Dummy zuerst.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -500,6 +732,7 @@ export const TRACKS = [
           "Hund wartet. Zweiten Dummy werfen, etwa auf 2 Uhr, 20 Meter. Markierstab setzen.",
           "Zuletzt geworfenen zuerst schicken. Der liegt frischer im Gedächtnis.",
           "Abnahme, kurze Pause, Körper zum ersten Dummy drehen, dann schicken.",
+          "Variante Memory: Dummy sichtbar werfen, Hund wartet, ihr wechselt die Position um mindestens 20 Meter, dann von dort schicken.",
         ],
         tips: [
           "Der zweite Retrieve ist die eigentliche Gedächtnisaufgabe.",
@@ -509,10 +742,14 @@ export const TRACKS = [
       },
       {
         id: "gold",
-        title: "Dreifachmarke",
-        criteria: "Alle drei Dummys in richtiger Reihenfolge, ohne Hilfe. Zwei Durchgänge an zwei Tagen, je eine komplette Sequenz.",
+        title: "Doppelmarkierung auf F-Niveau",
+        exam: "markierung",
+        examClass: "F",
+        maxDistanceStep: 4,
+        path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Drei Durchgänge.",
         run: "Eine komplette Dreifachmarken-Sequenz. Danach Ruhetag, bei Gelenkbefund zwei.",
-        reps: 2, // Tage mit gelungenem Durchgang
+        reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 3 }, { id: "markierstab", n: 3, optional: true }],
         dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
@@ -539,11 +776,17 @@ export const TRACKS = [
     group: "suche",
     short: "Zone absuchen mit der Nase",
     desc: "Der Hund wird in eine Zone geschickt und sucht dort selbstständig. Kein Richtungskommando.",
+    examSubject: "Suche", // Prüfungsfach (Abschnitt 6)
+    axis: "distanz", // "bedingungen" | "distanz"
     requires: [],
     levels: [
       {
         id: "bronze",
         title: "Zone auf kurzer Distanz",
+        exam: "suche",
+        examClass: "DP-E",
+        maxDistanceStep: 2,
+        path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Findet selbstständig ohne Hilfe, 15 Meter, kurzes Gras, drei verschiedene Richtungen.",
         run: "3 Zonensuchen auf 15 Meter in drei verschiedenen Richtungen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -567,6 +810,10 @@ export const TRACKS = [
       {
         id: "silber",
         title: "Größere Zone mit Zeitverzögerung",
+        exam: "suche",
+        examClass: "A",
+        maxDistanceStep: 3,
+        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "30 Meter, mittleres Gras, 2 Minuten Verzögerung, drei Durchgänge.",
         run: "3 Zonensuchen auf 30 Meter, je 2 Minuten Verzögerung.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -585,6 +832,10 @@ export const TRACKS = [
       {
         id: "gold",
         title: "Komplexes Gelände",
+        exam: "suche",
+        examClass: "F",
+        maxDistanceStep: 4,
+        path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "50 Meter und mehr, hohes Gras oder Waldrand, 5 Minuten Verzögerung, drei Durchgänge.",
         run: "3 Zonensuchen auf 50 Meter und mehr, je 5 Minuten Verzögerung.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -610,11 +861,17 @@ export const TRACKS = [
     group: "handling",
     short: "Voran, Back, Links, Rechts, Blind",
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
-    requires: ["A:silber"],
+    examSubject: "Einweisen", // Prüfungsfach (Abschnitt 6)
+    axis: "distanz", // "bedingungen" | "distanz"
+    requires: ["A:silber", "F:silber", "G:silber"],
     levels: [
       {
         id: "bronze",
         title: "Memory Retrieve und Voran",
+        exam: "einweisen",
+        examClass: "F",
+        maxDistanceStep: 2,
+        path: [{ d: 1, g: 1 }, { d: 1, g: 1 }, { d: 2, g: 1 }, { d: 2, g: 1 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Läuft auf Voran mindestens 35 Meter geradeaus auf einen unsichtbaren Dummy. Drei Durchgänge, davon mindestens einer auf anderem Gelände.",
         run: "3 Memory Retrieves auf etwa 30 Meter plus 1 Voran auf der aktuellen Distanzstufe.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -624,24 +881,22 @@ export const TRACKS = [
         amount: { n: 3, unit: "Memory Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "memory-retrieve",
         steps: [
-          "Memory Retrieve: Hund bei Fuß, gemeinsam zum Ablagepunkt gehen, etwa 30 Meter.",
-          "Dummy dort ablegen, der Hund sieht es. Markierstab setzen.",
-          "Gemeinsam zurück zur Startposition.",
-          "Kurze Pause, dann Apport. Er läuft mit Tempo, weil er genau weiß, wo der Dummy liegt.",
-          "Verzögerung steigern: sofort, 30 Sekunden, 1 Minute, 3 Minuten.",
           "Voran einführen: Dummy sichtbar auf 15 Meter geradeaus auslegen.",
           "Hund bei Fuß, beide schauen in dieselbe Richtung. Voran plus Arm vollständig über Kopf.",
           "Distanz steigern, dann auf unsichtbaren Dummy wechseln.",
         ],
         tips: [
           "Einen natürlichen Korridor nutzen: Weg zwischen Büschen, Heckenreihe. Hält ihn auf der Linie.",
-          "Effizient: beim Rundgang um ein Feld in jeder Ecke einen Dummy als Memory ablegen. Am Ende vier lange Memory Retrieves im vollen Galopp.",
         ],
         warning: null,
       },
       {
         id: "silber",
         title: "Back, Links, Rechts und Memory Blind",
+        exam: "einweisen",
+        examClass: "F",
+        maxDistanceStep: 3,
+        path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Nimmt alle drei Richtungssignale nach Stopp-Pfiff an, auf 15 Meter. Drei Durchgänge, in jedem zusätzlich ein Memory Blind auf 35 Meter mit höchstens einer Korrektur.",
         run: "3 Einweisungen in der aktuellen Stufe, jede nach Stopp-Pfiff, plus 1 Memory Blind.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -655,25 +910,27 @@ export const TRACKS = [
           "Schritt 2: Eine Richtung allein. Dummy genau links ablegen, 5 Meter. Stopp-Pfiff, linker Arm, Links. Nur ein Dummy im Feld, er kann nicht falsch laufen.",
           "Schritt 3: Die andere Richtung allein. Dasselbe nach rechts.",
           "Schritt 4: Beide Richtungen mit Wahl. Erst hier lernt er den Unterschied.",
-          "Schritt 5: Memory Blind. Dummy ohne Hund ablegen, an einem bekannten Ort. Voran, im Bereich dann Verloren.",
         ],
         tips: [
           "Übst du Rechts, legst du den linken Dummy weiter weg. Er dient als Ablenkung, und wenn der Hund falsch läuft, hast du Zeit zu stoppen.",
-          "Memory-Mark-Blind-Formel: drei Retrieves auf dieselbe Stelle in einer Session. Erst Memory, dann Sichtmarke, dann Blind.",
           "Immer erst Stopp-Pfiff, dann Handzeichen. Nie Handzeichen ohne vorherigen Stopp.",
         ],
         warning: null,
       },
       {
         id: "gold",
-        title: "Cold Blind, Clock Face, Kombination",
-        criteria: "Findet einen unbekannten Blind auf 30 Meter mit höchstens zwei Korrekturen. Drei Durchgänge, verteilt auf drei Geländestufen.",
+        title: "Einweisen in ein Suchengelände",
+        exam: "einweisen",
+        examClass: "O",
+        maxDistanceStep: 4,
+        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 3, g: 3 }, { d: 4, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Drei Durchgänge.",
         run: "1 Cold Blind auf 30 Meter plus eine Clock-Face-Runde über zwei Positionen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }, { id: "markierstab", n: 2 }],
         dummyType: "standard", // null | "standard" | "both" (Pocket Dummy reicht)
-        diagram: "clockface",
+        diagram: "einweisen-gelaende",
         steps: [
           "Clock Face: Hund sitzt in der Mitte. 12 Uhr Back, 3 Uhr Rechts, 6 Uhr zu dir hin, 9 Uhr Links.",
           "Aufbau mit Markierstäben. Erst zwei Positionen, dann schrittweise mehr Dummys.",
@@ -782,6 +1039,61 @@ export const SESSION_FALLBACKS = {
     desc: "Etwas, das garantiert klappt: ein kurzer Rückruf aus der Nähe oder ein Leckerli im Gras suchen lassen. Positiv beenden.",
   },
 };
+
+// ─── Aufwärmen und Cool Down (Abschnitt 10; Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, im Buch) ──
+export const WARMUP_COOLDOWN = {
+  voll: { warmup: "15 min, nie unter 10, bei ca. 30 % der max. Leistungsfähigkeit", cooldown: "ca. 10 min" },
+  kurz: { warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min" },
+  mini: { warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null }, // Cool Down entfällt
+  rules: [
+    "Nach dem Aufwärmen zügig starten.",
+    "Wartezeit maximal 5 bis 10 Minuten.",
+    "Über 20 Minuten Wartezeit: neu aufwärmen.",
+  ],
+  // Bei Kurzübung und Mini-Session anzuzeigen
+  shortNote: "Die verkürzte Variante liegt unter der physiotherapeutischen Empfehlung und ist nur bei geringer Belastungsintensität vertretbar.",
+};
+
+// ─── Session-Regeln aus dem Fundament (Abschnitt 11; Zvolsky) ──
+export const SESSION_GUIDANCE = {
+  // S. 87, wörtlich. Umsetzung: beim Fortsetzen den Schritt vor dem erreichten vorschlagen, überschreibbar.
+  startOneStepBack: "Beginnen Sie an jedem Trainingstag mit der jeweiligen Übung (Trainingseinheit) immer einen Schritt vor dem Punkt, an dem Sie das letzte Mal aufgehört haben. Somit geben Sie dem Hund die Möglichkeit, sich an die Übung zu erinnern.",
+  // Umsetzung: nach einem gelungenen Durchgang Pause vorschlagen, nicht die nächste Wiederholung
+  afterSuccess: "Hat die Übung geklappt, dann machen Sie erst einmal eine Pause. Eine gerade gelungene Übung noch mehrmals zu wiederholen oder gar die Anforderungen gleich zu steigern, ist in der Regel kontraproduktiv.",
+  // S. 86: alles vorbereiten, bevor der Hund aus dem Auto kommt
+  checklist: [
+    "Dummys ausgelegt (wenn Einweisen geübt wird)",
+    "Werfer instruiert (wenn Markierungen geübt werden)",
+    "Hindernis oder Rollzaun aufgestellt",
+    "Jacke zugeknöpft (flatternde Ecke behindert den Hund beim Markieren und trifft ihn bei Fuß im Gesicht)",
+    "Pfeife in der Hand oder im Mund, nicht in der Tasche",
+    "Hund gelöst, angeleint, auf die Aufgabe konzentriert",
+  ],
+  handsNote: "Hände während der Wartezeiten in die Jackentaschen. Hunde springen oft ein, weil der Führer mit den Händen herumfuchtelt.",
+  // Optional vor der Vollsession
+  planningQuestions: [
+    "In welche Teilziele zerlege ich die heutige Aufgabe?",
+    "Was will ich in welcher Reihenfolge üben?",
+    "Welche Probleme können auftreten?",
+    "Wie reagiere ich darauf, oder wie vermeide ich sie?",
+    "Welches Ziel will ich heute erreichen?",
+  ],
+  // Zwischen den Blöcken eine Pause ausweisen, Grund: Verwechslungsgefahr
+  blockSeparation: "Verschiedene Übungen am selben Tag zeitlich trennen, bei Anfängern auch räumlich. Verwechslungsgefahr.",
+  whenToHelp: "Wenn Sie den Eindruck gewinnen, Ihr Hund verzweifelt an der gestellten Aufgabe; wenn Sie beobachten, dass seine Motivation schwindet oder dass er unsicher wird, dann müssen Sie ihm unbedingt helfen.",
+  whenNotToHelp: "Sonst nicht: er muss lernen, selbstständig zu arbeiten und eigene Erfahrungen zu sammeln.",
+};
+
+// ─── Einstiegsalter (Abschnitt 12) ── Hinweis bei Unterschreitung, keine Sperre
+export const MIN_AGE_MONTHS = {
+  apportiertraining: 10,        // nach dem Zahnwechsel, ca. 9 bis 10 Monate
+  markierungen: 10,             // 8 bis 10 Monate, nur wenn der Hund steady ist
+  walkUpOhneLeine: 12,
+  verlorensucheSystematisch: 12,
+  schuss: null,                 // nach der Geschlechtsreife, individuell
+};
+export const MIN_AGE_NOTE =
+  "Zwei bis drei Apportiereinheiten mit maximal zwei bis drei Wiederholungen in der Woche sind zu Beginn mehr als ausreichend.";
 
 export const SESSION_RULES = [
   "Der Hauptteil bestimmt den Sessiontyp. Braucht er Equipment, ist es eine Vollsession.",
@@ -947,6 +1259,45 @@ export const TROUBLESHOOTING = [
   },
 ];
 
+// ─── Fehlerursachen und Übersprungsverhalten (Abschnitt 13; Zvolsky) ──
+// Auswahl bei einem fehlgeschlagenen Durchgang
+export const FAILURE_CAUSES = [
+  { id: "ueberforderung", label: "Körperliche oder geistige Überforderung", action: "Pause machen" },
+  { id: "methode",        label: "Unpassende Trainingsmethode",             action: "Pause, Methode überdenken" },
+  { id: "neues-detail",   label: "Einführung neuer Verhaltensdetails",
+    action: "Altes Verhalten wird vorübergehend schlechter. Ignorieren, nicht maßregeln, es verschwindet von allein" },
+  { id: "test",           label: "Vom Hund bewusst eingebaut",
+    action: "Er testet, was wirklich erwartet wird. Sanfte Korrektur oder einfach nicht belohnen" },
+  { id: "steigerung",     label: "Zu schnelle Steigerung",                  action: "Zurück in den Kindergarten" },
+];
+export const FAILURE_UNCLEAR = "Es ist immer besser, nicht zu reagieren, als falsch zu reagieren.";
+
+// Checkbox-Liste in der Sessionbewertung; mehr als zwei Zeichen: Rückstufung vorschlagen
+export const DISPLACEMENT_SIGNS = [
+  "Gähnen",
+  "Sich-Lecken",
+  "Sich-Kratzen",
+  "Bellen als Stressentladung",
+  "Schnuppern am Boden ohne Witterung",
+  "Sitzenbleiben beim Schicken",
+  "Zurückkommen obwohl geschickt",
+];
+export const DISPLACEMENT_NOTE = "Sie sind ein deutliches Zeichen dafür, dass er die Aufgabe noch nicht richtig verstanden hat.";
+export const DISPLACEMENT_DOWNGRADE_ABOVE = 2;
+
+// Dummy-Gewichte und -Eigenschaften (Abschnitt 13, Korrekturen)
+export const DUMMY_TYPES = [
+  { id: "welpe",    label: "Welpendummy", grams: 200 },
+  { id: "junior",   label: "Juniordummy", grams: 400 },
+  { id: "standard", label: "Standard",    grams: 500 },
+  { id: "suche",    label: "Suchendummy", grams: 80 },
+];
+export const DUMMY_FACTS = {
+  farben: "Der Hund hat kein Sehpigment für Grün. Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden, Rot erscheint ihm als sattes Gelb. Orange ist für den Menschen gut sichtbar, nicht für den Hund. Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
+  pocketDummy: "Der Pocket Dummy ist das 80-g-Suchendummy für Suchenpfiff-Training bei geringer Witterung, kein Jackentaschen-Dummy für unterwegs.",
+  markierstab: "Der Markierstab ist eine Sichthilfe für den Hund, nicht für den Führer. Praxisregel: mindestens vier aufstellen, damit nicht der Stab selbst zum Ziel wird.",
+};
+
 // ─── Trophaeen ────────────────────────────────────────────────
 export const TROPHIES = [
   // Track-Trophaeen
@@ -971,18 +1322,49 @@ export const TROPHIES = [
 
 // ─── Methodische Grundprinzipien (fuer Basics-Tab) ────────────
 export const PRINCIPLES = [
-  { name: "Positive Verstärkung", desc: "Keine Korrekturreize. Fehler werden durch Neustart und Vereinfachung gelöst." },
-  { name: "Errorless Learning",    desc: "Schwierigkeit so wählen, dass etwa 80 Prozent der Versuche gelingen. Lieber eine Stufe zurück." },
-  { name: "Eine Variable pro Steigerung", desc: "Nie Distanz und Gelände gleichzeitig erhöhen. Nie Zeit und Distanz gleichzeitig." },
-  { name: "Qualität vor Menge",   desc: "Lieber drei saubere Durchgänge als zehn mittelmäßige." },
-  { name: "Positiver Abschluss",   desc: "Session endet mit einer Übung, die sicher gelingt." },
-  { name: "Kein Drill",            desc: "Ständige Wiederholung einer einzelnen Stufe erzeugt Probleme. Bei zu viel Stopp-Pfiff-Training stoppt der Hund beim Rausschicken von selbst." },
+  { name: "Die Arbeit ist für den Hund",
+    desc: "Wo Motivation und Trainingsfortschritt in Konflikt geraten, gewinnt " +
+          "die Motivation. Abbruch vor Druck, Pause vor Wiederholung, " +
+          "Rückstufung vor Erzwingen." },
+  { name: "Lerninhalte über positive Verstärkung",
+    desc: "Neues Verhalten entsteht über Belohnung, nie über Druck. Bekanntes " +
+          "Verhalten wird eingefordert, nicht verhandelt: unerwünschtes " +
+          "Verhalten wird unterbrochen und umgelenkt, nicht ausgesessen. " +
+          "Körperliche Einwirkung ist kein Mittel dieser App." },
+  { name: "Eine Variable pro Steigerung",
+    desc: "Nie Distanz und Gelände gleichzeitig, nie Zeit und Distanz " +
+          "gleichzeitig. Steigt die Geländeschwierigkeit, geht die Distanz " +
+          "eine Stufe zurück." },
+  { name: "Verteilt statt massiert",
+    desc: "Zwei kurze Einheiten pro Woche schlagen tägliches Training. Belegt " +
+          "bei Demant et al. 2011: 44 Beagles, Training ein bis zwei Mal pro " +
+          "Woche führte schneller zum Ziel als täglich, kurze Einheiten " +
+          "schneller als lange." },
+  { name: "Selbstständigkeit vor Handling",
+    desc: "Im Regelwerk ist zu viel oder zu laute Lenkung ein schwerer Fehler " +
+          "(\"noisy or inappropriate handling\"). Erst Markierung und Suche, " +
+          "dann Einweisen. Hilf nur, wenn der Hund verzweifelt, unsicher wird " +
+          "oder die Motivation verliert." },
+  { name: "Einfach aufbauen",
+    desc: "Je einfacher eine Einheit aufgebaut ist, umso schneller versteht " +
+          "der Hund. Verschiedene Übungen am selben Tag zeitlich trennen, bei " +
+          "Anfängern auch räumlich: die Gefahr der Verwechslung und die " +
+          "daraus folgende Verwirrung muss so gering wie möglich bleiben." },
+  { name: "Errorless Learning",
+    desc: "Die Aufgabe so stellen, dass der Hund sie lösen kann. Zielwert " +
+          "rund 80 Prozent Erfolgsquote. Praxiswert aus der " +
+          "Trainingsliteratur, keine Studie dazu bekannt." },
 ];
 
 export const SOURCES = [
+  "Monika Zvolsky, Die Kosmos Retrieverschule (Hauptquelle)",
+  "Kennel Club, Field Trial Regulations J einschließlich Gundog Working Tests",
+  "Deutscher Retriever Club, Ordnung für Arbeitsprüfungen mit Dummies",
+  "Golden Retriever Club, Dummyprüfung A/F/O und DP-E",
   "Howard Kirby, Mullenscote Gundogs",
-  "Mike Stewart, Wildrose Kennels",
-  "Jeremy Hunt, Fenway Labradors",
   "Lez Graham",
-  "Gundog Journal",
+  "Demant et al. 2011, Trainingsfrequenz und Langzeitgedächtnis bei Hunden",
+  "Ziv 2017, Journal of Veterinary Behavior, Review zu aversiven Methoden",
+  "Vieira de Castro et al. 2020, PLoS ONE, Trainingsmethode und Tierwohl",
+  "Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, Aufwärmen und Cool Down",
 ];

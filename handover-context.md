@@ -1,4 +1,4 @@
-# Handover: Eddy's Dummy Challenge — Stand 2026-10-11
+# Handover: Eddy's Dummy Challenge — Stand 2026-10-27
 
 React 18 + Vite 5, Deploy über Netlify (`dist`). Umbau auf Trainingskonzept v2 läuft (6 Schritte).
 Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Design-Referenz: `docs/trophy-reference.html`.
@@ -97,6 +97,18 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   Heute-Karten: Equipment-Zeile mit Kachel 20/15/6.
 - Basics noch Platzhalter.
 
+## Fundament-Umbau (2026-10-27, Spec: `docs/fundament-umbau.md`)
+- Nur Daten in `src/data/training.js` (Abschnitte 1–13): DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES,
+  LEVEL_CHANGE_WARNING, Handzeichen Voran/Back, PRINCIPLES, SOURCES, je Level `exam`/`examClass`/`maxDistanceStep` und
+  genau vier Schritte als `path` (F, G, H: `{ d, g }`) oder `conditionPath` (A–E: `{ condition, variant }`), je Track
+  `examSubject`/`axis`, H setzt A/F/G Silber voraus. Neue Exporte WARMUP_COOLDOWN, SESSION_GUIDANCE, MIN_AGE_MONTHS,
+  FAILURE_CAUSES, DISPLACEMENT_SIGNS, DUMMY_TYPES, DUMMY_FACTS – noch **ohne UI**. Einzige UI: `examNote` bei Track E.
+- Schema 2: Levelfortschritt hat `step` (1–4). Migration v1→v2 in `storage.js` (`MIGRATIONS`): geschafft → 4, sonst 1.
+  Vor jeder Migration und vor dem Verwerfen einer unbekannten Version: Rohstand unter `edc-v3-backup-v<alt>` (nie überschrieben).
+  `countRep` und Rücknehmen lassen `step` stehen, `resetLevel` setzt 1. Weiterschalten von `step` ist noch nicht spezifiziert.
+- Offene Widersprüche und Lücken: Bericht im Chat vom 2026-10-27 (u. a. Abschnitt 9 vs. 14, Phasen-Tabelle, Wasser-Track,
+  Restinhalte F/D/H Gold, H Bronze/Silber).
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.
@@ -129,5 +141,5 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Kein `public/manifest.json` und kein manueller `<link rel="manifest">` in `index.html` wieder einführen. Das Plugin erzeugt beides, ein zweites Manifest würde kollidieren.
 - Manifest-Änderungen (Name, Farben, Icons) nur in `vite.config.js`.
 - `babel.config.json` wird von `@vitejs/plugin-react` nicht gelesen (Altlast, wirkungslos). Erst entfernen, wenn klar ist, dass kein anderes Tool sie braucht.
-- `SCHEMA_VERSION` in `src/lib/storage.js`: bei jeder Änderung am State-Shape (`freshState()`) bumpen. Default ist Wipe statt Migration.
+- `SCHEMA_VERSION` in `src/lib/storage.js`: bei jeder Änderung am State-Shape (`freshState()`) bumpen **und** eine Migration in `MIGRATIONS` ergänzen. Seit Schema 2 kein Wipe mehr.
 - Der SW ist nur im Build aktiv (`npm run build && npx vite preview`), nicht in `npm run dev`.

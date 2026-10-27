@@ -459,6 +459,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .block-note { font-size: var(--fs-label); color: var(--muted); }
 .track-titles { min-width: 0; }
 .track-short { color: var(--muted); margin-top: 2px; font-size: 17px; }
+.track-exam-note { color: var(--muted); margin-top: 4px; }
 .track-gear { color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 .track-gear-label { font-weight: 600; }
 .track-lock {
