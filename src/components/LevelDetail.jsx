@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings,
@@ -67,6 +67,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const exam = examLine(track, level);
   const phase = phaseOf(level);
   const age = minAgeOf(track, level);
+  const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
   const idx = track.levels.findIndex((l) => l.id === levelId);
   // Levelwechsel: Vorgänger geschafft, hier noch nichts passiert
   const freshSwitch = idx > 0 && isLevelDone(st, trackId, track.levels[idx - 1].id) && prog.reps === 0 && (prog.step ?? 1) === 1;
@@ -150,10 +151,10 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </div>
       )}
 
-      {(age.months || (levelId === "bronze" && !level.dummyType)) && (
+      {(age.months || apportNote) && (
         <Section title="Alter">
-          {age.months && <p>Ab etwa {age.months} Monaten. <span className="muted">{age.note}.</span></p>}
-          {levelId === "bronze" && !level.dummyType && <p className="muted">{MIN_AGE_NOTE}</p>}
+          {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
+          {apportNote && <p className="muted">{MIN_AGE_NOTE}</p>}
         </Section>
       )}
 

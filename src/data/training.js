@@ -569,9 +569,9 @@ export const TRACKS = [
           { condition: "ort", variant: "Prüfungsgelände" },
         ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "Bleibt in der Linie bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn ein anderes Gespann vor dir arbeitet. Drei Durchgänge.",
-        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
+        run: "In der Linie gehen, Dummy fliegt aus der Bewegung, ein anderes Gespann arbeitet zuerst.",
         reps: 3, // Tage mit gelungenem Durchgang
-        load: 1, // Belastungspunkte pro Durchgang
+        load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, optional: true }],
         setup: ["Werfer", "Mindestens ein weiteres Gespann oder ein Helfer mit Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -605,6 +605,7 @@ export const TRACKS = [
     examNote: "Kein eigenes Prüfungsfach, wird in jedem Fach mitbewertet.",
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
+    minAgeSuffix: "nach dem Zahnwechsel", // Teil 3, Abschnitt 6
     requires: [],
     levels: [
       {
@@ -624,7 +625,7 @@ export const TRACKS = [
         run: "10 kurze Retrieves bis 10 Meter, jedes Mal rückwärts gehen und ruhig abnehmen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }],
+        gear: [{ id: "welpendummy", n: 1 }, { id: "juniordummy", n: 1 }], // Teil 3, Abschnitt 6: Standard 500 g erst ab E Silber
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
@@ -707,12 +708,13 @@ export const TRACKS = [
     name: "Marking",
     icon: "marking",
     group: "suche",
-    short: "Einzel-, Doppel-, Dreifachmarke",
+    short: "Markierungen sehen, erinnern und holen, von der Einzelmarkierung bis zur Doppelmarkierung.",
     desc: "Marking heißt: die Flugbahn verfolgen und sich die Position merken. Nicht den Dummy liegen sehen. Hohes Gras ist deshalb kein Hindernis.",
     examSubject: "Markierung", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 10, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Markierungen 8 bis 10 Monate, und nur wenn steady",
+    minAgeSuffix: "nach dem Zahnwechsel", // Teil 3, Abschnitt 6
     requires: ["D:bronze", "E:bronze"],
     levels: [
       {
@@ -768,7 +770,7 @@ export const TRACKS = [
         ],
         tips: [
           "Der zweite Retrieve ist die eigentliche Gedächtnisaufgabe.",
-          "Voraussetzung: Steadiness Silber Schritt 4 muss sitzen.",
+          "Voraussetzung: Steadiness Silber muss sitzen.",
         ],
         warning: null,
       },
@@ -781,9 +783,9 @@ export const TRACKS = [
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Drei Durchgänge.",
-        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
+        run: "Zwei Dummys im engen Winkel werfen lassen, Reihenfolge vorgeben, eines aus Deckung oder über Wasser.",
         reps: 3, // Tage mit gelungenem Durchgang
-        load: 3, // Belastungspunkte pro Durchgang
+        load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
         setup: ["Werfer oder Wurfgerät", "Gelände mit Sichtkante oder Wasser"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -835,11 +837,11 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Findet selbstständig ohne Hilfe, 15 Meter, kurzes Gras, drei verschiedene Richtungen.",
-        run: "3 Zonensuchen auf 15 Meter in drei verschiedenen Richtungen.",
+        criteria: "Findet in einer freien Verlorensuche Dummys in einem begrenzten Gebiet, bis 30 Meter, ohne Verzögerung. Drei Durchgänge.",
+        run: "Dummys im Halbkreis auslegen, Hund schicken, Suchensignal erst wenn er Witterung bekommt.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }, { id: "markierstab", n: 4 }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
@@ -863,11 +865,11 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3, delay: "2 Minuten zwischen Auslegen und Schicken" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
-        criteria: "30 Meter, mittleres Gras, 2 Minuten Verzögerung, drei Durchgänge.",
-        run: "3 Zonensuchen auf 30 Meter, je 2 Minuten Verzögerung.",
+        criteria: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter. Auf dem letzten Schritt mit zwei Minuten Verzögerung zwischen Auslegen und Schicken. Drei Durchgänge.",
+        run: "Zehn oder mehr Dummys im Halbkreis auslegen, den Hund drei bis fünf holen lassen, den Rest selbst holen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
@@ -886,11 +888,11 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4, delay: "5 Minuten" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
-        criteria: "50 Meter und mehr, hohes Gras oder Waldrand, 5 Minuten Verzögerung, drei Durchgänge.",
-        run: "3 Zonensuchen auf 50 Meter und mehr, je 5 Minuten Verzögerung.",
+        criteria: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter. Auf dem letzten Schritt mit fünf Minuten Verzögerung. Drei Durchgänge.",
+        run: "Suchengebiet mit natürlicher Begrenzung abstecken, zehn oder mehr Dummys auslegen, acht holen lassen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         steps: [
@@ -926,9 +928,9 @@ export const TRACKS = [
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 1, g: 1 }, { d: 2, g: 1 }, { d: 2, g: 1 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Läuft auf Handzeichen und Signal in gerader Linie vom Führer weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Drei Durchgänge.",
-        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
+        run: "Dummy an der Leitlinie auslegen, Hund ausrichten, mit Handzeichen und Voran schicken.",
         reps: 3, // Tage mit gelungenem Durchgang
-        load: 4, // Belastungspunkte pro Durchgang
+        load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "futterschuessel", n: 1 }, { id: "dummy", n: 1 }],
         setup: ["Leitlinie im Gelände", "Optional ein Helfer für das Halbblind"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -959,9 +961,9 @@ export const TRACKS = [
         maxDistanceStep: 3,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Bis 30 Meter. Drei Durchgänge.",
-        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
+        run: "Hund auf Distanz stoppen, Arm neutral vor die Brust, zwei Sekunden warten, dann ein Richtungssignal.",
         reps: 3, // Tage mit gelungenem Durchgang
-        load: 4, // Belastungspunkte pro Durchgang
+        load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }],
         setup: ["Offenes Gelände"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -988,10 +990,10 @@ export const TRACKS = [
         maxDistanceStep: 4,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 3, g: 3 }, { d: 4, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Drei Durchgänge.",
-        run: null, // offen: fundament-umbau-2.md nennt keinen Durchgangstext
+        run: "Dummy vorher ins Suchengelände legen, Hund einweisen, am Ziel das Suchensignal geben, dann nicht mehr lenken.",
         reps: 3, // Tage mit gelungenem Durchgang
-        load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
+        load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }, { id: "suchdummy", n: 1, optional: true }], // Suchendummy optional für die Kleine Suche am Zielort (Teil 3, Abschnitt 5)
         setup: ["Suchengelände mit natürlicher Begrenzung"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "einweisen-gelaende",
@@ -1159,6 +1161,8 @@ export const MIN_AGE_MONTHS = {
   verlorensucheSystematisch: 12,
   schuss: null,                 // nach der Geschlechtsreife, individuell
 };
+// Nur bei E Bronze und F Bronze anzeigen (fundament-umbau-3.md, Abschnitt 2)
+export const MIN_AGE_NOTE_LEVELS = ["E:bronze", "F:bronze"];
 export const MIN_AGE_NOTE =
   "Zwei bis drei Apportiereinheiten mit maximal zwei bis drei Wiederholungen in der Woche sind zu Beginn mehr als ausreichend.";
 
@@ -1201,6 +1205,7 @@ export const LOAD_LIMITS = {
 export const JOINT_WARNINGS = {
   water:      "Nur flacher Einstieg, kein Absprung von Uferkanten.",
   multiMark:  "Viele Starts und Stopps, hohe Gelenkbelastung. Danach zwei Ruhetage.",
+  doubleMarkF: "Zwei Apports bis 80 Meter, einer durch Deckung oder Wasser. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.",
   hardStop:   "Stopp-Pfiff bevorzugt aus dem Trab üben, nicht aus dem vollen Galopp.",
   directions: "Enge Wendungen begrenzen.",
 };
@@ -1211,7 +1216,7 @@ export const JOINT_WARNING_LEVELS = {
   "A:gold":   ["hardStop"],
   "E:gold":   ["water", "multiMark"],
   "F:silber": ["multiMark"],
-  "F:gold":   ["multiMark"],
+  "F:gold":   ["doubleMarkF"], // Teil 3, Abschnitt 6
   "H:silber": ["directions"],
   "H:gold":   ["directions"],
 };
@@ -1226,6 +1231,10 @@ export const GEAR_ITEMS = {
   dummy:       { one: "Dummy",       many: "Dummys",       icon: "dummy" },
   markierstab: { one: "Markierstab", many: "Markierstäbe", icon: "marker-pole" },
   futterschuessel: { one: "Futterschüssel", many: "Futterschüsseln", icon: null },
+  // Dummys mit festem Gewicht (DUMMY_TYPES), unabhängig vom Profil
+  welpendummy:     { one: "Welpendummy 200 g", many: "Welpendummys 200 g", icon: "dummy" },
+  juniordummy:     { one: "Juniordummy 400 g", many: "Juniordummys 400 g", icon: "dummy" },
+  suchdummy:       { one: "Suchendummy 80 g", many: "Suchendummys 80 g", icon: "pocket-dummy" },
   schreckschuss:   { one: "Schreckschuss", many: "Schreckschuss", icon: null },
 };
 
@@ -1372,7 +1381,7 @@ export const DUMMY_TYPES = [
   { id: "suche",    label: "Suchendummy", grams: 80 },
 ];
 export const DUMMY_FACTS = {
-  farben: "Der Hund hat kein Sehpigment für Grün. Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden, Rot erscheint ihm als sattes Gelb. Orange ist für den Menschen gut sichtbar, nicht für den Hund. Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
+  farben: "Der Hund hat kein Sehpigment für Grün. Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden. Orange ist für den Menschen gut sichtbar, nicht für den Hund. Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
   pocketDummy: "Der Pocket Dummy ist das 80-g-Suchendummy für Suchenpfiff-Training bei geringer Witterung, kein Jackentaschen-Dummy für unterwegs.",
   markierstab: "Der Markierstab ist eine Sichthilfe für den Hund, nicht für den Führer. Praxisregel: mindestens vier aufstellen, damit nicht der Stab selbst zum Ziel wird.",
 };

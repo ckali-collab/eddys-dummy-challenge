@@ -128,6 +128,14 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   Übersprungszeichen in der Bewertung, Pausenvorschlag und Levelwechsel-Warnung im Ergebnis.
 - `GLOSSARY` angelegt (nur Blinken), noch nicht gerendert.
 
+## Fundament-Umbau Teil 3 (2026-10-27, Spec: `docs/fundament-umbau-3.md`)
+- Migration v2→v3 (vor dem Rollout geändert): Schritt = doneAt ? 4 : min(4, Zähler + 1); unlesbarer Zähler → 1.
+- `run` für H Bronze/Silber/Gold, F Gold, D Gold und G; G-Kriterien neu; Belastung F Gold 2, D Gold 1, H 1/2/1.
+- gear: `orMore` („10 oder mehr Dummys“, Track G), `steps` (nur auf diesen Schritten einpacken, braucht `block.step`,
+  nur am Hauptteil gesetzt). Neue ids welpendummy, juniordummy, suchdummy (feste Gewichte, unabhängig vom Profil).
+- Gelenkwarnung F Gold `doubleMarkF`, Track-F-Kurztext neu, `minAgeSuffix` „nach dem Zahnwechsel“ bei E und F,
+  Apportier-Hinweis nur bei `MIN_AGE_NOTE_LEVELS` (E Bronze, F Bronze). Glossar bleibt bei einem Eintrag, nicht anzeigen.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.

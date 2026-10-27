@@ -52,8 +52,9 @@ export const phaseOf = (level) => LEARNING_PHASES.find((p) => p.id === level?.ph
 
 // Mindestalter: Level-Wert vor Track-Wert (D Gold), nur als Hinweis
 export const minAgeOf = (track, level) => {
-  if (level.minAgeMonths !== undefined) return { months: level.minAgeMonths, note: level.minAgeNote };
-  return { months: track.minAgeMonths ?? null, note: track.minAgeNote ?? null };
+  const suffix = track.minAgeSuffix ?? null; // "nach dem Zahnwechsel", nur E und F
+  if (level.minAgeMonths !== undefined) return { months: level.minAgeMonths, note: level.minAgeNote, suffix };
+  return { months: track.minAgeMonths ?? null, note: track.minAgeNote ?? null, suffix };
 };
 
 export const stepCount = (level) => (level?.path || level?.conditionPath || []).length;
