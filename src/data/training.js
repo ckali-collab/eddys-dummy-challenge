@@ -83,10 +83,6 @@ export const COMMANDS = [
   { word: "Frei",     gesture: "Wischbewegung nach vorn",                when: "Ende der Übung" },
 ];
 
-// Handzeichen allgemein (Zvolsky S. 67 f., belegt) – Hinweis für den Basics-Tab
-export const HAND_SIGNAL_NOTE =
-  "Hunde sind Bewegungsseher und haben kein Sehpigment für Grün. Das deutlichste Handzeichen ist das, das die Silhouette des Führers am stärksten verändert. Ein ausgestreckter Zeigefinger ist auf Distanz schlecht zu erkennen.";
-
 export const DIRECTION_NOTE =
   "Richtungsangaben sind immer aus deiner Sicht. Du streckst den linken Arm aus, der Hund läuft nach links von dir aus gesehen.";
 
@@ -183,8 +179,8 @@ export const TRACKS = [
         id: "bronze",
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Stopp im Nahbereich",
-        exam: "appell",
-        examClass: "DP-E",
+        exam: "appell", // dp-e-korrektur.md, Abschnitt 4
+        examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
           { condition: "ausgang", variant: "Hund sitzt" },
@@ -298,7 +294,7 @@ export const TRACKS = [
         id: "bronze",
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Rückruf aus ruhiger Situation",
-        exam: "appell",
+        exam: "unterordnung", // dp-e-korrektur.md, Abschnitt 4
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
@@ -410,7 +406,7 @@ export const TRACKS = [
         id: "bronze",
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "50 Meter ohne Ziehen",
-        exam: "appell",
+        exam: "unterordnung", // dp-e-korrektur.md, Abschnitt 4
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
@@ -511,7 +507,7 @@ export const TRACKS = [
         id: "bronze",
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Warten nach dem Wurf",
-        exam: "appell",
+        exam: ["doppelmarkierung", "verspaetet"], // dp-e-korrektur.md, Abschnitt 4
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
@@ -533,6 +529,7 @@ export const TRACKS = [
           "Dummy werfen. Nichts sagen.",
           "3 Sekunden warten, dann Apport.",
           "Schrittweise auf 5 und 8 Sekunden steigern.",
+          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 m vor ihm werfen lassen, dann mit dem Hund weitere 20 m gehen, setzen, und von dort schicken.",
         ],
         tips: [
           "Wenn er durchbricht: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen.",
@@ -741,7 +738,7 @@ export const TRACKS = [
         id: "bronze",
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Einzelmarke",
-        exam: "markierung",
+        exam: "markierapport", // dp-e-korrektur.md, Abschnitt 4
         examClass: "DP-E",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
@@ -759,6 +756,8 @@ export const TRACKS = [
           "Dummy hoch und weit werfen, damit die Flugbahn gut sichtbar ist.",
           "Warten, bis er fokussiert ist, dann Apport.",
           "Abgabe nach Track E.",
+          "Variante Doppelmarkierung DP-E: Zwei Dummys werfen lassen, Winkel mindestens 90 Grad. Du holst den zuerst geworfenen selbst, der Hund bleibt sitzen. Dann schickst du ihn zum zuletzt geworfenen.",
+          "Variante Halbblind: Hund holt ein geworfenes Dummy. Während er zurückläuft, legt ein Helfer an derselben Stelle ein zweites ab. Dann schicke ihn erneut.",
         ],
         tips: [
           "Maximal drei bis fünf Würfe.",
@@ -856,8 +855,8 @@ export const TRACKS = [
         id: "bronze",
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Zone auf kurzer Distanz",
-        exam: "suche",
-        examClass: "DP-E",
+        exam: "verlorensuche", // dp-e-korrektur.md, Abschnitt 4
+        examClass: "A",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Findet in einer freien Verlorensuche Dummys in einem begrenzten Gebiet, bis 30 Meter, ohne Verzögerung. Drei Durchgänge.",
@@ -1195,6 +1194,10 @@ export const MIN_AGE_MONTHS = {
   verlorensucheSystematisch: 12,
   schuss: null,                 // nach der Geschlechtsreife, individuell
 };
+// Bei Leveln mit Prüfungsbezug DP-E (dp-e-korrektur.md, Abschnitt 4)
+export const DPE_AGE_NOTE = "Für die DP-E muss der Hund am Prüfungstag mindestens 12 Monate alt sein. Trainieren kannst du früher.";
+export const DPE_SHOT_NOTE = "Die DP-E gibt es mit Schuss (m. S.) und ohne (o. S.). In der Variante ohne Schuss wird ein Lautzeichen gegeben. Wer den Hund noch nicht an den Schuss gewöhnt hat, meldet die Variante ohne.";
+
 // Nur bei E Bronze und F Bronze anzeigen (fundament-umbau-3.md, Abschnitt 2)
 export const MIN_AGE_NOTE_LEVELS = ["E:bronze", "F:bronze"];
 export const MIN_AGE_NOTE =
@@ -1208,8 +1211,36 @@ export const SESSION_RULES = [
   "Nach dem Hauptteil keine neue Schwierigkeit mehr einführen.",
 ];
 
+// ─── Meine Signale (docs/profil-und-aufraeumen.md, Abschnitt 2) ─
+// Schlüssel wie {signal.x} im Glossar. Pfiffsignale: Freitext für das Muster.
+const WHISTLE_PLACEHOLDER = "z.B. ein kurzer Ton, Pfiff-peeeep, drei kurze";
+export const SIGNAL_FIELDS = [
+  { key: "stop",    label: "Stopp auf Distanz",    default: "Pfiff, ein kurzer Ton",    placeholder: WHISTLE_PLACEHOLDER },
+  { key: "recall",  label: "Rückruf",              default: "Pfiff, mehrere kurze Töne", placeholder: WHISTLE_PLACEHOLDER },
+  { key: "search",  label: "Kleine Suche",         default: "Such" },
+  { key: "area",    label: "Große Suche, Gebiet",  default: "Verloren" },
+  { key: "out",     label: "Geradeaus, Voran",     default: "Voran" },
+  { key: "back",    label: "In die Tiefe",         default: "Back" },
+  { key: "over",    label: "Seitlich",             default: "Rüber" },
+  { key: "fetch",   label: "Apportieren",          default: "Bring" },
+  { key: "release", label: "Freigabe",             default: "Lauf" },
+  { key: "heel",    label: "Fußposition links",    default: "Fuß" },
+  { key: "side2",   label: "Zweite Seite, rechts", default: "", optional: true }, // leer: kein Hinweis auf eine zweite Seite
+];
+export const SIGNAL_DEFAULTS = Object.fromEntries(SIGNAL_FIELDS.map((f) => [f.key, f.default]));
+// Steht immer direkt unter dem Feld area, unabhängig von den eingetragenen Mustern
+export const SIGNAL_SEARCH_NOTE =
+  "Prüfe, ob der erste Ton deines Suchensignals dem Stopp-Pfiff gleicht. Hunde interpretieren bereits den ersten Ton und beginnen danach zu handeln (Zvolsky S. 234). Setzt dein Hund sich auf das Suchensignal, liegt es vermutlich daran. Teste es bewusst auf Distanz, bei Ablenkung und im hohen Bewuchs, dort tritt die Verwechslung zuerst auf.";
+
 // ─── Hundeprofil und Belastungssteuerung ──────────────────────
 export const PROFILE_FIELDS = {
+  // Erfahrung (docs/profil-und-aufraeumen.md, Abschnitt 1). Wirkt nur im Basics-Tab:
+  // "keine" zeigt "So fängst du an" und markiert Glossarbegriffe deutlicher. Keine Sperre, keine andere Reihenfolge.
+  experience: [
+    { id: "keine", label: "Keine", desc: "Noch nie mit Dummys gearbeitet" },
+    { id: "etwas", label: "Etwas", desc: "Erste Apports, Pfiff noch nicht aufgebaut" },
+    { id: "viel",  label: "Viel",  desc: "Pfeifsignale sitzen, Markierungen und Blinds bekannt" },
+  ],
   age: [
     { id: "welpe",      label: "Welpe (bis 12 Monate)" },
     { id: "junghund",   label: "Junghund (1-2 Jahre)" },
@@ -1408,8 +1439,18 @@ export const DUMMY_TYPES = [
   { id: "standard", label: "Standard",    grams: 500 },
   { id: "suche",    label: "Suchendummy", grams: 80 },
 ];
+// Farbtext: einzige Quelle (docs/profil-und-aufraeumen.md, Abschnitt 3). Glossar "Dummyfarbe" und Basics
+// "Dummys und Ausrüstung" zeigen farben, Basics "Sehen" nur die Sätze zum Sehpigment (farbenSehpigment).
+const FARB_SAETZE = {
+  pigment:   "Dem Hund fehlt das Sehpigment für Grün, er sieht wie ein grünblinder Mensch.",
+  blau:      "Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe.",
+  rot:       "Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden, Rot erscheint ihm als sattes Gelb.",
+  orange:    "Orange ist für den Menschen gut sichtbar, nicht für den Hund.",
+  weiss:     "Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
+};
 export const DUMMY_FACTS = {
-  farben: "Der Hund hat kein Sehpigment für Grün. Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden. Rot erscheint ihm als sattes Gelb. Orange ist für den Menschen gut sichtbar, nicht für den Hund. Weiße Dummys wirken über den Kontrast, nicht über die Farbe.",
+  farben: [FARB_SAETZE.pigment, FARB_SAETZE.blau, FARB_SAETZE.rot, FARB_SAETZE.orange, FARB_SAETZE.weiss].join(" "),
+  farbenSehpigment: [FARB_SAETZE.pigment, FARB_SAETZE.rot].join(" "),
   pocketDummy: "Der Pocket Dummy ist das 80-g-Suchendummy für Suchenpfiff-Training bei geringer Witterung, kein Jackentaschen-Dummy für unterwegs.",
   markierstab: "Der Markierstab ist eine Sichthilfe für den Hund, nicht für den Führer. Praxisregel: mindestens vier aufstellen, damit nicht der Stab selbst zum Ziel wird.",
 };
@@ -1470,17 +1511,4 @@ export const PRINCIPLES = [
     desc: "Die Aufgabe so stellen, dass der Hund sie lösen kann. Zielwert " +
           "rund 80 Prozent Erfolgsquote. Praxiswert aus der " +
           "Trainingsliteratur, keine Studie dazu bekannt." },
-];
-
-export const SOURCES = [
-  "Monika Zvolsky, Die Kosmos Retrieverschule (Hauptquelle)",
-  "Kennel Club, Field Trial Regulations J einschließlich Gundog Working Tests",
-  "Deutscher Retriever Club, Ordnung für Arbeitsprüfungen mit Dummies",
-  "Golden Retriever Club, Dummyprüfung A/F/O und DP-E",
-  "Howard Kirby, Mullenscote Gundogs",
-  "Lez Graham",
-  "Demant et al. 2011, Trainingsfrequenz und Langzeitgedächtnis bei Hunden",
-  "Ziv 2017, Journal of Veterinary Behavior, Review zu aversiven Methoden",
-  "Vieira de Castro et al. 2020, PLoS ONE, Trainingsmethode und Tierwohl",
-  "Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, Aufwärmen und Cool Down",
 ];

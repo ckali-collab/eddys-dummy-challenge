@@ -87,7 +87,7 @@ export default function Settings({ state, onTheme, onProfile, onClearSessions, o
       <section className="section">
         <h2>Hundeprofil</h2>
         <div className="card">
-          <ProfileForm initial={state.dog} submitLabel="Profil speichern"
+          <ProfileForm initial={state.dog} submitLabel="Profil speichern" showSignals
             onSubmit={(dog) => { onProfile(dog); setSaved(true); }} />
           {saved && <p className="saved" role="status" style={{ marginTop: 12 }}>Gespeichert</p>}
         </div>

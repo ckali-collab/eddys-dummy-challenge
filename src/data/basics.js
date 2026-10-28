@@ -7,7 +7,7 @@
  * open:     beim Öffnen des Tabs aufgeklappt
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
  */
-import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS } from "./training.js";
+import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
 
 const t = (content) => ({ type: "text", content });
@@ -55,10 +55,13 @@ export const BASICS_SECTIONS = [
       t("**Distanz ist nicht die Hauptschwierigkeit.** Jedes Level hat vier Stufen, und die steigern Distanz und Geländeschwierigkeit abwechselnd, nicht gemeinsam. Wird das Gelände schwerer, geht die Distanz eine Stufe zurück. Das ist keine Bequemlichkeit, sondern eine Regel aus der Fachliteratur: \"Erhöhen Sie im Training die Schwierigkeitsstufe, dann müssen Sie erst einmal wieder die Entfernung verkürzen.\""),
       t("Die Distanzen stehen als Stufe mit Schrittschätzung da, nicht als exakte Meterzahl. Im Gelände misst niemand nach."),
       { type: "table", head: ["", "DP-E", "Dummy A", "Dummy F"], rows: [
-        ["Max. Distanz", examMeters("DP-E"), examMeters("Dummy A"), examMeters("Dummy F")],
+        ["Distanz", examMeters("DP-E"), examMeters("Dummy A"), examMeters("Dummy F")],
         ["Einweisen", "nein", "nein", "ja"],
         ["In der App", "Bronze", "Silber", "Gold"],
       ] },
+      // Soll-Werte, keine Grenzen (regelwerk-korrektur.md, Abschnitt 3)
+      t("Apporte sollen diese Distanzen nicht überschreiten, angepasst an Gelände und Witterung."),
+      note(DPE_SHOT_NOTE),
     ],
   },
   {
@@ -121,7 +124,8 @@ export const BASICS_SECTIONS = [
       t("**Gehör**\nHunde hören von 30 Hz bis 64 kHz, am empfindlichsten zwischen 1 und 16 kHz. Sie nehmen Töne viermal leiser wahr als Menschen und aus viermal größerer Entfernung. Sie unterscheiden Tonhöhen, die nur ein Achtel Ton auseinanderliegen."),
       t("Daraus folgt: **Pfeife so leise, wie du kannst.** Der Hund hört es. Nach oben bleibt dann Reserve für Distanz, Wind und Deckung. Lautstärke ist kein Verstärker für einen Hund, der nicht reagiert. Und im Regelwerk ist lautes oder unpassendes Handling ein schwerer Fehler."),
       t("Daraus folgt außerdem: **Pfeifsignale müssen sich im ersten Ton unterscheiden.** Hunde interpretieren bereits den ersten Ton und beginnen danach zu handeln. Ein Suchensignal, dessen erster Ton dem Stopp-Pfiff gleicht, lässt den Hund womöglich sitzen."),
-      t("**Sehen**\nDem Hund fehlt das Sehpigment für Grün, er sieht wie ein grünblinder Mensch. Blau und Violett sieht er zweifelsfrei. Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden, Rot erscheint ihm als sattes Gelb. In der Dämmerung verstärkt das Tapetum Lucidum die Lichtausbeute um etwa 50 Prozent, dafür wird das Bild unschärfer."),
+      // Sehpigment aus DUMMY_FACTS; Dämmerung und Bewegungssehen gehören nicht zum Farbtext und bleiben hier
+      t("**Sehen**\n" + DUMMY_FACTS.farbenSehpigment + " In der Dämmerung verstärkt das Tapetum Lucidum die Lichtausbeute um etwa 50 Prozent, dafür wird das Bild unschärfer."),
       t("Hunde sind **Bewegungsseher.** Deshalb ist das deutlichste Handzeichen das, das deine Silhouette am stärksten verändert. Ein ausgestreckter Zeigefinger ist auf Distanz kaum zu erkennen."),
       t("**Nase**\nDie Nase muss feucht sein, sonst sinkt die Leistung. Bei Nasenarbeit braucht der Hund genügend Wasser. Die Riechzellen gewöhnen sich an gleichartige Gerüche, deshalb dient der Zickzackkurs auch der Nasenerholung. Nasenarbeit ist Schwerstarbeit, nicht Beschäftigung."),
     ],
@@ -156,7 +160,7 @@ export const BASICS_SECTIONS = [
         ["Standarddummy", "500 g", "Normalfall, alle Prüfungsklassen"],
         ["Suchendummy", "80 g", "Kleine Suche, Suchenpfiff bei geringer Witterung"],
       ] },
-      // Farbtext überall identisch (fundament-umbau-3.md Abschnitt 6, -4.md Abschnitt 4): aus DUMMY_FACTS
+      // Farbtext: einzige Quelle DUMMY_FACTS (profil-und-aufraeumen.md, Abschnitt 3)
       t("**Farben**\n" + DUMMY_FACTS.farben),
       t("**Markierstäbe**\nSie sind eine Sichthilfe für den Hund, nicht für dich. Stell mindestens vier auf und nutze sie bewusst als Verleitung, nicht nur als Zielpunkt. Steht nur einer, lernt der Hund, zum Stab zu laufen statt auf dich zu hören. Leere Stäbe soll er nicht abchecken dürfen."),
       t("**Pfeife**\nMit Erbse für Reichweite, ohne Erbse für leise Signale. Im Training und in der Prüfung in der Hand oder im Mund, nicht in der Tasche."),

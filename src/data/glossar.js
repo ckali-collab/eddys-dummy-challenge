@@ -9,6 +9,8 @@
  * signal:  Topf 2, Schlüssel für das Wort aus dem Profil ({signal.x}); fallback, solange es fehlt
  */
 
+import { DUMMY_FACTS } from "./training.js";
+
 const t = (content) => ({ type: "text", content });
 const ol = (...items) => ({ type: "list", ordered: true, items });
 const ul = (...items) => ({ type: "list", ordered: false, items });
@@ -32,26 +34,33 @@ export const GLOSSAR = [
   {
     id: "dp-e", term: "DP-E, Dummy-Einsteigerprüfung", group: "klassen",
     aliases: ["DP-E", "Dummy-Einsteigerprüfung"],
-    short: "Standortbestimmung für Einsteiger und junge Hunde. Apporte höchstens 30 Meter.",
-    long: [t("Standortbestimmung für Einsteiger und junge Hunde. Apporte höchstens 30 Meter. Aufgaben: Markierapport, Frei-Verloren-Suche, Appell.")],
+    short: "Eigene Prüfung des Golden Retriever Club. Apporte sollen 30 Meter nicht überschreiten. Keine Suche, kein Einweisen.",
+    long: [
+      t("Eigene Prüfung des Golden Retriever Club, nicht Teil der DRC-Ordnung. Apporte sollen 30 Meter nicht überschreiten, angepasst an Gelände und Wetter."),
+      t("Fünf Fächer: Unterordnung, Doppelmarkierung, Apportieren mit verspätetem Schicken, Apportieren von zwei Dummys, Markierapport. **Keine Suche, kein Einweisen, kein Wasser.**"),
+      t("Mindestalter 12 Monate am Prüfungstag. Zwei Varianten: mit Schuss (m. S.) und ohne (o. S.), dort wird statt des Schusses ein Lautzeichen gegeben."),
+    ],
   },
   {
-    id: "dummy-a", term: "Dummy A, Anfängerklasse", group: "klassen",
-    aliases: ["Dummy A", "Anfängerklasse"],
-    short: "Höchstens 50 Meter. Kein Einweisen.",
-    long: [t("Höchstens 50 Meter. Vier Aufgaben: Einzelmarkierung Land, Einzelmarkierung Wasser, Verlorensuche mit drei bis fünf Dummys, Appell und Memory. **Kein Einweisen.**")],
+    id: "dummy-a", term: "Anfänger-Klasse", group: "klassen",
+    aliases: ["Anfänger-Klasse", "Anfängerklasse", "Dummy A"],
+    short: "Verbreitete Kurzform: Dummy A. Apporte sollen 50 Meter nicht überschreiten. Kein Einweisen.",
+    long: [t("Verbreitete Kurzform: Dummy A. Apporte sollen 50 Meter nicht überschreiten, angepasst an Gelände und Witterung. Vier Fächer: Einzelmarkierung Land, Einzelmarkierung Wasser, Verlorensuche, Appell und Memory. **Kein Einweisen.**")],
   },
   {
-    id: "dummy-f", term: "Dummy F, Fortgeschrittenenklasse", group: "klassen",
-    aliases: ["Dummy F", "Fortgeschrittenenklasse"],
-    short: "Höchstens 80 Meter. Doppelmarkierung, Verlorensuche mit acht Dummys, Einweisen, Standruhe in Verbindung mit Markieren.",
-    long: [t("Höchstens 80 Meter. Doppelmarkierung, Verlorensuche mit acht Dummys, Einweisen, Standruhe in Verbindung mit Markieren.")],
+    id: "dummy-f", term: "Fortgeschrittenen-Klasse", group: "klassen",
+    aliases: ["Fortgeschrittenen-Klasse", "Fortgeschrittenenklasse", "Dummy F"],
+    short: "Verbreitete Kurzform: Dummy F. Apporte sollen 80 Meter nicht überschreiten.",
+    long: [t("Verbreitete Kurzform: Dummy F. Apporte sollen 80 Meter nicht überschreiten, angepasst an Gelände und Witterung. Vier Fächer: Doppelmarkierung, Verlorensuche mit acht Dummys, Einweisen, Standruhe in Verbindung mit Markieren.")],
   },
   {
-    id: "dummy-o", term: "Dummy O, Offene Klasse", group: "klassen",
-    aliases: ["Dummy O", "Offene Klasse"],
-    short: "Keine Distanzgrenze, dem Gelände angepasst.",
-    long: [t("Keine Distanzgrenze, dem Gelände angepasst. Doppelmarkierung, Standtreiben mit mindestens zehn Dummys, Einweisen in ein Suchengelände, Walk-Up.")],
+    id: "dummy-o", term: "Offene Klasse", group: "klassen",
+    aliases: ["Offene Klasse", "Dummy O"],
+    short: "Verbreitete Kurzform: Dummy O. Über das FCI-Reglement soll ein Apport 150 Meter nicht überschreiten.",
+    long: [
+      t("Offene Klasse, verbreitete Kurzform Dummy O. Die Ordnung nennt keine eigene Zahl und passt die Distanzen dem Gelände an. Über das FCI-Reglement gilt, dass ein Apport 150 Meter nicht überschreiten soll."),
+      t("Doppelmarkierung, Standtreiben mit mindestens zehn Dummys, Einweisen in ein Suchengelände, Walk-Up."),
+    ],
   },
   {
     id: "working-test", term: "Working Test", group: "klassen",
@@ -77,6 +86,11 @@ export const GLOSSAR = [
     short: "Zwei sichtbar geworfene Dummys. Der Führer gibt die Reihenfolge vor, der Hund soll sie befolgen.",
     long: [
       t("Zwei sichtbar geworfene Dummys. Der Führer gibt die Reihenfolge vor, der Hund soll sie befolgen. In Dummy F muss mindestens ein Dummy ins Wasser oder über ein Gewässer."),
+      t("Schon in der DP-E, dort in einer eigenen, leichteren Form:"),
+      { type: "table", head: ["Form", "Winkel", "Wer holt was"], rows: [
+        ["DP-E", "mindestens 90 Grad", "Führer holt den ersten, Hund den zuletzt geworfenen"],
+        ["Dummy F", "enger als 90 Grad ist schwer", "Hund holt beide, Reihenfolge wird vorgegeben"],
+      ] },
       t("Im Training die Reihenfolge wechseln, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen. Der Winkel zwischen den beiden Würfen ist die eigentliche Schwierigkeit: enger als 90 Grad ist schwer, weit auseinander leicht."),
     ],
   },
@@ -189,7 +203,12 @@ export const GLOSSAR = [
     id: "nullwertung", term: "Nullwertung", group: "fehler", aliases: [],
     short: "Beendet nur die betroffene Aufgabe, das Gespann arbeitet weiter.",
     long: [
-      t("Beendet nur die betroffene Aufgabe, das Gespann arbeitet weiter. Dazu zählen Einspringen, Winseln oder Bellen, Schussscheue, Tauschen von Dummys, Nicht-Zurückbringen, Weitersuchen mit Dummy im Fang, Hetzen."),
+      t("Beendet nur die betroffene Aufgabe, das Gespann arbeitet weiter. Die Ordnung nennt elf Fälle:"),
+      ul("Einspringen", "Winseln oder Bellen", "Schussscheue", "Wasser verweigern",
+         "Apport verweigern, also das Dummy nicht aufnehmen", "Tauschen von Dummys", "Hetzen",
+         "Außer Kontrolle geraten", "Weitersuchen mit Dummy im Fang", "Nicht-Zurückbringen zum Führer",
+         "Starkes Knautschen oder Lochen des Dummys"),
+      t("**Eine Aufgabe mit null Punkten oder eine Gesamtpunktzahl unter der Hälfte der erreichbaren bedeutet, die Prüfung ist nicht bestanden.** Eine Nullwertung beendet die Prüfung also nicht, kostet sie aber trotzdem."),
       t("Im britischen Regelwerk heißen die Kategorien anders: eliminating faults und major faults im Field Trial, serious faults im Working Test. Für Retriever zählen dort Hard mouth, Running in, Refusal to retrieve und Chasing zu den Ausscheidungsfehlern, und **\"noisy or inappropriate handling\"** zu den major faults."),
     ],
   },
@@ -296,7 +315,7 @@ export const GLOSSAR = [
   {
     id: "dummyfarbe", term: "Dummyfarbe", group: "ausruestung", aliases: [],
     short: "Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe.",
-    long: [t("Dem Hund fehlt das Sehpigment für Grün, er sieht wie ein grünblinder Mensch. **Blau und Violett sieht er zweifelsfrei, deshalb sind blaue Dummys die beste Lernhilfe.** Rot, Gelb, Orange, Braun, Gelbgrün und Grün kann er nicht unterscheiden, Rot erscheint ihm als sattes Gelb. **Orange ist für den Menschen gut sichtbar, nicht für den Hund.** Weiße Dummys wirken über den Kontrast, nicht über die Farbe.")],
+    long: [t(DUMMY_FACTS.farben)], // einzige Quelle: DUMMY_FACTS
   },
   {
     id: "markierstab", term: "Markierstab, Einweisestab", group: "ausruestung",
@@ -488,11 +507,12 @@ export const GLOSSAR = [
 // Quellen aus docs/glossar-v5.md (für den Basics-Abschnitt "Quellen")
 export const GLOSSAR_SOURCES = {
   haupt: ["Monika Zvolsky, Die Kosmos Retrieverschule"],
+  // Endgültige Liste nach docs/dp-e-korrektur.md, Abschnitt 5 (Fundstellen: docs/regelwerke.md)
   regelwerke: [
+    "Golden Retriever Club e.V., Ordnung für die Dummy-Einsteigerprüfung für Retriever (DP-E/GRC m. S., o. S.), Fassung 13.11.2018",
+    "Deutscher Retriever Club e.V., Ordnung für Arbeitsprüfungen mit Dummies für Retriever (APD/R), Fassung 11.07.2009, letzte Änderung 03.09.2022",
+    "FCI, Reglement für Internationale Working Tests für Retriever (über APD/R §4(2) in Kraft)",
     "Kennel Club, Field Trial Regulations J einschließlich Gundog Working Tests, Mini Guide 2024",
-    "Golden Retriever Club, Ordnung für Arbeitsprüfungen mit Dummies für Retriever, Dummyprüfung A, F, O, Fassung 27.07.2018",
-    "Golden Retriever Club, Ordnung für die Dummy-Einsteigerprüfung DP-E, Fassung 16.01.2018",
-    "Deutscher Retriever Club, Ordnung für die Retrievergebrauchsprüfung 2025",
   ],
   fach: [
     "Howard Kirby, Mullenscote Gundogs",
@@ -500,6 +520,7 @@ export const GLOSSAR_SOURCES = {
     "keinkoeter.de, Warum Memory Marks beim Blind-Aufbau nicht helfen (für die Gegenposition zu Memory)",
     "Hund und Freizeit, Markierstab",
     "Easy Dogs, Einweisen in der Dummyarbeit",
+    "Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, Aufwärmen und Cool Down (Beitrag im Buch)",
   ],
   studien: [
     "Demant, Ladewig et al. 2011, The effect of frequency and duration of training sessions on acquisition and long-term memory in dogs, Applied Animal Behaviour Science 133, 228-234",

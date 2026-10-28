@@ -357,6 +357,10 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   background: var(--accent);
 }
 .option:has(input:focus-visible) { outline: 3px solid var(--accent); outline-offset: 2px; }
+.option-text { display: flex; flex-direction: column; gap: 2px; }
+.option-desc { font-size: var(--fs-label); color: var(--muted); }
+.signal-row { display: flex; flex-direction: column; gap: 4px; }
+.signal-row .notice { margin-top: 4px; }
 
 .segmented {
   display: grid;

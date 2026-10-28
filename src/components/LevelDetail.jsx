@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES, DPE_AGE_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings,
@@ -70,6 +70,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const age = minAgeOf(track, level);
   const stepsType = STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten;
   const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
+  const dpe = level.examClass === "DP-E";
   const idx = track.levels.findIndex((l) => l.id === levelId);
   // Levelwechsel: Vorgänger geschafft, hier noch nichts passiert
   const freshSwitch = idx > 0 && isLevelDone(st, trackId, track.levels[idx - 1].id) && prog.reps === 0 && (prog.step ?? 1) === 1;
@@ -153,10 +154,11 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </div>
       )}
 
-      {(age.months || apportNote) && (
+      {(age.months || apportNote || dpe) && (
         <Section title="Alter">
           {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
           {apportNote && <p className="muted">{MIN_AGE_NOTE}</p>}
+          {dpe && <p className="muted">{DPE_AGE_NOTE}</p>}
         </Section>
       )}
 

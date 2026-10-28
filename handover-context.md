@@ -160,8 +160,20 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   antippbare Begriffe), Sprechblase mit Sprung ins Glossar über `GlossarContext` (App: `glossarFocus`).
   `src/lib/glossar.js`: Begriffserkennung, ganzes Wort, Groß-/Kleinschreibung, je Begriff erstes Vorkommen pro Block.
   Markiert in Übungsdetail (Kriterium, Kartentext, Schritte, Tipps) und Heute-Karten (Kartentext).
-- Offen: Profil hat weder `experience` noch `signals` → Abschnitt „So fängst du an“ unsichtbar, Markierung immer dezent,
-  Signale zeigen den Platzhalter „(dein …)“. Profilabschnitt „Meine Signale“ (Topf 3) nicht gebaut.
+- Profil (2026-10-27, `docs/profil-und-aufraeumen.md`): `dog.experience` ("keine" | "etwas" | "viel"), Pflichtfeld im
+  Formular; wirkt nur im Basics-Tab. `dog.signals` (11 Schlüssel, `SIGNAL_FIELDS`/`SIGNAL_DEFAULTS`), „Meine Signale“ nur in
+  den Einstellungen; normalize füllt fehlende Werte mit der Vorbelegung. Beides additiv, kein Schema-Bump.
+- Farbtext nur noch aus `DUMMY_FACTS` (`farben`, `farbenSehpigment`). `SOURCES` aus training.js gelöscht, Quellen nur
+  noch `GLOSSAR_SOURCES`.
+
+## Regelwerk- und DP-E-Korrektur (2026-10-28, `docs/regelwerk-korrektur.md`, `docs/dp-e-korrektur.md`)
+- Fundstellen der Ordnungen: `docs/regelwerke.md` (Verweisdatei, nicht ändern).
+- Glossar: Klassen heißen Anfänger-, Fortgeschrittenen-, Offene Klasse mit Kurzform Dummy A/F/O; Distanzen als Soll-Werte;
+  Offene Klasse 150 m über FCI; Nullwertung elf Fälle plus §23(4); DP-E mit den fünf echten Fächern; Doppelmarkierung
+  mit DP-E-Form. Quellen: Regelwerke nach dp-e-korrektur.md §5, Siegl zurück in den Fachquellen. `HAND_SIGNAL_NOTE` gelöscht.
+- Bronze-Zuordnung: A → Dummy A, Appell; B/C → DP-E, Unterordnung; D → DP-E, Doppelmarkierung und verspätetes Schicken
+  (`exam` als Liste); F → DP-E, Markierapport; G → Dummy A, Verlorensuche. Neue Varianten: F Bronze Doppelmarkierung DP-E
+  und Halbblind, D Bronze verspätetes Schicken. `DPE_AGE_NOTE` im Übungsdetail bei DP-E-Leveln, `DPE_SHOT_NOTE` im Basics-Tab.
 
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).

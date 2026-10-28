@@ -42,11 +42,17 @@ export const terrainRange = (level) => {
 
 // Prüfungsbezug: Klasse und Fach aus examClass/exam (fundament-umbau.md, Abschnitt 6)
 const CLASS_LABEL = { "DP-E": "DP-E", A: "Dummy A", F: "Dummy F", O: "Klasse O" };
-const EXAM_LABEL = { appell: "Appell", markierung: "Markierung", suche: "Suche", einweisen: "Einweisen", walkup: "Walk Up" };
+// DP-E-Fächer nach dp-e-korrektur.md, Abschnitt 4. exam kann eine Liste sein (D Bronze: zwei Fächer).
+const EXAM_LABEL = {
+  appell: "Appell", markierung: "Markierung", suche: "Suche", einweisen: "Einweisen", walkup: "Walk Up",
+  unterordnung: "Unterordnung", doppelmarkierung: "Doppelmarkierung", verspaetet: "verspätetes Schicken",
+  markierapport: "Markierapport", verlorensuche: "Verlorensuche",
+};
 export const examLine = (track, level) => {
   if (track.examNote) return track.examNote;
   if (!level.examClass || !level.exam) return null;
-  return `Zählt für ${CLASS_LABEL[level.examClass] ?? level.examClass}, ${EXAM_LABEL[level.exam] ?? level.exam}`;
+  const subjects = [].concat(level.exam).map((e) => EXAM_LABEL[e] ?? e).join(" und ");
+  return `Zählt für ${CLASS_LABEL[level.examClass] ?? level.examClass}, ${subjects}`;
 };
 
 export const phaseOf = (level) => LEARNING_PHASES.find((p) => p.id === level?.phase) ?? null;

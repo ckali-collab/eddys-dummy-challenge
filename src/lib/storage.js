@@ -1,4 +1,4 @@
-import { TRACKS } from "../data/training.js";
+import { TRACKS, SIGNAL_DEFAULTS } from "../data/training.js";
 
 // Schema-Änderung → SCHEMA_VERSION bumpen und eine Migration in MIGRATIONS ergänzen.
 // Seit dem Fundament-Umbau (docs/fundament-umbau.md, Abschnitt 14) gilt: kein Reset, kein stilles Verwerfen.
@@ -73,7 +73,8 @@ const freshTracks = () =>
 
 export const freshState = () => ({
   schemaVersion: SCHEMA_VERSION,
-  dog: { name: "", age: "", joints: "", notes: "" },
+  // experience und signals: additiv, kein Schema-Bump (fehlende Werte füllt normalize)
+  dog: { name: "", experience: "", age: "", joints: "", notes: "", signals: { ...SIGNAL_DEFAULTS } },
   tracks: freshTracks(),
   sessions: [],
   trophies: [],
@@ -99,7 +100,15 @@ const normalize = (raw) => {
   }
   return {
     schemaVersion: SCHEMA_VERSION,
-    dog: { ...base.dog, ...(raw.dog || {}) },
+    dog: {
+      ...base.dog,
+      ...(raw.dog || {}),
+      // Signale: Vorbelegung für fehlende Schlüssel, nur Text
+      signals: Object.fromEntries(Object.keys(SIGNAL_DEFAULTS).map((k) => {
+        const v = raw.dog?.signals?.[k];
+        return [k, typeof v === "string" ? v : SIGNAL_DEFAULTS[k]];
+      })),
+    },
     tracks,
     sessions: Array.isArray(raw.sessions) ? raw.sessions : [],
     trophies: Array.isArray(raw.trophies) ? raw.trophies : [],
