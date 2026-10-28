@@ -215,5 +215,5 @@ gegangen, Bronze behält seinen Prüfungsbezug.** Der Hinweis "Quelle wird
 geprüft" ist nicht mehr nötig.
 
 Die Fassung 16.01.2018 aus meiner alten Liste ist überholt. Die
-Verweisdatei `docs/quellen/regelwerke.md` muss entsprechend geändert werden,
+Verweisdatei `docs/regelwerke.md` muss entsprechend geändert werden,
 der Abschnitt "DP-E, ungeklärt" fällt weg.

@@ -34,11 +34,13 @@ export const GLOSSAR = [
   {
     id: "dp-e", term: "DP-E, Dummy-Einsteigerprüfung", group: "klassen",
     aliases: ["DP-E", "Dummy-Einsteigerprüfung"],
-    short: "Eigene Prüfung des Golden Retriever Club. Apporte sollen 30 Meter nicht überschreiten. Keine Suche, kein Einweisen.",
+    // Text aus docs/restposten.md, Abschnitt 2; short: zwei Sätze daraus
+    short: "Apportdistanzen sollen 30 Meter nicht überschreiten, angepasst an Gelände und Witterung. Die DP-E enthält keine Verlorensuche, kein Einweisen und keine Wasserarbeit.",
     long: [
-      t("Eigene Prüfung des Golden Retriever Club, nicht Teil der DRC-Ordnung. Apporte sollen 30 Meter nicht überschreiten, angepasst an Gelände und Wetter."),
-      t("Fünf Fächer: Unterordnung, Doppelmarkierung, Apportieren mit verspätetem Schicken, Apportieren von zwei Dummys, Markierapport. **Keine Suche, kein Einweisen, kein Wasser.**"),
-      t("Mindestalter 12 Monate am Prüfungstag. Zwei Varianten: mit Schuss (m. S.) und ohne (o. S.), dort wird statt des Schusses ein Lautzeichen gegeben."),
+      t("Einsteigerprüfung des Golden Retriever Club e.V., in zwei Varianten: mit Schuss (m. S.) und ohne (o. S.). Nicht Teil der DRC-Ordnung. Der Hund muss am Prüfungstag mindestens 12 Monate alt sein."),
+      t("Apportdistanzen sollen 30 Meter nicht überschreiten, angepasst an Gelände und Witterung."),
+      t("Fünf Fächer zu je 20 Punkten: Unterordnung, Doppelmarkierung, Apportieren mit verspätetem Schicken, Apportieren von zwei Dummys, Markierapport. Bestanden ab 50 Punkten, wenn kein Fach mit null Punkten bewertet wurde."),
+      t("Die DP-E enthält keine Verlorensuche, kein Einweisen und keine Wasserarbeit. Dafür eine Doppelmarkierung, in einer leichteren Form als die Fortgeschrittenen-Klasse: Der Führer holt den zuerst geworfenen Dummy selbst, der Hund nur den zuletzt geworfenen."),
     ],
   },
   {
@@ -219,6 +221,7 @@ export const GLOSSAR = [
       t("Der Hund verlässt seinen Platz ohne Aufforderung, um zu apportieren. Das Gegenteil von Steadiness, Nullwertung."),
       t("Reaktion im Training: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen. Nicht hinterherschicken, das belohnt genau das Einspringen."),
       t("Häufige unbemerkte Ursache: Der Führer fuchtelt mit den Händen. Der Hund liest das als Startsignal."),
+      t("In der DP-E wird ein einmaliges, haltbares Einspringen nur mit der halben Punktzahl bewertet statt mit null. Die Einsteigerprüfung ist an dieser Stelle milder als die APD/R."),
     ],
   },
   {

@@ -51,7 +51,7 @@ export const BASICS_SECTIONS = [
     title: "Worauf das Training hinarbeitet",
     open: true,
     blocks: [
-      lead("Die Übungen folgen den deutschen Dummyprüfungen. Bronze ist die Einsteigerprüfung DP-E bis 30 Meter, Silber die Anfängerklasse Dummy A bis 50 Meter, Gold die Fortgeschrittenenklasse Dummy F bis 80 Meter. Deshalb heißt Bronze nicht einfach leicht, sondern Einsteigerniveau. Du musst nie zu einer Prüfung gehen, aber die Stufen bedeuten etwas außerhalb dieser App."),
+      lead("Die Übungen folgen den deutschen Dummyprüfungen. Bronze ist die Einsteigerprüfung DP-E des Golden Retriever Club, Silber die Anfänger-Klasse und Gold die Fortgeschrittenen-Klasse der DRC-Ordnung. Die Apportdistanzen sollen dort 30, 50 beziehungsweise 80 Meter nicht überschreiten, werden aber an Gelände und Witterung angepasst. Deshalb heißt Bronze nicht einfach leicht, sondern Einsteigerniveau. Du musst nie zu einer Prüfung gehen, aber die Stufen bedeuten etwas außerhalb dieser App."),
       t("**Distanz ist nicht die Hauptschwierigkeit.** Jedes Level hat vier Stufen, und die steigern Distanz und Geländeschwierigkeit abwechselnd, nicht gemeinsam. Wird das Gelände schwerer, geht die Distanz eine Stufe zurück. Das ist keine Bequemlichkeit, sondern eine Regel aus der Fachliteratur: \"Erhöhen Sie im Training die Schwierigkeitsstufe, dann müssen Sie erst einmal wieder die Entfernung verkürzen.\""),
       t("Die Distanzen stehen als Stufe mit Schrittschätzung da, nicht als exakte Meterzahl. Im Gelände misst niemand nach."),
       { type: "table", head: ["", "DP-E", "Dummy A", "Dummy F"], rows: [

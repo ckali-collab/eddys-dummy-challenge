@@ -169,7 +169,6 @@ export const TRACKS = [
     group: "grund",
     short: "Anhalten und Sitzen auf einen kurzen Pip",
     desc: "Grundlage für alles. Ohne zuverlässigen Stopp ist kein Handling möglich.",
-    examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
@@ -284,7 +283,6 @@ export const TRACKS = [
     group: "grund",
     short: "Direktes Zurückkommen auf zwei lange Töne",
     desc: "Gerade Linie, kein Zickzack, kein Schnüffeln unterwegs.",
-    examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
@@ -396,7 +394,6 @@ export const TRACKS = [
     group: "grund",
     short: "Position, Tempo, Richtung",
     desc: "Ruhig neben dir, ohne Ziehen, ohne Vorauslaufen. In bewussten Phasen, nicht den ganzen Spaziergang.",
-    examSubject: "Appell", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Kein Mindestalter, Appell und Abgabe von Anfang an",
@@ -497,7 +494,6 @@ export const TRACKS = [
     group: "apport",
     short: "Warten statt Losrennen",
     desc: "Erweiterung des Grundgehorsams. Der Hund entscheidet selbst zu warten. Immer off-lead - mit Leine trainierst du nichts.",
-    examSubject: "Appell, ab Gold Walk Up", // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
     minAgeMonths: 10, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Steadiness setzt Markierungen voraus",
@@ -615,7 +611,6 @@ export const TRACKS = [
     group: "apport",
     short: "Sauber in die Hand geben",
     desc: "Die meisten Abgabeprobleme entstehen drei bis vier Schritte vor dem Hundeführer.",
-    examSubject: null, // Prüfungsfach (Abschnitt 6)
     axis: "bedingungen", // "bedingungen" | "distanz"
     examNote: "Kein eigenes Prüfungsfach, wird in jedem Fach mitbewertet.",
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
@@ -727,7 +722,6 @@ export const TRACKS = [
     group: "suche",
     short: "Markierungen sehen, erinnern und holen, von der Einzelmarkierung bis zur Doppelmarkierung.",
     desc: "Marking heißt: die Flugbahn verfolgen und sich die Position merken. Nicht den Dummy liegen sehen. Hohes Gras ist deshalb kein Hindernis.",
-    examSubject: "Markierung", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 10, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Markierungen 8 bis 10 Monate, und nur wenn steady",
@@ -835,7 +829,6 @@ export const TRACKS = [
     group: "suche",
     short: "Zone absuchen mit der Nase",
     desc: "Der Hund wird in eine Zone geschickt und sucht dort selbstständig. Kein Richtungskommando.",
-    examSubject: "Suche", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 12, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Verlorensuche systematisch ab 12 Monaten",
@@ -883,7 +876,7 @@ export const TRACKS = [
         id: "silber",
         phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Größere Zone mit Zeitverzögerung",
-        exam: "suche",
+        exam: "verlorensuche", // restposten.md, Abschnitt 4
         examClass: "A",
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3, delay: "2 Minuten zwischen Auslegen und Schicken" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
@@ -909,7 +902,7 @@ export const TRACKS = [
         id: "gold",
         phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Komplexes Gelände",
-        exam: "suche",
+        exam: "verlorensuche", // restposten.md, Abschnitt 4
         examClass: "F",
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4, delay: "5 Minuten" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
@@ -943,7 +936,6 @@ export const TRACKS = [
     group: "handling",
     short: "Voran, Back, Links, Rechts, Blind",
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
-    examSubject: "Einweisen", // Prüfungsfach (Abschnitt 6)
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 12, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
     minAgeNote: "Folgt auf Markierung und Suche",

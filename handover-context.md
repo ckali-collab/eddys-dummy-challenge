@@ -172,7 +172,8 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   Offene Klasse 150 m über FCI; Nullwertung elf Fälle plus §23(4); DP-E mit den fünf echten Fächern; Doppelmarkierung
   mit DP-E-Form. Quellen: Regelwerke nach dp-e-korrektur.md §5, Siegl zurück in den Fachquellen. `HAND_SIGNAL_NOTE` gelöscht.
 - Bronze-Zuordnung: A → Dummy A, Appell; B/C → DP-E, Unterordnung; D → DP-E, Doppelmarkierung und verspätetes Schicken
-  (`exam` als Liste); F → DP-E, Markierapport; G → Dummy A, Verlorensuche. Neue Varianten: F Bronze Doppelmarkierung DP-E
+  (`exam` als Liste); F → DP-E, Markierapport; G → Dummy A, Verlorensuche (G Silber/Gold ebenfalls „Verlorensuche“,
+  `examSubject` je Track entfernt, restposten.md). Neue Varianten: F Bronze Doppelmarkierung DP-E
   und Halbblind, D Bronze verspätetes Schicken. `DPE_AGE_NOTE` im Übungsdetail bei DP-E-Leveln, `DPE_SHOT_NOTE` im Basics-Tab.
 
 ## Letzter Deploy
