@@ -69,9 +69,9 @@ export const BASICS_SECTIONS = [
     title: "Einwirkung und Korrektur",
     open: true, // bleibt offen und an Position 3 (basics-umsetzung.md, Abschnitt 2)
     blocks: [
-      t("**Was diese App vorschlägt**"),
+      t("**Die Haltung dieser App**"),
       t("Neues Verhalten entsteht über Belohnung. Bekanntes Verhalten wird eingefordert, nicht verhandelt: unerwünschtes Verhalten wird unterbrochen und in erwünschtes umgelenkt, nicht ausgesessen. **Körperliche Einwirkung ist kein Mittel dieser App.**"),
-      t("Und darüber steht ein Satz, der alle Zweifelsfälle entscheidet: Die Arbeit ist für den Hund. Wo Motivation und Trainingsfortschritt in Konflikt geraten, gewinnt die Motivation. Abbruch vor Druck, Pause vor Wiederholung, Rückstufung vor Erzwingen."),
+      t("Ein Satz entscheidet alle Zweifelsfälle: Die Arbeit ist für den Hund. Wo Motivation und Trainingsfortschritt in Konflikt geraten, gewinnt die Motivation. Abbruch vor Druck, Pause vor Wiederholung, Rückstufung vor Erzwingen."),
       t("**Was das Regelwerk sagt**"),
       t("Die Prüfungsordnungen kennen genau zwei ausscheidende Fehler, nach denen ein Gespann die Prüfung nicht beenden darf: Aggressivität gegenüber Artgenossen oder Personen, und **physisches Einwirken auf den Hund.** Körperliche Einwirkung steht dort gleichrangig neben der Aggression und schwerer als jede Arbeitsverweigerung. Das ist kein Tierschutzzusatz am Rand, sondern die härteste Kategorie, die das Regelwerk hat."),
       t("**Was die Hauptquelle dieser App sagt**"),

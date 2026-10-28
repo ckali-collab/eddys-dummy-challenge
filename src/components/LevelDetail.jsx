@@ -4,11 +4,12 @@ import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings,
 } from "../lib/progress.js";
-import { IconAlert, IconCheck } from "./Icons.jsx";
+import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepCount, examLine, phaseOf, minAgeOf } from "../lib/steps.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf } from "../lib/steps.js";
+import { gearForStep, gearOnlyAtStep, gearLabel } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
   <section className="section">
@@ -28,7 +29,7 @@ const Warning = ({ title, children }) => (
 );
 
 // Vier-Schritt-Pfad mit Markierung des aktuellen Schritts (fundament-umbau-2.md, Abschnitt 10)
-const StepPath = ({ level, current, done }) => (
+const StepPath = ({ level, current, done, dog }) => (
   <ol className="step-path">
     {Array.from({ length: stepCount(level) }, (_, i) => {
       const n = i + 1, s = stepParts(level, n);
@@ -37,7 +38,9 @@ const StepPath = ({ level, current, done }) => (
         <li key={n} className={`step-row ${state}`} aria-current={!done && n === current ? "step" : undefined}>
           <span className="step-num">{n}</span>
           <span className="step-body">
-            {s.kind === "distanz" ? (
+            {s.kind === "text" ? (
+              <span className="step-main"><RichText text={s.main} gloss /></span>
+            ) : s.kind === "distanz" ? (
               <>
                 <span className="step-main">{s.distance.label}, etwa {s.distance.paces} Schritte</span>
                 <span className="step-sub">{s.terrain.label} ({s.terrain.examples})</span>
@@ -46,11 +49,15 @@ const StepPath = ({ level, current, done }) => (
             ) : (
               <>
                 <span className="step-main">{s.variant}</span>
-                <span className="step-sub">{s.condition?.label}</span>
               </>
             )}
           </span>
           {!done && n === current && <span className="step-flag">aktuell</span>}
+          {gearOnlyAtStep(level.gear, n).length > 0 && (
+            <span className="step-extra">
+              Stufe {n}: zusätzlich {gearOnlyAtStep(level.gear, n).map((g) => gearLabel(g, level.dummyType, dog)).join(", ")}
+            </span>
+          )}
         </li>
       );
     })}
@@ -72,9 +79,9 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
   const dpe = level.examClass === "DP-E";
   const idx = track.levels.findIndex((l) => l.id === levelId);
-  // Levelwechsel: Vorgänger geschafft, hier noch nichts passiert
-  const freshSwitch = idx > 0 && isLevelDone(st, trackId, track.levels[idx - 1].id) && prog.reps === 0 && (prog.step ?? 1) === 1;
   const joints = jointWarnings(st.dog, trackId, levelId);
+  const current = prog.step ?? 1;
+  const todayGear = gearForStep(level.gear, current);
   const [confirmReset, setConfirmReset] = useState(false);
   const armedAt = useRef(0);
 
@@ -95,54 +102,52 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </div>
         <h2 className="detail-title">{level.title}</h2>
         {terrain && <p className="small muted">Gelände: {terrain}</p>}
-        {exam && <p className="small muted">{exam}</p>}
       </header>
 
-      {freshSwitch && <Warning title="Levelwechsel">{LEVEL_CHANGE_WARNING}</Warning>}
-
-      {phase && (
-        <div className="card phase-card">
-          <p className="phase-title">Lernphase: {phase.label}</p>
-          <p className="small">Verstärkung: {phase.reinforce}</p>
-          <p className="small muted">Rahmen: {phase.conditions} · Ziel: {phase.goal}</p>
+      {/* Reihenfolge nach app-befund.md, Abschnitt 2: erst was man draußen braucht, Hintergrund zugeklappt */}
+      <Section title="Heute">
+        <div className="card today-card">
+          {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current)} gloss /></p>}
+          {level.run && <p className="run"><RichText text={level.run} gloss /></p>}
+          {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
+          {level.setup?.length > 0 && (
+            <ul className="tips setup-list">
+              {level.setup.map((x, i) => <li key={i}>{x}</li>)}
+            </ul>
+          )}
+          {!todayGear.length && !level.setup?.length && <p className="small muted">Kein Equipment nötig.</p>}
         </div>
-      )}
+      </Section>
 
-      <Section title="Kriterium">
+      <Section title="Geschafft wenn">
         <p className="criteria"><RichText text={level.criteria} gloss /></p>
       </Section>
 
       {stepCount(level) > 0 && (
         <Section title="Stufen">
-          <StepPath level={level} current={prog.step ?? 1} done={done} />
+          <StepPath level={level} current={current} done={done} dog={st.dog} />
         </Section>
       )}
 
-      {level.run && (
-        <Section title="Ein Durchgang">
-          <p className="run"><RichText text={level.run} gloss /></p>
-        </Section>
-      )}
-
-      <Section title={stepsType.title}>
+      {!level.stepsAsStufen && <Section title={stepsType.title}>
         <p className="muted">{stepsType.intro}</p>
         <ol className="steps">
           {level.steps.map((s, i) => <li key={i}><span><RichText text={s} gloss /></span></li>)}
         </ol>
-      </Section>
-
-      {track.searchRules?.length > 0 && (
-        <Section title="Suchen-Regeln">
-          <ul className="tips">
-            {track.searchRules.map((t, i) => <li key={i}>{t}</li>)}
-          </ul>
-        </Section>
-      )}
+      </Section>}
 
       {level.tips.length > 0 && (
         <Section title="Tipps">
           <ul className="tips">
             {level.tips.map((t, i) => <li key={i}><span><RichText text={t} gloss /></span></li>)}
+          </ul>
+        </Section>
+      )}
+
+      {track.searchRules?.length > 0 && (
+        <Section title="Suchen-Regeln">
+          <ul className="tips">
+            {track.searchRules.map((t, i) => <li key={i}>{t}</li>)}
           </ul>
         </Section>
       )}
@@ -154,42 +159,27 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </div>
       )}
 
-      {(age.months || apportNote || dpe) && (
-        <Section title="Alter">
-          {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
-          {apportNote && <p className="muted">{MIN_AGE_NOTE}</p>}
-          {dpe && <p className="muted">{DPE_AGE_NOTE}</p>}
-        </Section>
-      )}
-
-      <Section title="Equipment">
-        {level.gear.length
-          ? <GearList gear={level.gear} dummyType={level.dummyType} dog={st.dog} />
-          : !level.setup?.length && <p>Kein Equipment nötig.</p>}
-        {level.setup?.length > 0 && (
-          <ul className="tips setup-list">
-            {level.setup.map((x, i) => <li key={i}>{x}</li>)}
-          </ul>
-        )}
-      </Section>
-
       <Section title="Fortschritt">
         <div className={`card progress ${done ? "is-done" : ""}`}>
           {/* Der Zähler zählt Tage mit gelungenem Durchgang, nicht Wiederholungen */}
-          <p className="progress-count" aria-live="polite">
-            <strong>{prog.reps}</strong> von {level.reps} {level.reps === 1 ? "Tag" : "Tagen"}
-          </p>
-          <div className="pips" aria-hidden="true">
-            {Array.from({ length: level.reps }, (_, i) => (
-              <span key={i} className={i < prog.reps ? "pip on" : "pip"} />
-            ))}
-          </div>
+          {/* Geschafft: kein Bruch daneben (app-befund.md, Abschnitt 6) */}
+          {!done && (
+            <>
+              <p className="progress-count" aria-live="polite">
+                <strong>{Math.min(prog.reps, level.reps)}</strong> von {level.reps} {level.reps === 1 ? "Tag" : "Tagen"}
+              </p>
+              <div className="pips" aria-hidden="true">
+                {Array.from({ length: level.reps }, (_, i) => (
+                  <span key={i} className={i < prog.reps ? "pip on" : "pip"} />
+                ))}
+              </div>
+            </>
+          )}
 
           {done && (
             <div className="progress-done">
               <p className="progress-done-title"><IconCheck size={18} /> Level geschafft</p>
               {next && <p className="small">{LEVEL_LABEL[next.id]} ist jetzt offen.</p>}
-              {next && <p className="small muted">{LEVEL_CHANGE_WARNING}</p>}
             </div>
           )}
 
@@ -217,6 +207,34 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
           </div>
         </div>
       </Section>
+
+      <details className="acc detail-bg">
+        <summary><span>Hintergrund</span><IconChevron size={20} /></summary>
+        <div className="acc-body b-blocks">
+          {exam && <p><strong>Prüfungsbezug:</strong> {exam}</p>}
+          {phase && (
+            <div>
+              <p><strong>Lernphase: {phase.label}</strong></p>
+              <p className="small">Verstärkung: {phase.reinforce}</p>
+              <p className="small muted">Rahmen: {phase.conditions} · Ziel: {phase.goal}</p>
+            </div>
+          )}
+          {(age.months || apportNote || dpe) && (
+            <div>
+              <p><strong>Alter</strong></p>
+              {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
+              {apportNote && <p className="small muted">{MIN_AGE_NOTE}</p>}
+              {dpe && <p className="small muted">{DPE_AGE_NOTE}</p>}
+            </div>
+          )}
+          {idx > 0 && (
+            <div>
+              <p><strong>Levelwechsel</strong></p>
+              <p className="small muted">{LEVEL_CHANGE_WARNING}</p>
+            </div>
+          )}
+        </div>
+      </details>
     </>
   );
 }

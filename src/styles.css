@@ -1020,3 +1020,9 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 }
 .gl-bubble-term { font-weight: 700; }
 .gl-bubble-link { align-self: flex-start; }
+
+/* Übungsdetail: Heute-Karte und Hintergrund (app-befund.md, Abschnitt 2) */
+.today-card { display: flex; flex-direction: column; gap: 10px; }
+.today-step { font-weight: 600; }
+.detail-bg { margin-top: 4px; }
+.step-extra { grid-column: 2 / -1; font-size: var(--fs-label); color: var(--muted); }

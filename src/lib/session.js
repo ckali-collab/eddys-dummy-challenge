@@ -192,7 +192,8 @@ export const buildPlan = (st, typeId, offsets = {}, picks = null) => {
       cut: tpl.role === "main" ? cut : null,
       options: options[tpl.role],
       ...(c ? { kind: "level", trackId: c.trackId, levelId: c.levelId } : { kind: "fallback" }),
-      ...(c && tpl.role === "main" ? { step: levelProgress(st, c.trackId, c.levelId).step ?? 1 } : {}),
+      // heutige Stufe je Block: Packliste und Equipment richten sich danach (app-befund.md, Abschnitt 4 und 5)
+      ...(c ? { step: levelProgress(st, c.trackId, c.levelId).step ?? 1 } : {}),
     };
   });
 

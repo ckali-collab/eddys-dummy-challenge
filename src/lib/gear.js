@@ -24,6 +24,14 @@ export const gearLabel = (item, dummyType, dog) => {
   return text;
 };
 
+// Equipment einer Stufe: Einträge ohne steps gelten für alle Stufen (app-befund.md, Abschnitt 4)
+// Ohne das Feld steps zurückgegeben: die Stufe ist an dieser Stelle schon gewählt.
+export const gearForStep = (gear = [], step) =>
+  gear.filter((g) => !g.steps || g.steps.includes(step)).map(({ steps, ...g }) => g);
+// Nur an genau diese Stufe gebundenes Equipment (für "Stufe 4: zusätzlich ...")
+export const gearOnlyAtStep = (gear = [], step) =>
+  gear.filter((g) => g.steps?.includes(step)).map(({ steps, ...g }) => g);
+
 // Icon aus gear (der Pocket Dummy entfällt als eigener Eintrag, fundament-umbau-2.md Abschnitt 5)
 export const gearIcon = (item) => GEAR_ITEMS[item.id]?.icon ?? null;
 
@@ -32,7 +40,7 @@ export const gearIcon = (item) => GEAR_ITEMS[item.id]?.icon ?? null;
 // Teils Pflicht, teils optional: Gesamtzahl nennen und wie viele davon optional sind,
 // z.B. "2 Markierstäbe (1 optional)". Eine Packliste darf nichts verschweigen.
 // Dummy: kommt ein Block mit "standard" vor, wird der Standard-Dummy gepackt, nicht die Oder-Variante.
-// item.steps: nur einpacken, wenn der Block auf einem dieser Schritte steht (block.step, nur Hauptteil gesetzt).
+// item.steps: nur einpacken, wenn der Block heute auf einer dieser Stufen steht (block.step).
 // item.orMore: "10 oder mehr" bleibt in der Packliste erhalten.
 export const packingList = (blocks) => {
   const orMore = new Set();

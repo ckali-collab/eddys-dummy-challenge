@@ -9,7 +9,7 @@ import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, 
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { PackList, GearList } from "./Gear.jsx";
-import { packingList } from "../lib/gear.js";
+import { packingList, gearForStep } from "../lib/gear.js";
 import { setUpdateHold } from "../lib/updateGate.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { RichText } from "./Glossar.jsx";
@@ -135,7 +135,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
         </div>
         <h3 className="block-title">{fb.title}</h3>
         <p className="block-hint">{fb.desc}</p>
-        <PhaseNote typeId={typeId} role={block.role} />
+        {block.role !== "warmup" && <PhaseNote typeId={typeId} role={block.role} />}
       </article>
     );
   }
@@ -158,15 +158,17 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
             <Medal level={block.levelId} size={16} />
             <span>{LEVEL_LABEL[block.levelId]} · {level.title}</span>
           </span>
-          <span className="block-prog">an {prog.reps} von {level.reps} Tagen geschafft · Stufe {prog.step ?? 1} von 4</span>
+          <span className="block-prog">{isLevelDone(st, block.trackId, block.levelId)
+            ? "Geschafft"
+            : `an ${Math.min(prog.reps, level.reps)} von ${level.reps} Tagen geschafft · Stufe ${prog.step ?? 1} von 4`}</span>
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
-      <PhaseNote typeId={typeId} role={block.role} />
+      {block.role !== "warmup" && <PhaseNote typeId={typeId} role={block.role} />}
       {level.run && <p className="block-hint"><RichText text={level.run} gloss /></p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
-      {level.gear.length > 0 && (
-        <GearList gear={level.gear} dummyType={level.dummyType} dog={st.dog} compact />
+      {gearForStep(level.gear, block.step ?? prog.step ?? 1).length > 0 && (
+        <GearList gear={gearForStep(level.gear, block.step ?? prog.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
       )}
       {block.cut && (block.cut.neutral
         ? <p className="block-note">Heute: {block.cut.text}</p>
@@ -397,7 +399,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           ))}
         </div>
         <p className="small muted">
-          {type.duration} · {type.desc}
+          {type.duration}{type.desc ? ` · ${type.desc}` : ""}
           {plan.load > 0 && (plan.capped ? ` · Belastung: ${plan.load} von max. ${plan.limit}` : ` · Belastung: ${plan.load}, Richtwert ${plan.limit}`)}
         </p>
         {plan.type !== "voll" && <p className="small muted">{WARMUP_COOLDOWN.shortNote}</p>}
@@ -418,7 +420,8 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
       <div className="stack" style={{ gap: 14 }}>
         {plan.blocks.map((b, i) => (
           <Fragment key={b.role}>
-            {i > 0 && <p className="block-break" title={SESSION_GUIDANCE.blockSeparation}>Pause · Verwechslungsgefahr</p>}
+            {i > 0 && plan.type === "voll" && <p className="block-break" title={SESSION_GUIDANCE.blockSeparation}>Pause · Verwechslungsgefahr</p>}
+            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" />}
             <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
           </Fragment>
         ))}

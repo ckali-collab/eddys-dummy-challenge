@@ -191,10 +191,11 @@ export const TRACKS = [
         run: "5 Stopps auf den leisen Pip aus einer der vier Varianten, über den Spaziergang verteilt. Dazwischen normal weitergehen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, steps: [4] }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund geht bei Fuß. Leise Pip pfeifen. Er setzt sich sofort hin.",
           "Hund sitzt 20 große Schritte vor dir. Pip pfeifen. Er bleibt sitzen und schaut dich an.",
@@ -260,7 +261,8 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy werfen, Hund schicken.",
           "Während er auf den Dummy zugaloppiert, trittst du vor ihn und pfeifst gleichzeitig Pip.",
@@ -302,13 +304,14 @@ export const TRACKS = [
           { condition: "position", variant: "aus dem Rücken gerufen" },
         ], // je Schritt eine Bedingung (Abschnitt 7)
         criteria: "20 Meter, gerade Linie, Vorsitzen. Fünf schnelle Reaktionen auf das erste Signal in Folge.",
-        run: "5 Rückrufe auf 20 Meter, jeder mit Vorsitzen, Lob und anschließender Freigabe.",
+        run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
           "Peeeep - peeeep. Er kommt direkt und gerade.",
@@ -340,7 +343,8 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
           "Peeeep - peeeep einmal.",
@@ -370,7 +374,8 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
           "Rückruf auf großer Distanz. Erst wenn Schritt 1 sicher sitzt. Hund ist in Sichtweite, aber nicht im Spiel.",
@@ -550,10 +555,11 @@ export const TRACKS = [
         run: "4 Wiederholungen einer Variante (Schritt zur Seite, Weggehen, Markierstab setzen, zweiter Dummy).",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4, steps: [3] }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
           "Dummy werfen, du gehst vier bis fünf Schritte weg.",
@@ -638,7 +644,8 @@ export const TRACKS = [
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten",
+        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Kurze Retrieves, maximal 10 Meter.",
           "Sobald er zurückkommt: nicht stehen bleiben, sondern ein paar Schritte rückwärts gehen. Das zieht ihn bis an dich heran.",
@@ -740,7 +747,7 @@ export const TRACKS = [
         run: "3 bis 5 Einzelmarken auf 20 bis 30 Meter auf einer Geländeart.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4, optional: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 5, min: 3, unit: "Einzelmarken" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: "single-mark",
@@ -856,7 +863,7 @@ export const TRACKS = [
         run: "Dummys im Halbkreis auslegen, Hund schicken, Suchensignal erst wenn er Witterung bekommt.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }, { id: "markierstab", n: 4 }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
+        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -884,7 +891,7 @@ export const TRACKS = [
         run: "Zehn oder mehr Dummys im Halbkreis auslegen, den Hund drei bis fünf holen lassen, den Rest selbst holen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 10, orMore: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -910,7 +917,7 @@ export const TRACKS = [
         run: "Suchengebiet mit natürlicher Begrenzung abstecken, zehn oder mehr Dummys auslegen, acht holen lassen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 10, orMore: true }, { id: "markierstab", n: 4 }],
+        gear: [{ id: "dummy", n: 10, orMore: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -1070,7 +1077,7 @@ export const SESSION_TYPES = [
     duration: "37 Min",
     desc: "Mit Equipment, gezielter Fokus",
     blocks: [
-      { role: "warmup",  minutes: 15, label: "Warm-up",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
+      { role: "warmup",  minutes: 15, label: "Erster Teil",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
       { role: "main",    minutes: 12, label: "Hauptteil", hint: "Das aktuell offene Level. Der Umfang richtet sich nach dem Belastungslimit aus dem Hundeprofil." },
       { role: "cooldown", minutes: 10, label: "Abschluss", hint: "Ein Level, das sicher gelingt. Bevorzugt Nasenarbeit oder einfache Marke." },
     ],
@@ -1084,7 +1091,7 @@ export const SESSION_TYPES = [
     duration: "13-15 Min",
     desc: "Kein Equipment nötig",
     blocks: [
-      { role: "warmup",  minutes: 5, label: "Warm-up",   hint: "Kurz ankommen." },
+      { role: "warmup",  minutes: 5, label: "Erster Teil",   hint: "Kurz ankommen." },
       { role: "main",    minutes: 5, label: "Hauptteil", hint: "Ein Signal gezielt üben." },
       { role: "cooldown", minutes: "3-5", label: "Abschluss", hint: "Sicherer Erfolg." },
     ],
@@ -1096,9 +1103,9 @@ export const SESSION_TYPES = [
     short: "Mini-Session",
     icon: "pocket",
     duration: "10 Min",
-    desc: "Juniordummy 400 g in der Jacke",
+    desc: null, // nur die Dauer; was mitzunehmen ist, steht in der Packliste
     blocks: [
-      { role: "warmup",  minutes: 3, label: "Warm-up",   hint: "Zwei Stopps oder ein Rückruf." },
+      { role: "warmup",  minutes: 3, label: "Erster Teil",   hint: "Zwei Stopps oder ein Rückruf." },
       { role: "main",    minutes: 6, label: "Hauptteil", hint: "Appell, Führigkeit, Steadiness oder Abgabe. Kurz, ohne Aufbau." },
       // Laut Abschnitt 8 kein Cool Down bei der Mini-Session; der Block bleibt, weil er Trainingsinhalt hat (gemeldet)
       { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Zwei kurze Retrieves." },

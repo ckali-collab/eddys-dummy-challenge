@@ -6,7 +6,7 @@ import { IconChevron } from "./Icons.jsx";
 // Alte Einträge aus Tests können Felder vermissen: alles hier fällt sauber auf "–" zurück.
 const NA = "–";
 const ROLE_ORDER = { warmup: 0, main: 1, cooldown: 2 };
-const ROLE_LABEL = { warmup: "Warm-up", main: "Hauptteil", cooldown: "Abschluss" };
+const ROLE_LABEL = { warmup: "Erster Teil", main: "Hauptteil", cooldown: "Abschluss" };
 export const RATINGS = [
   { id: "gut", label: "gut", mark: "✓" },
   { id: "okay", label: "okay", mark: "~" },

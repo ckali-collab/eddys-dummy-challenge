@@ -176,6 +176,17 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   `examSubject` je Track entfernt, restposten.md). Neue Varianten: F Bronze Doppelmarkierung DP-E
   und Halbblind, D Bronze verspätetes Schicken. `DPE_AGE_NOTE` im Übungsdetail bei DP-E-Leveln, `DPE_SHOT_NOTE` im Basics-Tab.
 
+## App-Befund (2026-10-28, `docs/app-befund.md`)
+- `stepsAsStufen: true` an A Bronze, A Gold, B Bronze/Silber/Gold, D Silber, E Bronze: die vier `steps` sind die Stufen,
+  `conditionPath` wird dort nicht angezeigt, kein Block „Aufbau“. Die übrigen acht A–E-Level haben nicht genau vier steps
+  und zeigen weiter conditionPath (nur die Variante, ohne Bedingungsnamen) plus steps.
+- Übungsdetail: Heute (Stufe, Durchgang, Equipment der Stufe), Geschafft wenn, Stufen, Tipps, Achtung, Fortschritt,
+  „Hintergrund“ zugeklappt (Prüfungsbezug, Lernphase, Alter, Levelwechsel).
+- gear-Einträge mit `steps` gelten nur auf diesen Stufen (`gearForStep`); Packliste, Heute-Karten, Trackübersicht nach
+  heutiger Stufe (`block.step` an allen Level-Blöcken). Mini-Session ohne Equipment-Text in der Kopfzeile.
+- Warm-up-Block heißt „Erster Teil“, Aufwärmhinweis steht darüber. Pausen-Trenner nur in der Vollsession.
+  Zähler gedeckelt, geschaffte Level zeigen „Geschafft“. G ohne Markierstäbe, F Bronze Markierstäbe optional.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.
