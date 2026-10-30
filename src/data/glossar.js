@@ -501,6 +501,14 @@ export const GLOSSAR = [
     ],
   },
   {
+    id: "signal-release-dummy", term: "Aus-Signal, Dummy abgeben", group: "signale", aliases: ["Aus-Signal"], signal: ["release_dummy"], fallback: "dein Aus-Signal",
+    short: "Fordert den Hund auf, das Dummy loszulassen.",
+    long: [
+      t("Fordert den Hund auf, das Dummy loszulassen. Nicht zu verwechseln mit dem Freigabe-Signal, das die ganze Übung beendet: Nach dem Aus-Signal bleibt der Hund in der Arbeit."),
+      t("Verbreitet ist \"Aus\". Wer das Dummy ohne eigenes Signal abnimmt, trägt im Profil nichts ein, dann erscheint die Zeile nicht."),
+    ],
+  },
+  {
     id: "signal-position", term: "Positionssignale", group: "signale", aliases: [], signal: ["heel", "side2"], fallback: "deine Positionssignale",
     short: "Der Hund nimmt die Fußposition ein. Die Hauptposition ist links.",
     long: [t("Der Hund nimmt die Fußposition ein. **Die Hauptposition ist links**, siehe Fußarbeit. Wer eine zweite Seite nutzt, braucht ein zweites Wort. Beide Wörter stehen im Profil.")],

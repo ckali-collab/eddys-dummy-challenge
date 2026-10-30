@@ -246,6 +246,9 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   (`onNeedReload`).
   Alle Fälle end-to-end mit Testversionen geprüft.
 
+## Arbeitsregel: vier Textebenen (docs/vier-ebenen.md)
+Ein Level hat vier Textebenen: Kriterium (`criteria`), Kartentext (`run`), Stufen (`conditionPath`/`path`), Aufbau (`steps`). Jede Änderung an einer verlangt eine Prüfung der anderen drei, auch wenn die Spec sie nicht nennt; Abweichungen werden gemeldet. Das Kriterium nennt die schwierigste Situation und die Zählregel. Es darf weitere Stufen nennen, aber keine Situation, die in keiner Stufe vorkommt. Der Kartentext sagt, was in einem Durchgang zu tun ist, und legt die Situation nicht fest.
+
 ## Nicht anfassen / Gotchas
 - Kein `public/manifest.json` und kein manueller `<link rel="manifest">` in `index.html` wieder einführen. Das Plugin erzeugt beides, ein zweites Manifest würde kollidieren.
 - Manifest-Änderungen (Name, Farben, Icons) nur in `vite.config.js`.

@@ -147,7 +147,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände, während du pfeifst." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Stoppt auf 35 Meter, auch aus der Bewegung und wenn ein Dummy sichtbar im Gelände liegt. Vier saubere Stopps in Folge, an drei verschiedenen Orten.",
-        run: "4 saubere Stopps auf 25 Meter an einem Ort, jeder Stopp wird belohnt (Rückruf oder Dummywurf).",
+        run: "4 saubere Stopps in der Situation der heutigen Stufe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
@@ -155,7 +155,7 @@ export const TRACKS = [
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
-          "Hund sucht oder schnüffelt frei auf etwa 25 Meter. Stopp-Pfiff. Er stoppt, sitzt, schaut dich an.",
+          "Hund sucht oder schnüffelt frei auf etwa 35 Meter. Stopp-Pfiff. Er stoppt, sitzt, schaut dich an.",
           "Nach dem Stopp: Rückruf pfeifen und loben, oder einen Dummy werfen. Der Stopp muss sich lohnen.",
           "Distanz schrittweise auf 30 bis 35 Meter steigern.",
         ],
@@ -292,7 +292,7 @@ export const TRACKS = [
           { condition: "ort", variant: "Im Wald, wo er dich zeitweise nicht sieht." },
           { condition: "wetter", variant: "Bei Wind von vorn, der deine Stimme wegträgt." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Kommt auf das erste Signal, auch wenn andere Hunde spielen, bei Wildwitterung und wenn er dich zeitweise nicht sieht. Drei Durchgänge an verschiedenen Tagen.",
+        criteria: "Kommt auf das erste Signal, auch wenn andere Hunde spielen, bei Wildwitterung, wenn er dich zeitweise nicht sieht und bei Wind von vorn. Drei Durchgänge an verschiedenen Tagen.",
         run: "Ein Rückruf in der Situation der heutigen Stufe, danach wieder freigeben und weiterspielen lassen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
@@ -373,7 +373,7 @@ export const TRACKS = [
           { condition: "gegenstand", variant: "Er trägt ein Dummy, während er bei Fuß geht." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bleibt 100 Meter am Stück bei Fuß, auch wenn Dummys am Weg liegen, Menschen vorbeigehen und er selbst ein Dummy trägt.",
-        run: "100 Meter am Stück mit mindestens 4 Tempowechseln und 2 Kehrtwendungen.",
+        run: "100 Meter am Stück in der Situation der heutigen Stufe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2, steps: [1] }, { id: "dummy", n: 1, steps: [4] }], // Stufe 1: Dummys am Weg, Stufe 4: er trägt ein Dummy
@@ -448,7 +448,7 @@ export const TRACKS = [
           { condition: "position", variant: "Du gehst nach dem Wurf zwei Schritte weg, er wartet 8 Sekunden." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Drei Durchgänge.",
-        run: "4 Würfe mit der Wartezeit der heutigen Stufe, danach Apport.",
+        run: "4 Würfe mit der Wartezeit der heutigen Stufe, danach schickst du ihn.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
@@ -482,7 +482,7 @@ export const TRACKS = [
           { condition: "position", variant: "Du holst das Dummy selbst, er bleibt sitzen." },
           { condition: "ausgang", variant: "Das Dummy fliegt, während ihr in Bewegung seid." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Hält den Sitz, wenn zwei Dummys fliegen, wenn eine zweite Person wirft und wenn du das Dummy selbst holst. Drei Durchgänge.",
+        criteria: "Hält den Sitz, wenn zwei Dummys fliegen, wenn eine zweite Person wirft, wenn du das Dummy selbst holst und wenn ihr in Bewegung seid. Drei Durchgänge.",
         run: "4 Wiederholungen in der Situation der heutigen Stufe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
@@ -516,7 +516,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein lautes Signal oder ein Schuss fällt, bevor das Dummy fliegt." },
           { condition: "ort", variant: "In einem unbekannten Gelände, mit Menschen und Ablenkung." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Bleibt bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn eine zweite Person vor dir arbeitet. Drei Durchgänge.",
+        criteria: "Bleibt bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn eine zweite Person zuerst arbeitet, ein lautes Signal fällt und ihr in unbekanntem Gelände seid. Drei Durchgänge.",
         run: "In Bewegung gehen, Dummy fliegt, eine zweite Person holt zuerst.",
         examHint: "In der Prüfung fällt an dieser Stelle ein Schuss. Im Training ist ein Lautzeichen zulässig und gleichwertig: Die DP-E gibt es ausdrücklich in beiden Varianten, mit Schuss und ohne.", // praxistauglichkeit.md, Abschnitt 1
         reps: 3, // Tage mit gelungenem Durchgang
@@ -635,8 +635,8 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar bereit." },
           { condition: "ort", variant: "Mit Zuschauern, die zusehen und sich bewegen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand und wenn ein zweites Dummy bereitliegt. Drei Durchgänge.",
-        run: "3 Abgaben in hoher Erregung, je eine nach langem Retrieve, nach Wasser und nach Mehrfachmarke.",
+        criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Drei Durchgänge.",
+        run: "3 Retrieves in der Situation der heutigen Stufe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }],
@@ -646,7 +646,7 @@ export const TRACKS = [
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
           "Bei Wasser: direkt an der Wasserkante stehen. Verhindert Ablegen am Ufer und Schütteln vor der Abgabe.",
-          "Nach Mehrfachmarken: zwischen den Retrieves bewusst Ruhe einbauen.",
+          "Nach mehreren Apports hintereinander: zwischen den Retrieves bewusst Ruhe einbauen.",
         ],
         tips: [
           "Wenn er knautscht oder fallen lässt: Apportieren für diese Session beenden.",
@@ -934,7 +934,7 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: 3,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Bis 30 Meter. Drei Durchgänge.",
+        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt sie im Profil ein. Bis 30 Meter. Drei Durchgänge.",
         run: "Hund auf Distanz stoppen, Arm neutral vor die Brust, zwei Sekunden warten, dann ein Richtungssignal.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
