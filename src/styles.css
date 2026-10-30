@@ -1026,3 +1026,5 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .today-step { font-weight: 600; }
 .detail-bg { margin-top: 4px; }
 .step-extra { grid-column: 2 / -1; font-size: var(--fs-label); color: var(--muted); }
+.phase-line { padding: 2px 4px; }
+.phase-line-head { font-weight: 600; }

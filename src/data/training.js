@@ -33,7 +33,7 @@ export const WHISTLES = [
     pattern: "peeeep - peeeep",
     visual: "▬ ▬",
     desc: "2x lang",
-    meaning: "Direkt und auf gerader Linie zurückkommen, vorsitzen",
+    meaning: "Der Hund kommt auf direktem Weg zurück.",
     use: [
       "Wenn du sicher bist, dass er kommt",
       "Wenn er ohnehin in deine Richtung orientiert ist - festigt das Signal gratis",
@@ -182,20 +182,19 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ausgang", variant: "Hund sitzt" },
-          { condition: "ausgang", variant: "Hund steht" },
-          { condition: "position", variant: "10 m Abstand" },
-          { condition: "position", variant: "25 m Abstand" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "ausgang", variant: "Der Hund sitzt neben dir, wenn du pfeifst." },
+          { condition: "ausgang", variant: "Der Hund steht oder geht neben dir, wenn du pfeifst." },
+          { condition: "position", variant: "Der Hund ist etwa 10 Meter entfernt, rund 15 Schritte." },
+          { condition: "position", variant: "Der Hund ist etwa 25 Meter entfernt, rund 35 Schritte." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Sitzt sofort auf einen leisen Pip, fünf von fünf Fällen, an drei verschiedenen Tagen.",
         run: "5 Stopps auf den leisen Pip aus einer der vier Varianten, über den Spaziergang verteilt. Dazwischen normal weitergehen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, steps: [4] }],
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund geht bei Fuß. Leise Pip pfeifen. Er setzt sich sofort hin.",
           "Hund sitzt 20 große Schritte vor dir. Pip pfeifen. Er bleibt sitzen und schaut dich an.",
@@ -217,16 +216,16 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ausgang", variant: "Hund läuft auf dich zu" },
-          { condition: "ausgang", variant: "Hund läuft von dir weg" },
-          { condition: "position", variant: "35 m" },
-          { condition: "verleitung", variant: "Dummy liegt in Sicht" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "ausgang", variant: "Der Hund läuft auf dich zu, wenn du pfeifst." },
+          { condition: "ausgang", variant: "Der Hund läuft von dir weg, wenn du pfeifst." },
+          { condition: "position", variant: "Der Hund ist etwa 35 Meter entfernt, rund 45 Schritte." },
+          { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände, während du pfeifst." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Stopp auf 25 Meter, auch beim Schnüffeln oder Laufen. Vier saubere Stopps in Folge, drei verschiedene Orte.",
         run: "4 saubere Stopps auf 25 Meter an einem Ort, jeder Stopp wird belohnt (Rückruf oder Dummywurf).",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, steps: [4] }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -249,11 +248,11 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ausgang", variant: "Hund läuft zum Dummy" },
-          { condition: "verleitung", variant: "fremder Hund in Sicht" },
-          { condition: "verleitung", variant: "Wild oder Vogel" },
-          { condition: "ort", variant: "unbekanntes Gelände" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "ausgang", variant: "Der Hund ist auf dem Weg zu einem Dummy, wenn du pfeifst." },
+          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite." },
+          { condition: "verleitung", variant: "Wild oder ein Vogel geht auf, während er arbeitet." },
+          { condition: "ort", variant: "Ein Gelände, in dem ihr noch nie trainiert habt." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Stopp auf 40 Meter während des Laufs zum Dummy. Drei Durchgänge an drei Tagen, davon mindestens einer bei realer Ablenkung.",
         run: "Ein Stopp während des Laufs auf den Dummy, danach weiterschicken. Mehr nicht.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -262,7 +261,6 @@ export const TRACKS = [
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy werfen, Hund schicken.",
           "Während er auf den Dummy zugaloppiert, trittst du vor ihn und pfeifst gleichzeitig Pip.",
@@ -298,12 +296,12 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ort", variant: "Garten" },
-          { condition: "ort", variant: "bekannte Wiese" },
-          { condition: "verleitung", variant: "ein Mensch" },
-          { condition: "position", variant: "aus dem Rücken gerufen" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
-        criteria: "20 Meter, gerade Linie, Vorsitzen. Fünf schnelle Reaktionen auf das erste Signal in Folge.",
+          { condition: "ort", variant: "Im Garten oder auf einer eingezäunten Fläche." },
+          { condition: "ort", variant: "Auf einer bekannten Wiese, ohne andere Hunde." },
+          { condition: "verleitung", variant: "Ein Mensch steht oder geht in der Nähe." },
+          { condition: "position", variant: "Du drehst dich weg und rufst, ohne ihn anzusehen." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+        criteria: "Kommt auf den Pfiff in gerader Linie zurück, bleibt beim Führer und wartet auf die Freigabe.",
         run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
@@ -311,7 +309,6 @@ export const TRACKS = [
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
           "Peeeep - peeeep. Er kommt direkt und gerade.",
@@ -331,11 +328,11 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ort", variant: "unbekanntes Gelände" },
-          { condition: "verleitung", variant: "fremder Hund" },
-          { condition: "ausgang", variant: "aus dem Schnüffeln heraus" },
-          { condition: "ausgang", variant: "aus dem Lauf heraus" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart." },
+          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite, angeleint." },
+          { condition: "ausgang", variant: "Du rufst, während er mit der Nase am Boden ist." },
+          { condition: "ausgang", variant: "Du rufst, während er rennt." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "40 Meter, Hund ist aktiv am Schnüffeln oder Suchen. Fünf schnelle Reaktionen in Folge.",
         run: "5 Rückrufe auf 40 Meter, jedes Mal erst abwarten, bis er wirklich vertieft ist.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -344,7 +341,6 @@ export const TRACKS = [
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
           "Peeeep - peeeep einmal.",
@@ -362,11 +358,11 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "spielende Hunde" },
-          { condition: "verleitung", variant: "Wildwitterung" },
-          { condition: "ort", variant: "Wald mit Sichtverlust" },
-          { condition: "wetter", variant: "Wind von vorn" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "verleitung", variant: "Zwei oder mehr Hunde spielen in Sichtweite." },
+          { condition: "verleitung", variant: "Er hat frische Wildwitterung aufgenommen." },
+          { condition: "ort", variant: "Im Wald, wo er dich zeitweise nicht sieht." },
+          { condition: "wetter", variant: "Bei Wind von vorn, der deine Stimme wegträgt." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt auf das erste Signal, während andere Hunde in der Nähe spielen. Drei Durchgänge an verschiedenen Tagen.",
         run: "Ein Rückruf auf der aktuellen Distanzstufe, danach wieder freigeben und weiterspielen lassen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -375,7 +371,6 @@ export const TRACKS = [
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
           "Rückruf auf großer Distanz. Erst wenn Schritt 1 sicher sitzt. Hund ist in Sichtweite, aber nicht im Spiel.",
@@ -412,11 +407,11 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "haltung", variant: "gerade Linie" },
-          { condition: "haltung", variant: "Richtungswechsel" },
-          { condition: "haltung", variant: "Tempowechsel" },
-          { condition: "haltung", variant: "Stopp aus der Bewegung" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "haltung", variant: "Eine gerade Strecke, gleichmäßiges Tempo." },
+          { condition: "haltung", variant: "Mit Rechts-, Links- und Kehrtwendungen." },
+          { condition: "haltung", variant: "Mit Wechsel zwischen langsam, normal und zügig." },
+          { condition: "haltung", variant: "Du bleibst stehen, er setzt sich ohne Signal." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "50 Meter off-lead bei Fuß auf bekanntem Weg, keine Leinenspannung, kein Vorlaufen.",
         run: "2 bewusste Fuß-Phasen à 50 Meter, jeweils angekündigt und mit Freigabe beendet.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -440,16 +435,16 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Dummys am Boden" },
-          { condition: "ort", variant: "unbekanntes Gelände" },
-          { condition: "verleitung", variant: "Menschen" },
-          { condition: "gegenstand", variant: "mit Dummy im Fang" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "verleitung", variant: "Dummys liegen sichtbar am Weg." },
+          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart." },
+          { condition: "verleitung", variant: "Menschen gehen vorbei oder stehen in der Nähe." },
+          { condition: "gegenstand", variant: "Er trägt ein Dummy, während er bei Fuß geht." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bleibt bei Fuß bei abrupten Tempo- und Richtungswechseln, 100 Meter am Stück.",
         run: "100 Meter am Stück mit mindestens 4 Tempowechseln und 2 Kehrtwendungen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
-        gear: [],
+        gear: [{ id: "dummy", n: 2, steps: [1] }, { id: "dummy", n: 1, steps: [4] }], // Stufe 1: Dummys am Weg, Stufe 4: er trägt ein Dummy
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -468,16 +463,16 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "fremde Hunde" },
-          { condition: "verleitung", variant: "fliegendes Dummy" },
-          { condition: "ort", variant: "Prüfungsähnliche Linie" },
-          { condition: "wetter", variant: "Regen oder Wind" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "verleitung", variant: "Fremde Hunde in Sichtweite." },
+          { condition: "verleitung", variant: "Ein Dummy fliegt, während ihr geht." },
+          { condition: "ort", variant: "In einer Linie mit anderen Gespannen." },
+          { condition: "wetter", variant: "Bei Regen oder starkem Wind." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Du bleibst stehen, Hund sitzt automatisch ohne Kommando - auch bei Fahrrad oder Jogger. Fünf Mal in Folge.",
         run: "5 Halts ohne Kommando, davon mindestens 2 mit vorbeikommender Ablenkung.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
-        gear: [],
+        gear: [{ id: "dummy", n: 1, steps: [2] }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -512,11 +507,11 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Dummy wird fallen gelassen" },
-          { condition: "verleitung", variant: "Dummy wird kurz geworfen" },
-          { condition: "verleitung", variant: "Dummy weit geworfen" },
-          { condition: "position", variant: "du gehst zwei Schritte weg" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "verleitung", variant: "Du lässt ein Dummy neben dir fallen." },
+          { condition: "verleitung", variant: "Du wirfst ein Dummy wenige Meter weit." },
+          { condition: "verleitung", variant: "Du wirfst ein Dummy so weit du kannst." },
+          { condition: "position", variant: "Du gehst nach dem Wurf zwei Schritte von ihm weg." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Drei Durchgänge.",
         run: "4 Würfe mit Wartezeit auf der aktuellen Stufe (3, 5 oder 8 Sekunden), danach Apport.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -546,20 +541,19 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "zwei Dummys nacheinander" },
-          { condition: "verleitung", variant: "Werfer wirft" },
-          { condition: "position", variant: "du holst selbst" },
-          { condition: "ausgang", variant: "aus der Bewegung" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "verleitung", variant: "Zwei Dummys fliegen nacheinander." },
+          { condition: "verleitung", variant: "Ein Helfer wirft, nicht du." },
+          { condition: "position", variant: "Du holst das Dummy selbst, er bleibt sitzen." },
+          { condition: "ausgang", variant: "Das Dummy fliegt, während ihr in Bewegung seid." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Hält den Sitz, während du fünf Schritte weggehst oder ein zweiter Dummy fliegt. Drei Durchgänge.",
         run: "4 Wiederholungen einer Variante (Schritt zur Seite, Weggehen, Markierstab setzen, zweiter Dummy).",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4, steps: [3] }],
+        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
           "Dummy werfen, du gehst vier bis fünf Schritte weg.",
@@ -579,16 +573,16 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "anderes Gespann arbeitet zuerst" },
-          { condition: "ausgang", variant: "Walk-up-Linie in Bewegung" },
-          { condition: "verleitung", variant: "Schuss" },
-          { condition: "ort", variant: "Prüfungsgelände" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "verleitung", variant: "Ein anderes Gespann arbeitet zuerst." },
+          { condition: "ausgang", variant: "In einer Linie, die in Bewegung bleibt." },
+          { condition: "verleitung", variant: "Ein Schuss fällt vor dem Wurf." },
+          { condition: "ort", variant: "Auf einem Gelände wie in der Prüfung, mit mehreren Gespannen." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bleibt in der Linie bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn ein anderes Gespann vor dir arbeitet. Drei Durchgänge.",
         run: "In der Linie gehen, Dummy fliegt aus der Bewegung, ein anderes Gespann arbeitet zuerst.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, optional: true }],
+        gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, steps: [3] }],
         setup: ["Werfer", "Mindestens ein weiteres Gespann oder ein Helfer mit Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "walkup",
@@ -631,11 +625,11 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Welpendummy 200 g" },
-          { condition: "gegenstand", variant: "Juniordummy 400 g" },
-          { condition: "belohnung", variant: "Hand leer" },
-          { condition: "position", variant: "Abgabe im Stehen vorn" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "gegenstand", variant: "Mit dem Welpendummy, 200 Gramm." },
+          { condition: "gegenstand", variant: "Mit dem Juniordummy, 400 Gramm." },
+          { condition: "belohnung", variant: "Du hast kein Leckerchen in der Hand, wenn er abgibt." },
+          { condition: "position", variant: "Er gibt im Stehen vor dir ab, ohne sich zu setzen." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bringt den Dummy bis in die Hand, legt nicht ab, bei zehn Retrieves hintereinander.",
         run: "10 kurze Retrieves bis 10 Meter, jedes Mal rückwärts gehen und ruhig abnehmen.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -645,7 +639,6 @@ export const TRACKS = [
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
         stepsType: "varianten",
-        stepsAsStufen: true, // die vier steps sind die Stufen, conditionPath wird nicht angezeigt (app-befund.md, Abschnitt 1) // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Kurze Retrieves, maximal 10 Meter.",
           "Sobald er zurückkommt: nicht stehen bleiben, sondern ein paar Schritte rückwärts gehen. Das zieht ihn bis an dich heran.",
@@ -665,13 +658,13 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Standard 500 g" },
-          { condition: "gegenstand", variant: "Kaltwild oder Fell" },
-          { condition: "position", variant: "Abgabe seitlich aus Fuß" },
-          { condition: "ausgang", variant: "Festhalten bis zum Aus-Signal" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "gegenstand", variant: "Mit dem Standarddummy, 500 Gramm." },
+          { condition: "gegenstand", variant: "Mit Kaltwild oder einem Felldummy." },
+          { condition: "position", variant: "Er kommt in die Fußposition und gibt von dort ab." },
+          { condition: "ausgang", variant: "Er hält das Dummy, bis du das Aus-Signal gibst." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Sitzt vor dir ab und hält den Dummy, bis du ihn nimmst. Zehn Retrieves.",
-        run: "10 Retrieves mit Vorsitzen und Halten, bis du den Dummy nimmst.",
+        run: "10 Retrieves mit Halten bis zum Aus-Signal, bis du den Dummy nimmst.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
@@ -695,11 +688,11 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "nasses Dummy" },
-          { condition: "gegenstand", variant: "sperriger Gegenstand" },
-          { condition: "verleitung", variant: "zweites Dummy liegt bereit" },
-          { condition: "ort", variant: "Prüfungssituation" },
-        ], // je Schritt eine Bedingung (Abschnitt 7)
+          { condition: "gegenstand", variant: "Mit einem nassen Dummy aus dem Wasser." },
+          { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand." },
+          { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar bereit." },
+          { condition: "ort", variant: "In einer Prüfungssituation, mit Richter und Zuschauern." },
+        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Saubere Abgabe bei hoher Erregung. Drei Durchgänge, jeder mit allen drei Situationen: nach langem Retrieve, nach Wasserarbeit, nach Mehrfachmarke.",
         run: "3 Abgaben in hoher Erregung, je eine nach langem Retrieve, nach Wasser und nach Mehrfachmarke.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -1067,19 +1060,20 @@ export const WATER_MODULE = {
 };
 
 // ─── Session-Vorlagen ─────────────────────────────────────────
-// Minuten für Warm-up und Abschluss (Cool Down) nach fundament-umbau-2.md, Abschnitt 8. duration = Summe der Blöcke.
+// Blockminuten = reine Übungszeit (stufen-texte.md, Abschnitt 4). Aufwärmen und Cool Down stehen in WARMUP_COOLDOWN,
+// die Gesamtdauer rechnet sessionDuration() aus beidem. Vollsession: Werte aus dem Beispiel der Spec (8/12/5);
+// Kurzübung und Mini-Session: Übungszeiten wie vor fundament-umbau-2.md (1/5/1, 1/6/1), gemeldet.
 export const SESSION_TYPES = [
   {
     id: "voll",
     name: "Vollsession",
     short: "Vollsession",
     icon: "target",
-    duration: "37 Min",
     desc: "Mit Equipment, gezielter Fokus",
     blocks: [
-      { role: "warmup",  minutes: 15, label: "Erster Teil",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
+      { role: "warmup",  minutes: 8,  label: "Erster Teil",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
       { role: "main",    minutes: 12, label: "Hauptteil", hint: "Das aktuell offene Level. Der Umfang richtet sich nach dem Belastungslimit aus dem Hundeprofil." },
-      { role: "cooldown", minutes: 10, label: "Abschluss", hint: "Ein Level, das sicher gelingt. Bevorzugt Nasenarbeit oder einfache Marke." },
+      { role: "cooldown", minutes: 5,  label: "Abschluss", hint: "Ein Level, das sicher gelingt. Bevorzugt Nasenarbeit oder einfache Marke." },
     ],
     allowedTracks: ["A", "B", "C", "D", "E", "F", "G", "H"],
   },
@@ -1088,12 +1082,11 @@ export const SESSION_TYPES = [
     name: "Kurzübung im Spaziergang",
     short: "Kurzübung",
     icon: "walk",
-    duration: "13-15 Min",
-    desc: "Kein Equipment nötig",
+    desc: null, // nur die Dauer; was mitzunehmen ist, steht in der Packliste
     blocks: [
-      { role: "warmup",  minutes: 5, label: "Erster Teil",   hint: "Kurz ankommen." },
+      { role: "warmup",  minutes: 1, label: "Erster Teil",   hint: "Kurz ankommen." },
       { role: "main",    minutes: 5, label: "Hauptteil", hint: "Ein Signal gezielt üben." },
-      { role: "cooldown", minutes: "3-5", label: "Abschluss", hint: "Sicherer Erfolg." },
+      { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Sicherer Erfolg." },
     ],
     allowedTracks: ["A", "B", "C"],
   },
@@ -1102,12 +1095,10 @@ export const SESSION_TYPES = [
     name: "Mini-Session",
     short: "Mini-Session",
     icon: "pocket",
-    duration: "10 Min",
     desc: null, // nur die Dauer; was mitzunehmen ist, steht in der Packliste
     blocks: [
-      { role: "warmup",  minutes: 3, label: "Erster Teil",   hint: "Zwei Stopps oder ein Rückruf." },
+      { role: "warmup",  minutes: 1, label: "Erster Teil",   hint: "Zwei Stopps oder ein Rückruf." },
       { role: "main",    minutes: 6, label: "Hauptteil", hint: "Appell, Führigkeit, Steadiness oder Abgabe. Kurz, ohne Aufbau." },
-      // Laut Abschnitt 8 kein Cool Down bei der Mini-Session; der Block bleibt, weil er Trainingsinhalt hat (gemeldet)
       { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Zwei kurze Retrieves." },
     ],
     allowedTracks: ["A", "B", "C", "D", "E", "G"],
@@ -1143,9 +1134,9 @@ export const SESSION_FALLBACKS = {
 
 // ─── Aufwärmen und Cool Down (Abschnitt 10; Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, im Buch) ──
 export const WARMUP_COOLDOWN = {
-  voll: { warmup: "15 min, nie unter 10, bei ca. 30 % der max. Leistungsfähigkeit", cooldown: "ca. 10 min" },
-  kurz: { warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min" },
-  mini: { warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null }, // Cool Down entfällt
+  voll: { warmupMin: 15, cooldownMin: 10, warmup: "15 min, nie unter 10, bei ca. 30 % der max. Leistungsfähigkeit", cooldown: "ca. 10 min" },
+  kurz: { warmupMin: 5, cooldownMin: [3, 5], warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min" },
+  mini: { warmupMin: 3, cooldownMin: null, warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null }, // Cool Down entfällt
   rules: [
     "Nach dem Aufwärmen zügig starten.",
     "Wartezeit maximal 5 bis 10 Minuten.",

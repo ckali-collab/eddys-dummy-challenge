@@ -6,10 +6,10 @@ import { gearLabel, gearIcon } from "../lib/gear.js";
 // compact: Heute-Karten, kleinere Kachel (20/15/6), eine Zeile in --muted
 export const GearList = ({ gear, dummyType, dog, compact = false }) => (
   <ul className={`gear-list${compact ? " is-compact" : ""}`}>
-    {gear.map((item) => {
+    {gear.map((item, i) => {
       const icon = gearIcon(item, dummyType);
       return (
-        <li key={item.id} className={`gear-item${item.optional ? " is-optional" : ""}`}>
+        <li key={`${item.id}-${i}`} className={`gear-item${item.optional ? " is-optional" : ""}`}>
           {icon && (compact
             ? <IconTile name={icon} size={20} icon={15} radius={6} />
             : <IconTile name={icon} size={24} icon={18} radius={7} />)}

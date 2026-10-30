@@ -1,4 +1,4 @@
-import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS } from "../data/training.js";
+import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN } from "../data/training.js";
 import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday } from "./progress.js";
 
 const RANK = { bronze: 0, silber: 1, gold: 2 };
@@ -14,6 +14,16 @@ export const dayKeyOf = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 export const getSessionType = (typeId) => SESSION_TYPES.find((t) => t.id === typeId) || SESSION_TYPES[0];
+
+// Gesamtdauer: Aufwärmen + Übungsblöcke + Cool Down, z.B. "50 Min" oder "15-17 Min" (Spannen bleiben Spannen)
+export const sessionDuration = (typeId) => {
+  const type = getSessionType(typeId);
+  const wc = WARMUP_COOLDOWN[type.id] || {};
+  const parts = [wc.warmupMin, ...type.blocks.map((b) => b.minutes), wc.cooldownMin].filter((x) => x != null);
+  const lo = parts.reduce((n, x) => n + (Array.isArray(x) ? x[0] : x), 0);
+  const hi = parts.reduce((n, x) => n + (Array.isArray(x) ? x[1] : x), 0);
+  return lo === hi ? `${lo} Min` : `${lo}-${hi} Min`;
+};
 
 // ─── Belastung ────────────────────────────────────────────────
 // warnAt: Grundwert (LOAD_LIMITS.default), nur Warnschwelle. cap: Obergrenze aus Altersgruppe und

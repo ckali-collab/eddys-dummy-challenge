@@ -8,11 +8,6 @@ const byId = (list, id) => list.find((x) => x.id === id);
 
 // Ein Schritt als Text: Distanz und Gelände (path) oder Bedingung und Variante (conditionPath)
 export const stepParts = (level, n) => {
-  // A bis E mit genau vier steps: die steps sind die Stufen (app-befund.md, Abschnitt 1)
-  if (level?.stepsAsStufen) {
-    const text = level.steps?.[n - 1];
-    return text ? { kind: "text", main: text } : null;
-  }
   const p = level?.path?.[n - 1];
   if (p) {
     const d = byId(DISTANCE_STEPS, p.d), g = byId(TERRAIN_STEPS, p.g);
@@ -70,7 +65,7 @@ export const minAgeOf = (track, level) => {
   return { months: track.minAgeMonths ?? null, note: track.minAgeNote ?? null, suffix };
 };
 
-export const stepCount = (level) => (level?.stepsAsStufen ? level.steps : level?.path || level?.conditionPath || []).length;
+export const stepCount = (level) => (level?.path || level?.conditionPath || []).length;
 
 // Zielschritt = aktueller Schritt, Einstieg = Zielschritt - 1 (entfällt auf Schritt 1)
 export const sessionSteps = (st, trackId, levelId) => {

@@ -5,7 +5,7 @@ import {
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings } from "../lib/progress.js";
 import { sessionSteps, stepText } from "../lib/steps.js";
-import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName } from "../lib/session.js";
+import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { PackList, GearList } from "./Gear.jsx";
@@ -115,11 +115,19 @@ const StepPlan = ({ st, trackId, levelId }) => {
 
 // ─── Block-Karte ──────────────────────────────────────────────
 // Aufwärmen und Cool Down je Sessiontyp (fundament-umbau.md, Abschnitt 10)
+// Eigene Zeile außerhalb der Blöcke, ohne Übungsinhalt und Equipment (stufen-texte.md, Abschnitt 4)
+const minText = (m) => (Array.isArray(m) ? `${m[0]}-${m[1]} Min` : `${m} Min`);
 const PhaseNote = ({ typeId, role }) => {
   const wc = WARMUP_COOLDOWN[typeId];
-  const text = role === "warmup" ? wc?.warmup : role === "cooldown" ? wc?.cooldown : null;
-  if (!text) return null;
-  return <p className="block-note">{role === "warmup" ? "Aufwärmen" : "Cool Down"}: {text}</p>;
+  const text = role === "warmup" ? wc?.warmup : wc?.cooldown;
+  const min = role === "warmup" ? wc?.warmupMin : wc?.cooldownMin;
+  if (!text || min == null) return null;
+  return (
+    <div className="phase-line">
+      <p className="phase-line-head">{role === "warmup" ? "Aufwärmen" : "Cool Down"} · {minText(min)}</p>
+      <p className="small muted">{text}</p>
+    </div>
+  );
 };
 
 const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
@@ -135,7 +143,6 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
         </div>
         <h3 className="block-title">{fb.title}</h3>
         <p className="block-hint">{fb.desc}</p>
-        {block.role !== "warmup" && <PhaseNote typeId={typeId} role={block.role} />}
       </article>
     );
   }
@@ -164,7 +171,6 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
-      {block.role !== "warmup" && <PhaseNote typeId={typeId} role={block.role} />}
       {level.run && <p className="block-hint"><RichText text={level.run} gloss /></p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
       {gearForStep(level.gear, block.step ?? prog.step ?? 1).length > 0 && (
@@ -399,7 +405,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           ))}
         </div>
         <p className="small muted">
-          {type.duration}{type.desc ? ` · ${type.desc}` : ""}
+          {sessionDuration(type.id)}{type.desc ? ` · ${type.desc}` : ""}
           {plan.load > 0 && (plan.capped ? ` · Belastung: ${plan.load} von max. ${plan.limit}` : ` · Belastung: ${plan.load}, Richtwert ${plan.limit}`)}
         </p>
         {plan.type !== "voll" && <p className="small muted">{WARMUP_COOLDOWN.shortNote}</p>}
@@ -423,6 +429,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
             {i > 0 && plan.type === "voll" && <p className="block-break" title={SESSION_GUIDANCE.blockSeparation}>Pause · Verwechslungsgefahr</p>}
             {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" />}
             <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
+            {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" />}
           </Fragment>
         ))}
       </div>

@@ -228,7 +228,7 @@ export const BASICS_SECTIONS = [
       t("**Regelwerke**"), ul(...GLOSSAR_SOURCES.regelwerke),
       t("**Fachquellen, weiter verwendet**"), ul(...GLOSSAR_SOURCES.fach),
       t("**Studien**"), ul(...GLOSSAR_SOURCES.studien),
-      t("**Nicht mehr verwendet**\nDiese Quellen haben falsche Angaben geliefert, die bis Fassung 4 im Glossar standen:"),
+      t("**Geprüft und aussortiert**\nDiese Quellen haben Angaben geliefert, die sich an der Hauptquelle und den Prüfungsordnungen nicht halten ließen. Sie stehen hier, weil eine Quellenliste auch zeigen soll, was nicht verwendet wird."),
       { type: "table", head: ["Quelle", "Falsche Angabe"], rows: GLOSSAR_SOURCES.nichtMehr },
       t(GLOSSAR_SOURCES.nichtMehrNote),
     ],

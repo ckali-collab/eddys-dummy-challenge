@@ -38,9 +38,7 @@ const StepPath = ({ level, current, done, dog }) => (
         <li key={n} className={`step-row ${state}`} aria-current={!done && n === current ? "step" : undefined}>
           <span className="step-num">{n}</span>
           <span className="step-body">
-            {s.kind === "text" ? (
-              <span className="step-main"><RichText text={s.main} gloss /></span>
-            ) : s.kind === "distanz" ? (
+            {s.kind === "distanz" ? (
               <>
                 <span className="step-main">{s.distance.label}, etwa {s.distance.paces} Schritte</span>
                 <span className="step-sub">{s.terrain.label} ({s.terrain.examples})</span>
@@ -48,7 +46,7 @@ const StepPath = ({ level, current, done, dog }) => (
               </>
             ) : (
               <>
-                <span className="step-main">{s.variant}</span>
+                <span className="step-main"><RichText text={s.variant} gloss /></span>
               </>
             )}
           </span>
@@ -64,6 +62,12 @@ const StepPath = ({ level, current, done, dog }) => (
   </ol>
 );
 
+const StepsList = ({ steps }) => (
+  <ol className="steps">
+    {steps.map((s, i) => <li key={i}><span><RichText text={s} gloss /></span></li>)}
+  </ol>
+);
+
 export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) {
   const track = getTrack(trackId);
   const level = getLevel(trackId, levelId);
@@ -76,6 +80,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const phase = phaseOf(level);
   const age = minAgeOf(track, level);
   const stepsType = STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten;
+  // A bis E (Bedingungs-Tracks): Aufbau ist Kontext, nicht die heutige Anweisung (stufen-texte.md, Abschnitt 1)
+  const stepsInBackground = track.axis === "bedingungen";
   const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
   const dpe = level.examClass === "DP-E";
   const idx = track.levels.findIndex((l) => l.id === levelId);
@@ -129,11 +135,10 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </Section>
       )}
 
-      {!level.stepsAsStufen && <Section title={stepsType.title}>
+      {/* Ablauf eines Durchgangs bleibt bei F, G, H sichtbar; bei A bis E steht der Aufbau im Hintergrund */}
+      {!stepsInBackground && <Section title={stepsType.title}>
         <p className="muted">{stepsType.intro}</p>
-        <ol className="steps">
-          {level.steps.map((s, i) => <li key={i}><span><RichText text={s} gloss /></span></li>)}
-        </ol>
+        <StepsList steps={level.steps} />
       </Section>}
 
       {level.tips.length > 0 && (
@@ -225,6 +230,13 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
               {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
               {apportNote && <p className="small muted">{MIN_AGE_NOTE}</p>}
               {dpe && <p className="small muted">{DPE_AGE_NOTE}</p>}
+            </div>
+          )}
+          {stepsInBackground && level.steps.length > 0 && (
+            <div>
+              <p><strong>{stepsType.title}</strong></p>
+              <p className="small muted">{stepsType.intro}</p>
+              <StepsList steps={level.steps} />
             </div>
           )}
           {idx > 0 && (

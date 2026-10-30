@@ -187,6 +187,15 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Warm-up-Block heißt „Erster Teil“, Aufwärmhinweis steht darüber. Pausen-Trenner nur in der Vollsession.
   Zähler gedeckelt, geschaffte Level zeigen „Geschafft“. G ohne Markierstäbe, F Bronze Markierstäbe optional.
 
+## Stufentexte (2026-10-28, `docs/stufen-texte.md`)
+- `stepsAsStufen` wieder entfernt. Alle 15 A–E-Level haben vier Stufen aus `conditionPath` (60 Sätze, Bedingung nur noch
+  interne Kategorie). Bei A–E (`axis: "bedingungen"`) steht „Aufbau über mehrere Wochen“ im Hintergrund-Block,
+  bei F–H bleibt „Ablauf eines Durchgangs“ sichtbar.
+- Equipment an den Stufentexten: A Silber Dummy Stufe 4, C Silber Dummys Stufe 1 (2) und 4 (1), C Gold Dummy Stufe 2,
+  D Gold Schreckschuss Stufe 3. A Bronze Dummy wieder optional, D Silber Markierstäbe wieder ohne Stufe.
+- Blockminuten = Übungszeit; Aufwärmen/Cool Down eigene Zeilen über/unter den Blöcken (`WARMUP_COOLDOWN.warmupMin`,
+  `cooldownMin`), Gesamtdauer aus `sessionDuration()`: Voll 50, Kurz 15-17, Mini 11 Min. Kurzübung ohne Equipment-Text.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.
