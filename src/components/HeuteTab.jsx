@@ -3,9 +3,9 @@ import {
   SESSION_TYPES, SESSION_FALLBACKS, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
   FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
 } from "../data/training.js";
-import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings } from "../lib/progress.js";
+import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep } from "../lib/progress.js";
 import { sessionSteps, stepText } from "../lib/steps.js";
-import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration } from "../lib/session.js";
+import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { PackList, GearList } from "./Gear.jsx";
@@ -69,20 +69,22 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
 
 // ─── Vorbereitung (fundament-umbau.md, Abschnitt 11) ──────────
 // Abhakbar, keine Pflicht, nicht gespeichert
-const Checklist = () => {
-  const [done, setDone] = useState(() => SESSION_GUIDANCE.checklist.map(() => false));
-  const count = done.filter(Boolean).length;
+const Checklist = ({ blocks }) => {
+  const items = sessionChecklist(blocks);
+  const [done, setDone] = useState(() => new Set());
+  const count = items.filter((x) => done.has(x)).length;
+  const toggle = (x, on) => setDone((p) => { const n = new Set(p); on ? n.add(x) : n.delete(x); return n; });
   return (
     <details className="recent checklist">
       <summary>
         <span>Vorbereitung</span>
-        <span className="recent-count">{count}/{done.length}</span>
+        <span className="recent-count">{count}/{items.length}</span>
         <IconChevron size={20} />
       </summary>
       <div className="checklist-body">
-        {SESSION_GUIDANCE.checklist.map((item, i) => (
-          <label key={i} className="option">
-            <input type="checkbox" checked={done[i]} onChange={(e) => setDone((p) => p.map((v, j) => (j === i ? e.target.checked : v)))} />
+        {items.map((item) => (
+          <label key={item} className="option">
+            <input type="checkbox" checked={done.has(item)} onChange={(e) => toggle(item, e.target.checked)} />
             <span className="check-box" aria-hidden="true" />
             <span>{item}</span>
           </label>
@@ -96,18 +98,18 @@ const Checklist = () => {
 // ─── Einstieg und Ziel (fundament-umbau-2.md, Abschnitt 1) ────
 // Nur im Hauptteil: Er ist der einzige bewertete Block.
 const StepPlan = ({ st, trackId, levelId }) => {
-  const { level, target, entry } = sessionSteps(st, trackId, levelId);
+  const { level, first, target, entry } = sessionSteps(st, trackId, levelId);
   return (
     <div className="step-plan">
       {entry && (
         <p className="step-line">
           <span className="step-tag">Einstieg (zum Erinnern, wird nicht bewertet)</span>
-          <span>{stepText(level, entry)}</span>
+          <span>{stepText(level, entry, first)}</span>
         </p>
       )}
       <p className="step-line is-target">
         <span className="step-tag">Ziel heute (wird bewertet)</span>
-        <span>{stepText(level, target)}</span>
+        <span>{stepText(level, target, first)}</span>
       </p>
     </div>
   );
@@ -131,7 +133,7 @@ const PhaseNote = ({ typeId, role }) => {
 };
 
 const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
-  const meta = `${block.minutes} Min${block.load ? ` · Belastung ${block.load}` : ""}`;
+  const meta = block.hideMinutes ? "" : `${block.minutes} Min`; // Belastung steht nur in der Kopfzeile
 
   if (block.kind === "fallback") {
     const fb = SESSION_FALLBACKS[block.role];
@@ -139,7 +141,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
       <article className="card block is-fallback">
         <div className="block-head">
           <span className="block-role">{block.label}</span>
-          <span className="block-meta">{block.minutes} Min</span>
+          {meta && <span className="block-meta">{meta}</span>}
         </div>
         <h3 className="block-title">{fb.title}</h3>
         <p className="block-hint">{fb.desc}</p>
@@ -155,7 +157,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
     <article className={`card block lvl-${block.levelId}`}>
       <div className="block-head">
         <span className="block-role">{block.label}</span>
-        <span className="block-meta">{meta}</span>
+        {meta && <span className="block-meta">{meta}</span>}
       </div>
       <button type="button" className="block-main" onClick={() => onOpen(block.trackId, block.levelId)}>
         <IconTile name={getTrack(block.trackId)?.icon} fit="block" />
@@ -167,14 +169,14 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
           </span>
           <span className="block-prog">{isLevelDone(st, block.trackId, block.levelId)
             ? "Geschafft"
-            : `an ${Math.min(prog.reps, level.reps)} von ${level.reps} Tagen geschafft · Stufe ${prog.step ?? 1} von 4`}</span>
+            : `an ${Math.min(prog.reps, level.reps)} von ${level.reps} Tagen geschafft · Stufe ${effectiveStep(st, block.trackId, block.levelId) - firstStep(st.dog, level) + 1} von ${5 - firstStep(st.dog, level)}`}</span>
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
       {level.run && <p className="block-hint"><RichText text={level.run} gloss /></p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
-      {gearForStep(level.gear, block.step ?? prog.step ?? 1).length > 0 && (
-        <GearList gear={gearForStep(level.gear, block.step ?? prog.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
+      {gearForStep(level.gear, block.step ?? 1).length > 0 && (
+        <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
       )}
       {block.cut && (block.cut.neutral
         ? <p className="block-note">Heute: {block.cut.text}</p>
@@ -354,7 +356,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           )}
           {result.steps?.map((c) => (
             <p key={`s-${c.trackId}:${c.levelId}`} className="small">
-              {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]}: Stufe {c.from} → {c.to}
+              {trackName(c.trackId)} {LEVEL_LABEL[c.levelId]}: Stufe {Math.max(c.from - firstStep(st.dog, getLevel(c.trackId, c.levelId)) + 1, 1)} → {c.to - firstStep(st.dog, getLevel(c.trackId, c.levelId)) + 1}
               {c.to < c.from && " (zurückgestuft)"}
               {result.done?.some((x) => x.trackId === c.trackId && x.levelId === c.levelId) && !result.counted.some((x) => x.trackId === c.trackId && x.levelId === c.levelId) && <strong className="done-badge"> geschafft</strong>}
             </p>
@@ -421,7 +423,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
         </section>
       )}
 
-      {plan.type === "voll" && <Checklist />}
+      {plan.type === "voll" && <Checklist blocks={plan.blocks} />}
 
       <div className="stack" style={{ gap: 14 }}>
         {plan.blocks.map((b, i) => (

@@ -1,4 +1,4 @@
-import { TRACKS, JOINT_WARNINGS, JOINT_WARNING_LEVELS, JOINT_RESTRICTED } from "../data/training.js";
+import { TRACKS, JOINT_WARNINGS, JOINT_WARNING_LEVELS, JOINT_RESTRICTED, DUMMY_WEIGHT } from "../data/training.js";
 
 export const LEVEL_LABEL = { bronze: "Bronze", silber: "Silber", gold: "Gold" };
 
@@ -16,6 +16,18 @@ export const isLevelDone = (st, trackId, levelId) => {
   const p = levelProgress(st, trackId, levelId);
   return !!lvl && p.reps >= lvl.reps && (p.step ?? 1) >= STEP_MAX;
 };
+
+// Stufen mit lightOnly nennen ein Dummygewicht unter dem des Profils (Welpendummy beim erwachsenen Hund): Sie entfallen,
+// die Zählung beginnt bei der ersten passenden (praxistauglichkeit.md, Abschnitt 3). Gespeichert wird weiter die echte Stufe.
+const lightProfile = (dog) => DUMMY_WEIGHT.lightAges.includes(dog?.age) || DUMMY_WEIGHT.lightJoints.includes(dog?.joints);
+export const firstStep = (dog, level) => {
+  if (lightProfile(dog)) return 1;
+  let n = 1;
+  while (level?.conditionPath?.[n - 1]?.lightOnly) n++;
+  return n;
+};
+export const effectiveStep = (st, trackId, levelId) =>
+  Math.max(levelProgress(st, trackId, levelId).step ?? 1, firstStep(st.dog, getLevel(trackId, levelId)));
 
 const hasProgress = (st, trackId, levelId) => levelProgress(st, trackId, levelId).reps > 0;
 
@@ -76,9 +88,9 @@ export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
   const lvl = getLevel(trackId, levelId);
   if (!lvl || isLevelDone(st, trackId, levelId)) return st;
   const cur = levelProgress(st, trackId, levelId);
-  const step = cur.step ?? 1;
+  const step = effectiveStep(st, trackId, levelId);
   if (rating === "nein") {
-    return step > 1 ? setLevel(st, trackId, levelId, { ...cur, step: step - 1 }) : st;
+    return step > firstStep(st.dog, lvl) ? setLevel(st, trackId, levelId, { ...cur, step: step - 1 }) : st;
   }
   if (rating !== "gut") return st;
   const canCount = cur.reps < lvl.reps && !countedToday(cur, now);

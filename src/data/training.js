@@ -188,7 +188,7 @@ export const TRACKS = [
           { condition: "position", variant: "Der Hund ist etwa 25 Meter entfernt, rund 35 Schritte." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Sitzt sofort auf einen leisen Pip, fünf von fünf Fällen, an drei verschiedenen Tagen.",
-        run: "5 Stopps auf den leisen Pip aus einer der vier Varianten, über den Spaziergang verteilt. Dazwischen normal weitergehen.",
+        run: "5 Stopps auf den leisen Pip in der Situation der heutigen Stufe, über die Einheit verteilt. Dazwischen normal weitergehen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
@@ -225,7 +225,7 @@ export const TRACKS = [
         run: "4 saubere Stopps auf 25 Meter an einem Ort, jeder Stopp wird belohnt (Rückruf oder Dummywurf).",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, steps: [4] }],
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -301,7 +301,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Mensch steht oder geht in der Nähe." },
           { condition: "position", variant: "Du drehst dich weg und rufst, ohne ihn anzusehen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Kommt auf den Pfiff in gerader Linie zurück, bleibt beim Führer und wartet auf die Freigabe.",
+        criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt beim Führer und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
         run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
@@ -312,7 +312,7 @@ export const TRACKS = [
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
           "Peeeep - peeeep. Er kommt direkt und gerade.",
-          "Er sitzt vor dir ab. Loben.",
+          "Er kommt bei dir an und bleibt stehen. Loben.",
           "Wieder freigeben.",
         ],
         tips: [
@@ -465,7 +465,7 @@ export const TRACKS = [
         conditionPath: [
           { condition: "verleitung", variant: "Fremde Hunde in Sichtweite." },
           { condition: "verleitung", variant: "Ein Dummy fliegt, während ihr geht." },
-          { condition: "ort", variant: "In einer Linie mit anderen Gespannen." },
+          { condition: "ort", variant: "Neben einer zweiten Person hergehen, die ebenfalls einen Hund führt oder Dummys trägt." },
           { condition: "wetter", variant: "Bei Regen oder starkem Wind." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Du bleibst stehen, Hund sitzt automatisch ohne Kommando - auch bei Fahrrad oder Jogger. Fünf Mal in Folge.",
@@ -542,7 +542,7 @@ export const TRACKS = [
         maxDistanceStep: null,
         conditionPath: [
           { condition: "verleitung", variant: "Zwei Dummys fliegen nacheinander." },
-          { condition: "verleitung", variant: "Ein Helfer wirft, nicht du." },
+          { condition: "verleitung", variant: "Eine zweite Person wirft, nicht du." },
           { condition: "position", variant: "Du holst das Dummy selbst, er bleibt sitzen." },
           { condition: "ausgang", variant: "Das Dummy fliegt, während ihr in Bewegung seid." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
@@ -573,17 +573,18 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Ein anderes Gespann arbeitet zuerst." },
+          { condition: "verleitung", variant: "Eine zweite Person holt das Dummy zuerst, der Hund bleibt sitzen." },
           { condition: "ausgang", variant: "In einer Linie, die in Bewegung bleibt." },
-          { condition: "verleitung", variant: "Ein Schuss fällt vor dem Wurf." },
-          { condition: "ort", variant: "Auf einem Gelände wie in der Prüfung, mit mehreren Gespannen." },
+          { condition: "verleitung", variant: "Ein lautes Signal oder ein Schuss fällt, bevor das Dummy fliegt." },
+          { condition: "ort", variant: "In einem unbekannten Gelände, mit Menschen und Ablenkung." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bleibt in der Linie bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn ein anderes Gespann vor dir arbeitet. Drei Durchgänge.",
         run: "In der Linie gehen, Dummy fliegt aus der Bewegung, ein anderes Gespann arbeitet zuerst.",
+        examHint: "In der Prüfung fällt an dieser Stelle ein Schuss. Im Training ist ein Lautzeichen zulässig und gleichwertig: Die DP-E gibt es ausdrücklich in beiden Varianten, mit Schuss und ohne.", // praxistauglichkeit.md, Abschnitt 1
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, steps: [3] }],
-        setup: ["Werfer", "Mindestens ein weiteres Gespann oder ein Helfer mit Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, steps: [3], optional: true }],
+        setup: ["Eine zweite Person, mit oder ohne Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "walkup",
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -625,7 +626,7 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Mit dem Welpendummy, 200 Gramm." },
+          { condition: "gegenstand", variant: "Mit dem Welpendummy, 200 Gramm.", lightOnly: true },
           { condition: "gegenstand", variant: "Mit dem Juniordummy, 400 Gramm." },
           { condition: "belohnung", variant: "Du hast kein Leckerchen in der Hand, wenn er abgibt." },
           { condition: "position", variant: "Er gibt im Stehen vor dir ab, ohne sich zu setzen." },
@@ -634,7 +635,7 @@ export const TRACKS = [
         run: "10 kurze Retrieves bis 10 Meter, jedes Mal rückwärts gehen und ruhig abnehmen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
-        gear: [{ id: "welpendummy", n: 1 }, { id: "juniordummy", n: 1 }], // Teil 3, Abschnitt 6: Standard 500 g erst ab E Silber
+        gear: [{ id: "welpendummy", n: 1, steps: [1], swap: true }, { id: "juniordummy", n: 1, steps: [2, 3, 4], swap: true }], // praxistauglichkeit.md, Abschnitt 3; Standard 500 g erst ab E Silber
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
@@ -659,12 +660,12 @@ export const TRACKS = [
         maxDistanceStep: null,
         conditionPath: [
           { condition: "gegenstand", variant: "Mit dem Standarddummy, 500 Gramm." },
-          { condition: "gegenstand", variant: "Mit Kaltwild oder einem Felldummy." },
+          { condition: "gegenstand", variant: "Mit einem Felldummy." },
           { condition: "position", variant: "Er kommt in die Fußposition und gibt von dort ab." },
           { condition: "ausgang", variant: "Er hält das Dummy, bis du das Aus-Signal gibst." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Sitzt vor dir ab und hält den Dummy, bis du ihn nimmst. Zehn Retrieves.",
-        run: "10 Retrieves mit Halten bis zum Aus-Signal, bis du den Dummy nimmst.",
+        run: "10 Retrieves, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
@@ -674,7 +675,7 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Erst wenn Bronze sicher sitzt.",
-          "Er kommt, sitzt vor dir ab, hält.",
+          "Er kommt an, bleibt stehen und hält das Dummy.",
           "Du gehst ein paar Schritte rückwärts, kommst zurück, nimmst dann erst ab. Das baut Geduld auf.",
         ],
         tips: ["Nie hetzen. Die Ruhe bei der Abgabe überträgt sich."],
@@ -691,7 +692,7 @@ export const TRACKS = [
           { condition: "gegenstand", variant: "Mit einem nassen Dummy aus dem Wasser." },
           { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand." },
           { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar bereit." },
-          { condition: "ort", variant: "In einer Prüfungssituation, mit Richter und Zuschauern." },
+          { condition: "ort", variant: "Mit Zuschauern, die zusehen und sich bewegen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Saubere Abgabe bei hoher Erregung. Drei Durchgänge, jeder mit allen drei Situationen: nach langem Retrieve, nach Wasserarbeit, nach Mehrfachmarke.",
         run: "3 Abgaben in hoher Erregung, je eine nach langem Retrieve, nach Wasser und nach Mehrfachmarke.",
@@ -751,7 +752,7 @@ export const TRACKS = [
           "Warten, bis er fokussiert ist, dann Apport.",
           "Abgabe nach Track E.",
           "Variante Doppelmarkierung DP-E: Zwei Dummys werfen lassen, Winkel mindestens 90 Grad. Du holst den zuerst geworfenen selbst, der Hund bleibt sitzen. Dann schickst du ihn zum zuletzt geworfenen.",
-          "Variante Halbblind: Hund holt ein geworfenes Dummy. Während er zurückläuft, legt ein Helfer an derselben Stelle ein zweites ab. Dann schicke ihn erneut.",
+          "Variante Halbblind: Hund holt ein geworfenes Dummy. Während er zurückläuft, legt eine zweite Person an derselben Stelle ein zweites ab. Dann schicke ihn erneut.",
         ],
         tips: [
           "Maximal drei bis fünf Würfe.",
@@ -954,7 +955,7 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "futterschuessel", n: 1 }, { id: "dummy", n: 1 }],
-        setup: ["Leitlinie im Gelände", "Optional ein Helfer für das Halbblind"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        setup: ["Leitlinie im Gelände", "Optional eine zweite Person für das Halbblind"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -963,7 +964,7 @@ export const TRACKS = [
           "Entfernung vergrößern, Leitlinie beibehalten.",
           "Zwei Schüsseln als Ablenkung, der Hund muss die ausgerichtete nehmen.",
           "Dummy statt Schüssel.",
-          "Halbblind: Ein Helfer legt nach, während der Hund zurückläuft. Der Hund weiß, dass dort etwas liegt, hat es aber nicht gesehen.",
+          "Halbblind: Eine zweite Person legt nach, während der Hund zurückläuft. Der Hund weiß, dass dort etwas liegt, hat es aber nicht gesehen.",
           "Vollblind: vorher ausgelegt, der Hund hat nichts gesehen.",
         ],
         tips: [
@@ -1069,7 +1070,7 @@ export const SESSION_TYPES = [
     name: "Vollsession",
     short: "Vollsession",
     icon: "target",
-    desc: "Mit Equipment, gezielter Fokus",
+    desc: "Gezielter Fokus",
     blocks: [
       { role: "warmup",  minutes: 8,  label: "Erster Teil",   hint: "Ein Level, das bereits sitzt. Bevorzugt Stopp-Pfiff, Rückruf oder Fuß." },
       { role: "main",    minutes: 12, label: "Hauptteil", hint: "Das aktuell offene Level. Der Umfang richtet sich nach dem Belastungslimit aus dem Hundeprofil." },
@@ -1084,9 +1085,9 @@ export const SESSION_TYPES = [
     icon: "walk",
     desc: null, // nur die Dauer; was mitzunehmen ist, steht in der Packliste
     blocks: [
-      { role: "warmup",  minutes: 1, label: "Erster Teil",   hint: "Kurz ankommen." },
+      { role: "warmup",  minutes: 1, hideMinutes: true, label: "Erster Teil",   hint: "Kurz ankommen." },
       { role: "main",    minutes: 5, label: "Hauptteil", hint: "Ein Signal gezielt üben." },
-      { role: "cooldown", minutes: 1, label: "Abschluss", hint: "Sicherer Erfolg." },
+      { role: "cooldown", minutes: 1, hideMinutes: true, label: "Abschluss", hint: "Sicherer Erfolg." },
     ],
     allowedTracks: ["A", "B", "C"],
   },
@@ -1152,14 +1153,16 @@ export const SESSION_GUIDANCE = {
   startOneStepBack: "Beginnen Sie an jedem Trainingstag mit der jeweiligen Übung (Trainingseinheit) immer einen Schritt vor dem Punkt, an dem Sie das letzte Mal aufgehört haben. Somit geben Sie dem Hund die Möglichkeit, sich an die Übung zu erinnern.",
   // Umsetzung: nach einem gelungenen Durchgang Pause vorschlagen, nicht die nächste Wiederholung
   afterSuccess: "Hat die Übung geklappt, dann machen Sie erst einmal eine Pause. Eine gerade gelungene Übung noch mehrmals zu wiederholen oder gar die Anforderungen gleich zu steigern, ist in der Regel kontraproduktiv.",
-  // S. 86: alles vorbereiten, bevor der Hund aus dem Auto kommt
+  // S. 86: alles vorbereiten, bevor der Hund aus dem Auto kommt. when: wann der Punkt heute gilt
+  // (praxistauglichkeit.md, Abschnitt 2; ausgewertet in sessionChecklist)
   checklist: [
-    "Dummys ausgelegt (wenn Einweisen geübt wird)",
-    "Werfer instruiert (wenn Markierungen geübt werden)",
-    "Hindernis oder Rollzaun aufgestellt",
-    "Jacke zugeknöpft (flatternde Ecke behindert den Hund beim Markieren und trifft ihn bei Fuß im Gesicht)",
-    "Pfeife in der Hand oder im Mund, nicht in der Tasche",
-    "Hund gelöst, angeleint, auf die Aufgabe konzentriert",
+    { text: "Dummys ausgelegt", when: "trackH" },
+    { text: "Zweite Person instruiert", when: "zweitePerson" },
+    { text: "Hindernis oder Rollzaun aufgestellt", when: "hindernis" },
+    { text: "Suchengebiet abgesteckt", when: "trackG" },
+    { text: "Jacke zugeknöpft", when: "immer" },
+    { text: "Pfeife in der Hand oder im Mund", when: "pfeife" },
+    { text: "Hund gelöst, angeleint, konzentriert", when: "immer" },
   ],
   handsNote: "Hände während der Wartezeiten in die Jackentaschen. Hunde springen oft ein, weil der Führer mit den Händen herumfuchtelt.",
   // Optional vor der Vollsession

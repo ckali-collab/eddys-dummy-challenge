@@ -1,6 +1,6 @@
 import { TRACKS } from "../data/training.js";
 import {
-  LEVEL_LABEL, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked,
+  LEVEL_LABEL, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, effectiveStep,
   missingRequirements, reqLabel,
 } from "../lib/progress.js";
 import { IconLock, IconCheck } from "./Icons.jsx";
@@ -36,7 +36,7 @@ const TrackCard = ({ st, track, onOpen }) => {
   const unlocked = isTrackUnlocked(st, track);
   const missing = missingRequirements(st, track);
   const current = track.levels.find((l) => !isLevelDone(st, track.id, l.id)) ?? null; // null: alles geschafft
-  const gear = current ? gearForStep(current.gear, levelProgress(st, track.id, current.id).step ?? 1) : [];
+  const gear = current ? gearForStep(current.gear, effectiveStep(st, track.id, current.id)) : [];
 
   return (
     <article className={`card track ${unlocked ? "" : "is-locked"}`}>

@@ -1,5 +1,6 @@
-import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN } from "../data/training.js";
-import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday } from "./progress.js";
+import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN, SESSION_GUIDANCE } from "../data/training.js";
+import { gearForStep } from "./gear.js";
+import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday, firstStep, effectiveStep } from "./progress.js";
 
 const RANK = { bronze: 0, silber: 1, gold: 2 };
 const TRACK_ORDER = Object.fromEntries(TRACKS.map((t, i) => [t.id, i]));
@@ -197,19 +198,34 @@ export const buildPlan = (st, typeId, offsets = {}, picks = null) => {
       role: tpl.role,
       label: tpl.label,
       minutes: tpl.minutes,
+      hideMinutes: !!tpl.hideMinutes,
       hint: tpl.hint,
       load: tpl.role === "main" ? mainLoad : levelLoad(c), // Ersatz-Blöcke: 0
       cut: tpl.role === "main" ? cut : null,
       options: options[tpl.role],
       ...(c ? { kind: "level", trackId: c.trackId, levelId: c.levelId } : { kind: "fallback" }),
       // heutige Stufe je Block: Packliste und Equipment richten sich danach (app-befund.md, Abschnitt 4 und 5)
-      ...(c ? { step: levelProgress(st, c.trackId, c.levelId).step ?? 1 } : {}),
+      ...(c ? { step: effectiveStep(st, c.trackId, c.levelId) } : {}),
     };
   });
 
   const load = blocks.reduce((n, b) => n + b.load, 0);
   const planPicks = Object.fromEntries(type.blocks.map((tpl) => [tpl.role, chosen[tpl.role] ? key(chosen[tpl.role]) : null]));
   return { type: type.id, limit, capped: cap !== null, over: cap === null && load > warnAt, load, blocks, picks: planPicks };
+};
+
+// Vorbereitungsliste: nur was für die heutigen Blöcke gilt (praxistauglichkeit.md, Abschnitt 2)
+export const sessionChecklist = (blocks) => {
+  const lv = blocks.filter((b) => b.kind === "level").map((b) => ({ b, l: getLevel(b.trackId, b.levelId) }));
+  const conditions = {
+    immer: true,
+    trackH: lv.some(({ b }) => b.trackId === "H"),
+    trackG: lv.some(({ b }) => b.trackId === "G"),
+    zweitePerson: lv.some(({ l }) => (l.setup || []).some((x) => /zweite Person|Werfer/i.test(x))),
+    hindernis: lv.some(({ l }) => [...(l.setup || []), ...l.steps].some((x) => /Hindernis|Rollzaun/i.test(x))),
+    pfeife: lv.some(({ b, l }) => gearForStep(l.gear, b.step ?? 1).some((g) => g.id === "pfeife")),
+  };
+  return SESSION_GUIDANCE.checklist.filter((c) => conditions[c.when]).map((c) => c.text);
 };
 
 // ─── Abschließen ──────────────────────────────────────────────
@@ -235,7 +251,7 @@ export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) =
     if (extra.downgrade && !isLevelDone(next, b.trackId, b.levelId)) {
       const p = levelProgress(next, b.trackId, b.levelId);
       next = { ...next, tracks: { ...next.tracks, [b.trackId]: { ...next.tracks[b.trackId],
-        [b.levelId]: { ...p, step: Math.max(1, (prev.step ?? 1) - 1) } } } };
+        [b.levelId]: { ...p, step: Math.max(firstStep(st.dog, getLevel(b.trackId, b.levelId)), (prev.step ?? 1) - 1) } } } };
     }
     const cur = levelProgress(next, b.trackId, b.levelId);
     const after = cur.reps;

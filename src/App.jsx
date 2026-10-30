@@ -34,7 +34,6 @@ const Splash = () => (
     <img className="splash-logo" src={LOGO} alt="Eddy’s Dummy Challenge" width="600" height="570" />
     <div>
       <p className="splash-tagline">Dummytraining mit System</p>
-      <p className="small muted" style={{ marginTop: 6 }}>British Field Trial Method</p>
     </div>
   </div>
 );

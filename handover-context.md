@@ -191,10 +191,18 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - `stepsAsStufen` wieder entfernt. Alle 15 A–E-Level haben vier Stufen aus `conditionPath` (60 Sätze, Bedingung nur noch
   interne Kategorie). Bei A–E (`axis: "bedingungen"`) steht „Aufbau über mehrere Wochen“ im Hintergrund-Block,
   bei F–H bleibt „Ablauf eines Durchgangs“ sichtbar.
-- Equipment an den Stufentexten: A Silber Dummy Stufe 4, C Silber Dummys Stufe 1 (2) und 4 (1), C Gold Dummy Stufe 2,
+- Equipment an den Stufentexten (A Silber Dummy wieder optional auf allen Stufen, texte-nachbessern.md): C Silber Dummys Stufe 1 (2) und 4 (1), C Gold Dummy Stufe 2,
   D Gold Schreckschuss Stufe 3. A Bronze Dummy wieder optional, D Silber Markierstäbe wieder ohne Stufe.
 - Blockminuten = Übungszeit; Aufwärmen/Cool Down eigene Zeilen über/unter den Blöcken (`WARMUP_COOLDOWN.warmupMin`,
   `cooldownMin`), Gesamtdauer aus `sessionDuration()`: Voll 50, Kurz 15-17, Mini 11 Min. Kurzübung ohne Equipment-Text.
+
+## Praxistauglichkeit (2026-10-30, `docs/praxistauglichkeit.md`)
+- Grundsatz: App muss ohne jagdliche Ausrüstung und ohne Genehmigung vollständig nutzbar sein (Liste in der Spec, Abschnitt 1).
+  Level-Feld `examHint`: Prüfungsbezug im Hintergrund-Block. „Helfer“ heißt „eine zweite Person“.
+- `conditionPath[i].lightOnly`: Stufe entfällt, wenn das Profil kein leichtes Dummy vorsieht (`firstStep`, `effectiveStep` in
+  progress.js). Gespeichert wird weiter die echte Stufe, die Anzeige zählt ab der ersten passenden. Gilt nur E Bronze, Stufe 1.
+- `sessionChecklist(blocks)`: Vorbereitungsliste nach heutigen Blöcken. Belastung nur noch in der Kopfzeile.
+  Kurzübung: Blöcke 1 und 3 ohne Zeitangabe (`hideMinutes`). Splash ohne Untertitel „British Field Trial Method“.
 
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).

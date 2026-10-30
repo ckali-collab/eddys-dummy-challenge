@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES, DPE_AGE_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
-  countedToday, jointWarnings,
+  countedToday, jointWarnings, firstStep, effectiveStep,
 } from "../lib/progress.js";
 import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -29,14 +29,14 @@ const Warning = ({ title, children }) => (
 );
 
 // Vier-Schritt-Pfad mit Markierung des aktuellen Schritts (fundament-umbau-2.md, Abschnitt 10)
-const StepPath = ({ level, current, done, dog }) => (
+const StepPath = ({ level, current, done, dog, first }) => (
   <ol className="step-path">
-    {Array.from({ length: stepCount(level) }, (_, i) => {
-      const n = i + 1, s = stepParts(level, n);
+    {Array.from({ length: stepCount(level) - first + 1 }, (_, i) => {
+      const n = i + first, shown = i + 1, s = stepParts(level, n);
       const state = done || n < current ? "is-past" : n === current ? "is-current" : "";
       return (
         <li key={n} className={`step-row ${state}`} aria-current={!done && n === current ? "step" : undefined}>
-          <span className="step-num">{n}</span>
+          <span className="step-num">{shown}</span>
           <span className="step-body">
             {s.kind === "distanz" ? (
               <>
@@ -53,7 +53,7 @@ const StepPath = ({ level, current, done, dog }) => (
           {!done && n === current && <span className="step-flag">aktuell</span>}
           {gearOnlyAtStep(level.gear, n).length > 0 && (
             <span className="step-extra">
-              Stufe {n}: zusätzlich {gearOnlyAtStep(level.gear, n).map((g) => gearLabel(g, level.dummyType, dog)).join(", ")}
+              Stufe {shown}: {gearOnlyAtStep(level.gear, n).some((g) => g.swap) ? "" : "zusätzlich "}{gearOnlyAtStep(level.gear, n).map((g) => gearLabel(g, level.dummyType, dog)).join(", ")}
             </span>
           )}
         </li>
@@ -86,7 +86,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const dpe = level.examClass === "DP-E";
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
-  const current = prog.step ?? 1;
+  const first = firstStep(st.dog, level);
+  const current = effectiveStep(st, trackId, levelId);
   const todayGear = gearForStep(level.gear, current);
   const [confirmReset, setConfirmReset] = useState(false);
   const armedAt = useRef(0);
@@ -113,7 +114,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       {/* Reihenfolge nach app-befund.md, Abschnitt 2: erst was man draußen braucht, Hintergrund zugeklappt */}
       <Section title="Heute">
         <div className="card today-card">
-          {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current)} gloss /></p>}
+          {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current, first)} gloss /></p>}
           {level.run && <p className="run"><RichText text={level.run} gloss /></p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
           {level.setup?.length > 0 && (
@@ -131,7 +132,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
 
       {stepCount(level) > 0 && (
         <Section title="Stufen">
-          <StepPath level={level} current={current} done={done} dog={st.dog} />
+          <StepPath level={level} current={current} done={done} dog={st.dog} first={first} />
         </Section>
       )}
 
@@ -192,7 +193,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
             <button type="button" className="btn" disabled={done || today} onClick={() => onCount(trackId, levelId)}>
               {today && !done ? "Heute schon gezählt" : "Heutigen Durchgang zählen"}
             </button>
-            {!done && <p className="small muted">Zählt einmal pro Tag und geht eine Stufe weiter. Geschafft bei {level.reps} Tagen und Stufe 4.</p>}
+            {!done && <p className="small muted">Zählt einmal pro Tag und geht eine Stufe weiter. Geschafft bei {level.reps} Tagen und Stufe {5 - first}.</p>}
             {confirmReset ? (
               <button type="button" className="btn btn-danger"
                 onClick={() => {
@@ -217,6 +218,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         <summary><span>Hintergrund</span><IconChevron size={20} /></summary>
         <div className="acc-body b-blocks">
           {exam && <p><strong>Prüfungsbezug:</strong> {exam}</p>}
+          {level.examHint && <p className="small muted">{level.examHint}</p>}
           {phase && (
             <div>
               <p><strong>Lernphase: {phase.label}</strong></p>

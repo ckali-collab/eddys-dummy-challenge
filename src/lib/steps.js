@@ -1,5 +1,5 @@
 import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES } from "../data/training.js";
-import { getLevel, levelProgress } from "./progress.js";
+import { getLevel, firstStep, effectiveStep } from "./progress.js";
 
 // Vier-Schritt-Pfad eines Levels (fundament-umbau.md, Abschnitt 7; fundament-umbau-2.md, Abschnitt 1).
 // Anzeige heißt "Stufe", Feldnamen (step, path) bleiben (fundament-umbau-4.md, Abschnitt 1).
@@ -28,9 +28,11 @@ export const stepParts = (level, n) => {
   return null;
 };
 
-export const stepText = (level, n) => {
+// first: erste Stufe für dieses Profil (firstStep); die angezeigte Nummer zählt ab dort
+export const stepText = (level, n, first = 1) => {
   const s = stepParts(level, n);
-  return s ? `Stufe ${n} - ${s.main}` : `Stufe ${n}`;
+  const shown = n - first + 1;
+  return s ? `Stufe ${shown} - ${s.main}` : `Stufe ${shown}`;
 };
 
 // Geländestufen eines Levels aus dem Pfad, z.B. "offen und einsehbar bis niedrige Deckung" (null ohne path)
@@ -70,6 +72,7 @@ export const stepCount = (level) => (level?.path || level?.conditionPath || []).
 // Zielschritt = aktueller Schritt, Einstieg = Zielschritt - 1 (entfällt auf Schritt 1)
 export const sessionSteps = (st, trackId, levelId) => {
   const level = getLevel(trackId, levelId);
-  const target = levelProgress(st, trackId, levelId).step ?? 1;
-  return { level, target, entry: target > 1 ? target - 1 : null };
+  const first = firstStep(st.dog, level);
+  const target = effectiveStep(st, trackId, levelId);
+  return { level, first, target, entry: target > first ? target - 1 : null };
 };
