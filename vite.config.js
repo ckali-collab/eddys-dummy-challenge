@@ -12,7 +12,7 @@ export default defineConfig({
       manifest: {
         name: "Eddy's Dummy Challenge",
         short_name: 'Dummy Challenge',
-        description: 'British Field Trial Dummy Training Tracker',
+        description: 'Dummytraining mit System. Strukturiertes Training nach Prüfungsordnung und Fachliteratur.',
         start_url: '/',
         scope: '/',
         display: 'standalone',

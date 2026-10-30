@@ -1,4 +1,5 @@
 import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES } from "../data/training.js";
+import { GLOSSAR } from "../data/glossar.js";
 import { getLevel, firstStep, effectiveStep } from "./progress.js";
 
 // Vier-Schritt-Pfad eines Levels (fundament-umbau.md, Abschnitt 7; fundament-umbau-2.md, Abschnitt 1).
@@ -56,6 +57,14 @@ export const examLine = (track, level) => {
   if (!level.examClass || !level.exam) return null;
   const subjects = [].concat(level.exam).map((e) => EXAM_LABEL[e] ?? e).join(" und ");
   return `Zählt für ${CLASS_LABEL[level.examClass] ?? level.examClass}, ${subjects}`;
+};
+
+// "Dein Stopp-Signal: Pfiff, ein kurzer Ton". Ohne Eintrag im Profil keine Zeile.
+export const signalLine = (track, dog) => {
+  const word = track.signal && dog?.signals?.[track.signal];
+  if (!word) return null;
+  const term = GLOSSAR.find((e) => e.signal?.includes(track.signal))?.term;
+  return term ? `Dein ${term}: ${word}` : null;
 };
 
 export const phaseOf = (level) => LEARNING_PHASES.find((p) => p.id === level?.phase) ?? null;

@@ -29,6 +29,9 @@ export const firstStep = (dog, level) => {
 export const effectiveStep = (st, trackId, levelId) =>
   Math.max(levelProgress(st, trackId, levelId).step ?? 1, firstStep(st.dog, getLevel(trackId, levelId)));
 
+export const doneLevelCount = (st) =>
+  TRACKS.reduce((n, t) => n + t.levels.filter((l) => isLevelDone(st, t.id, l.id)).length, 0);
+
 const hasProgress = (st, trackId, levelId) => levelProgress(st, trackId, levelId).reps > 0;
 
 // "C:bronze" → { trackId, levelId }

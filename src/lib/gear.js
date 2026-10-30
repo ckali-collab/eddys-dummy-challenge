@@ -28,9 +28,13 @@ export const gearLabel = (item, dummyType, dog) => {
 // Ohne das Feld steps zurückgegeben: die Stufe ist an dieser Stelle schon gewählt.
 export const gearForStep = (gear = [], step) =>
   gear.filter((g) => !g.steps || g.steps.includes(step)).map(({ steps, ...g }) => g);
-// Nur an genau diese Stufe gebundenes Equipment (für "Stufe 4: zusätzlich ...")
-export const gearOnlyAtStep = (gear = [], step) =>
-  gear.filter((g) => g.steps?.includes(step)).map(({ steps, ...g }) => g);
+// Gebundenes Equipment für den Stufenblock: jeder Eintrag einmal, bei seiner ersten sichtbaren Stufe (ab first).
+// Liefert from/to der sichtbaren Stufen (aufeinanderfolgend).
+export const gearNotesAtStep = (gear = [], step, first = 1) =>
+  gear.flatMap(({ steps, ...g }) => {
+    const seen = (steps || []).filter((x) => x >= first);
+    return seen[0] === step ? [{ item: g, from: seen[0], to: seen[seen.length - 1] }] : [];
+  });
 
 // Icon aus gear (der Pocket Dummy entfällt als eigener Eintrag, fundament-umbau-2.md Abschnitt 5)
 export const gearIcon = (item) => GEAR_ITEMS[item.id]?.icon ?? null;

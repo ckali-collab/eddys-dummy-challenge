@@ -144,7 +144,7 @@ export const GLOSSAR = [
     short: "Ein Dummy, das ausgelegt wurde, ohne dass der Hund zuschaut.",
     long: [
       t("Ein Dummy, das ausgelegt wurde, ohne dass der Hund zuschaut. Auch wenn der Hund eine Ahnung hat, wo es liegen könnte, bleibt es ein Blind."),
-      t("Zwischenstufe im Aufbau: **Halbblind.** Ein Helfer legt nach, während der Hund einen anderen Apport zurückbringt. Der Hund weiß, dass dort etwas liegt, hat es aber nicht gesehen."),
+      t("Zwischenstufe im Aufbau: **Halbblind.** Eine zweite Person legt nach, während der Hund einen anderen Apport zurückbringt. Der Hund weiß, dass dort etwas liegt, hat es aber nicht gesehen."),
     ],
   },
   {
@@ -423,7 +423,7 @@ export const GLOSSAR = [
   {
     id: "trainingsvorbereitung", term: "Trainingsvorbereitung", group: "lernen", aliases: [],
     short: "Alles vorbereiten, bevor der Hund aus dem Auto kommt.",
-    long: [t("Alles vorbereiten, **bevor** der Hund aus dem Auto kommt: Dummys auslegen, Werfer instruieren, Hindernis aufstellen. \"Erst wenn alles vorbereitet ist, sollten Sie den Hund aus dem Auto holen.\" Dann lösen lassen, anleinen, auf die Aufgabe konzentrieren.")],
+    long: [t("Alles vorbereiten, **bevor** der Hund aus dem Auto kommt: Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. \"Erst wenn alles vorbereitet ist, sollten Sie den Hund aus dem Auto holen.\" Dann lösen lassen, anleinen, auf die Aufgabe konzentrieren.")],
   },
   {
     id: "stopp-im-lauf", term: "Stopp im Lauf, Aufbau", group: "lernen", aliases: [],

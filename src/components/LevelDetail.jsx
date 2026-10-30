@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES, DPE_AGE_NOTE } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings, firstStep, effectiveStep,
@@ -8,8 +8,8 @@ import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf } from "../lib/steps.js";
-import { gearForStep, gearOnlyAtStep, gearLabel } from "../lib/gear.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLine } from "../lib/steps.js";
+import { gearForStep, gearNotesAtStep, gearLabel } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
   <section className="section">
@@ -51,11 +51,15 @@ const StepPath = ({ level, current, done, dog, first }) => (
             )}
           </span>
           {!done && n === current && <span className="step-flag">aktuell</span>}
-          {gearOnlyAtStep(level.gear, n).length > 0 && (
-            <span className="step-extra">
-              Stufe {shown}: {gearOnlyAtStep(level.gear, n).some((g) => g.swap) ? "" : "zusätzlich "}{gearOnlyAtStep(level.gear, n).map((g) => gearLabel(g, level.dummyType, dog)).join(", ")}
-            </span>
-          )}
+          {gearNotesAtStep(level.gear, n, first).map(({ item, from, to }) => {
+            const a = from - first + 1, b = to - first + 1, last = stepCount(level) - first + 1;
+            const where = a === b ? `Stufe ${a}` : b === last ? `Ab Stufe ${a}` : `Stufe ${a} bis ${b}`;
+            return (
+              <span key={item.id} className="step-extra">
+                {where}: {item.swap ? "" : "zusätzlich "}{gearLabel(item, level.dummyType, dog)}
+              </span>
+            );
+          })}
         </li>
       );
     })}
@@ -87,6 +91,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
   const first = firstStep(st.dog, level);
+  const signal = signalLine(track, st.dog);
   const current = effectiveStep(st, trackId, levelId);
   const todayGear = gearForStep(level.gear, current);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -115,6 +120,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       <Section title="Heute">
         <div className="card today-card">
           {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current, first)} gloss /></p>}
+          {signal && <p className="small">{signal}</p>}
           {level.run && <p className="run"><RichText text={level.run} gloss /></p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
           {level.setup?.length > 0 && (
@@ -133,6 +139,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       {stepCount(level) > 0 && (
         <Section title="Stufen">
           <StepPath level={level} current={current} done={done} dog={st.dog} first={first} />
+          {level.maxDistanceStep >= 3 && <p className="small muted" style={{ marginTop: 8 }}>{DISTANCE_LEGAL_NOTE}</p>}
         </Section>
       )}
 

@@ -12,7 +12,7 @@ import TrophyUnlock from "./components/TrophyUnlock.jsx";
 import BasicsTab from "./components/BasicsTab.jsx";
 import { GlossarContext } from "./components/Glossar.jsx";
 import { syncTrophies, setManualTrophy } from "./lib/trophies.js";
-import { getTrack, countRep, resetLevel } from "./lib/progress.js";
+import { getTrack, countRep, resetLevel, doneLevelCount } from "./lib/progress.js";
 import { dayKeyOf, restStatus } from "./lib/session.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
@@ -97,9 +97,9 @@ export default function App() {
   useEffect(() => { window.scrollTo(0, 0); }, [tab, view]);
 
   // Heutiger Sessionplan liegt in edc-v3 (st.plan). Von heute: unverändert. Älter oder keiner: neu planen,
-  // bei fälligem Ruhetag startet der Umschalter auf Kurzübung. Ein Reload ändert den Plan dadurch nicht mehr;
+  // bei fälligem Ruhetag oder unter drei geschafften Leveln startet der Umschalter auf Kurzübung (nur Vorauswahl). Ein Reload ändert den Plan dadurch nicht mehr;
   // die Update-Sperre gilt deshalb nur noch für den offenen Bewertungsdialog (HeuteTab).
-  const freshPlan = (state) => ({ date: dayKeyOf(), type: restStatus(state) ? "kurz" : "voll", offsets: {}, picks: null });
+  const freshPlan = (state) => ({ date: dayKeyOf(), type: restStatus(state) || doneLevelCount(state) < 3 ? "kurz" : "voll", offsets: {}, picks: null });
   const today = st.plan?.date === dayKeyOf() ? st.plan : freshPlan(st);
   const setToday = (upd) =>
     setSt((p) => {

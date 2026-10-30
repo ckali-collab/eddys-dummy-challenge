@@ -204,6 +204,13 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - `sessionChecklist(blocks)`: Vorbereitungsliste nach heutigen Blöcken. Belastung nur noch in der Kopfzeile.
   Kurzübung: Blöcke 1 und 3 ohne Zeitangabe (`hideMinutes`). Splash ohne Untertitel „British Field Trial Method“.
 
+## Praxis-Nachtrag (2026-10-30, `docs/praxis-nachtrag.md`)
+- Regel getrennt: Ausrüstung muss ohne Erlaubnis käuflich oder herstellbar sein; Gelände darf eine Absprache voraussetzen.
+  Basics „Recht und Rahmen“ hat „Wo du legal trainierst“, Level ab `maxDistanceStep` 3 verweisen darauf (keine Sperre).
+- Session-Builder unverändert. Vorauswahl Kurzübung unter drei geschafften Leveln, Hinweis unter dem Ersatzblock.
+- Texte nennen die Funktion („Stopp-Pfiff“), `track.signal` (A, B) zeigt das eigene Signal im Heute-Block (`signalLine`).
+- Stufenblock: gebundenes Equipment einmal („Ab Stufe 2“, `gearNotesAtStep`). E Silber 5 Retrieves, D Bronze Stufen mit Wartezeit.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.

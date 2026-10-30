@@ -222,7 +222,6 @@ export const sessionChecklist = (blocks) => {
     trackH: lv.some(({ b }) => b.trackId === "H"),
     trackG: lv.some(({ b }) => b.trackId === "G"),
     zweitePerson: lv.some(({ l }) => (l.setup || []).some((x) => /zweite Person|Werfer/i.test(x))),
-    hindernis: lv.some(({ l }) => [...(l.setup || []), ...l.steps].some((x) => /Hindernis|Rollzaun/i.test(x))),
     pfeife: lv.some(({ b, l }) => gearForStep(l.gear, b.step ?? 1).some((g) => g.id === "pfeife")),
   };
   return SESSION_GUIDANCE.checklist.filter((c) => conditions[c.when]).map((c) => c.text);
