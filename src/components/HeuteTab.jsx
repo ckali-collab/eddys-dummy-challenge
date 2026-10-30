@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 import {
-  SESSION_TYPES, SESSION_FALLBACKS, FALLBACK_NOTE, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
+  SESSION_TYPES, SESSION_FALLBACKS, FALLBACK_NOTES, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
   FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount } from "../lib/progress.js";
@@ -145,7 +145,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
         </div>
         <h3 className="block-title">{fb.title}</h3>
         <p className="block-hint">{fb.desc}</p>
-        {block.role !== "main" && doneLevelCount(st) === 0 && <p className="small muted">{FALLBACK_NOTE}</p>}
+        {FALLBACK_NOTES[block.role] && doneLevelCount(st) === 0 && <p className="small muted">{FALLBACK_NOTES[block.role]}</p>}
       </article>
     );
   }

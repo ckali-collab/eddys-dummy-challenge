@@ -1,5 +1,5 @@
 import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN, SESSION_GUIDANCE } from "../data/training.js";
-import { gearForStep } from "./gear.js";
+import { gearForStep, setupForStep } from "./gear.js";
 import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday, firstStep, effectiveStep } from "./progress.js";
 
 const RANK = { bronze: 0, silber: 1, gold: 2 };
@@ -221,7 +221,7 @@ export const sessionChecklist = (blocks) => {
     immer: true,
     trackH: lv.some(({ b }) => b.trackId === "H"),
     trackG: lv.some(({ b }) => b.trackId === "G"),
-    zweitePerson: lv.some(({ l }) => (l.setup || []).some((x) => /zweite Person|Werfer/i.test(x))),
+    zweitePerson: lv.some(({ b, l }) => setupForStep(l.setup, b.step ?? 1).some((x) => /zweite Person/i.test(x))),
     pfeife: lv.some(({ b, l }) => gearForStep(l.gear, b.step ?? 1).some((g) => g.id === "pfeife")),
   };
   return SESSION_GUIDANCE.checklist.filter((c) => conditions[c.when]).map((c) => c.text);

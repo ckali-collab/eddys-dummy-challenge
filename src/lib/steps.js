@@ -1,5 +1,4 @@
-import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES } from "../data/training.js";
-import { GLOSSAR } from "../data/glossar.js";
+import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES, SIGNAL_FIELDS } from "../data/training.js";
 import { getLevel, firstStep, effectiveStep } from "./progress.js";
 
 // Vier-Schritt-Pfad eines Levels (fundament-umbau.md, Abschnitt 7; fundament-umbau-2.md, Abschnitt 1).
@@ -59,13 +58,17 @@ export const examLine = (track, level) => {
   return `Zählt für ${CLASS_LABEL[level.examClass] ?? level.examClass}, ${subjects}`;
 };
 
-// "Dein Stopp-Signal: Pfiff, ein kurzer Ton". Ohne Eintrag im Profil keine Zeile.
-export const signalLine = (track, dog) => {
-  const word = track.signal && dog?.signals?.[track.signal];
-  if (!word) return null;
-  const term = GLOSSAR.find((e) => e.signal?.includes(track.signal))?.term;
-  return term ? `Dein ${term}: ${word}` : null;
-};
+// "Dein Stopp-Signal: Pfiff, ein kurzer Ton", je Signal des Levels. Ohne Eintrag im Profil keine Zeile.
+export const signalLines = (level, dog) =>
+  (level.signals || []).flatMap((key) => {
+    const word = dog?.signals?.[key];
+    const term = SIGNAL_FIELDS.find((f) => f.key === key)?.term;
+    return word && term ? [`Dein ${term}: ${word}`] : [];
+  });
+
+// Aufbautexte: "in der Fußposition" ergänzt die zweite Seite, wenn das Profil eine nennt
+export const withSecondSide = (text, dog) =>
+  dog?.signals?.side2 ? text.replace("in der Fußposition", `in der Fußposition oder auf der zweiten Seite (${dog.signals.side2})`) : text;
 
 export const phaseOf = (level) => LEARNING_PHASES.find((p) => p.id === level?.phase) ?? null;
 

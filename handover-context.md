@@ -211,6 +211,13 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 - Texte nennen die Funktion („Stopp-Pfiff“), `track.signal` (A, B) zeigt das eigene Signal im Heute-Block (`signalLine`).
 - Stufenblock: gebundenes Equipment einmal („Ab Stufe 2“, `gearNotesAtStep`). E Silber 5 Retrieves, D Bronze Stufen mit Wartezeit.
 
+## Kriterien und Stufen (2026-10-30, `docs/kriterien-und-stufen.md`)
+- Regel: Das Kriterium beschreibt Stufe 4 plus Zählregel. Zahlen aus dem Kriterium stehen auch in einer Stufe.
+- `level.signals` (Liste) statt `track.signal`, im Heute-Block je eine Zeile (`signalLines`, `SIGNAL_FIELDS[].term`).
+  Neue Profilzeile `release_dummy` („Dummy abgeben“, „Aus“); normalize füllt sie bei bestehenden Profilen.
+- `setup`-Einträge: Text oder `{ text, steps }`, Vorbereitungsliste nach heutiger Stufe (`setupForStep`).
+- `WHISTLES` und `COMMANDS` gelöscht (ungenutzt). `withSecondSide` ergänzt in Aufbautexten die zweite Seite aus dem Profil.
+
 ## Letzter Deploy
 - **pwa-offline** (2026-10-04): PWA-Setup mit `vite-plugin-pwa` (v2.0.0, Workbox `generateSW`, `registerType: 'autoUpdate'`).
   - Manifest wird jetzt in `vite.config.js` definiert → Output `/manifest.webmanifest`, Link wird automatisch injiziert. `manifest.json` gelöscht.

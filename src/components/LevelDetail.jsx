@@ -8,8 +8,8 @@ import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLine } from "../lib/steps.js";
-import { gearForStep, gearNotesAtStep, gearLabel } from "../lib/gear.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide } from "../lib/steps.js";
+import { gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
   <section className="section">
@@ -51,6 +51,9 @@ const StepPath = ({ level, current, done, dog, first }) => (
             )}
           </span>
           {!done && n === current && <span className="step-flag">aktuell</span>}
+          {setupNotesAtStep(level.setup, n, first).map((x) => (
+            <span key={x} className="step-extra">Stufe {shown}: {x}</span>
+          ))}
           {gearNotesAtStep(level.gear, n, first).map(({ item, from, to }) => {
             const a = from - first + 1, b = to - first + 1, last = stepCount(level) - first + 1;
             const where = a === b ? `Stufe ${a}` : b === last ? `Ab Stufe ${a}` : `Stufe ${a} bis ${b}`;
@@ -66,9 +69,9 @@ const StepPath = ({ level, current, done, dog, first }) => (
   </ol>
 );
 
-const StepsList = ({ steps }) => (
+const StepsList = ({ steps, dog }) => (
   <ol className="steps">
-    {steps.map((s, i) => <li key={i}><span><RichText text={s} gloss /></span></li>)}
+    {steps.map((s, i) => <li key={i}><span><RichText text={withSecondSide(s, dog)} gloss /></span></li>)}
   </ol>
 );
 
@@ -91,9 +94,10 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
   const first = firstStep(st.dog, level);
-  const signal = signalLine(track, st.dog);
+  const signals = signalLines(level, st.dog);
   const current = effectiveStep(st, trackId, levelId);
   const todayGear = gearForStep(level.gear, current);
+  const todaySetup = setupForStep(level.setup, current);
   const [confirmReset, setConfirmReset] = useState(false);
   const armedAt = useRef(0);
 
@@ -120,15 +124,15 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       <Section title="Heute">
         <div className="card today-card">
           {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current, first)} gloss /></p>}
-          {signal && <p className="small">{signal}</p>}
+          {signals.map((x) => <p key={x} className="small">{x}</p>)}
           {level.run && <p className="run"><RichText text={level.run} gloss /></p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
-          {level.setup?.length > 0 && (
+          {todaySetup.length > 0 && (
             <ul className="tips setup-list">
-              {level.setup.map((x, i) => <li key={i}>{x}</li>)}
+              {todaySetup.map((x, i) => <li key={i}>{x}</li>)}
             </ul>
           )}
-          {!todayGear.length && !level.setup?.length && <p className="small muted">Kein Equipment nötig.</p>}
+          {!todayGear.length && !todaySetup.length && <p className="small muted">Kein Equipment nötig.</p>}
         </div>
       </Section>
 
@@ -146,7 +150,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       {/* Ablauf eines Durchgangs bleibt bei F, G, H sichtbar; bei A bis E steht der Aufbau im Hintergrund */}
       {!stepsInBackground && <Section title={stepsType.title}>
         <p className="muted">{stepsType.intro}</p>
-        <StepsList steps={level.steps} />
+        <StepsList steps={level.steps} dog={st.dog} />
       </Section>}
 
       {level.tips.length > 0 && (
@@ -245,7 +249,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
             <div>
               <p><strong>{stepsType.title}</strong></p>
               <p className="small muted">{stepsType.intro}</p>
-              <StepsList steps={level.steps} />
+              <StepsList steps={level.steps} dog={st.dog} />
             </div>
           )}
           {idx > 0 && (

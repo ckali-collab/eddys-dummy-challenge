@@ -95,7 +95,6 @@ export const BASICS_SECTIONS = [
       { type: "check", items: [
         "Dummys ausgelegt, wenn Einweisen geübt wird",
         "Zweite Person instruiert, wenn Markierungen geübt werden",
-        "Hindernis oder Rollzaun aufgestellt",
         "Jacke zugeknöpft",
         "Pfeife in der Hand oder im Mund",
         "Hund gelöst, angeleint, konzentriert",
