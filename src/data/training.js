@@ -378,7 +378,9 @@ export const TRACKS = [
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
-          "Er muss dich beobachten statt nebenher zu laufen.",
+          "Erst 100 Meter am Stück auf bekanntem Weg, ohne Ablenkung.",
+          "Dann eine Ablenkung dazunehmen, nie zwei gleichzeitig.",
+          "Zuletzt mit Dummy im Fang. Das ist die schwerste Variante, weil er sich auf zwei Dinge gleichzeitig konzentrieren muss.",
         ],
         tips: ["Unvorhersehbar sein. Das erzeugt Aufmerksamkeit."],
         warning: null,
@@ -740,7 +742,7 @@ export const TRACKS = [
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Drei Durchgänge.",
-        run: "Zwei Dummys im engen Winkel, auf Distanz und Gelände der heutigen Stufe.",
+        run: "Zwei Dummys im engen Winkel, auf Distanz und Gelände der heutigen Stufe. Reihenfolge vorgeben, bevor du schickst.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
@@ -901,14 +903,14 @@ export const TRACKS = [
           { d: 2, g: 1, text: "Vollblind: vorher ausgelegt, er hat nichts gesehen. Bis 30 Meter." },
         ],
         criteria: "Läuft auf Handzeichen und Signal in gerader Linie vom Führer weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Drei Durchgänge.",
-        run: "Dummy an der Leitlinie auslegen, Hund ausrichten, mit Handzeichen und Voran schicken.",
+        run: "Ein Durchgang auf der heutigen Stufe: ausrichten, Handzeichen, Voran.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "futterschuessel", n: 1, steps: [1], swap: true }, { id: "dummy", n: 1, steps: [2, 3, 4], swap: true }],
         setup: ["Leitlinie im Gelände", { text: "Eine zweite Person", steps: [3] }], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm
-        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Futterschüssel an einer Leitlinie (Weg, Zaun, Grabenkante) auslegen, Hund daneben ausrichten, Handzeichen, Signal. Die Leitlinie macht die gerade Linie für den Hund selbsterklärend.",
           "Entfernung vergrößern, Leitlinie beibehalten.",
@@ -934,7 +936,12 @@ export const TRACKS = [
         exam: "einweisen",
         examClass: "F",
         maxDistanceStep: 3,
-        path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        path: [ // eigene Stufentexte, Distanzwerte bleiben im Hintergrund (h-stufen.md, Abschnitt 2)
+          { d: 1, g: 1, text: "Back allein: Stopp, dann Arm senkrecht über den eigenen Kopf. Bis 15 Meter." },
+          { d: 2, g: 1, text: "Eine Seite allein, immer dieselbe. Bis 30 Meter." },
+          { d: 1, g: 2, text: "Die andere Seite allein. Bis 30 Meter." },
+          { d: 2, g: 2, text: "Back und beide Seiten gemischt, du wählst die Richtung. Bis 30 Meter." },
+        ],
         criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt sie im Profil ein. Bis 30 Meter. Drei Durchgänge.",
         run: "Hund auf Distanz stoppen, dann ein Richtungssignal. Bei Back: Arm neutral vor die Brust, zwei Sekunden warten.",
         reps: 3, // Tage mit gelungenem Durchgang
@@ -943,7 +950,7 @@ export const TRACKS = [
         setup: ["Offenes Gelände"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "directions",
-        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Bindeglied: Jede Richtungsübung beginnt mit Stopp-Pfiff und erhobenem Arm. Ohne sauberen Stopp kein Richtungssignal.",
           "Back-Timing: Stopp-Pfiff, Arm in neutrale Position vor der Brust, zwei Sekunden Pause, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen.",
@@ -965,13 +972,18 @@ export const TRACKS = [
         exam: "einweisen",
         examClass: "O",
         maxDistanceStep: 4,
-        path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 3, g: 3 }, { d: 4, g: 3 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
+        path: [ // eigene Stufentexte (h-stufen.md, Abschnitt 3)
+          { d: 2, g: 1, text: "Einweisen auf ein Dummy, dessen Lage du kennst. Bis 30 Meter, offenes Gelände." },
+          { d: 3, g: 3, text: "Einweisen über einen Geländewechsel. Bis 50 Meter." },
+          { d: 3, g: 3, text: "Am Ziel das Suchensignal, er sucht von dort selbstständig. Bis 50 Meter." },
+          { d: 4, g: 3, text: "Einweisen in ein Suchengelände, bis 80 Meter, höchstens zwei Korrekturen." },
+        ],
         criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Drei Durchgänge.",
         run: "Dummy vorher ins Suchengelände legen, Hund einweisen, am Ziel das Suchensignal geben, dann nicht mehr lenken.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }, { id: "suchdummy", n: 1, optional: true }], // Suchendummy optional für die Kleine Suche am Zielort (Teil 3, Abschnitt 5)
-        setup: ["Suchengelände mit natürlicher Begrenzung"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }, { id: "suchdummy", n: 1, optional: true, steps: [3, 4] }], // Suchendummy optional für die Kleine Suche am Zielort (Teil 3, Abschnitt 5)
+        setup: [{ text: "Suchengelände mit natürlicher Begrenzung", steps: [3, 4] }], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: "einweisen-gelaende",
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)

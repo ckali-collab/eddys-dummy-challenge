@@ -484,7 +484,7 @@ export const GLOSSAR = [
     short: "Der Hund läuft im 90-Grad-Winkel nach links oder rechts, je nach Armhaltung.",
     long: [
       t("Der Hund läuft im 90-Grad-Winkel nach links oder rechts, je nach Armhaltung. **Handzeichen: Arm waagerecht zur Seite**, in Richtung des Dummys. Ausgangslage: Hund steht entfernt, nach dem Stopp-Signal."),
-      t("Verbreitete Wörter sind Rüber oder Go, oft dasselbe Wort für beide Seiten, weil der Arm die Richtung trägt. Wer zwei Wörter nutzt, trägt beide im Profil ein."),
+      t("Verbreitete Wörter sind Rüber oder Go, oft dasselbe Wort für beide Seiten, weil der Arm die Richtung trägt. Wer zwei Wörter nutzt, trägt beide in das Feld ein, etwa \"Rechts, Links\"."),
       t("Reihenfolge im Aufbau beachten: **Voran, dann Back, dann Rechts und Links.** Die Seitenrichtungen sind für den Hund leichter, werden aber zuletzt aufgebaut, um ihn nicht zu verwirren. Ziel für Fortgeschrittene: 100 Meter in jede Richtung."),
     ],
   },

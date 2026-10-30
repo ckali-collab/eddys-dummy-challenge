@@ -247,7 +247,7 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
   Alle Fälle end-to-end mit Testversionen geprüft.
 
 ## Stufentexte bei Distanz-Tracks
-Ein `path`-Eintrag kann neben `d`/`g` ein `text` tragen, dann zeigt die App diesen Text statt Distanz und Gelände (H Bronze). `withDummySignal` in `src/lib/steps.js` ersetzt „bis du das Aus-Signal gibst“ durch „bis du es nimmst“, wenn `release_dummy` im Profil leer ist.
+Ein `path`-Eintrag kann neben `d`/`g` ein `text` tragen, dann zeigt die App diesen Text statt Distanz und Gelände (Track H). Levels mit `text` und `stepsType: "varianten"` zeigen den Aufbau im Hintergrund. `withDummySignal` in `src/lib/steps.js` ersetzt „bis du das Aus-Signal gibst“ durch „bis du es nimmst“, wenn `release_dummy` im Profil leer ist.
 
 ## Arbeitsregel: vier Textebenen (docs/vier-ebenen.md)
 Ein Level hat vier Textebenen: Kriterium (`criteria`), Kartentext (`run`), Stufen (`conditionPath`/`path`), Aufbau (`steps`). Jede Änderung an einer verlangt eine Prüfung der anderen drei, auch wenn die Spec sie nicht nennt; Abweichungen werden gemeldet. Das Kriterium nennt die schwierigste Situation und die Zählregel. Es darf weitere Stufen nennen, aber keine Situation, die in keiner Stufe vorkommt. Der Kartentext sagt, was in einem Durchgang zu tun ist, und legt die Situation nicht fest. Geprüft wird auf Widerspruch, nicht auf Deckungsgleichheit: Der Aufbau muss die Stufen nicht spiegeln (docs/ebenen-abgleich.md, Abschnitt 5).

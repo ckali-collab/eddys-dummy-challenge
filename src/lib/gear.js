@@ -41,7 +41,7 @@ const setupText = (x) => (typeof x === "string" ? x : x.text);
 export const setupForStep = (setup = [], step) =>
   setup.filter((x) => typeof x === "string" || !x.steps || x.steps.includes(step)).map(setupText);
 export const setupNotesAtStep = (setup = [], step, first = 1) =>
-  setup.filter((x) => typeof x !== "string" && x.steps?.filter((n) => n >= first)[0] === step).map(setupText);
+  setup.filter((x) => typeof x !== "string" && x.steps?.filter((n) => n >= first)[0] === step).map((x) => ({ text: x.text, more: x.steps.length > 1 }));
 
 // Icon aus gear (der Pocket Dummy entfällt als eigener Eintrag, fundament-umbau-2.md Abschnitt 5)
 export const gearIcon = (item) => GEAR_ITEMS[item.id]?.icon ?? null;

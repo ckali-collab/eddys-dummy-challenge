@@ -52,7 +52,7 @@ const StepPath = ({ level, current, done, dog, first }) => (
           </span>
           {!done && n === current && <span className="step-flag">aktuell</span>}
           {setupNotesAtStep(level.setup, n, first).map((x) => (
-            <span key={x} className="step-extra">Stufe {shown}: {x}</span>
+            <span key={x.text} className="step-extra">{x.more ? "Ab Stufe" : "Stufe"} {shown}: {x.text}</span>
           ))}
           {gearNotesAtStep(level.gear, n, first).map(({ item, from, to }) => {
             const a = from - first + 1, b = to - first + 1, last = stepCount(level) - first + 1;
@@ -88,7 +88,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const age = minAgeOf(track, level);
   const stepsType = STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten;
   // A bis E (Bedingungs-Tracks): Aufbau ist Kontext, nicht die heutige Anweisung (stufen-texte.md, Abschnitt 1)
-  const stepsInBackground = track.axis === "bedingungen";
+  // Mit eigenen Stufentexten tragen die Stufen die Anweisung (h-stufen.md, Abschnitt 4)
+  const stepsInBackground = track.axis === "bedingungen" || (level.stepsType === "varianten" && level.path?.some((p) => p.text));
   const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
   const dpe = level.examClass === "DP-E";
   const idx = track.levels.findIndex((l) => l.id === levelId);
@@ -147,7 +148,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
         </Section>
       )}
 
-      {/* Ablauf eines Durchgangs bleibt bei F, G, H sichtbar; bei A bis E steht der Aufbau im Hintergrund */}
+      {/* Bei F und G und bei H Gold bleibt der Block sichtbar; bei A bis E, H Bronze und H Silber steht der Aufbau im Hintergrund */}
       {!stepsInBackground && <Section title={stepsType.title}>
         <p className="muted">{stepsType.intro}</p>
         <StepsList steps={level.steps} dog={st.dog} />
