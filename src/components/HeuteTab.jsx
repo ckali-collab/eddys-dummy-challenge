@@ -4,7 +4,7 @@ import {
   FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount } from "../lib/progress.js";
-import { sessionSteps, stepText } from "../lib/steps.js";
+import { sessionSteps, stepText, withDummySignal } from "../lib/steps.js";
 import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -104,12 +104,12 @@ const StepPlan = ({ st, trackId, levelId }) => {
       {entry && (
         <p className="step-line">
           <span className="step-tag">Einstieg (zum Erinnern, wird nicht bewertet)</span>
-          <span>{stepText(level, entry, first)}</span>
+          <span>{stepText(level, entry, first, st.dog)}</span>
         </p>
       )}
       <p className="step-line is-target">
         <span className="step-tag">Ziel heute (wird bewertet)</span>
-        <span>{stepText(level, target, first)}</span>
+        <span>{stepText(level, target, first, st.dog)}</span>
       </p>
     </div>
   );
@@ -174,7 +174,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
-      {level.run && <p className="block-hint"><RichText text={level.run} gloss /></p>}
+      {level.run && <p className="block-hint"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
       {gearForStep(level.gear, block.step ?? 1).length > 0 && (
         <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />

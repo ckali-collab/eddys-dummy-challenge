@@ -138,6 +138,7 @@ export const BASICS_SECTIONS = [
       t("Back: Arm senkrecht über den **eigenen** Kopf. Ein Fortsetzungssignal auf Distanz, nach dem Stopp-Pfiff."),
       t("**Timing bei Back:** Stopp-Pfiff, Arm in neutrale Position vor der Brust, zwei Sekunden Pause, dann Arm nach oben schnellen. Das Signal kommt während der Armbewegung. Arm oben stehen lassen."),
       t("**Drehrichtung:** rechter Arm, der Hund dreht über die linke Schulter. Spiegelbildlich, weil er dich ansieht."),
+      t("Richtungsangaben sind immer aus deiner Sicht. Du streckst den linken Arm aus, der Hund läuft nach links von dir aus gesehen."),
       t("**Seitlich:** Arm waagerecht zur Seite, in Richtung des Dummys."),
       t("**Suchen:** Arm seitlich nach unten, Handfläche zum Hund."),
       t("**Reihenfolge im Aufbau:** Voran, dann Back, dann Rechts und Links. Die Seitenrichtungen sind für den Hund leichter, werden aber zuletzt aufgebaut, um ihn nicht zu verwirren."),

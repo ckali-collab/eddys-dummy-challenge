@@ -13,7 +13,8 @@ export const stepParts = (level, n) => {
     const d = byId(DISTANCE_STEPS, p.d), g = byId(TERRAIN_STEPS, p.g);
     return {
       kind: "distanz",
-      main: `${d.label} (etwa ${d.paces} Schritte), ${g.label}${p.delay ? `, Verzögerung: ${p.delay}` : ""}`,
+      main: p.text ?? `${d.label} (etwa ${d.paces} Schritte), ${g.label}${p.delay ? `, Verzögerung: ${p.delay}` : ""}`,
+      variant: p.text ?? null, // eigener Stufentext statt Distanz und Gelände (H Bronze)
       distance: d,
       terrain: g,
       delay: p.delay ?? null, // Track G: Verzögerung als Variante des letzten Schritts
@@ -29,10 +30,10 @@ export const stepParts = (level, n) => {
 };
 
 // first: erste Stufe für dieses Profil (firstStep); die angezeigte Nummer zählt ab dort
-export const stepText = (level, n, first = 1) => {
+export const stepText = (level, n, first = 1, dog) => {
   const s = stepParts(level, n);
   const shown = n - first + 1;
-  return s ? `Stufe ${shown} - ${s.main}` : `Stufe ${shown}`;
+  return s ? `Stufe ${shown} - ${withDummySignal(s.main, dog)}` : `Stufe ${shown}`;
 };
 
 // Geländestufen eines Levels aus dem Pfad, z.B. "offen und einsehbar bis niedrige Deckung" (null ohne path)
@@ -69,6 +70,10 @@ export const signalLines = (level, dog) =>
 // Aufbautexte: "in der Fußposition" ergänzt die zweite Seite, wenn das Profil eine nennt
 export const withSecondSide = (text, dog) =>
   dog?.signals?.side2 ? text.replace("in der Fußposition", `in der Fußposition oder auf der zweiten Seite (${dog.signals.side2})`) : text;
+
+// Ohne Aus-Signal im Profil nennen die Texte es nicht (ebenen-abgleich.md, Abschnitt 7)
+export const withDummySignal = (text, dog) =>
+  dog?.signals && !dog.signals.release_dummy ? text.replace("bis du das Aus-Signal gibst", "bis du es nimmst") : text;
 
 export const phaseOf = (level) => LEARNING_PHASES.find((p) => p.id === level?.phase) ?? null;
 

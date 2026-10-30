@@ -8,7 +8,7 @@ import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide } from "../lib/steps.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal } from "../lib/steps.js";
 import { gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
@@ -38,7 +38,7 @@ const StepPath = ({ level, current, done, dog, first }) => (
         <li key={n} className={`step-row ${state}`} aria-current={!done && n === current ? "step" : undefined}>
           <span className="step-num">{shown}</span>
           <span className="step-body">
-            {s.kind === "distanz" ? (
+            {s.kind === "distanz" && !s.variant ? (
               <>
                 <span className="step-main">{s.distance.label}, etwa {s.distance.paces} Schritte</span>
                 <span className="step-sub">{s.terrain.label} ({s.terrain.examples})</span>
@@ -46,7 +46,7 @@ const StepPath = ({ level, current, done, dog, first }) => (
               </>
             ) : (
               <>
-                <span className="step-main"><RichText text={s.variant} gloss /></span>
+                <span className="step-main"><RichText text={withDummySignal(s.variant, dog)} gloss /></span>
               </>
             )}
           </span>
@@ -123,9 +123,9 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       {/* Reihenfolge nach app-befund.md, Abschnitt 2: erst was man draußen braucht, Hintergrund zugeklappt */}
       <Section title="Heute">
         <div className="card today-card">
-          {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current, first)} gloss /></p>}
+          {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current, first, st.dog)} gloss /></p>}
           {signals.map((x) => <p key={x} className="small">{x}</p>)}
-          {level.run && <p className="run"><RichText text={level.run} gloss /></p>}
+          {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
           {todaySetup.length > 0 && (
             <ul className="tips setup-list">
@@ -137,7 +137,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       </Section>
 
       <Section title="Geschafft wenn">
-        <p className="criteria"><RichText text={level.criteria} gloss /></p>
+        <p className="criteria"><RichText text={withDummySignal(level.criteria, st.dog)} gloss /></p>
       </Section>
 
       {stepCount(level) > 0 && (
