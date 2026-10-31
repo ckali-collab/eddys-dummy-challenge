@@ -940,8 +940,8 @@ export const TRACKS = [
         path: [ // eigene Stufentexte, Distanzwerte bleiben im Hintergrund (h-stufen.md, Abschnitt 2)
           { d: 1, g: 1, text: "Back allein: Stopp, dann Arm senkrecht über den eigenen Kopf. Bis 15 Meter." },
           { d: 2, g: 1, text: "Eine Seite allein, immer dieselbe. Bis 30 Meter." },
-          { d: 2, g: 2, text: "Die andere Seite allein. Bis 30 Meter." },
-          { d: 2, g: 2, text: "Back und beide Seiten gemischt, du wählst die Richtung. Bis 30 Meter." },
+          { d: 2, g: 1, text: "Die andere Seite allein. Bis 30 Meter." },
+          { d: 2, g: 1, text: "Back und beide Seiten gemischt, du wählst die Richtung. Bis 30 Meter." },
         ],
         criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt beide in das Profilfeld ein, etwa \"Rechts, Links\". Bis 30 Meter. Drei Durchgänge.",
         run: "Hund auf Distanz stoppen, dann ein Richtungssignal. Bei Back: Arm neutral vor die Brust, zwei Sekunden warten.",
@@ -954,10 +954,11 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Erst eine Richtung allein, dann die andere allein, dann beide mit Wahl.",
-          "Variante Voran auf der Uhr: aus derselben Position in leicht versetzte Richtungen schicken, die Winkel schrittweise enger.",
+          "Variante Voran auf der Uhr: aus derselben Position in leicht versetzte Richtungen schicken, die Winkel schrittweise enger. Das ist eine Voran-Übung für enge Winkel, keine Einweisen-Übung nach dem Stopp.",
         ],
         tips: [
           "Bindeglied: Jede Richtungsübung beginnt mit Stopp-Pfiff und erhobenem Arm. Ohne sauberen Stopp kein Richtungssignal.",
+          "Der Arm muss zwischen Stopp und Richtungssignal herunter. Hunde sind Bewegungsseher: Bleibt der Arm oben, fehlt die Bewegung, die das neue Signal trägt.",
           "Back-Timing: Stopp-Pfiff, Arm in neutrale Position vor der Brust, zwei Sekunden Pause, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen.",
           "Drehrichtung beachten: rechter Arm, der Hund dreht über die linke Schulter. Spiegelbildlich, weil er dich ansieht.",
           "Nicht einseitig aus der Fuß-Position üben, sonst kommt der Hund beim Pfiff zurück statt zu stoppen.",
@@ -992,8 +993,8 @@ export const TRACKS = [
           "Dummy ohne Hund auslegen, Auslegefährte vermeiden (nicht auf direktem Weg zurücklaufen).",
           "Hund exakt ausrichten. Buch S. 53: Ist der Hundeführer richtig ausgerichtet, ist der Hund es auch. Die Fuß-Position links existiert genau dafür.",
           "Voran. Bei Abweichung Stopp-Pfiff, dann Richtungssignal.",
-          "Am Zielgelände das Suchensignal geben, und zwar nicht automatisch, sondern in dem Moment, in dem der Hund Witterung bekommt. Arm seitlich nach unten, Handfläche zum Hund.",
-          "Ab dort arbeitet der Hund selbstständig. Nicht weiter lenken.",
+          "Am Zielgelände das Suchensignal geben, und zwar nicht automatisch, sondern in dem Moment, in dem der Hund Witterung bekommt. Arm seitlich nach unten, Handfläche zum Hund. Ab Stufe 3.",
+          "Ab dort arbeitet der Hund selbstständig. Nicht weiter lenken. Ab Stufe 3.",
         ],
         tips: [
           "Hier gilt die Kleine Suche: enger Bereich, tiefe Nase, ruhig. Nicht zu verwechseln mit der Großen Suche der freien Verlorensuche.",
