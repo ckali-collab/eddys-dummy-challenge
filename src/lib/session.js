@@ -26,6 +26,16 @@ export const sessionDuration = (typeId) => {
   return lo === hi ? `${lo} Min` : `${lo}-${hi} Min`;
 };
 
+// Aufwärm-Anleitung, bei der Vollsession nach Gelenkbefund (nachtrag-review.md, Abschnitt 2)
+export const warmupGuideFor = (typeId, joints) => {
+  const wc = WARMUP_COOLDOWN[typeId];
+  const v = wc?.warmupGuideJoints?.[joints];
+  if (!v) return wc?.warmupGuide ?? null;
+  if (v.steps) return v;
+  const { index, text } = v.stepAddition;
+  return { ...wc.warmupGuide, steps: wc.warmupGuide.steps.map((s, i) => (i === index ? `${s} ${text}` : s)) };
+};
+
 // ─── Belastung ────────────────────────────────────────────────
 // warnAt: Grundwert (LOAD_LIMITS.default), nur Warnschwelle. cap: Obergrenze aus Altersgruppe und
 // Gelenkbefund (strengster Wert), null ohne Einschränkung. loadPerSession: cap, sonst warnAt (Anzeige).

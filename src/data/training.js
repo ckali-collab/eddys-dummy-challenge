@@ -147,7 +147,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände, während du pfeifst." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Stoppt auf 35 Meter, auch aus der Bewegung und wenn ein Dummy sichtbar im Gelände liegt. Vier saubere Stopps in Folge, an drei verschiedenen Orten.",
-        run: "4 saubere Stopps in der Situation der heutigen Stufe. Jeder Stopp wird belohnt, mit Rückruf oder Dummywurf.",
+        run: "4 saubere Stopps in der Situation der heutigen Stufe, über die Einheit verteilt. Jeder Stopp wird belohnt, mit Rückruf oder Dummywurf.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
@@ -231,7 +231,7 @@ export const TRACKS = [
           { condition: "position", variant: "Du drehst dich weg und rufst, ohne ihn anzusehen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt beim Führer und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
-        run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe.",
+        run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
@@ -264,7 +264,7 @@ export const TRACKS = [
           { condition: "ausgang", variant: "Du rufst, während er rennt." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt auf den ersten Pfiff aus 40 Metern zurück, auch aus dem Schnüffeln und aus dem Lauf. Fünf schnelle Reaktionen in Folge.",
-        run: "5 Rückrufe in der Situation der heutigen Stufe, jeder mit Lob und Freigabe.",
+        run: "5 Rückrufe in der Situation der heutigen Stufe, jeder mit Lob und Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
@@ -406,7 +406,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Radfahrer oder Jogger kommt vorbei." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Setzt sich automatisch, wenn du stehen bleibst, ohne Kommando. Auch bei fremden Hunden, bei fliegendem Dummy und wenn ein Radfahrer oder Jogger vorbeikommt. Fünfmal in Folge.",
-        run: "5 Halts in der Situation der heutigen Stufe, er setzt sich jedes Mal ohne Kommando.",
+        run: "5 Halts in der Situation der heutigen Stufe, über die Einheit verteilt. Er setzt sich jedes Mal ohne Kommando.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1, steps: [2] }],
@@ -452,7 +452,7 @@ export const TRACKS = [
           { condition: "position", variant: "Du gehst nach dem Wurf zwei Schritte weg, er wartet 8 Sekunden." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Drei Durchgänge.",
-        run: "4 Würfe mit der Wartezeit der heutigen Stufe, danach schickst du ihn.",
+        run: "4 Würfe nacheinander mit der Wartezeit der heutigen Stufe, danach schickst du ihn. Dazwischen kurz freigeben.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
@@ -487,7 +487,7 @@ export const TRACKS = [
           { condition: "ausgang", variant: "Das Dummy fliegt, während ihr in Bewegung seid." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Hält den Sitz, wenn zwei Dummys fliegen, wenn eine zweite Person wirft, wenn du das Dummy selbst holst und wenn ihr in Bewegung seid. Drei Durchgänge.",
-        run: "4 Wiederholungen in der Situation der heutigen Stufe.",
+        run: "4 Wiederholungen in der Situation der heutigen Stufe, nacheinander, dazwischen kurz freigeben.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 1 }],
@@ -498,7 +498,7 @@ export const TRACKS = [
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
           "Dummy werfen, du gehst vier bis fünf Schritte weg.",
-          "Dummy werfen, du gehst raus und setzt einen Markierstab.",
+          "Dummy werfen, du gehst raus und setzt einen Markierstab. Der Stab markiert hier deinen Weg, nicht ein Ziel für den Hund.",
           "Ersten Dummy werfen, zweiten Dummy werfen, erst dann schicken.",
         ],
         tips: ["Schritt 4 ist die direkte Vorbereitung auf Doppelmarken in Track F."],
@@ -611,11 +611,11 @@ export const TRACKS = [
           { condition: "ausgang", variant: "Er hält das Dummy, bis du das Aus-Signal gibst." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt in die Fußposition und hält das Dummy, bis du das Aus-Signal gibst. Fünf Retrieves.",
-        run: "5 Retrieves, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst.",
+        run: "5 Retrieves am Stück, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst. Danach eine Pause.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
-        dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
+        dummyType: "standard", // null | "standard" | "junior"; hier geht es um schwere Gegenstände, deshalb nicht in der Mini-Session (nachtrag-review.md, Abschnitt 5)
         amount: { n: 5, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
@@ -645,7 +645,7 @@ export const TRACKS = [
           { condition: "ort", variant: "Mit Zuschauern, die zusehen und sich bewegen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Drei Durchgänge.",
-        run: "3 Retrieves in der Situation der heutigen Stufe, jedes Mal bei hoher Erregung.",
+        run: "3 Retrieves einzeln in der Situation der heutigen Stufe, jedes Mal bei hoher Erregung, dazwischen etwas anderes machen.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }],
@@ -689,7 +689,7 @@ export const TRACKS = [
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Direkter Weg hin und zurück, sauberes Apportieren, bis 30 Meter. Drei Durchgänge, verteilt auf offenes Gelände und niedrige Deckung.",
-        run: "5 Einzelmarken auf der Distanz und im Gelände der heutigen Stufe.",
+        run: "5 Einzelmarken auf der Distanz und im Gelände der heutigen Stufe, in zwei Gruppen, dazwischen freigeben.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4, optional: true }],
@@ -722,7 +722,7 @@ export const TRACKS = [
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, drei Durchgänge.",
-        run: "2 Doppelmarken-Sequenzen, jeweils zuletzt geworfener Dummy zuerst.",
+        run: "2 Doppelmarken-Sequenzen nacheinander, jeweils zuletzt geworfener Dummy zuerst, dazwischen freigeben.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
@@ -770,7 +770,7 @@ export const TRACKS = [
         ],
         tips: [
           "Nicht immer dieselbe Reihenfolge verlangen, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen.",
-          "Markierstäbe als Sichthilfe für den Hund, mindestens vier aufstellen, sonst wird der einzelne Stab selbst zum Ziel.",
+          "Mehrere Markierstäbe aufstellen, Dummy nur bei einem. So lernt er, auf deine Richtungsangabe zu achten statt auf den nächsten Stab.",
         ],
         warning: null,
       },
@@ -892,7 +892,7 @@ export const TRACKS = [
     name: "Richtung und Blind",
     icon: "directions",
     group: "handling",
-    short: "Voran, Back, Links, Rechts, Blind",
+    short: "Den Hund auf Distanz lenken: geradeaus, zurück, zur Seite, und auf ein Dummy, das er nicht gesehen hat.",
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 12, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
@@ -1118,9 +1118,9 @@ export const SESSION_FALLBACKS = {
 // ─── Aufwärmen und Cool Down (Abschnitt 10; Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, im Buch) ──
 export const WARMUP_COOLDOWN = {
   // warmup/cooldown: Kurzform für die Tabelle im Basics-Tab. warmupGuide/cooldownGuide: Anleitung im Heute-Tab
-  // (erklaeren-statt-nennen.md, Abschnitt 1). Für das Cool Down der Kurzübung nennt die Spec keinen Ablauf.
+  // (erklaeren-statt-nennen.md, Abschnitt 1).
   voll: {
-    warmupMin: 15, cooldownMin: 10, warmup: "15 min, nie unter 10, bei ca. 30 % der max. Leistungsfähigkeit", cooldown: "ca. 10 min",
+    warmupMin: 15, cooldownMin: 10, warmup: "15 min, nie unter 10. Er soll danach warm sein, nicht müde.", cooldown: "ca. 10 min",
     warmupGuide: {
       steps: [
         "Lockeres Traben, ein paar Minuten.",
@@ -1131,6 +1131,21 @@ export const WARMUP_COOLDOWN = {
         "Zum Schluss selbstständige Dehnübungen, also ihn strecken und schütteln lassen.",
       ],
       notes: ["Nicht über 30 Prozent dessen gehen, was er leisten könnte: Er soll danach warm sein, nicht müde. Unter 10 Minuten sind die Stoffwechselabläufe in den Gelenken nicht aktiviert."],
+    },
+    // Nach Gelenkbefund (nachtrag-review.md, Abschnitt 2): abgeleitet, das Buch unterscheidet hier nicht
+    warmupGuideJoints: {
+      deutlich: {
+        steps: [
+          "Lockeres Traben, etwas länger als sonst.",
+          "Kontrolliertes Schrittgehen.",
+          "Noch einmal Trab.",
+          "Weite Bögen statt enger Wendungen. Keine Galoppsprints.",
+          "Konzentrations- und Gehorsamsübungen im Schritt.",
+          "Zum Schluss selbstständiges Dehnen.",
+        ],
+        notes: ["Bei bekanntem Gelenkbefund den Ablauf einmal mit dem Tierarzt abstimmen. Die Zeiten gelten unverändert: Unter zehn Minuten bringt das Aufwärmen nichts."],
+      },
+      leicht: { stepAddition: { index: 3, text: "Die Galoppsprints kurz halten." } },
     },
     cooldownGuide: {
       steps: [
@@ -1147,6 +1162,7 @@ export const WARMUP_COOLDOWN = {
   kurz: {
     warmupMin: 5, cooldownMin: [3, 5], warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min",
     warmupGuide: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar Wendungen. Lösen lassen, bevor es losgeht."] },
+    cooldownGuide: { notes: ["Lockerer Trab, dann Schritt, bis die Atmung ruhig ist."] },
   },
   mini: {
     warmupMin: 3, cooldownMin: null, warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null, // Cool Down entfällt
@@ -1212,7 +1228,7 @@ export const DPE_SHOT_NOTE = "Die DP-E gibt es mit Schuss (m. S.) und ohne (o. S
 // Nur bei E Bronze und F Bronze anzeigen (fundament-umbau-3.md, Abschnitt 2)
 export const MIN_AGE_NOTE_LEVELS = ["E:bronze", "F:bronze"];
 export const MIN_AGE_NOTE =
-  "Zwei bis drei Apportiereinheiten mit maximal zwei bis drei Wiederholungen in der Woche sind zu Beginn mehr als ausreichend.";
+  "Zu Beginn reichen zwei bis drei Apportiereinheiten pro Woche.";
 
 export const SESSION_RULES = [
   "Der Hauptteil bestimmt den Sessiontyp. Braucht er Equipment, ist es eine Vollsession.",
@@ -1464,7 +1480,7 @@ export const DUMMY_FACTS = {
   farben: [FARB_SAETZE.pigment, FARB_SAETZE.blau, FARB_SAETZE.rot, FARB_SAETZE.orange, FARB_SAETZE.weiss].join(" "),
   farbenSehpigment: [FARB_SAETZE.pigment, FARB_SAETZE.rot].join(" "),
   pocketDummy: "Der Pocket Dummy ist das 80-g-Suchendummy für Suchenpfiff-Training bei geringer Witterung, kein Jackentaschen-Dummy für unterwegs.",
-  markierstab: "Der Markierstab ist eine Sichthilfe für den Hund, nicht für den Führer. Praxisregel: mindestens vier aufstellen, damit nicht der Stab selbst zum Ziel wird.",
+  markierstab: "Ein Stab, der eine Stelle im Gelände markiert. Nicht der Stab ist das Ziel, deine Hand zeigt den Weg. Deshalb immer mehrere aufstellen und nur bei einem ein Dummy auslegen.",
 };
 
 // ─── Trophaeen ────────────────────────────────────────────────

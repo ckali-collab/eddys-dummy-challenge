@@ -5,7 +5,7 @@ import {
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount } from "../lib/progress.js";
 import { sessionSteps, stepText, withDummySignal } from "../lib/steps.js";
-import { buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
+import { warmupGuideFor, buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { PackList, GearList } from "./Gear.jsx";
@@ -129,9 +129,9 @@ const StepPlan = ({ st, trackId, levelId }) => {
 // Aufwärmen und Cool Down je Sessiontyp (fundament-umbau.md, Abschnitt 10)
 // Eigene Zeile außerhalb der Blöcke, ohne Übungsinhalt und Equipment (stufen-texte.md, Abschnitt 4)
 const minText = (m) => (Array.isArray(m) ? `${m[0]}-${m[1]} Min` : `${m} Min`);
-const PhaseNote = ({ typeId, role }) => {
+const PhaseNote = ({ typeId, role, joints }) => {
   const wc = WARMUP_COOLDOWN[typeId];
-  const guide = role === "warmup" ? wc?.warmupGuide : wc?.cooldownGuide;
+  const guide = role === "warmup" ? warmupGuideFor(typeId, joints) : wc?.cooldownGuide;
   const min = role === "warmup" ? wc?.warmupMin : wc?.cooldownMin;
   if (min == null) return null;
   return (
@@ -452,7 +452,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
                 <p className="small muted">{SESSION_GUIDANCE.pause}{st.dog.experience === "keine" && ` ${SESSION_GUIDANCE.pauseBeginner}`}</p>
               </div>
             )}
-            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" />}
+            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" joints={st.dog.joints} />}
             <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
             {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" />}
           </Fragment>

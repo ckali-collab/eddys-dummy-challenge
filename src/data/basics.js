@@ -178,7 +178,7 @@ const SECTIONS = [
       ] },
       // Farbtext: einzige Quelle DUMMY_FACTS (profil-und-aufraeumen.md, Abschnitt 3)
       t("**Farben**\n" + DUMMY_FACTS.farben),
-      t("**Markierstäbe**\nSie sind eine Sichthilfe für den Hund, nicht für dich. Stell mindestens vier auf und nutze sie bewusst als Verleitung, nicht nur als Zielpunkt. Steht nur einer, lernt der Hund, zum Stab zu laufen statt auf dich zu hören. Leere Stäbe soll er nicht abchecken dürfen."),
+      t("**Markierstäbe**\n" + DUMMY_FACTS.markierstab),
       t("**Pfeife**\nMit Erbse für Reichweite, ohne Erbse für leise Signale. Im Training und in der Prüfung in der Hand oder im Mund, nicht in der Tasche."),
     ],
   },

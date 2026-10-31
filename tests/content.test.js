@@ -7,7 +7,7 @@ const { GLOSSAR } = await import("../src/data/glossar.js");
 const { findTerms } = await import("../src/lib/glossar.js");
 const { freshState } = await import("../src/lib/storage.js");
 const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress } = await import("../src/lib/progress.js");
-const { buildPlan, recordSession, undoLastSession } = await import("../src/lib/session.js");
+const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
 const { gearAllSteps, gearLabel } = await import("../src/lib/gear.js");
 const { conditionText } = await import("../src/lib/trophies.js");
 
@@ -96,6 +96,26 @@ test("Trackübersicht: Equipment aller Stufen in angezeigter Zählung", () => {
   assert.deepEqual(labels("H", "bronze"), ["1 Futterschüssel (Stufe 1)", "1 Dummy 500 g (Stufe 2 und 3 und 4)"]);
   assert.deepEqual(labels("G", "bronze"), ["10 oder mehr Dummys 500 g", "2 Suchendummys 80 g (Stufe 1 und 2)"]);
   assert.ok(TRACKS.flatMap((t) => t.levels).every((l) => gearAllSteps(l.gear, 1).length <= 3), "höchstens drei Zeilen");
+});
+
+test("Aufwärmen nach Gelenkbefund", () => {
+  const plain = warmupGuideFor("voll", "ok");
+  assert.match(plain.steps[3], /^Ein paar kontrollierte Galoppsprints\.$/);
+  assert.equal(warmupGuideFor("voll", "unbekannt"), plain);
+  assert.equal(warmupGuideFor("voll", "leicht").steps[3], "Ein paar kontrollierte Galoppsprints. Die Galoppsprints kurz halten.");
+  assert.equal(warmupGuideFor("voll", "leicht").steps.length, 6);
+  const hard = warmupGuideFor("voll", "deutlich");
+  assert.equal(hard.steps[3], "Weite Bögen statt enger Wendungen. Keine Galoppsprints.");
+  assert.ok(!hard.steps.some((s) => /Sprints|Galoppsprints\.$/.test(s) && !/Keine/.test(s)));
+  assert.match(hard.notes[0], /Tierarzt/);
+  assert.equal(warmupGuideFor("kurz", "deutlich"), warmupGuideFor("kurz", "ok"));
+});
+
+test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
+  const mini = SESSION_TYPES.find((t) => t.id === "mini");
+  const allowed = TRACKS.filter((t) => mini.allowedTracks.includes(t.id)).flatMap((t) => t.levels.filter((l) => mini.allowedDummyTypes.includes(l.dummyType ?? null)).map((l) => `${t.id} ${l.id}`));
+  assert.ok(!allowed.includes("E silber"));
+  assert.equal(allowed.length, 11, allowed.join(", "));
 });
 
 test("Glossar und Basics: neue Einträge, Gruppen vollständig", () => {
