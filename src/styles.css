@@ -827,6 +827,7 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
   background: var(--danger-bg);
 }
 .danger-zone h2 { color: var(--danger); }
+.backup + .danger-zone { margin-top: 28px; } /* Sicherung und Zurücksetzen dürfen nicht verwechselbar sein */
 .danger-confirm {
   display: flex;
   flex-direction: column;

@@ -5,6 +5,13 @@ import { TRACKS, SIGNAL_DEFAULTS } from "../data/training.js";
 // Der alte Key edc-v2 wird bewusst ignoriert.
 export const STORAGE_KEY = "edc-v3";
 export const SCHEMA_VERSION = 3;
+// Stand vor dem letzten Import, einmal zurückholbar (export-import.md, Regel 3)
+export const PREV_KEY = `${STORAGE_KEY}-prev`;
+// Storage-Key-Liste (export-import.md, Regel 5), einzige Wahrheitsquelle für Wipe und Migration:
+// edc-v3                 State, kommt in den Export, "App zurücksetzen" löscht ihn
+// edc-v3-prev            Stand vor dem letzten Import, nicht im Export, "App zurücksetzen" löscht ihn
+// edc-v3-backup-v<alt>   Rohstand vor einer Migration, nicht im Export, wird nie überschrieben oder gelöscht
+// edc-v2                 Altbestand, wird weder gelesen noch geschrieben noch gelöscht
 // Vor jeder Migration wird der unveränderte alte Stand hier abgelegt (je Ausgangsversion ein Key)
 const backupKey = (version) => `${STORAGE_KEY}-backup-v${version}`;
 
@@ -78,13 +85,14 @@ export const freshState = () => ({
   tracks: freshTracks(),
   sessions: [],
   trophies: [],
-  settings: { theme: "system" },
+  // lastExportAt und exportSnoozedAt: additiv, kein Schema-Bump (fehlende Werte füllt normalize)
+  settings: { theme: "system", lastExportAt: null, exportSnoozedAt: null },
   plan: null, // heutiger Sessionplan: { date, type, offsets, picks }
 });
 
 // Guards an der Datengrenze: fehlende Tracks/Level (z.B. nach Datenerweiterung)
 // werden mit Defaults aufgefüllt, unbekannte Werte verworfen.
-const normalize = (raw) => {
+export const normalize = (raw) => {
   const base = freshState();
   const tracks = base.tracks;
   for (const id of Object.keys(tracks)) {
@@ -123,6 +131,8 @@ const normalize = (raw) => {
       : null,
     settings: {
       theme: THEMES.includes(raw.settings?.theme) ? raw.settings.theme : "system",
+      lastExportAt: typeof raw.settings?.lastExportAt === "string" ? raw.settings.lastExportAt : null,
+      exportSnoozedAt: typeof raw.settings?.exportSnoozedAt === "string" ? raw.settings.exportSnoozedAt : null,
     },
   };
 };

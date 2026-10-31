@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { freshState, loadState, saveState, applyTheme, STORAGE_KEY } from "./lib/storage.js";
+import { freshState, loadState, saveState, applyTheme, STORAGE_KEY, PREV_KEY } from "./lib/storage.js";
+import { downloadExport, markExported, replaceState, snoozeReminder, undoImport } from "./lib/backup.js";
 import ProfileForm from "./components/ProfileForm.jsx";
 import Settings from "./components/Settings.jsx";
 import TracksTab from "./components/TracksTab.jsx";
@@ -114,11 +115,30 @@ export default function App() {
   const onReset = (trackId, levelId) => setSt((p) => resetLevel(p, trackId, levelId));
   const openLevel = (trackId, levelId) => setView({ type: "level", trackId, levelId });
 
+  // ─── Sicherung (export-import.md) ───────────────────────────
+  const onExport = () => {
+    const next = markExported(st);
+    downloadExport(next);
+    setSt(next);
+  };
+  const onSnoozeExport = () => setSt((p) => snoozeReminder(p));
+  // Danach neu laden: Der laufende State darf den geschriebenen Stand nicht mehr überschreiben
+  const onImport = (next) => {
+    if (!replaceState(st, next)) return false;
+    window.location.reload();
+    return true;
+  };
+  const onUndoImport = () => {
+    if (!undoImport()) return false;
+    window.location.reload();
+    return true;
+  };
+
   // ─── Zurücksetzen (Einstellungen) ───────────────────────────
   const clearSessions = () => setSt((p) => ({ ...p, sessions: [] }));
   const resetProgress = () => setSt((p) => ({ ...p, tracks: freshState().tracks, sessions: [], trophies: [], plan: null }));
   const resetApp = () => {
-    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(PREV_KEY); } catch {}
     // Frischer State hat keinen Hundenamen und wird deshalb nicht erneut gespeichert
     setSt(freshState());
     setView(null);
@@ -142,6 +162,7 @@ export default function App() {
   const content =
     view?.type === "settings" ? (
       <Settings state={st} onTheme={setTheme} onProfile={setDog}
+        onExport={onExport} onImport={onImport} onUndoImport={onUndoImport}
         onClearSessions={clearSessions} onResetProgress={resetProgress} onResetApp={resetApp} />
     ) :
     view?.type === "sessions" ? <SessionsView sessions={st.sessions} /> :
@@ -149,7 +170,7 @@ export default function App() {
     tab === "tracks" ? <TracksTab st={st} onOpen={openLevel} /> :
     tab === "trophaeen" ? <TrophiesTab st={st} onManual={onManualTrophy} /> :
     tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel}
-      onOpenAll={() => setView({ type: "sessions" })} /> :
+      onOpenAll={() => setView({ type: "sessions" })} onExport={onExport} onSnoozeExport={onSnoozeExport} /> :
     <BasicsTab st={st} focus={glossarFocus} />;
 
   return (

@@ -1,11 +1,84 @@
 import { useState, useRef } from "react";
 import ProfileForm from "./ProfileForm.jsx";
+import { parseBackup, importConfirmText, readPrev, undoConfirmText } from "../lib/backup.js";
 
 const THEME_OPTIONS = [
   { id: "light", label: "Hell" },
   { id: "dark", label: "Dunkel" },
   { id: "system", label: "System" },
 ];
+
+// ─── Sicherung (export-import.md, Abschnitt 5) ────────────────
+const WRITE_FAILED = "Der Speicher ließ sich nicht beschreiben. Es wurde nichts geändert.";
+
+const Backup = ({ state, onExport, onImport, onUndoImport }) => {
+  const fileInput = useRef(null);
+  const armedAt = useRef(0);
+  const [pending, setPending] = useState(null); // geprüfte Datei, wartet auf Bestätigung
+  const [confirmUndo, setConfirmUndo] = useState(false);
+  const [error, setError] = useState(null);
+  const prev = readPrev();
+  const last = state.settings.lastExportAt;
+
+  const onFile = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // dieselbe Datei lässt sich erneut wählen
+    if (!file) return;
+    setConfirmUndo(false);
+    let text = null;
+    try { text = await file.text(); } catch {}
+    const parsed = parseBackup(text);
+    setError(parsed.ok ? null : parsed.error);
+    setPending(parsed.ok ? parsed : null);
+    armedAt.current = Date.now();
+  };
+  const confirm = (run) => () => {
+    if (Date.now() - armedAt.current < 500) return; // Doppeltipp-Schutz
+    if (run()) return; // lädt neu
+    setPending(null);
+    setConfirmUndo(false);
+    setError(WRITE_FAILED);
+  };
+
+  return (
+    <section className="section backup" aria-labelledby="backup-title">
+      <h2 id="backup-title">Sicherung</h2>
+      <div className="card stack">
+        <div className="stack" style={{ gap: 6 }}>
+          <button type="button" className="btn" onClick={onExport}>Fortschritt exportieren</button>
+          <p className="small muted">Lädt eine Datei mit deinem gesamten Fortschritt herunter.</p>
+          {last && <p className="small muted">Letzter Export: {new Date(last).toLocaleDateString("de-DE")}</p>}
+        </div>
+        {pending ? (
+          <div className="stack" role="alertdialog" aria-labelledby="backup-confirm">
+            <p id="backup-confirm">{importConfirmText(state, pending)}</p>
+            <button type="button" className="btn" onClick={confirm(() => onImport(pending.state))}>Ja, importieren</button>
+            <button type="button" className="btn btn-ghost" onClick={() => setPending(null)}>Abbrechen</button>
+          </div>
+        ) : (
+          <div className="stack" style={{ gap: 6 }}>
+            <button type="button" className="btn btn-ghost" onClick={() => fileInput.current?.click()}>Datei importieren</button>
+            <input ref={fileInput} type="file" accept=".json,application/json" hidden onChange={onFile} />
+            <p className="small muted">Ersetzt deinen Fortschritt durch den Inhalt der Datei.</p>
+          </div>
+        )}
+        {error && <p className="block-warn" role="alert">{error}</p>}
+        {prev?.ok && (confirmUndo ? (
+          <div className="stack" role="alertdialog" aria-labelledby="backup-undo">
+            <p id="backup-undo">{undoConfirmText(state, prev)}</p>
+            <button type="button" className="btn" onClick={confirm(onUndoImport)}>Ja, zurückholen</button>
+            <button type="button" className="btn btn-ghost" onClick={() => setConfirmUndo(false)}>Abbrechen</button>
+          </div>
+        ) : (
+          <button type="button" className="btn btn-ghost"
+            onClick={() => { armedAt.current = Date.now(); setPending(null); setConfirmUndo(true); }}>
+            Letzten Import rückgängig machen
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 // ─── Gefahrenbereich ──────────────────────────────────────────
 const DangerAction = ({ id, open, setOpen, label, confirmLabel, text, onConfirm, disabled }) => {
@@ -66,7 +139,7 @@ const DangerZone = ({ state, onClearSessions, onResetProgress, onResetApp }) => 
   );
 };
 
-export default function Settings({ state, onTheme, onProfile, onClearSessions, onResetProgress, onResetApp }) {
+export default function Settings({ state, onTheme, onProfile, onExport, onImport, onUndoImport, onClearSessions, onResetProgress, onResetApp }) {
   const [saved, setSaved] = useState(false);
 
   return (
@@ -92,6 +165,8 @@ export default function Settings({ state, onTheme, onProfile, onClearSessions, o
           {saved && <p className="saved" role="status" style={{ marginTop: 12 }}>Gespeichert</p>}
         </div>
       </section>
+
+      <Backup state={state} onExport={onExport} onImport={onImport} onUndoImport={onUndoImport} />
 
       <DangerZone state={state} onClearSessions={onClearSessions}
         onResetProgress={onResetProgress} onResetApp={onResetApp} />

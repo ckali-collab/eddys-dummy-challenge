@@ -11,6 +11,7 @@ import { IconTile } from "./TrackIcon.jsx";
 import { PackList, GearList } from "./Gear.jsx";
 import { packingList, gearForStep } from "../lib/gear.js";
 import { setUpdateHold } from "../lib/updateGate.js";
+import { exportReminder } from "../lib/backup.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { RichText } from "./Glossar.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
@@ -66,6 +67,20 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
     </details>
   );
 };
+
+// ─── Export-Erinnerung (export-import.md, Abschnitt 4) ────────
+const ExportReminder = ({ reminder, onExport, onSnooze }) => (
+  <section className="card stack" aria-label="Sicherung">
+    <p>
+      {reminder.never
+        ? `Du hast noch nie exportiert, und ${reminder.count} Sessions sind schon gespeichert.`
+        : `Seit deinem letzten Export sind ${reminder.count} Sessions dazugekommen.`}
+      {" "}Eine Sicherung dauert zehn Sekunden.
+    </p>
+    <button type="button" className="btn" onClick={onExport}>Fortschritt exportieren</button>
+    <button type="button" className="btn btn-ghost" onClick={onSnooze}>In zehn Sessions wieder erinnern</button>
+  </section>
+);
 
 // ─── Vorbereitung (fundament-umbau.md, Abschnitt 11) ──────────
 // Abhakbar, keine Pflicht, nicht gespeichert
@@ -291,7 +306,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
 };
 
 // ─── Tab ──────────────────────────────────────────────────────
-export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll }) {
+export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll, onExport, onSnoozeExport }) {
   const [mode, setMode] = useState("plan"); // plan | rate | done
   // Bewertung offen: kein automatischer Reload durch ein Update
   useEffect(() => {
@@ -303,6 +318,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
   const rest = restStatus(st);
   const type = getSessionType(today.type);
   const pack = packingList(plan.blocks);
+  const reminder = exportReminder(st);
 
   // Gewählte Level festhalten, damit ein Reload denselben Plan zeigt
   const picksKey = JSON.stringify(plan.picks);
@@ -398,6 +414,8 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
       )}
 
       <RecentSessions sessions={st.sessions} onUndo={() => setSt((p) => undoLastSession(p))} onOpenAll={onOpenAll} />
+
+      {reminder && <ExportReminder reminder={reminder} onExport={onExport} onSnooze={onSnoozeExport} />}
 
       <section className="section">
         <div className="segmented" role="group" aria-label="Sessiontyp">

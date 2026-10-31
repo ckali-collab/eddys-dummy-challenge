@@ -231,7 +231,7 @@ Inhaltliche Basis: `docs/trainingskonzept-v2.md` + `src/data/training.js`. Desig
 1. Live-Check nach Deploy: DevTools → Application → Manifest (Icons, Installierbarkeit) und Service Worker; Offline-Haken + Reload. Danach Lighthouse auf der Live-URL.
 2. ~~Maskable Icon~~ erledigt: eigenes `icon-maskable-512.png` mit Safe-Zone. Auf dem Gerät prüfen (Test: maskable.app).
 3. ~~Logo als Base64~~ erledigt in Umbau Schritt 1.
-4. Daten liegen nur in localStorage. iOS kann den Storage nach 7 Tagen ohne Nutzung löschen, wenn die App nicht installiert ist → Export/Backup oder Sync erwägen.
+4. Daten liegen nur in localStorage. iOS kann den Storage nach 7 Tagen ohne Nutzung löschen, wenn die App nicht installiert ist → Export und Import gibt es seit `docs/export-import.md` (`src/lib/backup.js`, Tests: `npm test`, läuft vor jedem Build). Storage-Key-Liste in `src/lib/storage.js`. Kein Sync.
 
 ## Architektur-Entscheidungen dieser Session
 - **vite-plugin-pwa statt handgeschriebenem `sw.js`**: Precache-Manifest mit Hashes wird automatisch erzeugt, es gibt kein manuelles Bumpen der Cache-Version und damit kein „alte Version hängt"-Problem.
