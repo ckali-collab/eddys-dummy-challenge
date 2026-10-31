@@ -95,8 +95,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
   const first = firstStep(st.dog, level);
-  const signals = signalLines(level, st.dog);
   const current = effectiveStep(st, trackId, levelId);
+  const signals = signalLines(level, st.dog, current);
   const todayGear = gearForStep(level.gear, current);
   const todaySetup = setupForStep(level.setup, current);
   const [confirmReset, setConfirmReset] = useState(false);

@@ -38,6 +38,7 @@ export const stepText = (level, n, first = 1, dog) => {
 
 // Geländestufen eines Levels aus dem Pfad, z.B. "offen und einsehbar bis niedrige Deckung" (null ohne path)
 export const terrainRange = (level) => {
+  if (level?.path?.some((p) => p.text)) return null; // eigene Stufentexte nennen es selbst (stufen-feinschliff.md, Abschnitt 3)
   const gs = (level?.path || []).map((p) => p.g);
   if (!gs.length) return null;
   const lo = byId(TERRAIN_STEPS, Math.min(...gs)), hi = byId(TERRAIN_STEPS, Math.max(...gs));
@@ -60,8 +61,11 @@ export const examLine = (track, level) => {
 };
 
 // "Dein Stopp-Signal: Pfiff, ein kurzer Ton", je Signal des Levels. Ohne Eintrag im Profil keine Zeile.
-export const signalLines = (level, dog) =>
-  (level.signals || []).flatMap((key) => {
+// Eintrag: Schlüssel oder { key, steps } (dieselbe Stufenbindung wie gear und setup)
+export const signalLines = (level, dog, step) =>
+  (level.signals || []).flatMap((s) => {
+    if (s.steps && !s.steps.includes(step)) return [];
+    const key = s.key ?? s;
     const word = dog?.signals?.[key];
     const term = SIGNAL_FIELDS.find((f) => f.key === key)?.term;
     return word && term ? [`Dein ${term}: ${word}`] : [];

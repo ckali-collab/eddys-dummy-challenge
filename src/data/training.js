@@ -381,6 +381,7 @@ export const TRACKS = [
           "Erst 100 Meter am Stück auf bekanntem Weg, ohne Ablenkung.",
           "Dann eine Ablenkung dazunehmen, nie zwei gleichzeitig.",
           "Zuletzt mit Dummy im Fang. Das ist die schwerste Variante, weil er sich auf zwei Dinge gleichzeitig konzentrieren muss.",
+          "Er muss dich beobachten statt nebenher zu laufen.",
         ],
         tips: ["Unvorhersehbar sein. Das erzeugt Aufmerksamkeit."],
         warning: null,
@@ -930,19 +931,19 @@ export const TRACKS = [
       },
       {
         id: "silber",
-        signals: ["stop", "back", "over"], // im Heute-Block (kriterien-und-stufen.md, Abschnitt 8)
+        signals: ["stop", { key: "back", steps: [1, 4] }, { key: "over", steps: [2, 3, 4] }], // im Heute-Block, optional an Stufen gebunden (stufen-feinschliff.md, Abschnitt 1)
         phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Richtungssignale",
         exam: "einweisen",
         examClass: "F",
-        maxDistanceStep: 3,
+        maxDistanceStep: 2,
         path: [ // eigene Stufentexte, Distanzwerte bleiben im Hintergrund (h-stufen.md, Abschnitt 2)
           { d: 1, g: 1, text: "Back allein: Stopp, dann Arm senkrecht über den eigenen Kopf. Bis 15 Meter." },
           { d: 2, g: 1, text: "Eine Seite allein, immer dieselbe. Bis 30 Meter." },
-          { d: 1, g: 2, text: "Die andere Seite allein. Bis 30 Meter." },
+          { d: 2, g: 2, text: "Die andere Seite allein. Bis 30 Meter." },
           { d: 2, g: 2, text: "Back und beide Seiten gemischt, du wählst die Richtung. Bis 30 Meter." },
         ],
-        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt sie im Profil ein. Bis 30 Meter. Drei Durchgänge.",
+        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt beide in das Profilfeld ein, etwa \"Rechts, Links\". Bis 30 Meter. Drei Durchgänge.",
         run: "Hund auf Distanz stoppen, dann ein Richtungssignal. Bei Back: Arm neutral vor die Brust, zwei Sekunden warten.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
@@ -952,13 +953,13 @@ export const TRACKS = [
         diagram: "directions",
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
+          "Erst eine Richtung allein, dann die andere allein, dann beide mit Wahl.",
+          "Variante Voran auf der Uhr: aus derselben Position in leicht versetzte Richtungen schicken, die Winkel schrittweise enger.",
+        ],
+        tips: [
           "Bindeglied: Jede Richtungsübung beginnt mit Stopp-Pfiff und erhobenem Arm. Ohne sauberen Stopp kein Richtungssignal.",
           "Back-Timing: Stopp-Pfiff, Arm in neutrale Position vor der Brust, zwei Sekunden Pause, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen.",
           "Drehrichtung beachten: rechter Arm, der Hund dreht über die linke Schulter. Spiegelbildlich, weil er dich ansieht.",
-          "Erst eine Richtung allein, dann die andere allein, dann beide mit Wahl.",
-          "Variante Voran auf der Uhr: enge Winkel beim Voran. Der Hund wird aus derselben Position in leicht versetzte Richtungen geschickt, die Winkel werden schrittweise enger. Das ist eine Voran-Übung, nicht eine Einweisen-Übung nach dem Stopp.",
-        ],
-        tips: [
           "Nicht einseitig aus der Fuß-Position üben, sonst kommt der Hund beim Pfiff zurück statt zu stoppen.",
           "Belohnungsapport für Fortgeschrittene: Dummy über den Hund hinweg nach hinten oder seitlich werfen und mit Back beziehungsweise der Seitenrichtung schicken. So wird der Stopp selbst zur Einweise-Übung.",
         ],
@@ -966,7 +967,7 @@ export const TRACKS = [
       },
       {
         id: "gold",
-        signals: ["stop", "out", "search"], // im Heute-Block (kriterien-und-stufen.md, Abschnitt 8)
+        signals: ["stop", "out", { key: "search", steps: [3, 4] }], // im Heute-Block, optional an Stufen gebunden (stufen-feinschliff.md, Abschnitt 1)
         phase: "festigen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Einweisen in ein Suchengelände",
         exam: "einweisen",
@@ -979,7 +980,7 @@ export const TRACKS = [
           { d: 4, g: 3, text: "Einweisen in ein Suchengelände, bis 80 Meter, höchstens zwei Korrekturen." },
         ],
         criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Drei Durchgänge.",
-        run: "Dummy vorher ins Suchengelände legen, Hund einweisen, am Ziel das Suchensignal geben, dann nicht mehr lenken.",
+        run: "Ein Durchgang auf der heutigen Stufe: Dummy vorher auslegen, Hund ausrichten, Voran.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }, { id: "suchdummy", n: 1, optional: true, steps: [3, 4] }], // Suchendummy optional für die Kleine Suche am Zielort (Teil 3, Abschnitt 5)
