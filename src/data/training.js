@@ -1231,11 +1231,10 @@ export const DISTANCE_LEGAL_NOTE = "Für diese Distanzen brauchst du eine passen
 export const DPE_AGE_NOTE = "Für die DP-E muss der Hund am Prüfungstag mindestens 12 Monate alt sein. Trainieren kannst du früher.";
 export const DPE_SHOT_NOTE = "Die DP-E gibt es mit Schuss (m. S.) und ohne (o. S.). In der Variante ohne Schuss wird ein Lautzeichen gegeben. Wer den Hund noch nicht an den Schuss gewöhnt hat, meldet die Variante ohne.";
 
-// Buchsatz zum Einstieg, nach Geltungsbereich aufgelöst (unsichtbare-inhalte.md, Abschnitt 3)
-const MIN_AGE_START = "**Ganz am Anfang** reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Wiederholungen.";
+// Buchsatz zum Einstieg, nach Geltungsbereich aufgelöst (meilensteine.md, Abschnitt 3)
 export const MIN_AGE_NOTES = {
   "E:bronze": "**Ganz am Anfang**, in den ersten Wochen nach dem Zahnwechsel, reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Wiederholungen. Bleib dann unter den zehn Retrieves dieses Levels. Das Level gilt erst als geschafft, wenn er sie sauber schafft.",
-  "F:bronze": `${MIN_AGE_START} Die fünf Marken dieses Levels setzen voraus, dass er das Apportieren kennt.`,
+  "F:bronze": "Ganz am Anfang reichen zwei bis drei Apportiereinheiten pro Woche. Bleib dann unter den fünf Marken dieses Levels.",
 };
 
 // held: nicht angezeigt, Widerspruch zum aktuellen Stand gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
@@ -1511,8 +1510,7 @@ export const TROPHIES = [
   { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final",     condition: { allTracks: "gold" } },
 ];
 
-// ─── Methodische Grundprinzipien ──────────────────────────────
-// Noch nicht angezeigt: "Eine Variable pro Steigerung" widerspricht den Pfaden, gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
+// ─── Methodische Grundprinzipien (Basics-Tab; Prinzip 3: meilensteine.md, Abschnitt 1) ──
 export const PRINCIPLES = [
   { name: "Die Arbeit ist für den Hund",
     desc: "Wo Motivation und Trainingsfortschritt in Konflikt geraten, gewinnt " +
@@ -1524,9 +1522,10 @@ export const PRINCIPLES = [
           "Verhalten wird unterbrochen und umgelenkt, nicht ausgesessen. " +
           "Körperliche Einwirkung ist kein Mittel dieser App." },
   { name: "Eine Variable pro Steigerung",
-    desc: "Nie Distanz und Gelände gleichzeitig, nie Zeit und Distanz " +
-          "gleichzeitig. Steigt die Geländeschwierigkeit, geht die Distanz " +
-          "eine Stufe zurück." },
+    desc: "Wenn du das Gelände schwerer machst, verkürze erst wieder die " +
+          "Entfernung. Die vier Stufen eines Levels sind Meilensteine, keine " +
+          "einzelnen Trainingsschritte: Zwischen zwei Stufen liegen oft " +
+          "mehrere Einheiten, und die Regel gilt für jede einzelne davon." },
   { name: "Verteilt statt massiert",
     desc: "Zwei kurze Einheiten pro Woche schlagen tägliches Training. Belegt " +
           "bei Demant et al. 2011: 44 Beagles, Training ein bis zwei Mal pro " +

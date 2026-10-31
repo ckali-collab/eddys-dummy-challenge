@@ -117,10 +117,10 @@ test("Aufwärmen nach Profil", () => {
 
 test("Zurückgehaltene Inhalte erscheinen nicht in den Basics", () => {
   const text = JSON.stringify(BASICS_SECTIONS);
-  for (const s of ["Retrieve-Limit", "Kein eigener Track", "Warm-up und Abschluss", "Fiept oder winselt", "Stoppt von selbst", "Drei erfolgreiche Retrieves", "Eine Variable pro Steigerung", "Linie deines Hundes"]) {
+  for (const s of ["Retrieve-Limit", "Kein eigener Track", "Warm-up und Abschluss", "Fiept oder winselt", "Stoppt von selbst", "Drei erfolgreiche Retrieves", "Praxiswert", "Nie Distanz und Gelände", "Linie deines Hundes"]) {
     assert.ok(!text.includes(s), s);
   }
-  for (const s of ["Kein Absprung von Uferkanten", "Fast alle Canvas-Dummys", "keine neue Schwierigkeit", "nicht über 30 Prozent", "für Junghunde und Senioren 400", "Die fünf Fehlerursachen"]) {
+  for (const s of ["Kein Absprung von Uferkanten", "Fast alle Canvas-Dummys", "keine neue Schwierigkeit", "nicht über 30 Prozent", "für Junghunde und Senioren 400", "Die fünf Fehlerursachen", "Eine Variable pro Steigerung.", "Meilensteine", "Als Faustregel rund 80 Prozent"]) {
     assert.ok(text.includes(s), s);
   }
 });
@@ -156,7 +156,8 @@ test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
 test("Glossar und Basics: neue Einträge, Gruppen vollständig", () => {
   assert.deepEqual(findTerms("Variante Voran auf der Uhr: aus derselben").map((h) => h.id), ["voran-uhr"]);
   assert.ok(!/Sichthilfe/.test(JSON.stringify(GLOSSAR.find((e) => e.id === "markierstab"))));
-  assert.equal(BASICS_SECTIONS.length, 12);
+  assert.equal(BASICS_SECTIONS.length, 13);
+  assert.equal(BASICS_SECTIONS.find((s) => s.id === "prinzipien").blocks.length, 7);
   assert.ok(BASICS_SECTIONS.every((s) => BASICS_GROUPS.some((g) => g.id === s.group)));
   const order = BASICS_SECTIONS.map((s) => s.group);
   assert.deepEqual(order.filter((g, i) => g !== order[i - 1]), BASICS_GROUPS.map((g) => g.id), "jede Gruppe am Stück");

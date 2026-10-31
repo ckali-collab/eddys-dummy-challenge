@@ -8,7 +8,7 @@
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
  * group:    Zwischenüberschrift (BASICS_GROUPS, rubriken-review.md, Abschnitt 7c)
  */
-import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES } from "./training.js";
+import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES, PRINCIPLES } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
 
 const t = (content) => ({ type: "text", content });
@@ -64,7 +64,7 @@ const SECTIONS = [
     open: true,
     blocks: [
       lead("Die Übungen folgen den deutschen Dummyprüfungen. Bronze ist die Einsteigerprüfung DP-E des Golden Retriever Club, Silber die Anfänger-Klasse und Gold die Fortgeschrittenen-Klasse der DRC-Ordnung. Die Apportdistanzen sollen dort 30, 50 beziehungsweise 80 Meter nicht überschreiten, werden aber an Gelände und Witterung angepasst. Deshalb heißt Bronze nicht einfach leicht, sondern Einsteigerniveau. Du musst nie zu einer Prüfung gehen, aber die Stufen bedeuten etwas außerhalb dieser App."),
-      t("**Distanz ist nicht die Hauptschwierigkeit.** Jedes Level hat vier Stufen, und die steigern Distanz und Geländeschwierigkeit abwechselnd, nicht gemeinsam. Wird das Gelände schwerer, geht die Distanz eine Stufe zurück. Das ist keine Bequemlichkeit, sondern eine Regel aus der Fachliteratur: \"Erhöhen Sie im Training die Schwierigkeitsstufe, dann müssen Sie erst einmal wieder die Entfernung verkürzen.\""),
+      t("**Distanz ist nicht die Hauptschwierigkeit.** Die vier Stufen eines Levels steigern Distanz und Geländeschwierigkeit abwechselnd. Wird das Gelände schwerer, geht die Distanz eine Stufe zurück. Das ist keine Bequemlichkeit, sondern eine Regel aus der Fachliteratur: \"Erhöhen Sie im Training die Schwierigkeitsstufe, dann müssen Sie erst einmal wieder die Entfernung verkürzen.\" Wo doch einmal beides zugleich steigt, liegen zwischen den Stufen mehrere Einheiten, in denen du die Regel einhältst: erst das Gelände, dann die Entfernung wieder heran."),
       t("Die Distanzen stehen als Stufe mit Schrittschätzung da, nicht als exakte Meterzahl. Im Gelände misst niemand nach."),
       { type: "table", head: ["", "DP-E", "Dummy A", "Dummy F"], rows: [
         ["Distanz", examMeters("DP-E"), examMeters("Dummy A"), examMeters("Dummy F")],
@@ -75,6 +75,12 @@ const SECTIONS = [
       t("Apporte sollen diese Distanzen nicht überschreiten, angepasst an Gelände und Witterung."),
       note(DPE_SHOT_NOTE),
     ],
+  },
+  {
+    id: "prinzipien",
+    group: "wie",
+    title: "Die sieben Prinzipien",
+    blocks: PRINCIPLES.map((p) => t(`**${p.name}.** ${p.desc}`)),
   },
   {
     id: "einwirkung",
@@ -272,5 +278,5 @@ const SECTIONS = [
   },
 ];
 
-const ORDER = ["einstieg", "vorbereitung", "ziel", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "glossar", "wasser", "recht", "quellen"];
+const ORDER = ["einstieg", "vorbereitung", "ziel", "prinzipien", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "glossar", "wasser", "recht", "quellen"];
 export const BASICS_SECTIONS = ORDER.map((id) => SECTIONS.find((s) => s.id === id));
