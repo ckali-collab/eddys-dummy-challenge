@@ -17,6 +17,7 @@ const backupKey = (version) => `${STORAGE_KEY}-backup-v${version}`;
 
 const levelDef = (trackId, levelId) => TRACKS.find((t) => t.id === trackId)?.levels.find((l) => l.id === levelId);
 const STEP_COUNT = 4; // jedes Level hat genau vier Schritte (path bzw. conditionPath)
+const LEGACY_REPS = 3; // Sollwert zum Zeitpunkt dieser Migrationen; nicht level.reps (vier-durchgaenge.md, Abschnitt 2)
 
 // Migrationen: Schlüssel = Ausgangsversion, liefert den Stand der nächsten Version
 const MIGRATIONS = {
@@ -29,7 +30,7 @@ const MIGRATIONS = {
       tracks[tid] = {};
       for (const [lid, p] of Object.entries(levels || {})) {
         const def = levelDef(tid, lid);
-        const done = !!def && (Number(p?.reps) || 0) >= def.reps;
+        const done = !!def && (Number(p?.reps) || 0) >= LEGACY_REPS;
         tracks[tid][lid] = { ...p, step: done ? STEP_COUNT : 1 };
       }
     }
@@ -49,7 +50,7 @@ const MIGRATIONS = {
         const reps = p.reps ?? 0;
         const readable = Number.isInteger(reps) && reps >= 0;
         tracks[tid][lid] = p.doneAt
-          ? { ...p, step: STEP_COUNT, reps: Math.max(readable ? reps : 0, def.reps) }
+          ? { ...p, step: STEP_COUNT, reps: Math.max(readable ? reps : 0, LEGACY_REPS) }
           : { ...p, step: readable ? Math.min(STEP_COUNT, reps + 1) : 1 };
       }
     }

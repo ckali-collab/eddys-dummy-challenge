@@ -76,6 +76,13 @@ export const STEPS_TYPES = {
   ablauf:    { title: "Ablauf eines Durchgangs",    intro: "So läuft ein Durchgang ab, von oben nach unten." },
 };
 
+// Über den Bewertungsknöpfen (vier-durchgaenge.md, Abschnitt 3)
+export const RATING_HINTS = [
+  "**gut** heißt: Diese Stufe sitzt, wir können weiter.",
+  "**okay** heißt: Hat geklappt, aber noch nicht sicher. Dieselbe Stufe noch einmal.",
+  "**noch nicht** heißt: War zu schwer. Eine Stufe zurück.",
+];
+
 // Bei jedem Levelwechsel anzuzeigen (Zvolsky, wörtlich)
 export const LEVEL_CHANGE_WARNING =
   "Vermeiden Sie, eine noch nicht genügend gefestigte Übung mit Ablenkung zu trainieren. Das bereits erreichte Niveau wird gesenkt und somit das vorangegangene Training ad absurdum geführt.";
@@ -111,9 +118,9 @@ export const TRACKS = [
           { condition: "position", variant: "Der Hund ist etwa 10 Meter entfernt, rund 15 Schritte." },
           { condition: "position", variant: "Der Hund ist etwa 25 Meter entfernt, rund 35 Schritte." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Sitzt sofort auf den leisen Stopp-Pfiff, auch auf 25 Meter. Fünf von fünf Fällen, an drei verschiedenen Tagen.",
+        criteria: "Sitzt sofort auf den leisen Stopp-Pfiff, auch auf 25 Meter. Fünf von fünf Fällen, an vier verschiedenen Tagen.",
         run: "5 Stopps auf den leisen Stopp-Pfiff in der Situation der heutigen Stufe, über die Einheit verteilt. Dazwischen normal weitergehen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -148,7 +155,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Stoppt auf 35 Meter, auch aus der Bewegung und wenn ein Dummy sichtbar im Gelände liegt. Vier saubere Stopps in Folge, an drei verschiedenen Orten.",
         run: "4 saubere Stopps in der Situation der heutigen Stufe, über die Einheit verteilt. Jeder Stopp wird belohnt, mit Rückruf oder Dummywurf.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -181,9 +188,9 @@ export const TRACKS = [
           { condition: "ort", variant: "Ein Gelände, in dem ihr noch nie trainiert habt." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         examHint: "In der Prüfung und auf der Jagd ist die Ablenkung aufgehendes Wild. Wer die Situation nicht herstellen kann, übt mit einer Ablenkung, die er auslösen kann.", // praxis-nachtrag.md, Abschnitt 5
-        criteria: "Stoppt auf 40 Meter im Lauf zum Dummy, auch bei realer Ablenkung und in unbekanntem Gelände. Drei Durchgänge an drei Tagen.",
+        criteria: "Stoppt auf 40 Meter im Lauf zum Dummy, auch bei realer Ablenkung und in unbekanntem Gelände. Vier Durchgänge an vier Tagen.",
         run: "Ein Stopp während des Laufs auf den Dummy, danach weiterschicken. Mehr nicht.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -232,7 +239,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt beim Führer und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
         run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -265,7 +272,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt auf den ersten Pfiff aus 40 Metern zurück, auch aus dem Schnüffeln und aus dem Lauf. Fünf schnelle Reaktionen in Folge.",
         run: "5 Rückrufe in der Situation der heutigen Stufe, jeder mit Lob und Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -294,9 +301,9 @@ export const TRACKS = [
           { condition: "ort", variant: "Im Wald, wo er dich zeitweise nicht sieht." },
           { condition: "wetter", variant: "Bei Wind von vorn, der deine Stimme wegträgt." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Kommt auf das erste Signal, auch wenn andere Hunde spielen, bei Wildwitterung, wenn er dich zeitweise nicht sieht und bei Wind von vorn. Drei Durchgänge an verschiedenen Tagen.",
+        criteria: "Kommt auf das erste Signal, auch wenn andere Hunde spielen, bei Wildwitterung, wenn er dich zeitweise nicht sieht und bei Wind von vorn. Vier Durchgänge an verschiedenen Tagen.",
         run: "Ein Rückruf in der Situation der heutigen Stufe, danach wieder freigeben und weiterspielen lassen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         setup: ["Zwei oder mehr Hunde anderer Halter"], // Gelände, zweite Person: nicht in die Packliste
@@ -347,7 +354,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Geht 50 Meter ohne Leine bei Fuß, bei Richtungs- und Tempowechseln, und setzt sich, wenn du stehen bleibst. Kein Vorlaufen, kein Zurückbleiben.",
         run: "2 bewusste Fuß-Phasen à 50 Meter, jeweils angekündigt und mit Freigabe beendet.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -376,7 +383,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bleibt 100 Meter am Stück bei Fuß, auch wenn Dummys am Weg liegen, Menschen vorbeigehen und er selbst ein Dummy trägt.",
         run: "100 Meter am Stück in der Situation der heutigen Stufe.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2, steps: [1] }, { id: "dummy", n: 1, steps: [4] }], // Stufe 1: Dummys am Weg, Stufe 4: er trägt ein Dummy
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -407,7 +414,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Setzt sich automatisch, wenn du stehen bleibst, ohne Kommando. Auch bei fremden Hunden, bei fliegendem Dummy und wenn ein Radfahrer oder Jogger vorbeikommt. Fünfmal in Folge.",
         run: "5 Halts in der Situation der heutigen Stufe, über die Einheit verteilt. Er setzt sich jedes Mal ohne Kommando.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1, steps: [2] }],
         setup: [{ text: "Eine zweite Person", steps: [3] }], // Stufe 3 nennt sie
@@ -451,9 +458,9 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Du wirfst ein Dummy so weit du kannst, er wartet 8 Sekunden." },
           { condition: "position", variant: "Du gehst nach dem Wurf zwei Schritte weg, er wartet 8 Sekunden." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Drei Durchgänge.",
+        criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Vier Durchgänge.",
         run: "4 Würfe nacheinander mit der Wartezeit der heutigen Stufe, danach schickst du ihn. Dazwischen kurz freigeben.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -486,9 +493,9 @@ export const TRACKS = [
           { condition: "position", variant: "Du holst das Dummy selbst, er bleibt sitzen." },
           { condition: "ausgang", variant: "Das Dummy fliegt, während ihr in Bewegung seid." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Hält den Sitz, wenn zwei Dummys fliegen, wenn eine zweite Person wirft, wenn du das Dummy selbst holst und wenn ihr in Bewegung seid. Drei Durchgänge.",
+        criteria: "Hält den Sitz, wenn zwei Dummys fliegen, wenn eine zweite Person wirft, wenn du das Dummy selbst holst und wenn ihr in Bewegung seid. Vier Durchgänge.",
         run: "4 Wiederholungen in der Situation der heutigen Stufe, nacheinander, dazwischen kurz freigeben.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 1 }],
         setup: [{ text: "Eine zweite Person", steps: [2] }], // Gelände, zweite Person: nicht in die Packliste
@@ -520,10 +527,10 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein lautes Signal oder ein Schuss fällt, bevor das Dummy fliegt." },
           { condition: "ort", variant: "In einem unbekannten Gelände, mit Menschen und Ablenkung." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Bleibt bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn eine zweite Person zuerst arbeitet, ein lautes Signal fällt und ihr in unbekanntem Gelände seid. Drei Durchgänge.",
+        criteria: "Bleibt bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn eine zweite Person zuerst arbeitet, ein lautes Signal fällt und ihr in unbekanntem Gelände seid. Vier Durchgänge.",
         run: "In Bewegung gehen, Dummy fliegt, in der Situation der heutigen Stufe.",
         examHint: "In der Prüfung fällt an dieser Stelle ein Schuss. Im Training ist ein Lautzeichen zulässig und gleichwertig: Die DP-E gibt es ausdrücklich in beiden Varianten, mit Schuss und ohne.", // praxistauglichkeit.md, Abschnitt 1
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, steps: [3], optional: true }],
         setup: ["Eine zweite Person, mit oder ohne Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
@@ -577,7 +584,7 @@ export const TRACKS = [
         criteria: "Bringt den Dummy bis in die Hand und legt nicht ab, bei zehn Retrieves in Folge ohne Fehler. Die zehn dürfen auf mehrere Gruppen verteilt sein.",
         run: "10 kurze Retrieves bis 10 Meter, in Gruppen von drei bis vier. Nach jeder Gruppe freigeben und etwas anderes machen, dann weiter.",
         todayNote: "Das leichtere Dummy ist Absicht: Hier geht es um die saubere Abgabe, nicht um das Gewicht. Mit 500 Gramm arbeitest du ab Silber.", // nur bei Profilen, die wirklich 500 g bekommen
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "welpendummy", n: 1, steps: [1], swap: true }, { id: "juniordummy", n: 1, steps: [2, 3, 4], swap: true }], // praxistauglichkeit.md, Abschnitt 3; Standard 500 g erst ab E Silber
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -612,7 +619,7 @@ export const TRACKS = [
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt in die Fußposition und hält das Dummy, bis du das Aus-Signal gibst. Fünf Retrieves.",
         run: "5 Retrieves am Stück, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst. Danach eine Pause.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "standarddummy", n: 1 }], // feste Angabe, das Gewicht ist hier die Übung (unsichtbare-inhalte.md, Abschnitt 5)
         profileNotes: [ // der erste passende Hinweis gilt, der Gelenkbefund geht vor
@@ -648,9 +655,9 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar bereit." },
           { condition: "ort", variant: "Mit Zuschauern, die zusehen und sich bewegen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Drei Durchgänge.",
+        criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Vier Durchgänge.",
         run: "3 Retrieves einzeln in der Situation der heutigen Stufe, jedes Mal bei hoher Erregung, dazwischen etwas anderes machen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang: drei Abgaben plus die Apports davor (pfade-und-prinzipien.md, Abschnitt 5)
         gear: [{ id: "dummy", n: 2 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -692,9 +699,9 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Direkter Weg hin und zurück, sauberes Apportieren, bis 30 Meter. Drei Durchgänge, verteilt auf offenes Gelände und niedrige Deckung.",
+        criteria: "Direkter Weg hin und zurück, sauberes Apportieren, bis 30 Meter. Vier Durchgänge, verteilt auf offenes Gelände und niedrige Deckung.",
         run: "5 Einzelmarken auf der Distanz und im Gelände der heutigen Stufe, in zwei Gruppen, dazwischen freigeben.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4, optional: true }],
         setup: ["Optional eine zweite Person für das Halbblind"], // Gelände, zweite Person: nicht in die Packliste
@@ -725,9 +732,9 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, drei Durchgänge.",
+        criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, vier Durchgänge.",
         run: "2 Doppelmarken-Sequenzen nacheinander, jeweils zuletzt geworfener Dummy zuerst, dazwischen freigeben.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -756,9 +763,9 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Drei Durchgänge.",
+        criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Vier Durchgänge.",
         run: "Zwei Dummys im engen Winkel, auf Distanz und Gelände der heutigen Stufe. Reihenfolge vorgeben, bevor du schickst.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
         setup: ["Eine zweite Person", "Gelände mit Sichtkante oder Wasser"], // Gelände, Helfer, Werfer: nicht in die Packliste
@@ -812,9 +819,9 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Findet in einer freien Verlorensuche Dummys in einem begrenzten Gebiet, bis 30 Meter, ohne Verzögerung. Drei Durchgänge.",
+        criteria: "Findet in einer freien Verlorensuche Dummys in einem begrenzten Gebiet, bis 30 Meter, ohne Verzögerung. Vier Durchgänge.",
         run: "Dummys im Halbkreis auslegen, Hund schicken, Suchensignal erst wenn er Witterung bekommt.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -841,9 +848,9 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3, delay: "2 Minuten zwischen Auslegen und Schicken" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
-        criteria: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter. Auf der letzten Stufe mit zwei Minuten Verzögerung zwischen Auslegen und Schicken. Drei Durchgänge.",
+        criteria: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter. Auf der letzten Stufe mit zwei Minuten Verzögerung zwischen Auslegen und Schicken. Vier Durchgänge.",
         run: "Zehn oder mehr Dummys im Halbkreis auslegen, den Hund drei bis fünf holen lassen, den Rest selbst holen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -868,9 +875,9 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4, delay: "5 Minuten" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
-        criteria: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter. Auf der letzten Stufe mit fünf Minuten Verzögerung. Drei Durchgänge.",
+        criteria: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter. Auf der letzten Stufe mit fünf Minuten Verzögerung. Vier Durchgänge.",
         run: "Suchengebiet mit natürlicher Begrenzung abstecken, zehn oder mehr Dummys auslegen, acht holen lassen.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
@@ -917,9 +924,9 @@ export const TRACKS = [
           { d: 2, g: 1, text: "Halbblind: eine zweite Person legt nach, während er zurückläuft. Bis 30 Meter." },
           { d: 2, g: 1, text: "Vollblind: vorher ausgelegt, er hat nichts gesehen. Bis 30 Meter." },
         ],
-        criteria: "Läuft auf Handzeichen und Signal in gerader Linie vom Führer weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Drei Durchgänge.",
+        criteria: "Läuft auf Handzeichen und Signal in gerader Linie vom Führer weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Vier Durchgänge.",
         run: "Ein Durchgang auf der heutigen Stufe: ausrichten, Handzeichen, Voran.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "futterschuessel", n: 1, steps: [1], swap: true }, { id: "dummy", n: 1, steps: [2, 3, 4], swap: true }],
         setup: ["Leitlinie im Gelände", { text: "Eine zweite Person", steps: [3] }], // Gelände, Helfer, Werfer: nicht in die Packliste
@@ -957,9 +964,9 @@ export const TRACKS = [
           { d: 2, g: 1, text: "Die andere Seite allein. Bis 30 Meter." },
           { d: 2, g: 1, text: "Back und beide Seiten gemischt, du wählst die Richtung. Bis 30 Meter." },
         ],
-        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt beide in das Profilfeld ein, etwa \"Rechts, Links\". Bis 30 Meter. Drei Durchgänge.",
+        criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt beide in das Profilfeld ein, etwa \"Rechts, Links\". Bis 30 Meter. Vier Durchgänge.",
         run: "Hund auf Distanz stoppen, dann ein Richtungssignal. Bei Back: Arm neutral vor die Brust, zwei Sekunden warten.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }],
         setup: ["Offenes Gelände"], // Gelände, Helfer, Werfer: nicht in die Packliste
@@ -994,9 +1001,9 @@ export const TRACKS = [
           { d: 3, g: 3, text: "Am Ziel das Suchensignal, er sucht von dort selbstständig. Bis 50 Meter." },
           { d: 4, g: 3, text: "Einweisen in ein Suchengelände, bis 80 Meter, höchstens zwei Korrekturen." },
         ],
-        criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Drei Durchgänge.",
+        criteria: "Wird auf ein nicht sichtbar ausgelegtes Dummy in ein Suchengelände eingewiesen und arbeitet dort selbstständig. Bis 80 Meter, maximal zwei Korrekturen. Vier Durchgänge.",
         run: "Ein Durchgang auf der heutigen Stufe: Dummy vorher auslegen, Hund ausrichten, Voran.",
-        reps: 3, // Tage mit gelungenem Durchgang
+        reps: 4, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }, { id: "suchdummy", n: 1, optional: true, steps: [3, 4] }], // Suchendummy optional für die Kleine Suche am Zielort (Teil 3, Abschnitt 5)
         setup: [{ text: "Suchengelände mit natürlicher Begrenzung", steps: [3, 4] }], // Gelände, Helfer, Werfer: nicht in die Packliste
@@ -1234,7 +1241,12 @@ export const DPE_SHOT_NOTE = "Die DP-E gibt es mit Schuss (m. S.) und ohne (o. S
 // Buchsatz zum Einstieg, nach Geltungsbereich aufgelöst (meilensteine.md, Abschnitt 3)
 export const MIN_AGE_NOTES = {
   "E:bronze": "**Ganz am Anfang**, in den ersten Wochen nach dem Zahnwechsel, reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Wiederholungen. Bleib dann unter den zehn Retrieves dieses Levels. Das Level gilt erst als geschafft, wenn er sie sauber schafft.",
-  "F:bronze": "Ganz am Anfang reichen zwei bis drei Apportiereinheiten pro Woche. Bleib dann unter den fünf Marken dieses Levels.",
+  "F:bronze": "Ganz am Anfang reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Würfen. Die fünf Marken sind das Ziel dieses Levels.",
+};
+// Gekürzt im Heute-Block bei Erfahrung "keine" (vier-durchgaenge.md, Abschnitt 4)
+export const MIN_AGE_NOTES_SHORT = {
+  "E:bronze": "Ganz am Anfang reichen zwei bis drei Wiederholungen. Die zehn sind das Ziel.",
+  "F:bronze": "Ganz am Anfang reichen zwei bis drei Würfe. Die fünf Marken sind das Ziel.",
 };
 
 // held: nicht angezeigt, Widerspruch zum aktuellen Stand gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
@@ -1488,7 +1500,7 @@ export const DUMMY_FACTS = {
 
 // ─── Trophaeen ────────────────────────────────────────────────
 // Track-Trophäe: was der Hund dann kann, aus dem Gold-Kriterium ohne Zählregel (rubriken-review.md, Abschnitt 7)
-const goldAbility = (t) => t.levels.find((l) => l.id === "gold").criteria.replace(/\s*(Drei Durchgänge[^.]*|Fünfmal in Folge)\.$/, "");
+const goldAbility = (t) => t.levels.find((l) => l.id === "gold").criteria.replace(/\s*(Vier Durchgänge[^.]*|Fünfmal in Folge)\.$/, "");
 export const TROPHIES = [
   // Track-Trophaeen
   ...TRACKS.map((t) => ({

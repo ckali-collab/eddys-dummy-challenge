@@ -5,8 +5,8 @@ const { TRACKS, TROPHIES, SESSION_TYPES } = await import("../src/data/training.j
 const { BASICS_SECTIONS, BASICS_GROUPS } = await import("../src/data/basics.js");
 const { GLOSSAR } = await import("../src/data/glossar.js");
 const { findTerms } = await import("../src/lib/glossar.js");
-const { freshState } = await import("../src/lib/storage.js");
-const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep } = await import("../src/lib/progress.js");
+const { freshState, migrate } = await import("../src/lib/storage.js");
+const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
 const { gearAllSteps, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
 const { conditionText } = await import("../src/lib/trophies.js");
@@ -19,6 +19,55 @@ const adult = (patch = {}) => {
 const level = (t, l) => TRACKS.find((x) => x.id === t).levels.find((x) => x.id === l);
 const day = (n) => new Date(2026, 9, n, 9);
 
+test("Vier Durchgänge: einer pro Stufe, fertig erst mit gut auf Stufe 4", () => {
+  let s = adult();
+  const seen = [];
+  for (const n of [1, 2, 3, 4]) {
+    assert.equal(isLevelDone(s, "F", "silber"), false);
+    seen.push(effectiveStep(s, "F", "silber"));
+    s = rateLevel(s, "F", "silber", "gut", day(n));
+  }
+  assert.deepEqual(seen, [1, 2, 3, 4]);
+  assert.equal(isLevelDone(s, "F", "silber"), true);
+  assert.equal(levelProgress(s, "F", "silber").reps, 4);
+  assert.ok(TRACKS.flatMap((t) => t.levels).every((l) => l.reps === 4 && !/drei Durchgänge|drei verschiedenen Tagen|an drei Tagen/i.test(l.criteria)));
+});
+
+test("Vier Durchgänge: Bestand bleibt, doneAt ist die Wahrheit", () => {
+  const s = adult();
+  s.tracks.A.bronze = { reps: 3, dates: [], doneAt: "2026-10-01T08:00:00.000Z", step: 4 };
+  s.tracks.B.bronze = { reps: 3, dates: [], doneAt: null, step: 4 };
+  assert.equal(isLevelDone(s, "A", "bronze"), true);
+  assert.equal(rateLevel(s, "A", "bronze", "gut", day(9)), s);
+  assert.equal(isLevelDone(s, "B", "bronze"), false);
+  assert.deepEqual(levelCounter(s, "B", "bronze"), { have: 3, need: 4 });
+  assert.equal(isLevelDone(rateLevel(s, "B", "bronze", "gut", day(9)), "B", "bronze"), true);
+  const v2 = { schemaVersion: 2, tracks: { A: { bronze: { reps: 3, dates: [], doneAt: "2026-10-01T08:00:00.000Z" }, silber: { reps: 2, dates: [], doneAt: null } } } };
+  const up = migrate(v2);
+  assert.deepEqual([up.tracks.A.bronze.reps, up.tracks.A.bronze.step], [3, 4], "Migration nutzt den alten Sollwert");
+  assert.equal(up.tracks.A.silber.step, 3);
+});
+
+test("Zähleranzeige: entfallene Stufe, Sprung, Rückstufung", () => {
+  let s = adult();
+  assert.deepEqual(levelCounter(s, "A", "bronze"), { have: 0, need: 4 });
+  assert.deepEqual(levelCounter(s, "E", "bronze"), { have: 0, need: 3 }, "Welpendummy-Stufe entfällt");
+  s = rateLevel(rateLevel(s, "A", "bronze", "gut", day(1)), "A", "bronze", "gut", day(2));
+  s = rateLevel(s, "A", "bronze", "nein", day(3));
+  assert.deepEqual(levelCounter(s, "A", "bronze"), { have: 2, need: 5 });
+});
+
+test("Abschluss lässt sich zurücknehmen, auch bei vollem Zähler", () => {
+  const s = adult();
+  s.tracks.A.bronze = { reps: 4, dates: [], doneAt: null, step: 4 };
+  const plan = buildPlan(s, "kurz", {}, { warmup: null, main: "A:bronze", cooldown: null });
+  const ratings = plan.blocks.map((b) => (b.role === "main" ? "gut" : null));
+  const res = recordSession(s, plan, ratings, day(5));
+  assert.equal(isLevelDone(res.state, "A", "bronze"), true);
+  assert.equal(res.counted[0].completed, true);
+  assert.equal(isLevelDone(undoLastSession(res.state), "A", "bronze"), false);
+});
+
 test("Das kann er schon: Stufe weiter, Zähler bleibt, nichts wird abgeschlossen", () => {
   let s = adult();
   s = skipStep(s, "A", "bronze");
@@ -29,18 +78,17 @@ test("Das kann er schon: Stufe weiter, Zähler bleibt, nichts wird abgeschlossen
   assert.equal(skipStep(s, "A", "bronze"), s);
   assert.equal(isLevelDone(s, "A", "bronze"), false);
   assert.equal(isLevelUnlocked(s, TRACKS[0], "silber"), false, "das nächste Level bleibt zu");
-  for (const n of [1, 2]) s = rateLevel(s, "A", "bronze", "gut", day(n));
-  assert.equal(isLevelDone(s, "A", "bronze"), false, "weiter drei Tage nötig");
-  s = rateLevel(s, "A", "bronze", "gut", day(3));
-  assert.equal(isLevelDone(s, "A", "bronze"), true);
+  s = rateLevel(s, "A", "bronze", "gut", day(1));
+  assert.equal(isLevelDone(s, "A", "bronze"), true, "ein gut auf Stufe 4 reicht");
   assert.ok(levelProgress(s, "A", "bronze").doneAt);
 });
 
-test("Das kann er schon: voller Zähler nach Rückstufung schließt nicht ohne Durchgang ab", () => {
-  const s = adult();
-  s.tracks.A.bronze = { reps: 3, dates: [], doneAt: null, step: 3 };
-  assert.equal(canSkipStep(s, "A", "bronze"), false);
-  assert.equal(skipStep(s, "A", "bronze"), s);
+test("Das kann er schon: voller Zähler schließt nicht ohne Durchgang ab", () => {
+  const s = skipStep(Object.assign(adult(), {}), "A", "bronze");
+  s.tracks.A.bronze = { reps: 4, dates: [], doneAt: null, step: 3 };
+  const after = skipStep(s, "A", "bronze");
+  assert.equal(levelProgress(after, "A", "bronze").step, 4);
+  assert.equal(isLevelDone(after, "A", "bronze"), false);
 });
 
 test("Das kann er schon: übersprungene Stufe zählt für die Lightprofil-Zählung und Rückgängig", () => {

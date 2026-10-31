@@ -1,6 +1,6 @@
 import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN, WARMUP_GENTLE_AGES, SESSION_GUIDANCE } from "../data/training.js";
 import { gearForStep, setupForStep } from "./gear.js";
-import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday, firstStep, effectiveStep } from "./progress.js";
+import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday, firstStep, effectiveStep, levelCounter } from "./progress.js";
 
 const RANK = { bronze: 0, silber: 1, gold: 2 };
 const TRACK_ORDER = Object.fromEntries(TRACKS.map((t, i) => [t.id, i]));
@@ -270,14 +270,15 @@ export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) =
       steps.push({ trackId: b.trackId, levelId: b.levelId, from: prev.step ?? 1, to: cur.step ?? 1 });
     }
     if (ratings[i] !== "gut") return;
-    if (after === before && countedToday(cur, now)) {
+    const completed = isLevelDone(next, b.trackId, b.levelId);
+    if (after === before && !completed && countedToday(cur, now)) {
       alreadyToday.push({ trackId: b.trackId, levelId: b.levelId });
     }
-    if (after > before) {
+    if (after > before || completed) {
       counted.push({
         trackId: b.trackId, levelId: b.levelId, reps: after,
-        of: getLevel(b.trackId, b.levelId).reps,
-        completed: isLevelDone(next, b.trackId, b.levelId),
+        of: completed ? after : levelCounter(next, b.trackId, b.levelId).need,
+        completed,
       });
     }
   });
@@ -319,7 +320,7 @@ export const undoLastSession = (st) => {
     Object.fromEntries(Object.entries(levels).map(([lid, p]) => {
       const i = d ? p.dates.lastIndexOf(d) : -1;
       const sc = Array.isArray(last.steps) ? last.steps.find((x) => x?.trackId === tid && x?.levelId === lid) : null;
-      if (i < 0 && !sc) return [lid, p];
+      if (i < 0 && !sc && !(d && p.doneAt === d)) return [lid, p];
       return [lid, {
         ...p,
         reps: i < 0 ? p.reps : Math.max(0, p.reps - 1),

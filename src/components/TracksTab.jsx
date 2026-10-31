@@ -1,6 +1,6 @@
 import { TRACKS } from "../data/training.js";
 import {
-  LEVEL_LABEL, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, firstStep,
+  LEVEL_LABEL, levelCounter, isLevelDone, isLevelUnlocked, isTrackUnlocked, firstStep,
   missingRequirements, reqLabel,
 } from "../lib/progress.js";
 import { IconLock, IconCheck } from "./Icons.jsx";
@@ -10,7 +10,7 @@ import { GearList } from "./Gear.jsx";
 import { gearAllSteps } from "../lib/gear.js";
 
 const LevelBadge = ({ st, track, level, onOpen }) => {
-  const prog = levelProgress(st, track.id, level.id);
+  const counter = levelCounter(st, track.id, level.id);
   const done = isLevelDone(st, track.id, level.id);
   const open = isLevelUnlocked(st, track, level.id);
   const state = done ? "done" : open ? "open" : "locked";
@@ -19,14 +19,14 @@ const LevelBadge = ({ st, track, level, onOpen }) => {
   return (
     <button type="button" className={`lvl lvl-${level.id} is-${state}`} disabled={!open}
       onClick={() => onOpen(track.id, level.id)}
-      aria-label={`${label}: ${done ? "geschafft" : open ? `an ${Math.min(prog.reps, level.reps)} von ${level.reps} Tagen` : "gesperrt"}`}>
+      aria-label={`${label}: ${done ? "geschafft" : open ? `an ${counter.have} von ${counter.need} Tagen` : "gesperrt"}`}>
       <span className="lvl-medal">
         <Medal level={level.id} />
         {done && <span className="lvl-check"><IconCheck size={11} /></span>}
       </span>
       <span className="lvl-text">
         <span className="lvl-name">{label}</span>
-        <span className="lvl-cnt">{done ? "geschafft" : open ? `${Math.min(prog.reps, level.reps)}/${level.reps}` : "–"}</span>
+        <span className="lvl-cnt">{done ? "geschafft" : open ? `${counter.have}/${counter.need}` : "–"}</span>
       </span>
     </button>
   );

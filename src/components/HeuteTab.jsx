@@ -2,8 +2,9 @@ import { useState, useEffect, useRef, Fragment } from "react";
 import {
   SESSION_TYPES, SESSION_FALLBACKS, FALLBACK_NOTES, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
   FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
+  RATING_HINTS, MIN_AGE_NOTES_SHORT,
 } from "../data/training.js";
-import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount } from "../lib/progress.js";
+import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount, levelCounter } from "../lib/progress.js";
 import { sessionSteps, stepText, withDummySignal } from "../lib/steps.js";
 import { warmupGuideFor, buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
@@ -162,7 +163,8 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
   }
 
   const level = getLevel(block.trackId, block.levelId);
-  const prog = levelProgress(st, block.trackId, block.levelId);
+  const counter = levelCounter(st, block.trackId, block.levelId);
+  const beginnerNote = block.role === "main" && st.dog.experience === "keine" && MIN_AGE_NOTES_SHORT[`${block.trackId}:${block.levelId}`];
   const joints = block.role === "main" ? jointWarnings(st.dog, block.trackId, block.levelId) : [];
 
   return (
@@ -181,11 +183,12 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
           </span>
           <span className="block-prog">{isLevelDone(st, block.trackId, block.levelId)
             ? "Geschafft"
-            : `an ${Math.min(prog.reps, level.reps)} von ${level.reps} Tagen geschafft · Stufe ${effectiveStep(st, block.trackId, block.levelId) - firstStep(st.dog, level) + 1} von ${5 - firstStep(st.dog, level)}`}</span>
+            : `an ${counter.have} von ${counter.need} Tagen geschafft · Stufe ${effectiveStep(st, block.trackId, block.levelId) - firstStep(st.dog, level) + 1} von ${5 - firstStep(st.dog, level)}`}</span>
         </span>
       </button>
       {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
       {level.run && <p className="block-hint"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
+      {beginnerNote && <p className="small muted">{beginnerNote}</p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
       {gearForStep(level.gear, block.step ?? 1).length > 0 && (
         <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
@@ -223,7 +226,8 @@ const Rating = ({ plan, onSave, onCancel }) => {
   return (
     <section className="section">
       <h2>Wie lief’s?</h2>
-      <p className="muted">Bewertet wird die Zielstufe im Hauptteil. „gut“ zählt den Tag (einmal pro Tag) und geht eine Stufe weiter, „noch nicht“ geht eine Stufe zurück.</p>
+      <p className="muted">Bewertet wird die Zielstufe im Hauptteil. Gezählt wird einmal pro Tag.</p>
+      <ul className="b-list small">{RATING_HINTS.map((x) => <li key={x}><RichText text={x} /></li>)}</ul>
       {plan.blocks.map((b, i) => (
         <div key={b.role} className="card rate-card">
           <p className="block-role">{b.label}</p>

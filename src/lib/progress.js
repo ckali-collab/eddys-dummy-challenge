@@ -10,12 +10,10 @@ export const levelProgress = (st, trackId, levelId) =>
 
 export const STEP_MAX = 4;
 
-// Abgeschlossen bei vollem Durchgangszähler und Schritt 4 (fundament-umbau-2.md, Abschnitt 1)
-export const isLevelDone = (st, trackId, levelId) => {
-  const lvl = getLevel(trackId, levelId);
-  const p = levelProgress(st, trackId, levelId);
-  return !!lvl && p.reps >= lvl.reps && (p.step ?? 1) >= STEP_MAX;
-};
+// doneAt ist die Wahrheit, nicht der Zähler: Was unter dem alten Sollwert abgeschlossen wurde, bleibt abgeschlossen
+// (vier-durchgaenge.md, Abschnitt 2)
+export const isLevelDone = (st, trackId, levelId) =>
+  !!getLevel(trackId, levelId) && !!levelProgress(st, trackId, levelId).doneAt;
 
 // Stufen mit lightOnly nennen ein Dummygewicht unter dem des Profils (Welpendummy beim erwachsenen Hund): Sie entfallen,
 // die Zählung beginnt bei der ersten passenden (praxistauglichkeit.md, Abschnitt 3). Gespeichert wird weiter die echte Stufe.
@@ -28,6 +26,13 @@ export const firstStep = (dog, level) => {
 };
 export const effectiveStep = (st, trackId, levelId) =>
   Math.max(levelProgress(st, trackId, levelId).step ?? 1, firstStep(st.dog, getLevel(trackId, levelId)));
+
+// Anzeige des Zählers: bisher gezählte Tage und die, die mit den offenen Stufen noch dazukommen.
+// Ohne Sprung und Rückstufung 0/4, entfallene Stufen und "Das kann er schon" senken, eine Rückstufung hebt die Zahl.
+export const levelCounter = (st, trackId, levelId) => {
+  const have = levelProgress(st, trackId, levelId).reps;
+  return { have, need: have + STEP_MAX - effectiveStep(st, trackId, levelId) + 1 };
+};
 
 export const doneLevelCount = (st) =>
   TRACKS.reduce((n, t) => n + t.levels.filter((l) => isLevelDone(st, t.id, l.id)).length, 0);
@@ -86,6 +91,7 @@ const setLevel = (st, trackId, levelId, value) => ({
 //   nein       → Schritt -1 (min. 1), Zähler bleibt
 // Der Zähler zählt höchstens einmal pro Tag. Der Schritt geht nur mit dem Zähler weiter, damit beide synchron
 // bleiben. Ausnahme: Zähler schon voll (nach einer Rückstufung) → nur der Schritt geht weiter, bis Schritt 4.
+// Fertig ist das Level mit einem "gut" auf Schritt 4 (vier-durchgaenge.md, Abschnitt 2).
 // Ein abgeschlossenes Level ändert sich nie.
 export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
   const lvl = getLevel(trackId, levelId);
@@ -105,16 +111,14 @@ export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
     reps,
     dates: canCount ? [...cur.dates, now.toISOString()] : cur.dates,
     step: nextStep,
-    doneAt: reps >= lvl.reps && nextStep >= STEP_MAX ? now.toISOString() : null,
+    doneAt: step >= STEP_MAX ? now.toISOString() : null,
   });
 };
 
 // "Das kann er schon" (erklaeren-statt-nennen.md, Abschnitt 5): Stufe weiter, ohne einen Tag zu zählen.
-// Nicht bei vollem Zähler: Stufe 4 würde das Level dort ohne Durchgang abschließen.
-export const canSkipStep = (st, trackId, levelId) => {
-  const lvl = getLevel(trackId, levelId);
-  return !!lvl && levelProgress(st, trackId, levelId).reps < lvl.reps && effectiveStep(st, trackId, levelId) < STEP_MAX;
-};
+// Abgeschlossen wird nie durch den Sprung, sondern erst durch ein "gut" auf Stufe 4.
+export const canSkipStep = (st, trackId, levelId) =>
+  !!getLevel(trackId, levelId) && !isLevelDone(st, trackId, levelId) && effectiveStep(st, trackId, levelId) < STEP_MAX;
 export const skipStep = (st, trackId, levelId) => {
   if (!canSkipStep(st, trackId, levelId)) return st;
   const cur = levelProgress(st, trackId, levelId);

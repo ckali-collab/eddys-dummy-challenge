@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, MIN_AGE_NOTES_SHORT, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
-  countedToday, jointWarnings, firstStep, effectiveStep, canSkipStep,
+  countedToday, jointWarnings, firstStep, effectiveStep, canSkipStep, levelCounter,
 } from "../lib/progress.js";
 import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -95,6 +95,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
   const stepsInBackground = track.axis === "bedingungen" || (level.stepsType === "varianten" && level.path?.some((p) => p.text));
   const apportNote = MIN_AGE_NOTES[`${trackId}:${levelId}`];
   const dpe = level.examClass === "DP-E";
+  const counter = levelCounter(st, trackId, levelId);
+  const beginnerNote = st.dog?.experience === "keine" && MIN_AGE_NOTES_SHORT[`${trackId}:${levelId}`];
   const profileNote = level.profileNotes?.find((n) => n.joints?.includes(st.dog?.joints) || n.ages?.includes(st.dog?.age));
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
@@ -135,6 +137,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
             </button>
           ))}
           {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
+          {beginnerNote && <p className="small muted">{beginnerNote}</p>}
           {/* Nur bei Profilen mit 500 g stimmen "leichter" und "500 Gramm ab Silber" */}
           {level.todayNote && dummyWeight(st.dog) === 500 && <p className="small muted">{level.todayNote}</p>}
           {profileNote && <p className="small muted">{profileNote.text}</p>}
@@ -196,10 +199,10 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
           {!done && (
             <>
               <p className="progress-count" aria-live="polite">
-                <strong>{Math.min(prog.reps, level.reps)}</strong> von {level.reps} {level.reps === 1 ? "Tag" : "Tagen"}
+                <strong>{counter.have}</strong> von {counter.need} {counter.need === 1 ? "Tag" : "Tagen"}
               </p>
               <div className="pips" aria-hidden="true">
-                {Array.from({ length: level.reps }, (_, i) => (
+                {Array.from({ length: counter.need }, (_, i) => (
                   <span key={i} className={i < prog.reps ? "pip on" : "pip"} />
                 ))}
               </div>
@@ -217,7 +220,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
             <button type="button" className="btn" disabled={done || today} onClick={() => onCount(trackId, levelId)}>
               {today && !done ? "Heute schon gezählt" : "Heutigen Durchgang zählen"}
             </button>
-            {!done && <p className="small muted">Zählt einmal pro Tag und geht eine Stufe weiter. Geschafft bei {level.reps} Tagen und Stufe {5 - first}.</p>}
+            {!done && <p className="small muted">Zählt einmal pro Tag und geht eine Stufe weiter. Geschafft mit dem Durchgang auf Stufe {5 - first}.</p>}
             {confirmReset ? (
               <button type="button" className="btn btn-danger"
                 onClick={() => {
