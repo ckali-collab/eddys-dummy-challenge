@@ -11,7 +11,7 @@ import { IconTile } from "./TrackIcon.jsx";
 import { PackList, GearList } from "./Gear.jsx";
 import { packingList, gearForStep } from "../lib/gear.js";
 import { setUpdateHold } from "../lib/updateGate.js";
-import { exportReminder } from "../lib/backup.js";
+import { exportReminder, reminderText } from "../lib/backup.js";
 import SessionItem, { RATINGS } from "./SessionItem.jsx";
 import { RichText } from "./Glossar.jsx";
 import { IconSwap, IconChevron, IconAlert, IconCheck } from "./Icons.jsx";
@@ -71,12 +71,7 @@ const RecentSessions = ({ sessions, onUndo, onOpenAll }) => {
 // ─── Export-Erinnerung (export-import.md, Abschnitt 4) ────────
 const ExportReminder = ({ reminder, onExport, onSnooze }) => (
   <section className="card stack" aria-label="Sicherung">
-    <p>
-      {reminder.never
-        ? `Du hast noch nie exportiert, und ${reminder.count} Sessions sind schon gespeichert.`
-        : `Seit deinem letzten Export sind ${reminder.count} Sessions dazugekommen.`}
-      {" "}Eine Sicherung dauert zehn Sekunden.
-    </p>
+    <p>{reminderText(reminder)}</p>
     <button type="button" className="btn" onClick={onExport}>Fortschritt exportieren</button>
     <button type="button" className="btn btn-ghost" onClick={onSnooze}>In zehn Sessions wieder erinnern</button>
   </section>

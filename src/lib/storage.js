@@ -10,8 +10,8 @@ export const PREV_KEY = `${STORAGE_KEY}-prev`;
 // Storage-Key-Liste (export-import.md, Regel 5), einzige Wahrheitsquelle für Wipe und Migration:
 // edc-v3                 State, kommt in den Export, "App zurücksetzen" löscht ihn
 // edc-v3-prev            Stand vor dem letzten Import, nicht im Export, "App zurücksetzen" löscht ihn
-// edc-v3-backup-v<alt>   Rohstand vor einer Migration, nicht im Export, wird nie überschrieben oder gelöscht
-// edc-v2                 Altbestand, wird weder gelesen noch geschrieben noch gelöscht
+// edc-v3-backup-v<alt>   Rohstand vor einer Migration, nicht im Export, wird nie überschrieben, "App zurücksetzen" löscht ihn
+// edc-v2                 Altbestand, wird weder gelesen noch geschrieben, "App zurücksetzen" löscht ihn
 // Vor jeder Migration wird der unveränderte alte Stand hier abgelegt (je Ausgangsversion ein Key)
 const backupKey = (version) => `${STORAGE_KEY}-backup-v${version}`;
 
@@ -159,6 +159,19 @@ export const saveState = (state) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {}
+};
+
+// "App zurücksetzen": alle Keys der Liste oben (reset-und-texte.md, Abschnitt 1), fremde Keys bleiben
+export const wipeAllData = () => {
+  const backups = `${STORAGE_KEY}-backup-v`;
+  const keys = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
+  } catch {}
+  const mine = [STORAGE_KEY, PREV_KEY, "edc-v2", ...keys.filter((k) => k?.startsWith(backups))];
+  for (const k of mine) {
+    try { localStorage.removeItem(k); } catch {}
+  }
 };
 
 export const applyTheme = (theme) => {

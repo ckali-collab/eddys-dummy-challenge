@@ -72,7 +72,7 @@ const Backup = ({ state, onExport, onImport, onUndoImport }) => {
         ) : (
           <button type="button" className="btn btn-ghost"
             onClick={() => { armedAt.current = Date.now(); setPending(null); setConfirmUndo(true); }}>
-            Letzten Import rückgängig machen
+            Stand vor dem letzten Import wiederherstellen
           </button>
         ))}
       </div>
@@ -81,14 +81,22 @@ const Backup = ({ state, onExport, onImport, onUndoImport }) => {
 };
 
 // ─── Gefahrenbereich ──────────────────────────────────────────
-const DangerAction = ({ id, open, setOpen, label, confirmLabel, text, onConfirm, disabled }) => {
+const DangerAction = ({ id, open, setOpen, label, confirmLabel, title, text, note, extra, onConfirm, disabled }) => {
   const armedAt = useRef(0);
   return (
     <div className="danger-item">
       {open === id ? (
         <div className="danger-confirm" role="alertdialog" aria-labelledby={`dz-${id}`}>
+          {title && <p className="warn-title">{title}</p>}
           <p id={`dz-${id}`}>{text}</p>
+          {note && <p>{note}</p>}
           <div className="stack" style={{ gap: 8 }}>
+            {extra && (
+              <button type="button" className="btn" onClick={() => {
+                if (Date.now() - armedAt.current < 500) return; // Doppeltipp-Schutz
+                extra.onClick();
+              }}>{extra.label}</button>
+            )}
             <button type="button" className="btn btn-danger-solid" onClick={() => {
               if (Date.now() - armedAt.current < 500) return; // Doppeltipp-Schutz
               setOpen(null);
@@ -107,7 +115,7 @@ const DangerAction = ({ id, open, setOpen, label, confirmLabel, text, onConfirm,
   );
 };
 
-const DangerZone = ({ state, onClearSessions, onResetProgress, onResetApp }) => {
+const DangerZone = ({ state, onExport, onClearSessions, onResetProgress, onResetApp }) => {
   const [open, setOpen] = useState(null);
   const [done, setDone] = useState(null);
   const n = state.sessions.length;
@@ -115,24 +123,26 @@ const DangerZone = ({ state, onClearSessions, onResetProgress, onResetApp }) => 
   const allSessions = n === 1 ? "die eine Session" : `alle ${n} Sessions`;
   const levels = Object.values(state.tracks).flatMap((t) => Object.values(t)).filter((l) => l.reps > 0).length;
   const progressText = n
-    ? `Setzt alle Level auf null (aktuell ${levels} mit Fortschritt) und löscht ${allSessions} sowie alle Trophäen. Profil und Farbschema bleiben.`
-    : `Setzt alle Level auf null (aktuell ${levels} mit Fortschritt) und löscht alle Trophäen. Der Verlauf ist bereits leer. Profil und Farbschema bleiben.`;
+    ? `Setzt alle Level auf null (aktuell ${levels} mit Fortschritt) und löscht ${allSessions} sowie alle Trophäen. Der heutige Plan wird neu erstellt. Profil und Farbschema bleiben.`
+    : `Setzt alle Level auf null (aktuell ${levels} mit Fortschritt) und löscht alle Trophäen. Der Verlauf ist bereits leer. Der heutige Plan wird neu erstellt. Profil und Farbschema bleiben.`;
   const run = (fn, msg) => () => { fn(); setDone(msg); };
   return (
     <section className="danger-zone" aria-labelledby="dz-title">
       <h2 id="dz-title">Zurücksetzen</h2>
-      <p className="small">Diese Aktionen lassen sich nicht rückgängig machen.</p>
+      <p className="small">Gelöschtes ist weg. Nur ein Import lässt sich rückgängig machen, und auch der nur einmal.</p>
       <DangerAction id="sessions" open={open} setOpen={setOpen}
         label="Sessions löschen" confirmLabel={`Ja, ${sessions} löschen`}
-        text={`Löscht ${allSessions} aus dem Verlauf. Trophäen, die an der Anzahl der Sessions hängen, werden dadurch wieder gesperrt. Der Level-Fortschritt, dein Profil und das Farbschema bleiben.`}
+        text={`Löscht ${allSessions} aus dem Verlauf. Trophäen, die an Sessions hängen, werden wieder gesperrt. Auch die Ruhetag-Empfehlung rechnet danach ohne diese Sessions. Der Level-Fortschritt, dein Profil und das Farbschema bleiben.`}
         onConfirm={run(onClearSessions, "Sessions gelöscht.")} disabled={!n} />
       <DangerAction id="progress" open={open} setOpen={setOpen}
         label="Fortschritt zurücksetzen" confirmLabel="Ja, Fortschritt zurücksetzen"
         text={progressText}
         onConfirm={run(onResetProgress, "Fortschritt zurückgesetzt.")} />
       <DangerAction id="app" open={open} setOpen={setOpen}
-        label="App zurücksetzen" confirmLabel="Ja, alles löschen"
-        text="Löscht alle gespeicherten Daten dieser App: Profil, Level-Fortschritt, Sessions, Trophäen und Farbschema. Danach startet die Einrichtung neu."
+        label="App zurücksetzen" confirmLabel="Trotzdem zurücksetzen" title="App zurücksetzen"
+        text="Löscht alles: Profil, Fortschritt, Sessions, Trophäen und alle Sicherungen, auch die vom letzten Import. Danach startet die App wie frisch installiert."
+        note="Das lässt sich nicht rückgängig machen. Wenn du den Stand noch brauchen könntest, exportier ihn vorher."
+        extra={{ label: "Erst exportieren", onClick: onExport }}
         onConfirm={onResetApp} />
       {done && <p className="saved" role="status">{done}</p>}
     </section>
@@ -168,7 +178,7 @@ export default function Settings({ state, onTheme, onProfile, onExport, onImport
 
       <Backup state={state} onExport={onExport} onImport={onImport} onUndoImport={onUndoImport} />
 
-      <DangerZone state={state} onClearSessions={onClearSessions}
+      <DangerZone state={state} onExport={onExport} onClearSessions={onClearSessions}
         onResetProgress={onResetProgress} onResetApp={onResetApp} />
     </>
   );

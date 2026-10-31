@@ -58,6 +58,54 @@ kommt:
 
 ---
 
+## 2b. Die Überschrift über den Löschaktionen
+
+Der Befund ist richtig: "Diese Aktionen lassen sich nicht rückgängig machen"
+stimmt nicht, solange `edc-v3-prev` liegt.
+
+**Dein Vorschlag löscht aber mehr als nötig.** "Sessions löschen" hat nichts
+mit dem Import zu tun, und wer gerade importiert hat und dann Sessions
+löscht, verliert sein Sicherheitsnetz für den Import. Das sind zwei
+verschiedene Dinge.
+
+**Stattdessen wird die Überschrift konkret:**
+
+> Gelöschtes ist weg. Nur ein Import lässt sich rückgängig machen, und auch
+> der nur einmal.
+
+Das ist wahr, deckt beide Fälle ab und erklärt nebenbei, was der Knopf
+darunter tut. `edc-v3-prev` bleibt unangetastet.
+
+**Dazu der Import-Rückgängig-Knopf eindeutiger**, damit ihn niemand für ein
+allgemeines Undo hält:
+
+> Stand vor dem letzten Import wiederherstellen
+
+Der Bestätigungstext mit den Zahlen beider Stände bleibt, er trägt die
+Hauptlast.
+
+### Die beiden anderen Textpunkte übernehme ich wörtlich
+
+> Sessions löschen: Trophäen, die an Sessions hängen, werden wieder gesperrt.
+> Auch die Ruhetag-Empfehlung rechnet danach ohne diese Sessions.
+
+Dass die Ruhetag-Warnung verschwindet, ist der wichtigste der drei Punkte.
+Sie schützt die Belastung des Hundes, und dass sie still wegfällt, darf nicht
+passieren.
+
+Bei "Fortschritt zurücksetzen" reicht der Zusatz:
+> Der heutige Plan wird neu erstellt.
+
+### Der Löschdialog
+
+Richtig erkannt, "Sicherungen, die bei früheren Updates angelegt wurden" deckt
+die Import-Sicherung nicht ab.
+
+> Löscht alles: Profil, Fortschritt, Sessions, Trophäen und alle Sicherungen,
+> auch die vom letzten Import.
+
+---
+
 ## 3. Deine sechs Entscheidungen
 
 Alle sechs bleiben. Zwei davon sind besser als meine Spec.

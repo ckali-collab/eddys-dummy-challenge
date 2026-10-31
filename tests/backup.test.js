@@ -6,12 +6,14 @@ globalThis.localStorage = {
   getItem: (k) => (store.has(k) ? store.get(k) : null),
   setItem: (k, v) => { store.set(k, String(v)); },
   removeItem: (k) => { store.delete(k); },
+  get length() { return store.size; },
+  key: (i) => [...store.keys()][i] ?? null,
 };
 
-const { STORAGE_KEY, PREV_KEY, SCHEMA_VERSION, freshState, loadState, saveState } = await import("../src/lib/storage.js");
+const { STORAGE_KEY, PREV_KEY, SCHEMA_VERSION, freshState, loadState, saveState, wipeAllData } = await import("../src/lib/storage.js");
 const {
   serializeExport, parseBackup, replaceState, undoImport, readPrev, markExported, exportFileName,
-  importConfirmText, exportReminder, snoozeReminder,
+  importConfirmText, undoConfirmText, exportReminder, reminderText, snoozeReminder,
 } = await import("../src/lib/backup.js");
 
 const session = (date) => ({ id: date, date, type: "voll", load: 2, blocks: [] });
@@ -138,6 +140,24 @@ test("Scheitert die Sicherung, wird nicht importiert", () => {
     localStorage.setItem = setItem;
   }
   assert.deepEqual(stored(), current);
+});
+
+test("App zurücksetzen löscht alle Keys der Liste, fremde bleiben", () => {
+  for (const k of ["edc-v3", "edc-v3-prev", "edc-v3-backup-v1", "edc-v3-backup-v2", "edc-v3-backup-v99", "edc-v3-backup-vundefined", "edc-v2"]) store.set(k, "x");
+  store.set("fremd", "x");
+  wipeAllData();
+  assert.deepEqual([...store.keys()], ["fremd"]);
+});
+
+test("Hinweistexte", () => {
+  assert.equal(reminderText({ count: 5, never: true }), "Du hast noch nie exportiert. Fünf Sessions sind gespeichert, und sie liegen nur in diesem Browser. Eine Sicherung dauert zehn Sekunden.");
+  assert.equal(reminderText({ count: 10, never: false }), "Seit deinem letzten Export sind zehn Sessions dazugekommen. Sie liegen nur in diesem Browser.");
+  assert.match(reminderText({ count: 20, never: false }), /sind 20 Sessions/);
+  assert.match(reminderText({ count: 15, never: true }), /exportiert\. 15 Sessions/);
+});
+
+test("Rückfrage beim Rückgängigmachen nennt beide Stände", () => {
+  assert.match(undoConfirmText(sampleState(), { sessions: 7, trophies: 1 }), /Aktuell gespeichert sind 2 Sessions und 2 Trophäen, im gesicherten Stand sind es 7 und 1\./);
 });
 
 test("Dateiname", () => {

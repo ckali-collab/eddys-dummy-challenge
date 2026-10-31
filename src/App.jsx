@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { freshState, loadState, saveState, applyTheme, STORAGE_KEY, PREV_KEY } from "./lib/storage.js";
+import { freshState, loadState, saveState, applyTheme, wipeAllData } from "./lib/storage.js";
 import { downloadExport, markExported, replaceState, snoozeReminder, undoImport } from "./lib/backup.js";
 import ProfileForm from "./components/ProfileForm.jsx";
 import Settings from "./components/Settings.jsx";
@@ -138,7 +138,7 @@ export default function App() {
   const clearSessions = () => setSt((p) => ({ ...p, sessions: [] }));
   const resetProgress = () => setSt((p) => ({ ...p, tracks: freshState().tracks, sessions: [], trophies: [], plan: null }));
   const resetApp = () => {
-    try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(PREV_KEY); } catch {}
+    wipeAllData();
     // Frischer State hat keinen Hundenamen und wird deshalb nicht erneut gespeichert
     setSt(freshState());
     setView(null);

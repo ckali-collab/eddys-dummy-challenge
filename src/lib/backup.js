@@ -146,6 +146,15 @@ export const exportReminder = (state) => {
   return due ? { count, never: !lastExportAt } : null;
 };
 
+// Bis zwölf als Wort (reset-und-texte.md, Abschnitt 2), darüber als Ziffer
+const NUMBER_WORDS = { 5: "fünf", 6: "sechs", 7: "sieben", 8: "acht", 9: "neun", 10: "zehn", 11: "elf", 12: "zwölf" };
+export const reminderText = ({ count, never }) => {
+  const n = NUMBER_WORDS[count] ?? String(count);
+  return never
+    ? `Du hast noch nie exportiert. ${n[0].toUpperCase()}${n.slice(1)} Sessions sind gespeichert, und sie liegen nur in diesem Browser. Eine Sicherung dauert zehn Sekunden.`
+    : `Seit deinem letzten Export sind ${n} Sessions dazugekommen. Sie liegen nur in diesem Browser.`;
+};
+
 export const snoozeReminder = (state, now = new Date()) => ({
   ...state,
   settings: { ...state.settings, exportSnoozedAt: now.toISOString() },
