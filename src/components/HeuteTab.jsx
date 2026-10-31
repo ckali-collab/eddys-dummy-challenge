@@ -129,9 +129,9 @@ const StepPlan = ({ st, trackId, levelId }) => {
 // Aufwärmen und Cool Down je Sessiontyp (fundament-umbau.md, Abschnitt 10)
 // Eigene Zeile außerhalb der Blöcke, ohne Übungsinhalt und Equipment (stufen-texte.md, Abschnitt 4)
 const minText = (m) => (Array.isArray(m) ? `${m[0]}-${m[1]} Min` : `${m} Min`);
-const PhaseNote = ({ typeId, role, joints }) => {
+const PhaseNote = ({ typeId, role, dog }) => {
   const wc = WARMUP_COOLDOWN[typeId];
-  const guide = role === "warmup" ? warmupGuideFor(typeId, joints) : wc?.cooldownGuide;
+  const guide = role === "warmup" ? warmupGuideFor(typeId, dog) : wc?.cooldownGuide;
   const min = role === "warmup" ? wc?.warmupMin : wc?.cooldownMin;
   if (min == null) return null;
   return (
@@ -452,7 +452,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
                 <p className="small muted">{SESSION_GUIDANCE.pause}{st.dog.experience === "keine" && ` ${SESSION_GUIDANCE.pauseBeginner}`}</p>
               </div>
             )}
-            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" joints={st.dog.joints} />}
+            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" dog={st.dog} />}
             <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
             {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" />}
           </Fragment>

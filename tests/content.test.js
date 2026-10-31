@@ -98,17 +98,42 @@ test("Trackübersicht: Equipment aller Stufen in angezeigter Zählung", () => {
   assert.ok(TRACKS.flatMap((t) => t.levels).every((l) => gearAllSteps(l.gear, 1).length <= 3), "höchstens drei Zeilen");
 });
 
-test("Aufwärmen nach Gelenkbefund", () => {
-  const plain = warmupGuideFor("voll", "ok");
-  assert.match(plain.steps[3], /^Ein paar kontrollierte Galoppsprints\.$/);
-  assert.equal(warmupGuideFor("voll", "unbekannt"), plain);
-  assert.equal(warmupGuideFor("voll", "leicht").steps[3], "Ein paar kontrollierte Galoppsprints. Die Galoppsprints kurz halten.");
-  assert.equal(warmupGuideFor("voll", "leicht").steps.length, 6);
-  const hard = warmupGuideFor("voll", "deutlich");
+test("Aufwärmen nach Profil", () => {
+  const dog = (joints, age = "erwachsen") => ({ joints, age });
+  const plain = warmupGuideFor("voll", dog("ok"));
+  assert.equal(plain.steps[3], "Ein paar kontrollierte Galoppsprints.");
+  const light = warmupGuideFor("voll", dog("leicht"));
+  assert.equal(light.steps[3], "Ein paar kontrollierte Galoppsprints, kurz halten.");
+  assert.match(light.steps[4], /^Dann Stopps aus dem Trab und weite Wendungen/);
+  assert.equal(light.steps.length, 6);
+  for (const age of ["welpe", "senior"]) assert.deepEqual(warmupGuideFor("voll", dog("ok", age)), light, age);
+  assert.deepEqual(warmupGuideFor("voll", dog("ok", "junghund")), plain);
+  const hard = warmupGuideFor("voll", dog("deutlich", "welpe"));
   assert.equal(hard.steps[3], "Weite Bögen statt enger Wendungen. Keine Galoppsprints.");
-  assert.ok(!hard.steps.some((s) => /Sprints|Galoppsprints\.$/.test(s) && !/Keine/.test(s)));
   assert.match(hard.notes[0], /Tierarzt/);
-  assert.equal(warmupGuideFor("kurz", "deutlich"), warmupGuideFor("kurz", "ok"));
+  assert.match(hard.notes[1], /30 Prozent/);
+  const unknown = warmupGuideFor("voll", dog("unbekannt"));
+  assert.deepEqual(unknown.steps, plain.steps);
+  assert.match(unknown.notes.at(-1), /Gelenkzustand nicht kennst/);
+  assert.equal(warmupGuideFor("voll", dog("unbekannt", "senior")).steps[3], light.steps[3]);
+  assert.match(warmupGuideFor("kurz", dog("deutlich")).notes[0], /weite Bögen/);
+  assert.match(warmupGuideFor("kurz", dog("ok")).notes[0], /ein paar Wendungen/);
+});
+
+test("Zurückgehaltene Inhalte erscheinen nicht in den Basics", () => {
+  const text = JSON.stringify(BASICS_SECTIONS);
+  for (const s of ["Retrieve-Limit", "Kein eigener Track","Warm-up und Abschluss", "Fiept oder winselt", "Läuft am Dummy vorbei", "Drei erfolgreiche Retrieves", "nimmst du 200 Gramm", "Eine Variable pro Steigerung"]) {
+    assert.ok(!text.includes(s), s);
+  }
+  for (const s of ["Stoppt von selbst", "Kein Absprung von Uferkanten", "Fast alle Canvas-Dummys", "keine neue Schwierigkeit", "nicht über 30 Prozent"]) {
+    assert.ok(text.includes(s), s);
+  }
+});
+
+test("E Silber: festes Gewicht, Hinweis für Welpe und Junghund", () => {
+  const l = level("E", "silber");
+  assert.deepEqual(gearAllSteps(l.gear, 1).map((g) => gearLabel(g, l.dummyType, { age: "welpe", joints: "ok" })), ["1 Standarddummy 500 g"]);
+  assert.deepEqual(l.profileNote.ages, ["welpe", "junghund"]);
 });
 
 test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
@@ -121,7 +146,7 @@ test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
 test("Glossar und Basics: neue Einträge, Gruppen vollständig", () => {
   assert.deepEqual(findTerms("Variante Voran auf der Uhr: aus derselben").map((h) => h.id), ["voran-uhr"]);
   assert.ok(!/Sichthilfe/.test(JSON.stringify(GLOSSAR.find((e) => e.id === "markierstab"))));
-  assert.equal(BASICS_SECTIONS.length, 12);
+  assert.equal(BASICS_SECTIONS.length, 13);
   assert.ok(BASICS_SECTIONS.every((s) => BASICS_GROUPS.some((g) => g.id === s.group)));
   const order = BASICS_SECTIONS.map((s) => s.group);
   assert.deepEqual(order.filter((g, i) => g !== order[i - 1]), BASICS_GROUPS.map((g) => g.id), "jede Gruppe am Stück");

@@ -1,4 +1,4 @@
-import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN, SESSION_GUIDANCE } from "../data/training.js";
+import { TRACKS, SESSION_TYPES, LOAD_LIMITS, SESSION_ROLE_PREFS, APPORT_TRACKS, WARMUP_COOLDOWN, WARMUP_GENTLE_AGES, SESSION_GUIDANCE } from "../data/training.js";
 import { gearForStep, setupForStep } from "./gear.js";
 import { getTrack, getLevel, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, rateLevel, countedToday, firstStep, effectiveStep } from "./progress.js";
 
@@ -26,14 +26,20 @@ export const sessionDuration = (typeId) => {
   return lo === hi ? `${lo} Min` : `${lo}-${hi} Min`;
 };
 
-// Aufwärm-Anleitung, bei der Vollsession nach Gelenkbefund (nachtrag-review.md, Abschnitt 2)
-export const warmupGuideFor = (typeId, joints) => {
+// Aufwärm-Anleitung nach Profil (unsichtbare-inhalte.md, Abschnitt 2). Welpe und Senior: Ablauf wie "leicht",
+// bei unbekanntem Gelenkzustand kommt der Zusatz dazu; "deutlich" geht allem vor.
+export const warmupGuideFor = (typeId, dog) => {
   const wc = WARMUP_COOLDOWN[typeId];
-  const v = wc?.warmupGuideJoints?.[joints];
-  if (!v) return wc?.warmupGuide ?? null;
-  if (v.steps) return v;
-  const { index, text } = v.stepAddition;
-  return { ...wc.warmupGuide, steps: wc.warmupGuide.steps.map((s, i) => (i === index ? `${s} ${text}` : s)) };
+  const base = wc?.warmupGuide ?? null;
+  const v = wc?.warmupGuideJoints;
+  if (!v) return base;
+  if (dog?.joints === "deutlich" && v.deutlich) return v.deutlich;
+  let guide = base;
+  if (v.leicht && (dog?.joints === "leicht" || WARMUP_GENTLE_AGES.includes(dog?.age))) {
+    guide = { ...guide, steps: guide.steps.map((s, i) => v.leicht.replaceSteps[i] ?? s) };
+  }
+  if (dog?.joints === "unbekannt" && v.unbekannt) guide = { ...guide, notes: [...guide.notes, v.unbekannt.addNote] };
+  return guide;
 };
 
 // ─── Belastung ────────────────────────────────────────────────

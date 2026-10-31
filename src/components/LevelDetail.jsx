@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings, firstStep, effectiveStep, canSkipStep,
@@ -93,7 +93,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
   // A bis E (Bedingungs-Tracks): Aufbau ist Kontext, nicht die heutige Anweisung (stufen-texte.md, Abschnitt 1)
   // Mit eigenen Stufentexten tragen die Stufen die Anweisung (h-stufen.md, Abschnitt 4)
   const stepsInBackground = track.axis === "bedingungen" || (level.stepsType === "varianten" && level.path?.some((p) => p.text));
-  const apportNote = MIN_AGE_NOTE_LEVELS.includes(`${trackId}:${levelId}`);
+  const apportNote = MIN_AGE_NOTES[`${trackId}:${levelId}`];
   const dpe = level.examClass === "DP-E";
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
@@ -136,6 +136,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
           {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
           {/* first > 1: Profil ohne Welpendummy, nur dort stimmen "leichter" und "500 Gramm ab Silber" */}
           {level.todayNote && first > 1 && <p className="small muted">{level.todayNote}</p>}
+          {level.profileNote?.ages.includes(st.dog?.age) && <p className="small muted">{level.profileNote.text}</p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
           {todaySetup.length > 0 && (
             <ul className="tips setup-list">
@@ -252,7 +253,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
             <div>
               <p><strong>Alter</strong></p>
               {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
-              {apportNote && <p className="small muted">{MIN_AGE_NOTE}</p>}
+              {apportNote && <p className="small muted"><RichText text={apportNote} /></p>}
               {dpe && <p className="small muted">{DPE_AGE_NOTE}</p>}
             </div>
           )}

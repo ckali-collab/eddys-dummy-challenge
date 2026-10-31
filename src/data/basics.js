@@ -8,7 +8,7 @@
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
  * group:    Zwischenüberschrift (BASICS_GROUPS, rubriken-review.md, Abschnitt 7c)
  */
-import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE } from "./training.js";
+import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES, TROUBLESHOOTING } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
 
 const t = (content) => ({ type: "text", content });
@@ -22,6 +22,8 @@ const examMeters = (label) => `${DISTANCE_STEPS.find((d) => d.note.includes(`Pr�
 
 // Aufwärmen und Cool Down: dieselbe Quelle wie der Session-Builder (WARMUP_COOLDOWN)
 const sessionName = (id) => SESSION_TYPES.find((s) => s.id === id)?.short ?? id;
+// held: zurückgehaltene Einträge (unsichtbare-inhalte.md, Abschnitt 1)
+const shown = (list) => list.filter((x) => !x.held);
 const warmupTable = {
   type: "table",
   head: ["", "Aufwärmen", "Cool Down"],
@@ -121,6 +123,7 @@ const SECTIONS = [
          "Wie reagiere ich darauf, oder wie vermeide ich sie?",
          "Welches Ziel will ich heute erreichen?"),
       t("**Verschiedene Übungen am selben Tag trennen**, zeitlich und bei Anfängern auch räumlich. Der Grund: \"Die Gefahr der Verwechslungen und die daraus resultierende Verwirrung des Hundes muss so gering wie möglich gehalten werden. Je einfacher eine Trainingseinheit aufgebaut ist, umso schneller versteht der Hund.\""),
+      ...shown(SESSION_RULES).map((r) => t(r.text)),
       // Zahlen aus WARMUP_COOLDOWN, wie im Session-Builder (basics-umsetzung.md, Abschnitt 5)
       t("**Aufwärmen und Cool Down**"),
       warmupTable,
@@ -179,6 +182,7 @@ const SECTIONS = [
       // Farbtext: einzige Quelle DUMMY_FACTS (profil-und-aufraeumen.md, Abschnitt 3)
       t("**Farben**\n" + DUMMY_FACTS.farben),
       t("**Markierstäbe**\n" + DUMMY_FACTS.markierstab),
+      t("**Dummys fürs Wasser**\n" + EQUIPMENT_NOTES.wasser),
       t("**Pfeife**\nMit Erbse für Reichweite, ohne Erbse für leise Signale. Im Training und in der Prüfung in der Hand oder im Mund, nicht in der Tasche."),
     ],
   },
@@ -217,7 +221,17 @@ const SECTIONS = [
     blocks: [
       t("**Untersuche den Uferbereich, bevor der Hund springt.** Einige Hunde haben beim Sprung ins Wasser den Tod gefunden, weil sie sich an Metallteilen, Ästen oder scharfkantigen Steinen verletzt haben."),
       t("Dazu: Beim Hechtsprung kommt leicht Wasser ins Ohr. Nach der Wasserarbeit die Ohren kontrollieren."),
+      t(WATER_MODULE.examNote),
+      t("**Ans Wasser gewöhnen**"),
+      ul(...shown(WATER_MODULE.rules).map((r) => r.text)),
+      note(WATER_MODULE.jointWarning),
     ],
+  },
+  {
+    id: "probleme",
+    group: "nach",
+    title: "Wenn etwas nicht klappt",
+    blocks: shown(TROUBLESHOOTING).map((p) => t(`**${p.problem}**\n${p.cause} ${p.fix}`)),
   },
   {
     id: "glossar",
@@ -263,5 +277,5 @@ const SECTIONS = [
   },
 ];
 
-const ORDER = ["einstieg", "vorbereitung", "ziel", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "glossar", "wasser", "recht", "quellen"];
+const ORDER = ["einstieg", "vorbereitung", "ziel", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "probleme", "glossar", "wasser", "recht", "quellen"];
 export const BASICS_SECTIONS = ORDER.map((id) => SECTIONS.find((s) => s.id === id));

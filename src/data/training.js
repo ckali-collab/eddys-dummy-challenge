@@ -614,7 +614,8 @@ export const TRACKS = [
         run: "5 Retrieves am Stück, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst. Danach eine Pause.",
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }],
+        gear: [{ id: "standarddummy", n: 1 }], // feste Angabe, das Gewicht ist hier die Übung (unsichtbare-inhalte.md, Abschnitt 5)
+        profileNote: { ages: ["welpe", "junghund"], text: "Dieses Level setzt voraus, dass er das Standarddummy tragen kann. Wenn nicht, bleib bei Bronze." },
         dummyType: "standard", // null | "standard" | "junior"; hier geht es um schwere Gegenstände, deshalb nicht in der Mini-Session (nachtrag-review.md, Abschnitt 5)
         amount: { n: 5, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
@@ -655,7 +656,7 @@ export const TRACKS = [
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
           "Bei Wasser: direkt an der Wasserkante stehen. Verhindert Ablegen am Ufer und Schütteln vor der Abgabe.",
-          "Nach mehreren Apports hintereinander: zwischen den Retrieves bewusst Ruhe einbauen.",
+          "Erregung herstellen: mehrere Apports hintereinander laufen lassen, dann die Abgabe prüfen. Nicht drei Abgaben am Stück verlangen.",
         ],
         tips: [
           "Wenn er knautscht oder fallen lässt: Apportieren für diese Session beenden.",
@@ -770,7 +771,7 @@ export const TRACKS = [
         ],
         tips: [
           "Nicht immer dieselbe Reihenfolge verlangen, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen.",
-          "Mehrere Markierstäbe aufstellen, Dummy nur bei einem. So lernt er, auf deine Richtungsangabe zu achten statt auf den nächsten Stab.",
+          "Mehrere Markierstäbe aufstellen, Dummy nur bei einem. Sonst lernt er, zum nächsten Stab zu laufen, statt sich die Fallstelle zu merken.",
         ],
         warning: null,
       },
@@ -892,7 +893,7 @@ export const TRACKS = [
     name: "Richtung und Blind",
     icon: "directions",
     group: "handling",
-    short: "Den Hund auf Distanz lenken: geradeaus, zurück, zur Seite, und auf ein Dummy, das er nicht gesehen hat.",
+    short: "Den Hund auf Distanz lenken: geradeaus, weiter von dir weg, zur Seite, und auf ein Dummy, das er nicht gesehen hat.",
     desc: "Hier wird aus Einzelteilen ein System. Immer erst Stopp-Pfiff, dann Handzeichen.",
     axis: "distanz", // "bedingungen" | "distanz"
     minAgeMonths: 12, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
@@ -1023,14 +1024,15 @@ export const WATER_MODULE = {
   // Wasser ist im D/G-Modell die Geländestufe G4 (fundament-umbau-2.md, Abschnitt 0). Kein eigener Track.
   examNote: "Wasser ist in Dummy A ein eigenes Prüfungsfach.",
   gearLabel: "1 Dummy, schwimmfähig",
+  // desc und die mit held markierte Regel werden nicht angezeigt, Widerspruch gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
   desc: "Kein eigener Track, sondern eine Variante. Jede Übung aus Marking, Nasenarbeit oder Richtung kann ans Wasser verlegt werden, sobald sie an Land auf Silber sitzt.",
   rules: [
-    "Nur im Sommer einführen. Kaltes Wasser beim Erstkontakt kann einen Hund dauerhaft abschrecken.",
-    "Reihenfolge: ein paar Retrieves an Land, dann am Ufer, dann ins Wasser, dann über das Wasser.",
-    "Drei erfolgreiche Retrieves pro Session reichen völlig.",
-    "Keine neuen Konzepte am Wasser einführen. Nur wiederholen, was an Land sitzt.",
-    "Du stehst direkt an der Wasserkante, um den Retrieve anzunehmen.",
-    "Schwimmender Dummy, gut greifbar, gut sichtbar.",
+    { text: "Nur im Sommer einführen. Kaltes Wasser beim Erstkontakt kann einen Hund dauerhaft abschrecken." },
+    { text: "Reihenfolge: ein paar Retrieves an Land, dann am Ufer, dann ins Wasser, dann über das Wasser." },
+    { text: "Drei erfolgreiche Retrieves pro Session reichen völlig.", held: true },
+    { text: "Keine neuen Konzepte am Wasser einführen. Nur wiederholen, was an Land sitzt." },
+    { text: "Du stehst direkt an der Wasserkante, um den Retrieve anzunehmen." },
+    { text: "Schwimmender Dummy, gut greifbar, gut sichtbar." },
   ],
   jointWarning:
     "Bei Gelenkeinschränkung nur flacher Einstieg. Kein Absprung von Uferkanten. Schwimmen selbst ist gelenkschonend, der Ein- und Ausstieg ist das Risiko.",
@@ -1132,7 +1134,8 @@ export const WARMUP_COOLDOWN = {
       ],
       notes: ["Nicht über 30 Prozent dessen gehen, was er leisten könnte: Er soll danach warm sein, nicht müde. Unter 10 Minuten sind die Stoffwechselabläufe in den Gelenken nicht aktiviert."],
     },
-    // Nach Gelenkbefund (nachtrag-review.md, Abschnitt 2): abgeleitet, das Buch unterscheidet hier nicht
+    // Nach Profil (unsichtbare-inhalte.md, Abschnitt 2): abgeleitet, das Buch unterscheidet hier nicht.
+    // Die Stufe "leicht" gilt auch für WARMUP_GENTLE_AGES; "deutlich" geht vor.
     warmupGuideJoints: {
       deutlich: {
         steps: [
@@ -1143,9 +1146,16 @@ export const WARMUP_COOLDOWN = {
           "Konzentrations- und Gehorsamsübungen im Schritt.",
           "Zum Schluss selbstständiges Dehnen.",
         ],
-        notes: ["Bei bekanntem Gelenkbefund den Ablauf einmal mit dem Tierarzt abstimmen. Die Zeiten gelten unverändert: Unter zehn Minuten bringt das Aufwärmen nichts."],
+        notes: [
+          "Bei bekanntem Gelenkbefund den Ablauf einmal mit dem Tierarzt abstimmen. Die Zeiten gelten unverändert: Unter zehn Minuten bringt das Aufwärmen nichts.",
+          "Nicht über 30 Prozent dessen gehen, was er leisten könnte: Er soll danach warm sein, nicht müde.",
+        ],
       },
-      leicht: { stepAddition: { index: 3, text: "Die Galoppsprints kurz halten." } },
+      leicht: { replaceSteps: {
+        3: "Ein paar kontrollierte Galoppsprints, kurz halten.",
+        4: "Dann Stopps aus dem Trab und weite Wendungen, dazu ein paar Konzentrations- und Gehorsamsübungen.",
+      } },
+      unbekannt: { addNote: "Wenn du den Gelenkzustand nicht kennst, lass die Galoppsprints weg, bis du ihn kennst." },
     },
     cooldownGuide: {
       steps: [
@@ -1162,13 +1172,16 @@ export const WARMUP_COOLDOWN = {
   kurz: {
     warmupMin: 5, cooldownMin: [3, 5], warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min",
     warmupGuide: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar Wendungen. Lösen lassen, bevor es losgeht."] },
+    warmupGuideJoints: {
+      deutlich: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar weite Bögen. Lösen lassen, bevor es losgeht."] },
+    },
     cooldownGuide: { notes: ["Lockerer Trab, dann Schritt, bis die Atmung ruhig ist."] },
   },
   mini: {
     warmupMin: 3, cooldownMin: null, warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null, // Cool Down entfällt
     warmupGuide: { notes: ["Ein paar Minuten lockeres Gehen und Traben, bevor du das erste Mal etwas verlangst."] },
   },
-  whyWarmup: "**Warum aufwärmen:** Erst nach etwa zehn Minuten Bewegung sind die Stoffwechselabläufe in den Gelenken aktiviert. Gelenkschmiere, Knorpeldicke und Pufferfunktion brauchen diese Zeit. Wer ohne Aufwärmen mit Sprints und Wendungen anfängt, belastet kalte Gelenke.",
+  whyWarmup: "**Warum aufwärmen:** Erst nach etwa zehn Minuten Bewegung sind die Stoffwechselabläufe in den Gelenken aktiviert. Gelenkschmiere, Knorpeldicke und Pufferfunktion brauchen diese Zeit. Wer ohne Aufwärmen mit Sprints und Wendungen anfängt, belastet kalte Gelenke. Beim Aufwärmen nicht über 30 Prozent dessen gehen, was er leisten könnte.",
   rules: [
     "Nach dem Aufwärmen zügig starten.",
     "Wartezeit maximal 5 bis 10 Minuten.",
@@ -1177,6 +1190,8 @@ export const WARMUP_COOLDOWN = {
   // Bei Kurzübung und Mini-Session anzuzeigen
   shortNote: "Die verkürzte Variante liegt unter der physiotherapeutischen Empfehlung und ist nur bei geringer Belastungsintensität vertretbar.",
 };
+
+export const WARMUP_GENTLE_AGES = ["welpe", "senior"];
 
 // ─── Session-Regeln aus dem Fundament (Abschnitt 11; Zvolsky) ──
 export const SESSION_GUIDANCE = {
@@ -1210,14 +1225,6 @@ export const SESSION_GUIDANCE = {
   whenNotToHelp: "Sonst nicht: er muss lernen, selbstständig zu arbeiten und eigene Erfahrungen zu sammeln.",
 };
 
-// ─── Einstiegsalter (Abschnitt 12) ── Hinweis bei Unterschreitung, keine Sperre
-export const MIN_AGE_MONTHS = {
-  apportiertraining: 10,        // nach dem Zahnwechsel, ca. 9 bis 10 Monate
-  markierungen: 10,             // 8 bis 10 Monate, nur wenn der Hund steady ist
-  walkUpOhneLeine: 12,
-  verlorensucheSystematisch: 12,
-  schuss: null,                 // nach der Geschlechtsreife, individuell
-};
 // Ab Distanzstufe 3 (praxis-nachtrag.md, Abschnitt 1): Verweis, keine Sperre
 export const DISTANCE_LEGAL_NOTE = "Für diese Distanzen brauchst du eine passende Fläche, siehe Basics: Wo du legal trainierst.";
 
@@ -1225,17 +1232,20 @@ export const DISTANCE_LEGAL_NOTE = "Für diese Distanzen brauchst du eine passen
 export const DPE_AGE_NOTE = "Für die DP-E muss der Hund am Prüfungstag mindestens 12 Monate alt sein. Trainieren kannst du früher.";
 export const DPE_SHOT_NOTE = "Die DP-E gibt es mit Schuss (m. S.) und ohne (o. S.). In der Variante ohne Schuss wird ein Lautzeichen gegeben. Wer den Hund noch nicht an den Schuss gewöhnt hat, meldet die Variante ohne.";
 
-// Nur bei E Bronze und F Bronze anzeigen (fundament-umbau-3.md, Abschnitt 2)
-export const MIN_AGE_NOTE_LEVELS = ["E:bronze", "F:bronze"];
-export const MIN_AGE_NOTE =
-  "Zu Beginn reichen zwei bis drei Apportiereinheiten pro Woche.";
+// Buchsatz zum Einstieg, nach Geltungsbereich aufgelöst (unsichtbare-inhalte.md, Abschnitt 3)
+const MIN_AGE_START = "**Ganz am Anfang** reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Wiederholungen.";
+export const MIN_AGE_NOTES = {
+  "E:bronze": `${MIN_AGE_START} Das gilt für die ersten Wochen nach dem Zahnwechsel. Die zehn kurzen Retrieves dieses Levels sind für einen Hund gedacht, der das Bringen schon kennt.`,
+  "F:bronze": `${MIN_AGE_START} Die fünf Marken dieses Levels setzen voraus, dass er das Apportieren kennt.`,
+};
 
+// held: nicht angezeigt, Widerspruch zum aktuellen Stand gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
 export const SESSION_RULES = [
-  "Der Hauptteil bestimmt den Sessiontyp. Braucht er Equipment, ist es eine Vollsession.",
-  "Warm-up und Abschluss sind nie das aktuell offene Level. Sie müssen sicher gelingen.",
-  "Nie zwei schwere Blöcke kombinieren.",
-  "Die Summe der Wiederholungen bleibt unter dem Retrieve-Limit aus dem Hundeprofil.",
-  "Nach dem Hauptteil keine neue Schwierigkeit mehr einführen.",
+  { text: "Der Hauptteil bestimmt den Sessiontyp. Braucht er Equipment, ist es eine Vollsession.", held: true },
+  { text: "Warm-up und Abschluss sind nie das aktuell offene Level. Sie müssen sicher gelingen.", held: true },
+  { text: "Nie zwei schwere Blöcke kombinieren.", held: true },
+  { text: "Die Summe der Wiederholungen bleibt unter dem Retrieve-Limit aus dem Hundeprofil.", held: true },
+  { text: "Nach dem Hauptteil keine neue Schwierigkeit mehr einführen." },
 ];
 
 // ─── Meine Signale (docs/profil-und-aufraeumen.md, Abschnitt 2) ─
@@ -1324,7 +1334,8 @@ export const GEAR_ITEMS = {
   dummy:       { one: "Dummy",       many: "Dummys",       icon: "dummy" },
   markierstab: { one: "Markierstab", many: "Markierstäbe", icon: "marker-pole" },
   futterschuessel: { one: "Futterschüssel", many: "Futterschüsseln", icon: null },
-  // Dummys mit festem Gewicht (DUMMY_TYPES), unabhängig vom Profil
+  // Dummys mit festem Gewicht, unabhängig vom Profil
+  standarddummy:   { one: "Standarddummy 500 g", many: "Standarddummys 500 g", icon: "dummy" },
   welpendummy:     { one: "Welpendummy 200 g", many: "Welpendummys 200 g", icon: "dummy" },
   juniordummy:     { one: "Juniordummy 400 g", many: "Juniordummys 400 g", icon: "dummy" },
   suchdummy:       { one: "Suchendummy 80 g", many: "Suchendummys 80 g", icon: "pocket-dummy" },
@@ -1332,10 +1343,10 @@ export const GEAR_ITEMS = {
 };
 
 // Dummy-Gewicht aus dem Profil: Welpe/Junghund oder deutlicher Gelenkbefund → Welpendummy 200 g, sonst 500 g
-// (fundament-umbau-2.md, Abschnitt 5; alle Gewichte in DUMMY_TYPES)
+// (fundament-umbau-2.md, Abschnitt 5)
 export const DUMMY_WEIGHT = { light: 200, junior: 400, standard: 500, lightAges: ["welpe", "junghund"], lightJoints: ["deutlich"] };
 
-// Texte für den Basics-Tab (noch nicht gerendert)
+// wasser steht im Basics-Tab. gewichte nicht: Junghund 200 g widerspricht den 400 g in Basics und Glossar, gemeldet.
 export const EQUIPMENT_NOTES = {
   gewichte: "Ein Standard-Dummy wiegt 500 Gramm. Für Welpen und Junghunde nimmst du 200 Gramm, damit Gebiss und Gelenke nicht unnötig belastet werden. Bei deutlichem Gelenkbefund bleibst du auch beim erwachsenen Hund bei 200 Gramm.",
   wasser: "Fast alle Canvas-Dummys schwimmen, du brauchst für den Anfang nichts Zusätzliches. Canvas saugt sich im Wasser aber voll, wird schwerer und bleibt lange feucht. Wenn du regelmäßig am Wasser arbeitest, lohnt ein Wasserdummy aus Kunststoff: trocknet sofort und liegt sichtbarer auf der Oberfläche. Helle Farben wie Weiß oder Orange helfen dir, die Linie deines Hundes im Wasser zu verfolgen.",
@@ -1364,6 +1375,7 @@ export const TROUBLESHOOTING = [
   },
   {
     id: "whining",
+    held: true, // Widerspruch zu Einwirkung (nicht aussitzen), gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
     problem: "Fiept oder winselt vor dem Schicken",
     cause: "Erwartungsdruck, zu viele Wiederholungen.",
     fix: "Anzahl der Retrieves pro Session reduzieren. Längere Pausen. Session beenden, bevor die Erregung hochkocht.",
@@ -1385,6 +1397,7 @@ export const TROUBLESHOOTING = [
   },
   {
     id: "overrun",
+    held: true, // Widerspruch zu den Pfaden (Distanz steigt vor dem Gelände), gemeldet
     problem: "Läuft am Dummy vorbei",
     cause: "Distanz vor dem Gelände erhöht.",
     fix: "Eine Variable zurück. Distanz verkürzen oder einfacheres Gelände.",
@@ -1460,13 +1473,6 @@ export const DISPLACEMENT_SIGNS = [
 export const DISPLACEMENT_NOTE = "Sie sind ein deutliches Zeichen dafür, dass er die Aufgabe noch nicht richtig verstanden hat.";
 export const DISPLACEMENT_DOWNGRADE_ABOVE = 2;
 
-// Dummy-Gewichte und -Eigenschaften (Abschnitt 13, Korrekturen)
-export const DUMMY_TYPES = [
-  { id: "welpe",    label: "Welpendummy", grams: 200 },
-  { id: "junior",   label: "Juniordummy", grams: 400 },
-  { id: "standard", label: "Standard",    grams: 500 },
-  { id: "suche",    label: "Suchendummy", grams: 80 },
-];
 // Farbtext: einzige Quelle (docs/profil-und-aufraeumen.md, Abschnitt 3). Glossar "Dummyfarbe" und Basics
 // "Dummys und Ausrüstung" zeigen farben, Basics "Sehen" nur die Sätze zum Sehpigment (farbenSehpigment).
 const FARB_SAETZE = {
@@ -1507,7 +1513,8 @@ export const TROPHIES = [
   { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final",     condition: { allTracks: "gold" } },
 ];
 
-// ─── Methodische Grundprinzipien (fuer Basics-Tab) ────────────
+// ─── Methodische Grundprinzipien ──────────────────────────────
+// Noch nicht angezeigt: "Eine Variable pro Steigerung" widerspricht den Pfaden, gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
 export const PRINCIPLES = [
   { name: "Die Arbeit ist für den Hund",
     desc: "Wo Motivation und Trainingsfortschritt in Konflikt geraten, gewinnt " +
