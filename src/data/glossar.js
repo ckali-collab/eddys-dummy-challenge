@@ -323,10 +323,11 @@ export const GLOSSAR = [
   {
     id: "markierstab", term: "Markierstab, Einweisestab", group: "ausruestung",
     aliases: ["Markierstab", "Einweisestab"],
-    short: "Ein kurzer Stab, der in den Boden gesteckt wird. Er ist eine Sichthilfe für den Hund, nicht für den Führer.",
-    long: [
-      t("Ein kurzer Stab, der in den Boden gesteckt wird. **Er ist eine Sichthilfe für den Hund**, nicht für den Führer."),
-      t("Praxisregel: mindestens vier Stäbe verwenden und sie bewusst als Verleitung einsetzen, nicht nur als Zielpunkt. Steht nur ein Stab, lernt der Hund, zum Stab zu laufen statt auf die Einweisung zu hören. Leere Stäbe soll er nicht abchecken dürfen."),
+    short: "Ein Stab, der eine Stelle im Gelände markiert. Nicht der Stab ist das Ziel, deine Hand zeigt den Weg.",
+    long: [ // rubriken-review.md, Abschnitt 7b
+      t("Ein Stab, der eine Stelle im Gelände markiert. Er hilft dir, eine Fallstelle oder eine Richtung festzulegen, und er ist für den Hund sichtbar, aber er soll nicht sein Ziel sein."),
+      t("Die Regel dazu: **Nicht der Stab ist das Ziel, deine Hand zeigt den Weg.**"),
+      t("Deshalb immer mehrere aufstellen und nur bei einem ein Dummy auslegen. Steht nur ein Stab, lernt der Hund, zum Stab zu laufen statt auf dich zu hören. Und leere Stäbe soll er nicht abchecken dürfen: Wer das zulässt, bekommt einen Hund, der selbst entscheidet statt sich führen zu lassen."),
     ],
   },
   {
@@ -426,6 +427,14 @@ export const GLOSSAR = [
     long: [t("Alles vorbereiten, **bevor** der Hund aus dem Auto kommt: Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. \"Erst wenn alles vorbereitet ist, sollten Sie den Hund aus dem Auto holen.\" Dann lösen lassen, anleinen, auf die Aufgabe konzentrieren.")],
   },
   {
+    id: "voran-uhr", term: "Voran auf der Uhr", group: "lernen", aliases: [], // erklaeren-statt-nennen.md, Abschnitt 6
+    short: "Übung für enge Winkel beim Voran. Der Hund wird aus derselben Position in leicht versetzte Richtungen geschickt.",
+    long: [
+      t("Übung für enge Winkel beim Voran. Der Hund wird aus derselben Position in leicht versetzte Richtungen geschickt, die Winkel werden schrittweise enger. Der Name kommt vom Ziffernblatt: zuerst zwölf Uhr, dann elf und eins, dann zehn und zwei."),
+      t("Keine Einweisen-Übung: Sie trainiert das Voran aus der Grundstellung, nicht das Umlenken nach dem Stopp."),
+    ],
+  },
+  {
     id: "stopp-im-lauf", term: "Stopp im Lauf, Aufbau", group: "lernen", aliases: [],
     short: "Erst die Sitz-Geschwindigkeit direkt am Fuß verbessern, erst danach Distanz und Tempo.",
     long: [
@@ -439,7 +448,10 @@ export const GLOSSAR = [
   {
     id: "signal-stop", term: "Stopp-Signal", group: "signale", aliases: [], signal: ["stop"], fallback: "dein Stopp-Signal",
     short: "Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht den Führer an.",
-    long: [t("Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht den Führer an. Verbreitet ist ein kurzer Pfiff. Leise pfeifen, siehe Gehör.")],
+    long: [
+      t("Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht den Führer an. Verbreitet ist ein kurzer Pfiff. Leise pfeifen, siehe Gehör."),
+      t("Begleitend wird oft der Arm erhoben. Er hält den Hund aufmerksam, bis das nächste Signal kommt. Für ein Richtungssignal muss der Arm erst wieder herunter, sonst fehlt die Bewegung, die das neue Signal trägt."),
+    ],
   },
   {
     id: "signal-recall", term: "Rückruf-Signal", group: "signale", aliases: [], signal: ["recall"], fallback: "dein Rückruf-Signal",

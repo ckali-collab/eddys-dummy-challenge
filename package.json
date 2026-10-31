@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "node --test tests/backup.test.js",
+    "test": "node --test tests/backup.test.js tests/content.test.js",
     "prebuild": "npm test",
     "build": "vite build",
     "preview": "vite preview"

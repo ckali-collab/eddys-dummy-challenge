@@ -991,9 +991,20 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .b-table tbody th { font-weight: 600; }
 
 /* Glossar-Abschnitt */
-.gl-groups { display: flex; flex-direction: column; gap: 18px; }
-.gl-group { display: flex; flex-direction: column; gap: 6px; }
+.gl-groups { display: flex; flex-direction: column; gap: 6px; }
+.gl-group { border-top: 1px solid var(--line); }
+.gl-group > summary { display: flex; align-items: center; gap: 8px; min-height: var(--touch); cursor: pointer; list-style: none; }
+.gl-group > summary::-webkit-details-marker { display: none; }
+.gl-group > summary svg { margin-left: auto; flex: 0 0 auto; transition: transform 0.2s; }
+.gl-group[open] > summary svg { transform: rotate(180deg); }
 .gl-group-title { font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin: 0; }
+.gl-group-count { font-size: var(--fs-label); color: var(--muted); }
+.gl-group > .small { margin-bottom: 6px; }
+.acc, #meine-signale { scroll-margin-top: 80px; }
+.basics-group { margin-top: 12px; font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.basics-toc { display: grid; gap: 10px; }
+.basics-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 14px; }
+.basics-top { align-self: center; }
 .gl-list { display: flex; flex-direction: column; }
 .gl-entry { border-top: 1px solid var(--line); scroll-margin-top: 80px; }
 .gl-entry > summary { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; padding: 10px 0; cursor: pointer; list-style: none; min-height: 44px; }
@@ -1025,6 +1036,11 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 /* Übungsdetail: Heute-Karte und Hintergrund (app-befund.md, Abschnitt 2) */
 .today-card { display: flex; flex-direction: column; gap: 10px; }
 .today-step { font-weight: 600; }
+.signal-line { display: block; width: 100%; min-height: 28px; padding: 2px 0; border: 0; background: none; color: inherit; font-family: inherit; text-align: left; cursor: pointer; }
+.step-skip { grid-column: 2 / -1; justify-self: start; }
+.block-pause { display: flex; flex-direction: column; gap: 6px; }
+.crash { display: flex; flex-direction: column; gap: 14px; max-width: 480px; margin: 0 auto; padding: 32px 16px; }
+.crash-detail { overflow-wrap: anywhere; }
 .detail-bg { margin-top: 4px; }
 .step-extra { grid-column: 2 / -1; font-size: var(--fs-label); color: var(--muted); }
 .phase-line { padding: 2px 4px; }

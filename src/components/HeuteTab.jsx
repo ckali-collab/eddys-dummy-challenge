@@ -131,13 +131,14 @@ const StepPlan = ({ st, trackId, levelId }) => {
 const minText = (m) => (Array.isArray(m) ? `${m[0]}-${m[1]} Min` : `${m} Min`);
 const PhaseNote = ({ typeId, role }) => {
   const wc = WARMUP_COOLDOWN[typeId];
-  const text = role === "warmup" ? wc?.warmup : wc?.cooldown;
+  const guide = role === "warmup" ? wc?.warmupGuide : wc?.cooldownGuide;
   const min = role === "warmup" ? wc?.warmupMin : wc?.cooldownMin;
-  if (!text || min == null) return null;
+  if (min == null) return null;
   return (
     <div className="phase-line">
       <p className="phase-line-head">{role === "warmup" ? "Aufwärmen" : "Cool Down"} · {minText(min)}</p>
-      <p className="small muted">{text}</p>
+      {guide?.steps && <ol className="b-list is-ordered small">{guide.steps.map((x) => <li key={x}>{x}</li>)}</ol>}
+      {guide?.notes?.map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
     </div>
   );
 };
@@ -282,7 +283,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
         <label className="option water-toggle">
           <input type="checkbox" checked={water} onChange={(e) => setWater(e.target.checked)} />
           <span className="check-box" aria-hidden="true" />
-          <span>Heute am Wasser gearbeitet <span className="muted">(optional)</span></span>
+          <span>Heute ging ein Dummy über Wasser <span className="muted">(optional)</span></span>
         </label>
       )}
       <div className="stack" style={{ gap: 10 }}>
@@ -422,8 +423,11 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
         </div>
         <p className="small muted">
           {sessionDuration(type.id)}{type.desc ? ` · ${type.desc}` : ""}
-          {plan.load > 0 && (plan.capped ? ` · Belastung: ${plan.load} von max. ${plan.limit}` : ` · Belastung: ${plan.load}, Richtwert ${plan.limit}`)}
         </p>
+        {/* Erst über der Hälfte des Richtwerts (erklaeren-statt-nennen.md, Abschnitt 7) */}
+        {plan.load * 2 > plan.limit && (
+          <p className="small muted">Belastung {plan.load} von {plan.limit}.{plan.load === plan.limit && " Mehr Apports wären heute zu viel."}</p>
+        )}
         {plan.type !== "voll" && <p className="small muted">{WARMUP_COOLDOWN.shortNote}</p>}
         {plan.over && (
           <p className="block-warn"><IconAlert size={16} /> Belastung über dem Richtwert von {plan.limit}.</p>
@@ -442,7 +446,12 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
       <div className="stack" style={{ gap: 14 }}>
         {plan.blocks.map((b, i) => (
           <Fragment key={b.role}>
-            {i > 0 && plan.type === "voll" && <p className="block-break" title={SESSION_GUIDANCE.blockSeparation}>Pause · Verwechslungsgefahr</p>}
+            {i > 0 && plan.type === "voll" && (
+              <div className="block-pause">
+                <p className="block-break">Pause</p>
+                <p className="small muted">{SESSION_GUIDANCE.pause}{st.dog.experience === "keine" && ` ${SESSION_GUIDANCE.pauseBeginner}`}</p>
+              </div>
+            )}
             {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" />}
             <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
             {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" />}

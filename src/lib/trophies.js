@@ -1,5 +1,5 @@
 import { TRACKS, TROPHIES } from "../data/training.js";
-import { LEVEL_LABEL, isLevelDone, getTrack } from "./progress.js";
+import { isLevelDone } from "./progress.js";
 
 // trophies[] in edc-v3: [{ id, at, manual? }]. Alles außer "manual" wird aus dem Zustand neu berechnet,
 // damit eine zurückgenommene Session oder gelöschte Sessions ihre Trophäen wieder sperren.
@@ -22,10 +22,9 @@ export const trophyProgress = (st, trophy) => {
 // Bedingung als Satz für gesperrte Trophäen
 export const conditionText = (trophy) => {
   const c = trophy.condition || {};
-  if (c.track) return `${getTrack(c.track)?.name}: das Gold-Level schaffen`;
+  if (c.track || c.allTracks) return trophy.desc;
   if (c.sessions) return c.sessions === 1 ? "Die erste Session abschließen" : `${c.sessions} Sessions abschließen`;
-  if (c.allTracks) return `Alle acht Tracks auf ${LEVEL_LABEL[c.allTracks]} bringen`;
-  if (c.water) return "Eine Vollsession mit Wasserarbeit abschließen";
+  if (c.water) return "Eine Session abschließen, in der ein Dummy über Wasser ging.";
   if (c.manual) return "Selbst eintragen, wenn dein Hund einen Blind ohne eine einzige Korrektur gefunden hat";
   return trophy.desc;
 };

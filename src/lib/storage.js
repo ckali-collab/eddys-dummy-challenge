@@ -85,8 +85,8 @@ export const freshState = () => ({
   tracks: freshTracks(),
   sessions: [],
   trophies: [],
-  // lastExportAt und exportSnoozedAt: additiv, kein Schema-Bump (fehlende Werte füllt normalize)
-  settings: { theme: "system", lastExportAt: null, exportSnoozedAt: null },
+  // lastExportAt, exportSnoozedAt, signalHintSeen: additiv, kein Schema-Bump (fehlende Werte füllt normalize)
+  settings: { theme: "system", lastExportAt: null, exportSnoozedAt: null, signalHintSeen: false },
   plan: null, // heutiger Sessionplan: { date, type, offsets, picks }
 });
 
@@ -133,6 +133,7 @@ export const normalize = (raw) => {
       theme: THEMES.includes(raw.settings?.theme) ? raw.settings.theme : "system",
       lastExportAt: typeof raw.settings?.lastExportAt === "string" ? raw.settings.lastExportAt : null,
       exportSnoozedAt: typeof raw.settings?.exportSnoozedAt === "string" ? raw.settings.exportSnoozedAt : null,
+      signalHintSeen: raw.settings?.signalHintSeen === true,
     },
   };
 };

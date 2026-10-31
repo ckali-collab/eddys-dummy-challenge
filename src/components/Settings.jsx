@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ProfileForm from "./ProfileForm.jsx";
 import { parseBackup, importConfirmText, readPrev, undoConfirmText } from "../lib/backup.js";
 
@@ -149,8 +149,15 @@ const DangerZone = ({ state, onExport, onClearSessions, onResetProgress, onReset
   );
 };
 
-export default function Settings({ state, onTheme, onProfile, onExport, onImport, onUndoImport, onClearSessions, onResetProgress, onResetApp }) {
+export default function Settings({ state, focus, onTheme, onProfile, onExport, onImport, onUndoImport, onClearSessions, onResetProgress, onResetApp }) {
   const [saved, setSaved] = useState(false);
+
+  // Sprung aus der Signalzeile; verzögert, weil die App beim Seitenwechsel nach oben scrollt
+  useEffect(() => {
+    if (focus !== "signals") return;
+    const t = setTimeout(() => document.getElementById("meine-signale")?.scrollIntoView({ block: "start" }), 60);
+    return () => clearTimeout(t);
+  }, [focus]);
 
   return (
     <>

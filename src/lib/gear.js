@@ -7,7 +7,7 @@ export const dummyWeight = (dog) =>
     ? DUMMY_WEIGHT.light
     : DUMMY_WEIGHT.standard;
 
-// Anzeige eines gear-Eintrags, z.B. "2 Dummys 500 g", "1 Dummy 500 g (oder Juniordummy 400 g)", "Pfeife".
+// Anzeige eines gear-Eintrags, z.B. "2 Dummys 500 g", "1 Dummy 500 g oder Juniordummy 400 g", "Pfeife".
 // Die Juniordummy-Alternative entfällt, wenn das Profil ohnehin ein leichteres Dummy vorsieht.
 export const gearLabel = (item, dummyType, dog) => {
   const def = GEAR_ITEMS[item.id];
@@ -16,7 +16,7 @@ export const gearLabel = (item, dummyType, dog) => {
   let text = item.id === "pfeife" && item.n === 1 ? def.one : `${item.n}${item.orMore ? " oder mehr" : ""} ${noun}`;
   if (item.id === "dummy") {
     text += ` ${dummyWeight(dog)} g`;
-    if (dummyType === "junior" && dummyWeight(dog) > DUMMY_WEIGHT.junior) text += ` (oder Juniordummy ${DUMMY_WEIGHT.junior} g)`;
+    if (dummyType === "junior" && dummyWeight(dog) > DUMMY_WEIGHT.junior) text += ` oder Juniordummy ${DUMMY_WEIGHT.junior} g`;
   }
   if (item.steps) text += ` (Stufe ${item.steps.join(" und ")})`; // item.steps meint Stufen im Pfad
   if (item.optional) return `${text} (optional)`;
@@ -28,6 +28,15 @@ export const gearLabel = (item, dummyType, dog) => {
 // Ohne das Feld steps zurückgegeben: die Stufe ist an dieser Stelle schon gewählt.
 export const gearForStep = (gear = [], step) =>
   gear.filter((g) => !g.steps || g.steps.includes(step)).map(({ steps, ...g }) => g);
+// Trackübersicht: alles Equipment des Levels (rubriken-review.md, Abschnitt 8). Stufen in der angezeigten Zählung (ab first);
+// gilt ein Eintrag auf allen sichtbaren Stufen, entfällt die Angabe.
+export const gearAllSteps = (gear = [], first = 1) =>
+  gear.flatMap(({ steps, ...g }) => {
+    if (!steps) return [g];
+    const seen = steps.filter((x) => x >= first).map((x) => x - first + 1);
+    if (!seen.length) return [];
+    return seen.length === 5 - first ? [g] : [{ ...g, steps: seen }];
+  });
 // Gebundenes Equipment für den Stufenblock: jeder Eintrag einmal, bei seiner ersten sichtbaren Stufe (ab first).
 // Liefert from/to der sichtbaren Stufen (aufeinanderfolgend).
 export const gearNotesAtStep = (gear = [], step, first = 1) =>

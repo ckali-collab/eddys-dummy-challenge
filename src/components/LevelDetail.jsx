@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTE, MIN_AGE_NOTE_LEVELS, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
-  countedToday, jointWarnings, firstStep, effectiveStep,
+  countedToday, jointWarnings, firstStep, effectiveStep, canSkipStep,
 } from "../lib/progress.js";
 import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -29,7 +29,7 @@ const Warning = ({ title, children }) => (
 );
 
 // Vier-Schritt-Pfad mit Markierung des aktuellen Schritts (fundament-umbau-2.md, Abschnitt 10)
-const StepPath = ({ level, current, done, dog, first }) => (
+const StepPath = ({ level, current, done, dog, first, onSkip }) => (
   <ol className="step-path">
     {Array.from({ length: stepCount(level) - first + 1 }, (_, i) => {
       const n = i + first, shown = i + 1, s = stepParts(level, n);
@@ -51,6 +51,9 @@ const StepPath = ({ level, current, done, dog, first }) => (
             )}
           </span>
           {!done && n === current && <span className="step-flag">aktuell</span>}
+          {!done && n === current && onSkip && (
+            <button type="button" className="link-btn step-skip" onClick={onSkip}>Das kann er schon</button>
+          )}
           {setupNotesAtStep(level.setup, n, first).map((x) => (
             <span key={x.text} className="step-extra">{x.more ? "Ab Stufe" : "Stufe"} {shown}: {x.text}</span>
           ))}
@@ -75,7 +78,7 @@ const StepsList = ({ steps, dog }) => (
   </ol>
 );
 
-export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) {
+export default function LevelDetail({ st, trackId, levelId, onCount, onReset, onSkipStep, onOpenSignals }) {
   const track = getTrack(trackId);
   const level = getLevel(trackId, levelId);
   const prog = levelProgress(st, trackId, levelId);
@@ -125,8 +128,14 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
       <Section title="Heute">
         <div className="card today-card">
           {stepCount(level) > 0 && <p className="today-step"><RichText text={stepText(level, current, first, st.dog)} gloss /></p>}
-          {signals.map((x) => <p key={x} className="small">{x}</p>)}
+          {signals.map((x) => (
+            <button key={x} type="button" className="signal-line small" onClick={onOpenSignals}>
+              {x}{!st.settings.signalHintSeen && <span className="muted"> · ändern</span>}
+            </button>
+          ))}
           {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
+          {/* first > 1: Profil ohne Welpendummy, nur dort stimmen "leichter" und "500 Gramm ab Silber" */}
+          {level.todayNote && first > 1 && <p className="small muted">{level.todayNote}</p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
           {todaySetup.length > 0 && (
             <ul className="tips setup-list">
@@ -143,7 +152,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset }) 
 
       {stepCount(level) > 0 && (
         <Section title="Stufen">
-          <StepPath level={level} current={current} done={done} dog={st.dog} first={first} />
+          <StepPath level={level} current={current} done={done} dog={st.dog} first={first}
+            onSkip={canSkipStep(st, trackId, levelId) ? () => onSkipStep(trackId, levelId) : null} />
           {level.maxDistanceStep >= 3 && <p className="small muted" style={{ marginTop: 8 }}>{DISTANCE_LEGAL_NOTE}</p>}
         </Section>
       )}

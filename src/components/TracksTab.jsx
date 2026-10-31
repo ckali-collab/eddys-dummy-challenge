@@ -1,13 +1,13 @@
 import { TRACKS } from "../data/training.js";
 import {
-  LEVEL_LABEL, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, effectiveStep,
+  LEVEL_LABEL, levelProgress, isLevelDone, isLevelUnlocked, isTrackUnlocked, firstStep,
   missingRequirements, reqLabel,
 } from "../lib/progress.js";
 import { IconLock, IconCheck } from "./Icons.jsx";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
-import { gearForStep } from "../lib/gear.js";
+import { gearAllSteps } from "../lib/gear.js";
 
 const LevelBadge = ({ st, track, level, onOpen }) => {
   const prog = levelProgress(st, track.id, level.id);
@@ -36,7 +36,7 @@ const TrackCard = ({ st, track, onOpen }) => {
   const unlocked = isTrackUnlocked(st, track);
   const missing = missingRequirements(st, track);
   const current = track.levels.find((l) => !isLevelDone(st, track.id, l.id)) ?? null; // null: alles geschafft
-  const gear = current ? gearForStep(current.gear, effectiveStep(st, track.id, current.id)) : [];
+  const gear = current ? gearAllSteps(current.gear, firstStep(st.dog, current)) : [];
 
   return (
     <article className={`card track ${unlocked ? "" : "is-locked"}`}>
@@ -62,7 +62,7 @@ const TrackCard = ({ st, track, onOpen }) => {
         ))}
       </div>
 
-      {/* Equipment der aktuellen Stufe des nächsten offenen Levels (app-befund.md, Abschnitt 4) */}
+      {/* Equipment aller Stufen des nächsten offenen Levels (rubriken-review.md, Abschnitt 8) */}
       {current && (
         <div className="track-gear small">
           <span className="track-gear-label">Equipment {LEVEL_LABEL[current.id]}:</span>

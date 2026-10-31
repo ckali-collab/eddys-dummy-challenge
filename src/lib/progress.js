@@ -109,6 +109,18 @@ export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
   });
 };
 
+// "Das kann er schon" (erklaeren-statt-nennen.md, Abschnitt 5): Stufe weiter, ohne einen Tag zu zählen.
+// Nicht bei vollem Zähler: Stufe 4 würde das Level dort ohne Durchgang abschließen.
+export const canSkipStep = (st, trackId, levelId) => {
+  const lvl = getLevel(trackId, levelId);
+  return !!lvl && levelProgress(st, trackId, levelId).reps < lvl.reps && effectiveStep(st, trackId, levelId) < STEP_MAX;
+};
+export const skipStep = (st, trackId, levelId) => {
+  if (!canSkipStep(st, trackId, levelId)) return st;
+  const cur = levelProgress(st, trackId, levelId);
+  return setLevel(st, trackId, levelId, { ...cur, step: effectiveStep(st, trackId, levelId) + 1 });
+};
+
 export const countRep = (st, trackId, levelId, now = new Date()) => rateLevel(st, trackId, levelId, "gut", now);
 
 export const resetLevel = (st, trackId, levelId) =>

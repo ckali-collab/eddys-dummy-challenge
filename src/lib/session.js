@@ -232,7 +232,7 @@ export const sessionChecklist = (blocks) => {
 // "gut" zählt den Tag (einmal pro Tag) und hebt den Schritt, "noch nicht" senkt nur den Schritt.
 // Kein Zähler wird je verringert, kein abgeschlossenes Level zurückgesetzt.
 // steps: Schrittänderungen dieser Session ({ trackId, levelId, from, to }), für Rückgängig.
-// extra.water: "Heute am Wasser gearbeitet" (nur Vollsession), für Trophäe und spätere Auswertung
+// extra.water: "Heute ging ein Dummy über Wasser" (nur Vollsession), für die Trophäe Wasserratte
 // extra.cause: Fehlerursache (FAILURE_CAUSES id) bei "noch nicht" im Hauptteil
 // extra.signs: angekreuzte Übersprungszeichen (Indizes in DISPLACEMENT_SIGNS)
 // extra.downgrade: vorgeschlagene Rückstufung angenommen → Hauptteil ein Schritt unter den Stand vor der Session

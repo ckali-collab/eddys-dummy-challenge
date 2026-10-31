@@ -13,7 +13,7 @@ import TrophyUnlock from "./components/TrophyUnlock.jsx";
 import BasicsTab from "./components/BasicsTab.jsx";
 import { GlossarContext } from "./components/Glossar.jsx";
 import { syncTrophies, setManualTrophy } from "./lib/trophies.js";
-import { getTrack, countRep, resetLevel, doneLevelCount } from "./lib/progress.js";
+import { getTrack, countRep, resetLevel, skipStep, doneLevelCount } from "./lib/progress.js";
 import { dayKeyOf, restStatus } from "./lib/session.js";
 import { IconToday, IconTracks, IconTrophy, IconBook, IconGear, IconBack } from "./components/Icons.jsx";
 
@@ -52,6 +52,10 @@ const Onboarding = ({ dog, onDone }) => (
     <p className="muted">
       Das Profil passt Wiederholungen, Ruhetage und Warnhinweise an. Du kannst es später in den
       Einstellungen jederzeit ändern.
+    </p>
+    <p className="muted">
+      Die App nutzt gängige Signalwörter wie „Bring“ und „Voran“. Wenn du andere benutzt, trag sie später in den
+      Einstellungen unter „Meine Signale“ ein, dann stehen sie in allen Übungen.
     </p>
     <ProfileForm initial={dog} submitLabel="Los geht’s" onSubmit={onDone} />
   </div>
@@ -113,7 +117,13 @@ export default function App() {
   const setTheme = (theme) => setSt((p) => ({ ...p, settings: { ...p.settings, theme } }));
   const onCount = (trackId, levelId) => setSt((p) => countRep(p, trackId, levelId));
   const onReset = (trackId, levelId) => setSt((p) => resetLevel(p, trackId, levelId));
+  const onSkipStep = (trackId, levelId) => setSt((p) => skipStep(p, trackId, levelId));
   const openLevel = (trackId, levelId) => setView({ type: "level", trackId, levelId });
+  // Aus der Signalzeile: Zurück führt wieder zum Level (erklaeren-statt-nennen.md, Abschnitt 6b)
+  const openSignals = () => {
+    setSt((p) => (p.settings.signalHintSeen ? p : { ...p, settings: { ...p.settings, signalHintSeen: true } }));
+    setView((v) => ({ type: "settings", focus: "signals", back: v }));
+  };
 
   // ─── Sicherung (export-import.md) ───────────────────────────
   const onExport = () => {
@@ -161,12 +171,12 @@ export default function App() {
 
   const content =
     view?.type === "settings" ? (
-      <Settings state={st} onTheme={setTheme} onProfile={setDog}
+      <Settings state={st} focus={view.focus} onTheme={setTheme} onProfile={setDog}
         onExport={onExport} onImport={onImport} onUndoImport={onUndoImport}
         onClearSessions={clearSessions} onResetProgress={resetProgress} onResetApp={resetApp} />
     ) :
     view?.type === "sessions" ? <SessionsView sessions={st.sessions} /> :
-    view?.type === "level" ? <LevelDetail st={st} trackId={view.trackId} levelId={view.levelId} onCount={onCount} onReset={onReset} /> :
+    view?.type === "level" ? <LevelDetail st={st} trackId={view.trackId} levelId={view.levelId} onCount={onCount} onReset={onReset} onSkipStep={onSkipStep} onOpenSignals={openSignals} /> :
     tab === "tracks" ? <TracksTab st={st} onOpen={openLevel} /> :
     tab === "trophaeen" ? <TrophiesTab st={st} onManual={onManualTrophy} /> :
     tab === "heute" ? <HeuteTab st={st} setSt={setSt} today={today} setToday={setToday} onOpen={openLevel}
@@ -177,7 +187,7 @@ export default function App() {
     <div className="shell">
       <header className="header">
         {view && (
-          <button className="icon-btn" aria-label="Zurück" onClick={() => setView(null)}>
+          <button className="icon-btn" aria-label="Zurück" onClick={() => setView(view.back ?? null)}>
             <IconBack />
           </button>
         )}

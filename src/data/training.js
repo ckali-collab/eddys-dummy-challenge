@@ -80,6 +80,9 @@ export const STEPS_TYPES = {
 export const LEVEL_CHANGE_WARNING =
   "Vermeiden Sie, eine noch nicht genügend gefestigte Übung mit Ablenkung zu trainieren. Das bereits erreichte Niveau wird gesenkt und somit das vorangegangene Training ad absurdum geführt.";
 
+// Erster Tipp in allen A-Leveln (erklaeren-statt-nennen.md, Abschnitt 3)
+const LEISE_PFEIFEN = "Immer leise pfeifen. Hunde hören viermal leiser als wir und aus viermal größerer Entfernung. Er hört dich. Wenn du immer laut pfeifst, hast du keine Reserve mehr für Distanz, Wind und Deckung, und im Regelwerk ist lautes Handling ein schwerer Fehler.";
+
 // ─── Tracks ───────────────────────────────────────────────────
 export const TRACKS = [
   {
@@ -123,7 +126,7 @@ export const TRACKS = [
           "Er stöbert wenige Meter vor dir. Stopp-Pfiff geben und gleichzeitig einen Dummy werfen. Der Dummy ist die Belohnung für den Stopp.",
         ],
         tips: [
-          "Immer leise pfeifen. Lautstärke ist keine Steigerung, sondern Lärm.",
+          LEISE_PFEIFEN,
           "Im Alltag das Wort Sitz durch den Pfiff ersetzen. Kostet keine Trainingszeit.",
           "Ein Durchgang pro Spaziergang, nicht mehr.",
         ],
@@ -157,6 +160,7 @@ export const TRACKS = [
           "Distanz schrittweise auf 35 Meter steigern.",
         ],
         tips: [
+          LEISE_PFEIFEN,
           "Wenn er nicht stoppt: nicht nachpfeifen. Hingehen, zurück zum Ausgangspunkt, Distanz verkürzen.",
           "Bei Gelenkeinschränkung aus dem Trab üben, nicht aus dem Galopp.",
         ],
@@ -192,6 +196,7 @@ export const TRACKS = [
           "Schrittweise weniger vortreten, bis der Pfiff allein reicht.",
         ],
         tips: [
+          LEISE_PFEIFEN,
           "Maximal einmal pro Session, sonst entsteht Zögern beim Rausschicken.",
         ],
         warning: "Sparsam einsetzen. Diese Übung ist der häufigste Auslöser für antizipierendes Stoppen.",
@@ -204,7 +209,7 @@ export const TRACKS = [
     name: "Rückruf",
     icon: "recall",
     group: "grund",
-    short: "Direktes Zurückkommen auf zwei lange Töne",
+    short: "Direktes Zurückkommen auf den Rückruf-Pfiff.",
     desc: "Gerade Linie, kein Zickzack, kein Schnüffeln unterwegs.",
     axis: "bedingungen", // "bedingungen" | "distanz"
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
@@ -569,8 +574,9 @@ export const TRACKS = [
           { condition: "belohnung", variant: "Du hast kein Leckerchen in der Hand, wenn er abgibt." },
           { condition: "position", variant: "Er gibt im Stehen vor dir ab, ohne sich zu setzen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Bringt den Dummy bis in die Hand, legt nicht ab, bei zehn Retrieves hintereinander.",
-        run: "10 kurze Retrieves bis 10 Meter, jedes Mal ruhig abnehmen.",
+        criteria: "Bringt den Dummy bis in die Hand und legt nicht ab, bei zehn Retrieves in Folge ohne Fehler. Die zehn dürfen auf mehrere Gruppen verteilt sein.",
+        run: "10 kurze Retrieves bis 10 Meter, in Gruppen von drei bis vier. Nach jeder Gruppe freigeben und etwas anderes machen, dann weiter.",
+        todayNote: "Das leichtere Dummy ist Absicht: Hier geht es um die saubere Abgabe, nicht um das Gewicht. Mit 500 Gramm arbeitest du ab Silber.", // nur bei Profilen, die wirklich 500 g bekommen
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "welpendummy", n: 1, steps: [1], swap: true }, { id: "juniordummy", n: 1, steps: [2, 3, 4], swap: true }], // praxistauglichkeit.md, Abschnitt 3; Standard 500 g erst ab E Silber
@@ -585,6 +591,7 @@ export const TRACKS = [
           "Nicht sofort wegnehmen. Kurz halten, loben, dann abnehmen.",
         ],
         tips: [
+          "Zehn Wiederholungen klingen viel. Für Markierungen und Suchen wären sie es auch, dort sind vier bis fünf genug. Hier geht es um zehn Meter hin und zurück, ohne Suchen und ohne Nasenarbeit: Das zählt in der Belastung halb.",
           "Häufige Ursachen: Dummy zu schnell abgenommen, zu großes Theater, Hund kommt nicht weit genug heran.",
         ],
         warning: null,
@@ -617,7 +624,10 @@ export const TRACKS = [
           "Er kommt an, geht in die Fußposition und hält das Dummy.",
           "Du gehst ein paar Schritte rückwärts, kommst zurück, nimmst dann erst ab. Das baut Geduld auf.",
         ],
-        tips: ["Nie hetzen. Die Ruhe bei der Abgabe überträgt sich."],
+        tips: [
+          "Hier sind es fünf, nicht zehn: Die Distanz ist nicht mehr begrenzt, und schwere oder ungewohnte Gegenstände kosten Kraft und Konzentration.",
+          "Nie hetzen. Die Ruhe bei der Abgabe überträgt sich.",
+        ],
         warning: null,
       },
       {
@@ -787,7 +797,7 @@ export const TRACKS = [
       "Suchenstil messen: farbige Dummys in farbgleichen Reihen auslegen. An der Farbe erkennt man, ob der Hund vorne oder hinten sucht.",
       "Nasenarbeit ist Schwerstarbeit. Die Nase muss feucht sein, sonst sinkt die Leistung. Bei Nasenarbeit braucht der Hund genügend Wasser. Der Zickzackkurs dient auch der Nasenerholung, weil sich die Riechzellen an gleichartige Gerüche gewöhnen.",
     ],
-    requires: [],
+    requires: ["E:bronze"], // ohne saubere Abgabe wird die Verlorensuche ein Sammelspiel (rubriken-review.md, Abschnitt 5)
     levels: [
       {
         id: "bronze",
@@ -1107,9 +1117,42 @@ export const SESSION_FALLBACKS = {
 
 // ─── Aufwärmen und Cool Down (Abschnitt 10; Dr. Astrid Siegl, Vierbeiner Reha-Zentrum, im Buch) ──
 export const WARMUP_COOLDOWN = {
-  voll: { warmupMin: 15, cooldownMin: 10, warmup: "15 min, nie unter 10, bei ca. 30 % der max. Leistungsfähigkeit", cooldown: "ca. 10 min" },
-  kurz: { warmupMin: 5, cooldownMin: [3, 5], warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min" },
-  mini: { warmupMin: 3, cooldownMin: null, warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null }, // Cool Down entfällt
+  // warmup/cooldown: Kurzform für die Tabelle im Basics-Tab. warmupGuide/cooldownGuide: Anleitung im Heute-Tab
+  // (erklaeren-statt-nennen.md, Abschnitt 1). Für das Cool Down der Kurzübung nennt die Spec keinen Ablauf.
+  voll: {
+    warmupMin: 15, cooldownMin: 10, warmup: "15 min, nie unter 10, bei ca. 30 % der max. Leistungsfähigkeit", cooldown: "ca. 10 min",
+    warmupGuide: {
+      steps: [
+        "Lockeres Traben, ein paar Minuten.",
+        "Kontrolliertes Schrittgehen.",
+        "Wieder in den Trab.",
+        "Ein paar kontrollierte Galoppsprints.",
+        "Dann Sprints, Stopps und Wendungen, dazu ein paar Konzentrations- und Gehorsamsübungen.",
+        "Zum Schluss selbstständige Dehnübungen, also ihn strecken und schütteln lassen.",
+      ],
+      notes: ["Nicht über 30 Prozent dessen gehen, was er leisten könnte: Er soll danach warm sein, nicht müde. Unter 10 Minuten sind die Stoffwechselabläufe in den Gelenken nicht aktiviert."],
+    },
+    cooldownGuide: {
+      steps: [
+        "Lockerer Trab.",
+        "Schritt gehen, bis die Atmung wieder normal ist.",
+        "Leichte selbstständige Dehnübungen.",
+      ],
+      notes: [
+        "**Selbstständig** heißt: Der Hund dehnt sich selbst, du dehnst ihn nicht. Gib ihm nach der Arbeit ein paar ruhige Minuten, dann macht er es von allein: sich lang strecken mit den Vorderbeinen vorn und dem Hinterteil hoch, sich nach hinten recken, schütteln. Das sind die Bewegungen, um die es geht.",
+        "Ihn selbst zu ziehen oder Beine zu strecken ist etwas anderes und gehört in die Hand einer Hundephysiotherapeutin. Wer gezielte Dehnübungen machen will, lässt sie sich einmal zeigen, statt sie aus einer App zu lernen.",
+      ],
+    },
+  },
+  kurz: {
+    warmupMin: 5, cooldownMin: [3, 5], warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min",
+    warmupGuide: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar Wendungen. Lösen lassen, bevor es losgeht."] },
+  },
+  mini: {
+    warmupMin: 3, cooldownMin: null, warmup: "3 min Bewegung, kein strukturiertes Programm", cooldown: null, // Cool Down entfällt
+    warmupGuide: { notes: ["Ein paar Minuten lockeres Gehen und Traben, bevor du das erste Mal etwas verlangst."] },
+  },
+  whyWarmup: "**Warum aufwärmen:** Erst nach etwa zehn Minuten Bewegung sind die Stoffwechselabläufe in den Gelenken aktiviert. Gelenkschmiere, Knorpeldicke und Pufferfunktion brauchen diese Zeit. Wer ohne Aufwärmen mit Sprints und Wendungen anfängt, belastet kalte Gelenke.",
   rules: [
     "Nach dem Aufwärmen zügig starten.",
     "Wartezeit maximal 5 bis 10 Minuten.",
@@ -1144,8 +1187,9 @@ export const SESSION_GUIDANCE = {
     "Wie reagiere ich darauf, oder wie vermeide ich sie?",
     "Welches Ziel will ich heute erreichen?",
   ],
-  // Zwischen den Blöcken eine Pause ausweisen, Grund: Verwechslungsgefahr
-  blockSeparation: "Verschiedene Übungen am selben Tag zeitlich trennen, bei Anfängern auch räumlich. Verwechslungsgefahr.",
+  // Zwischen den Blöcken (erklaeren-statt-nennen.md, Abschnitt 2); pauseBeginner bei Erfahrung "keine"
+  pause: "Mach ein paar Minuten etwas anderes, bevor der nächste Block kommt. Zwei Übungen direkt hintereinander verwechselt der Hund leicht, und was er einmal verwechselt hat, muss man mühsam wieder trennen.",
+  pauseBeginner: "Wechsle dabei auch den Ort, nicht nur die Zeit.",
   whenToHelp: "Wenn Sie den Eindruck gewinnen, Ihr Hund verzweifelt an der gestellten Aufgabe; wenn Sie beobachten, dass seine Motivation schwindet oder dass er unsicher wird, dann müssen Sie ihm unbedingt helfen.",
   whenNotToHelp: "Sonst nicht: er muss lernen, selbstständig zu arbeiten und eigene Erfahrungen zu sammeln.",
 };
@@ -1198,7 +1242,7 @@ export const SIGNAL_FIELDS = [
 export const SIGNAL_DEFAULTS = Object.fromEntries(SIGNAL_FIELDS.map((f) => [f.key, f.default]));
 // Steht immer direkt unter dem Feld area, unabhängig von den eingetragenen Mustern
 export const SIGNAL_SEARCH_NOTE =
-  "Prüfe, ob der erste Ton deines Suchensignals dem Stopp-Pfiff gleicht. Hunde interpretieren bereits den ersten Ton und beginnen danach zu handeln (Zvolsky S. 234). Setzt dein Hund sich auf das Suchensignal, liegt es vermutlich daran. Teste es bewusst auf Distanz, bei Ablenkung und im hohen Bewuchs, dort tritt die Verwechslung zuerst auf.";
+  "Prüfe, ob der erste Ton deines Suchensignals dem Stopp-Pfiff gleicht. Hunde interpretieren bereits den ersten Ton und beginnen danach zu handeln. Setzt dein Hund sich auf das Suchensignal, liegt es vermutlich daran. Teste es bewusst auf Distanz, bei Ablenkung und im hohen Bewuchs, dort tritt die Verwechslung zuerst auf.";
 
 // ─── Hundeprofil und Belastungssteuerung ──────────────────────
 export const PROFILE_FIELDS = {
@@ -1341,7 +1385,7 @@ export const TROUBLESHOOTING = [
     id: "offline",
     problem: "Weicht beim Blind von der Linie ab",
     cause: "Ausrichtung vor dem Schicken war ungenau.",
-    fix: "Vor dem Schicken Körperachse prüfen. Markierstab als Sichthilfe für den Hund setzen, damit er einen Zielpunkt hat. Mindestens vier aufstellen, sonst läuft er zum Stab statt auf die Einweisung zu hören.",
+    fix: "Vor dem Schicken Körperachse prüfen. Mehrere Markierstäbe aufstellen, Dummy nur bei einem. So lernt er, auf deine Richtungsangabe zu achten statt auf den nächstbesten Stab.",
     track: "H",
   },
   {
@@ -1424,12 +1468,14 @@ export const DUMMY_FACTS = {
 };
 
 // ─── Trophaeen ────────────────────────────────────────────────
+// Track-Trophäe: was der Hund dann kann, aus dem Gold-Kriterium ohne Zählregel (rubriken-review.md, Abschnitt 7)
+const goldAbility = (t) => t.levels.find((l) => l.id === "gold").criteria.replace(/\s*(Drei Durchgänge[^.]*|Fünfmal in Folge)\.$/, "");
 export const TROPHIES = [
   // Track-Trophaeen
   ...TRACKS.map((t) => ({
     id: `track-${t.id}`,
     name: `${t.name} gemeistert`,
-    desc: `${t.name}: Gold erreicht`,
+    desc: goldAbility(t),
     type: "track",
     condition: { track: t.id, level: "gold" },
   })),
@@ -1438,11 +1484,11 @@ export const TROPHIES = [
   { id: "sessions-10",    name: "Dranbleiber",        desc: "10 Sessions dokumentiert",               type: "milestone", condition: { sessions: 10 } },
   { id: "sessions-25",    name: "Routinier",          desc: "25 Sessions dokumentiert",               type: "milestone", condition: { sessions: 25 } },
   { id: "sessions-50",    name: "Dauerläufer",       desc: "50 Sessions dokumentiert",               type: "milestone", condition: { sessions: 50 } },
-  { id: "all-bronze",     name: "Fundament",          desc: "Alle acht Tracks auf Bronze",            type: "milestone", condition: { allTracks: "bronze" } },
-  { id: "all-silber",     name: "Fortgeschritten",    desc: "Alle acht Tracks auf Silber",            type: "milestone", condition: { allTracks: "silber" } },
-  { id: "first-water",    name: "Wasserratte",        desc: "Erste Wasserarbeit dokumentiert",        type: "milestone", condition: { water: 1 } },
+  { id: "all-bronze",     name: "Fundament",          desc: "Bereit für die DP-E: Alle acht Tracks auf Bronze. Damit deckst du die Einsteigerprüfung ab.", type: "milestone", condition: { allTracks: "bronze" } },
+  { id: "all-silber",     name: "Fortgeschritten",    desc: "Bereit für die Anfänger-Klasse: Alle acht Tracks auf Silber.", type: "milestone", condition: { allTracks: "silber" } },
+  { id: "first-water",    name: "Wasserratte",        desc: "Eine Session abgeschlossen, in der ein Dummy über Wasser ging.", type: "milestone", condition: { water: 1 } },
   { id: "one-cast",       name: "One-Cast Blind",     desc: "Blind ohne eine einzige Korrektur",      type: "milestone", condition: { manual: true } },
-  { id: "all-gold",       name: "Gundog",             desc: "Alle acht Tracks auf Gold",              type: "final",     condition: { allTracks: "gold" } },
+  { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final",     condition: { allTracks: "gold" } },
 ];
 
 // ─── Methodische Grundprinzipien (fuer Basics-Tab) ────────────

@@ -22,7 +22,7 @@ const OptionGroup = ({ name, label, options, value, onChange }) => (
 
 // Meine Signale (docs/profil-und-aufraeumen.md, Abschnitt 2): eine Zeile pro Funktion, frei editierbar
 const SignalFields = ({ signals, onChange }) => (
-  <fieldset className="field">
+  <fieldset className="field" id="meine-signale">
     <legend className="field-label">Meine Signale</legend>
     <div className="stack" style={{ gap: 12 }}>
       {SIGNAL_FIELDS.map((f) => (

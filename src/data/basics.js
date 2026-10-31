@@ -6,6 +6,7 @@
  * showWhen: nur sichtbar, wenn die Profilangabe passt (fehlt → immer sichtbar)
  * open:     beim Öffnen des Tabs aufgeklappt
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
+ * group:    Zwischenüberschrift (BASICS_GROUPS, rubriken-review.md, Abschnitt 7c)
  */
 import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
@@ -27,9 +28,17 @@ const warmupTable = {
   rows: ["voll", "kurz", "mini"].map((id) => [sessionName(id), WARMUP_COOLDOWN[id].warmup, WARMUP_COOLDOWN[id].cooldown ?? "entfällt"]),
 };
 
-export const BASICS_SECTIONS = [
+export const BASICS_GROUPS = [
+  { id: "vorher",  label: "Bevor du rausgehst" },
+  { id: "wie",     label: "Wie trainiert wird" },
+  { id: "nach",    label: "Nachschlagen" },
+  { id: "rahmen",  label: "Rahmen" },
+];
+
+const SECTIONS = [
   {
     id: "einstieg",
+    group: "vorher",
     title: "So fängst du an",
     open: true,
     showWhen: { experience: "keine" },
@@ -48,6 +57,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "ziel",
+    group: "wie",
     title: "Worauf das Training hinarbeitet",
     open: true,
     blocks: [
@@ -66,8 +76,9 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "einwirkung",
+    group: "wie",
     title: "Einwirkung und Korrektur",
-    open: true, // bleibt offen und an Position 3 (basics-umsetzung.md, Abschnitt 2)
+    open: true, // bleibt offen (rubriken-review.md, Abschnitt 7c)
     blocks: [
       t("**Die Haltung dieser App**"),
       t("Neues Verhalten entsteht über Belohnung. Bekanntes Verhalten wird eingefordert, nicht verhandelt: unerwünschtes Verhalten wird unterbrochen und in erwünschtes umgelenkt, nicht ausgesessen. **Körperliche Einwirkung ist kein Mittel dieser App.**"),
@@ -88,6 +99,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "vorbereitung",
+    group: "vorher",
     title: "Vor der Einheit",
     blocks: [
       t("**Alles vorbereiten, bevor der Hund aus dem Auto kommt.** Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. Erst wenn alles steht, den Hund holen, lösen lassen, anleinen und auf die Aufgabe konzentrieren. Nur wenn Hund und Führer aufeinander konzentriert sind, bilden sie ein Team."),
@@ -112,12 +124,14 @@ export const BASICS_SECTIONS = [
       // Zahlen aus WARMUP_COOLDOWN, wie im Session-Builder (basics-umsetzung.md, Abschnitt 5)
       t("**Aufwärmen und Cool Down**"),
       warmupTable,
+      t(WARMUP_COOLDOWN.whyWarmup),
       ul(...WARMUP_COOLDOWN.rules),
       note(WARMUP_COOLDOWN.shortNote),
     ],
   },
   {
     id: "sinne",
+    group: "nach",
     title: "Der Hund als Sinneswesen",
     blocks: [
       t("**Gehör**\nHunde hören von 30 Hz bis 64 kHz, am empfindlichsten zwischen 1 und 16 kHz. Sie nehmen Töne viermal leiser wahr als Menschen und aus viermal größerer Entfernung. Sie unterscheiden Tonhöhen, die nur ein Achtel Ton auseinanderliegen."),
@@ -131,6 +145,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "handzeichen",
+    group: "nach",
     title: "Handzeichen",
     blocks: [
       lead("Voran und Back sind zwei verschiedene Köpfe."),
@@ -151,6 +166,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "ausruestung",
+    group: "nach",
     title: "Dummys und Ausrüstung",
     blocks: [
       t("**Gewichte**"),
@@ -168,6 +184,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "lernen",
+    group: "wie",
     title: "Wie Hunde lernen",
     blocks: [
       t("**Drei Phasen**"),
@@ -195,6 +212,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "wasser",
+    group: "rahmen",
     title: "Sicherheit am Wasser",
     blocks: [
       t("**Untersuche den Uferbereich, bevor der Hund springt.** Einige Hunde haben beim Sprung ins Wasser den Tod gefunden, weil sie sich an Metallteilen, Ästen oder scharfkantigen Steinen verletzt haben."),
@@ -203,12 +221,14 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "glossar",
+    group: "nach",
     title: "Glossar",
     kind: "glossar",
     blocks: [],
   },
   {
     id: "recht",
+    group: "rahmen",
     title: "Recht und Rahmen",
     blocks: [
       note("**Diese Angaben sind keine Rechtsberatung.** Jagd- und Naturschutzrecht ist Landesrecht und weicht je nach Bundesland ab. Die Fristen unten sind die im Buch genannten Regelfälle."),
@@ -229,6 +249,7 @@ export const BASICS_SECTIONS = [
   },
   {
     id: "quellen",
+    group: "rahmen",
     title: "Quellen",
     blocks: [
       t("**Hauptquelle**"), ul(...GLOSSAR_SOURCES.haupt),
@@ -241,3 +262,6 @@ export const BASICS_SECTIONS = [
     ],
   },
 ];
+
+const ORDER = ["einstieg", "vorbereitung", "ziel", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "glossar", "wasser", "recht", "quellen"];
+export const BASICS_SECTIONS = ORDER.map((id) => SECTIONS.find((s) => s.id === id));

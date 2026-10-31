@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { BASICS_SECTIONS } from "../data/basics.js";
+import { useState, useEffect, useRef, Fragment } from "react";
+import { BASICS_SECTIONS, BASICS_GROUPS } from "../data/basics.js";
 import { GLOSSAR, GLOSSAR_GROUPS } from "../data/glossar.js";
 import { RichText } from "./Glossar.jsx";
 import { IconChevron } from "./Icons.jsx";
@@ -50,8 +50,15 @@ const signalText = (e, dog) => {
   return words.length ? words.map((w) => `„${w}“`).join(" und ") : `(${e.fallback})`;
 };
 
+// Suche nach Begriff und Alias (rubriken-review.md, Abschnitt 4)
+const matches = (e, q) => [e.term, ...(e.aliases || [])].some((w) => w.toLowerCase().includes(q));
+
 const GlossarSection = ({ dog, focusId }) => {
   const [openIds, setOpenIds] = useState(() => new Set());
+  const [query, setQuery] = useState("");
+  const q = query.trim().toLowerCase();
+  // Gruppen sind eigene Klappelemente. Ein Sprung aus der Sprechblase öffnet die Gruppe des Begriffs.
+  const [openGroups, setOpenGroups] = useState(() => new Set(GLOSSAR.filter((e) => e.id === focusId).map((e) => e.group)));
   useEffect(() => {
     if (!focusId) return;
     setOpenIds((s) => new Set(s).add(focusId));
@@ -60,14 +67,27 @@ const GlossarSection = ({ dog, focusId }) => {
   }, [focusId]);
   const toggle = (id, on) => setOpenIds((s) => { const n = new Set(s); on ? n.add(id) : n.delete(id); return n; });
 
+  const shown = GLOSSAR_GROUPS.map((g) => ({ g, entries: GLOSSAR.filter((e) => e.group === g.id && (!q || matches(e, q))) }))
+    .filter((x) => x.entries.length);
+
   return (
     <div className="gl-groups">
-      {GLOSSAR_GROUPS.map((g) => {
-        const entries = GLOSSAR.filter((e) => e.group === g.id);
-        if (!entries.length) return null;
+      <input type="search" className="input" placeholder="Begriff suchen" aria-label="Glossar durchsuchen"
+        value={query} onChange={(e) => setQuery(e.target.value)} />
+      {!shown.length && <p className="small muted">Kein Begriff gefunden.</p>}
+      {shown.map(({ g, entries }) => {
         return (
-          <section key={g.id} className="gl-group" aria-labelledby={`glg-${g.id}`}>
-            <h4 id={`glg-${g.id}`} className="gl-group-title">{g.label}</h4>
+          <details key={g.id} className="gl-group" open={!!q || openGroups.has(g.id)}
+            onToggle={(ev) => {
+              if (q) return; // beim Suchen sind die Treffergruppen immer offen
+              const on = ev.currentTarget.open;
+              setOpenGroups((s) => { const n = new Set(s); on ? n.add(g.id) : n.delete(g.id); return n; });
+            }}>
+            <summary>
+              <span className="gl-group-title">{g.label}</span>
+              <span className="gl-group-count">{entries.length}</span>
+              <IconChevron size={18} />
+            </summary>
             {g.intro && <p className="small muted">{g.intro}</p>}
             <div className="gl-list">
               {entries.map((e) => (
@@ -82,7 +102,7 @@ const GlossarSection = ({ dog, focusId }) => {
                 </details>
               ))}
             </div>
-          </section>
+          </details>
         );
       })}
     </div>
@@ -93,8 +113,13 @@ const GlossarSection = ({ dog, focusId }) => {
 // focus: { id, n } aus einer Sprechblase ("Im Glossar ansehen"); n erzwingt den Sprung auch beim selben Begriff
 export default function BasicsTab({ st, focus }) {
   const sections = BASICS_SECTIONS.filter((s) => visible(s, st.dog));
-  const [open, setOpen] = useState(() => new Set(sections.filter((s) => s.open).map((s) => s.id)));
+  const [open, setOpen] = useState(() => new Set([...sections.filter((s) => s.open).map((s) => s.id), ...(focus?.id ? ["glossar"] : [])]));
   const glossarRef = useRef(null);
+  // Inhaltsverzeichnis: Abschnitt öffnen und hinspringen
+  const jump = (id) => {
+    setOpen((s) => new Set(s).add(id));
+    setTimeout(() => document.getElementById(`sec-${id}`)?.scrollIntoView({ block: "start" }), 60);
+  };
 
   useEffect(() => {
     if (focus?.id) setOpen((s) => new Set(s).add("glossar"));
@@ -102,8 +127,25 @@ export default function BasicsTab({ st, focus }) {
 
   return (
     <div className="basics">
-      {sections.map((s) => (
-        <details key={s.id} className="acc" open={open.has(s.id)} ref={s.kind === "glossar" ? glossarRef : undefined}
+      <nav className="basics-toc" aria-label="Inhalt">
+        {BASICS_GROUPS.map((g) => {
+          const list = sections.filter((s) => s.group === g.id);
+          return list.length > 0 && (
+            <div key={g.id}>
+              <p className="small muted">{g.label}</p>
+              <ul>
+                {list.map((s) => <li key={s.id}><button type="button" className="link-btn" onClick={() => jump(s.id)}>{s.title}</button></li>)}
+              </ul>
+            </div>
+          );
+        })}
+      </nav>
+      {sections.map((s, i) => (
+        <Fragment key={s.id}>
+        {sections[i - 1]?.group !== s.group && (
+          <h2 className="basics-group">{BASICS_GROUPS.find((g) => g.id === s.group)?.label}</h2>
+        )}
+        <details id={`sec-${s.id}`} className="acc" open={open.has(s.id)} ref={s.kind === "glossar" ? glossarRef : undefined}
           onToggle={(e) => { const on = e.currentTarget.open; setOpen((p) => { const n = new Set(p); on ? n.add(s.id) : n.delete(s.id); return n; }); }}>
           <summary>
             <span>{s.title}</span>
@@ -115,7 +157,9 @@ export default function BasicsTab({ st, focus }) {
               : <Blocks blocks={s.blocks} />}
           </div>
         </details>
+        </Fragment>
       ))}
+      <button type="button" className="link-btn basics-top" onClick={() => window.scrollTo(0, 0)}>Nach oben</button>
     </div>
   );
 }

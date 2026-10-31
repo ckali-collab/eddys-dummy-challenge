@@ -26,7 +26,7 @@ const sampleState = () => {
   s.sessions = [session("2026-10-01T08:00:00.000Z"), session("2026-10-04T08:00:00.000Z")];
   s.trophies = [{ id: "erste", at: "2026-10-01T08:00:00.000Z" }, { id: "hand", at: "2026-10-02T08:00:00.000Z", manual: true }];
   s.plan = { date: "2026-10-31", type: "kurz", offsets: { main: 1 }, picks: { main: "H:silber" } };
-  s.settings = { theme: "dark", lastExportAt: "2026-10-05T08:00:00.000Z", exportSnoozedAt: null };
+  s.settings = { theme: "dark", lastExportAt: "2026-10-05T08:00:00.000Z", exportSnoozedAt: null, signalHintSeen: true };
   return s;
 };
 const stored = () => JSON.parse(store.get(STORAGE_KEY));
