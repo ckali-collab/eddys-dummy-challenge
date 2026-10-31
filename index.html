@@ -13,6 +13,41 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Eddy's Dummy Challenge</title>
     <script>
+      // Fehlt das Bundle (Service-Worker-Wechsel während des Ladens: alte index.html, Datei schon weg),
+      // läuft kein Code aus dem Bundle. Der Handler muss deshalb hier stehen, vor den Asset-Tags.
+      // Genau ein Reload je Fehlerserie, der Merker fällt erst nach einem fehlerfreien Laden.
+      (function () {
+        var KEY = 'edc-load-retry', failed = false, reloading = false;
+        addEventListener('error', function (e) {
+          var t = e.target, url = t && (t.src || t.href) || '';
+          if (failed || !t || (t.tagName !== 'SCRIPT' && t.tagName !== 'LINK') || url.indexOf('/assets/') < 0) return;
+          failed = true;
+          try {
+            if (sessionStorage.getItem(KEY)) return;
+            sessionStorage.setItem(KEY, '1');
+            reloading = true;
+            location.reload();
+          } catch (err) {}
+        }, true);
+        addEventListener('load', function () {
+          if (!failed) {
+            try { sessionStorage.removeItem(KEY); } catch (err) {}
+            return;
+          }
+          var root = document.getElementById('root');
+          if (reloading || !root || root.firstChild) return;
+          root.innerHTML = '<div style="padding:24px;font-family:sans-serif;line-height:1.5">'
+            + '<p><strong>Die App konnte nicht geladen werden.</strong></p>'
+            + '<p>Dein Fortschritt ist davon nicht betroffen. Bitte nicht neu installieren, das kann ihn löschen.</p>'
+            + '<p><button type="button" style="min-height:44px;padding:0 16px;font:inherit">Neu laden</button></p></div>';
+          root.querySelector('button').onclick = function () {
+            try { sessionStorage.removeItem(KEY); } catch (err) {}
+            location.reload();
+          };
+        });
+      })();
+    </script>
+    <script>
       // Theme vor dem ersten Paint setzen, sonst blitzt bei manueller Wahl kurz das System-Theme auf.
       // Key und Werte müssen zu src/lib/storage.js passen.
       try {

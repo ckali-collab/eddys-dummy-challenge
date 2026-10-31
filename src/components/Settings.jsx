@@ -129,7 +129,7 @@ const DangerZone = ({ state, onExport, onClearSessions, onResetProgress, onReset
   return (
     <section className="danger-zone" aria-labelledby="dz-title">
       <h2 id="dz-title">Zurücksetzen</h2>
-      <p className="small">Gelöschtes ist weg. Nur ein Import lässt sich rückgängig machen, und auch der nur einmal.</p>
+      <p className="small">Diese drei Aktionen haben kein Rückgängig. Nur ein Import lässt sich zurücknehmen, und auch der nur einmal.</p>
       <DangerAction id="sessions" open={open} setOpen={setOpen}
         label="Sessions löschen" confirmLabel={`Ja, ${sessions} löschen`}
         text={`Löscht ${allSessions} aus dem Verlauf. Trophäen, die an Sessions hängen, werden wieder gesperrt. Auch die Ruhetag-Empfehlung rechnet danach ohne diese Sessions. Der Level-Fortschritt, dein Profil und das Farbschema bleiben.`}
