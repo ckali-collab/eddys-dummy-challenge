@@ -9,7 +9,7 @@ import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
 import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal } from "../lib/steps.js";
-import { gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
+import { dummyWeight, gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
   <section className="section">
@@ -95,6 +95,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
   const stepsInBackground = track.axis === "bedingungen" || (level.stepsType === "varianten" && level.path?.some((p) => p.text));
   const apportNote = MIN_AGE_NOTES[`${trackId}:${levelId}`];
   const dpe = level.examClass === "DP-E";
+  const profileNote = level.profileNotes?.find((n) => n.joints?.includes(st.dog?.joints) || n.ages?.includes(st.dog?.age));
   const idx = track.levels.findIndex((l) => l.id === levelId);
   const joints = jointWarnings(st.dog, trackId, levelId);
   const first = firstStep(st.dog, level);
@@ -134,9 +135,9 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
             </button>
           ))}
           {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
-          {/* first > 1: Profil ohne Welpendummy, nur dort stimmen "leichter" und "500 Gramm ab Silber" */}
-          {level.todayNote && first > 1 && <p className="small muted">{level.todayNote}</p>}
-          {level.profileNote?.ages.includes(st.dog?.age) && <p className="small muted">{level.profileNote.text}</p>}
+          {/* Nur bei Profilen mit 500 g stimmen "leichter" und "500 Gramm ab Silber" */}
+          {level.todayNote && dummyWeight(st.dog) === 500 && <p className="small muted">{level.todayNote}</p>}
+          {profileNote && <p className="small muted">{profileNote.text}</p>}
           {todayGear.length > 0 && <GearList gear={todayGear} dummyType={level.dummyType} dog={st.dog} />}
           {todaySetup.length > 0 && (
             <ul className="tips setup-list">

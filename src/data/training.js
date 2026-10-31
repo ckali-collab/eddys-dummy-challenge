@@ -615,7 +615,10 @@ export const TRACKS = [
         reps: 3, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "standarddummy", n: 1 }], // feste Angabe, das Gewicht ist hier die Übung (unsichtbare-inhalte.md, Abschnitt 5)
-        profileNote: { ages: ["welpe", "junghund"], text: "Dieses Level setzt voraus, dass er das Standarddummy tragen kann. Wenn nicht, bleib bei Bronze." },
+        profileNotes: [ // der erste passende Hinweis gilt, der Gelenkbefund geht vor
+          { joints: ["deutlich"], text: "Bei deutlichem Gelenkbefund ist dieses Level nicht geeignet. Bleib bei Bronze oder sprich das Gewicht mit dem Tierarzt ab." },
+          { ages: ["welpe", "junghund"], text: "Dieses Level setzt voraus, dass er das Standarddummy tragen kann. Wenn nicht, bleib bei Bronze." },
+        ],
         dummyType: "standard", // null | "standard" | "junior"; hier geht es um schwere Gegenstände, deshalb nicht in der Mini-Session (nachtrag-review.md, Abschnitt 5)
         amount: { n: 5, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         diagram: null,
@@ -648,7 +651,7 @@ export const TRACKS = [
         criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Drei Durchgänge.",
         run: "3 Retrieves einzeln in der Situation der heutigen Stufe, jedes Mal bei hoher Erregung, dazwischen etwas anderes machen.",
         reps: 3, // Tage mit gelungenem Durchgang
-        load: 3, // Belastungspunkte pro Durchgang
+        load: 5, // Belastungspunkte pro Durchgang: drei Abgaben plus die Apports davor (pfade-und-prinzipien.md, Abschnitt 5)
         gear: [{ id: "dummy", n: 2 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         diagram: null,
@@ -1134,8 +1137,8 @@ export const WARMUP_COOLDOWN = {
       ],
       notes: ["Nicht über 30 Prozent dessen gehen, was er leisten könnte: Er soll danach warm sein, nicht müde. Unter 10 Minuten sind die Stoffwechselabläufe in den Gelenken nicht aktiviert."],
     },
-    // Nach Profil (unsichtbare-inhalte.md, Abschnitt 2): abgeleitet, das Buch unterscheidet hier nicht.
-    // Die Stufe "leicht" gilt auch für WARMUP_GENTLE_AGES; "deutlich" geht vor.
+    // Nach Profil (pfade-und-prinzipien.md, Abschnitt 5): abgeleitet, das Buch unterscheidet hier nicht.
+    // "leicht" gilt auch für "unbekannt" und WARMUP_GENTLE_AGES; "deutlich" geht vor.
     warmupGuideJoints: {
       deutlich: {
         steps: [
@@ -1155,7 +1158,6 @@ export const WARMUP_COOLDOWN = {
         3: "Ein paar kontrollierte Galoppsprints, kurz halten.",
         4: "Dann Stopps aus dem Trab und weite Wendungen, dazu ein paar Konzentrations- und Gehorsamsübungen.",
       } },
-      unbekannt: { addNote: "Wenn du den Gelenkzustand nicht kennst, lass die Galoppsprints weg, bis du ihn kennst." },
     },
     cooldownGuide: {
       steps: [
@@ -1171,10 +1173,7 @@ export const WARMUP_COOLDOWN = {
   },
   kurz: {
     warmupMin: 5, cooldownMin: [3, 5], warmup: "5 min, zügiges Lösen und Traben", cooldown: "3 bis 5 min",
-    warmupGuide: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar Wendungen. Lösen lassen, bevor es losgeht."] },
-    warmupGuideJoints: {
-      deutlich: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar weite Bögen. Lösen lassen, bevor es losgeht."] },
-    },
+    warmupGuide: { notes: ["Lockeres Traben, dann kontrolliertes Schrittgehen, zum Schluss ein paar weite Bögen. Lösen lassen, bevor es losgeht."] },
     cooldownGuide: { notes: ["Lockerer Trab, dann Schritt, bis die Atmung ruhig ist."] },
   },
   mini: {
@@ -1191,7 +1190,7 @@ export const WARMUP_COOLDOWN = {
   shortNote: "Die verkürzte Variante liegt unter der physiotherapeutischen Empfehlung und ist nur bei geringer Belastungsintensität vertretbar.",
 };
 
-export const WARMUP_GENTLE_AGES = ["welpe", "senior"];
+export const WARMUP_GENTLE_AGES = ["welpe", "junghund", "senior"];
 
 // ─── Session-Regeln aus dem Fundament (Abschnitt 11; Zvolsky) ──
 export const SESSION_GUIDANCE = {
@@ -1235,7 +1234,7 @@ export const DPE_SHOT_NOTE = "Die DP-E gibt es mit Schuss (m. S.) und ohne (o. S
 // Buchsatz zum Einstieg, nach Geltungsbereich aufgelöst (unsichtbare-inhalte.md, Abschnitt 3)
 const MIN_AGE_START = "**Ganz am Anfang** reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Wiederholungen.";
 export const MIN_AGE_NOTES = {
-  "E:bronze": `${MIN_AGE_START} Das gilt für die ersten Wochen nach dem Zahnwechsel. Die zehn kurzen Retrieves dieses Levels sind für einen Hund gedacht, der das Bringen schon kennt.`,
+  "E:bronze": "**Ganz am Anfang**, in den ersten Wochen nach dem Zahnwechsel, reichen zwei bis drei Apportiereinheiten pro Woche mit je zwei bis drei Wiederholungen. Bleib dann unter den zehn Retrieves dieses Levels. Das Level gilt erst als geschafft, wenn er sie sauber schafft.",
   "F:bronze": `${MIN_AGE_START} Die fünf Marken dieses Levels setzen voraus, dass er das Apportieren kennt.`,
 };
 
@@ -1335,21 +1334,21 @@ export const GEAR_ITEMS = {
   markierstab: { one: "Markierstab", many: "Markierstäbe", icon: "marker-pole" },
   futterschuessel: { one: "Futterschüssel", many: "Futterschüsseln", icon: null },
   // Dummys mit festem Gewicht, unabhängig vom Profil
-  standarddummy:   { one: "Standarddummy 500 g", many: "Standarddummys 500 g", icon: "dummy" },
-  welpendummy:     { one: "Welpendummy 200 g", many: "Welpendummys 200 g", icon: "dummy" },
-  juniordummy:     { one: "Juniordummy 400 g", many: "Juniordummys 400 g", icon: "dummy" },
+  standarddummy:   { one: "Standarddummy 500 g", many: "Standarddummys 500 g", icon: "dummy", grams: 500 },
+  welpendummy:     { one: "Welpendummy 200 g", many: "Welpendummys 200 g", icon: "dummy", grams: 200 },
+  juniordummy:     { one: "Juniordummy 400 g", many: "Juniordummys 400 g", icon: "dummy", grams: 400 },
   suchdummy:       { one: "Suchendummy 80 g", many: "Suchendummys 80 g", icon: "pocket-dummy" },
   schreckschuss:   { one: "Schreckschuss", many: "Schreckschuss", icon: null },
 };
 
-// Dummy-Gewicht aus dem Profil: Welpe/Junghund oder deutlicher Gelenkbefund → Welpendummy 200 g, sonst 500 g
-// (fundament-umbau-2.md, Abschnitt 5)
-export const DUMMY_WEIGHT = { light: 200, junior: 400, standard: 500, lightAges: ["welpe", "junghund"], lightJoints: ["deutlich"] };
+// Dummy-Gewicht aus dem Profil: Welpe oder deutlicher Gelenkbefund 200 g, Junghund und Senior 400 g, sonst 500 g
+// (pfade-und-prinzipien.md, Abschnitt 2; Senior ist dort als Ableitung gekennzeichnet)
+export const DUMMY_WEIGHT = { light: 200, junior: 400, standard: 500, lightAges: ["welpe"], juniorAges: ["junghund", "senior"], lightJoints: ["deutlich"] };
 
-// wasser steht im Basics-Tab. gewichte nicht: Junghund 200 g widerspricht den 400 g in Basics und Glossar, gemeldet.
+// Texte für den Basics-Tab
 export const EQUIPMENT_NOTES = {
-  gewichte: "Ein Standard-Dummy wiegt 500 Gramm. Für Welpen und Junghunde nimmst du 200 Gramm, damit Gebiss und Gelenke nicht unnötig belastet werden. Bei deutlichem Gelenkbefund bleibst du auch beim erwachsenen Hund bei 200 Gramm.",
-  wasser: "Fast alle Canvas-Dummys schwimmen, du brauchst für den Anfang nichts Zusätzliches. Canvas saugt sich im Wasser aber voll, wird schwerer und bleibt lange feucht. Wenn du regelmäßig am Wasser arbeitest, lohnt ein Wasserdummy aus Kunststoff: trocknet sofort und liegt sichtbarer auf der Oberfläche. Helle Farben wie Weiß oder Orange helfen dir, die Linie deines Hundes im Wasser zu verfolgen.",
+  gewichte: "Ein Standard-Dummy wiegt 500 Gramm. Für Welpen nimmst du 200 Gramm, für Junghunde und Senioren 400, damit Gebiss und Gelenke nicht unnötig belastet werden. Bei deutlichem Gelenkbefund bleibst du auch beim erwachsenen Hund bei 200 Gramm.",
+  wasser: "Fast alle Canvas-Dummys schwimmen, du brauchst für den Anfang nichts Zusätzliches. Canvas saugt sich im Wasser aber voll, wird schwerer und bleibt lange feucht. Wenn du regelmäßig am Wasser arbeitest, lohnt ein Wasserdummy aus Kunststoff: trocknet sofort und liegt sichtbarer auf der Oberfläche. Helle Farben helfen dir, die Fallstelle im Wasser im Blick zu behalten.",
 };
 
 export const DISCLAIMER =
@@ -1358,6 +1357,7 @@ export const DISCLAIMER =
 // Glossar: src/data/glossar.js (docs/glossar-v5.md)
 
 // ─── Troubleshooting ──────────────────────────────────────────
+// Noch nicht angezeigt: Prüfung gegen Buch und Regelwerk steht aus (pfade-und-prinzipien.md, Abschnitt 4)
 export const TROUBLESHOOTING = [
   {
     id: "recall-dogs",
@@ -1375,7 +1375,6 @@ export const TROUBLESHOOTING = [
   },
   {
     id: "whining",
-    held: true, // Widerspruch zu Einwirkung (nicht aussitzen), gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
     problem: "Fiept oder winselt vor dem Schicken",
     cause: "Erwartungsdruck, zu viele Wiederholungen.",
     fix: "Anzahl der Retrieves pro Session reduzieren. Längere Pausen. Session beenden, bevor die Erregung hochkocht.",
@@ -1397,7 +1396,6 @@ export const TROUBLESHOOTING = [
   },
   {
     id: "overrun",
-    held: true, // Widerspruch zu den Pfaden (Distanz steigt vor dem Gelände), gemeldet
     problem: "Läuft am Dummy vorbei",
     cause: "Distanz vor dem Gelände erhöht.",
     fix: "Eine Variable zurück. Distanz verkürzen oder einfacheres Gelände.",
@@ -1545,7 +1543,6 @@ export const PRINCIPLES = [
           "Anfängern auch räumlich: die Gefahr der Verwechslung und die " +
           "daraus folgende Verwirrung muss so gering wie möglich bleiben." },
   { name: "Errorless Learning",
-    desc: "Die Aufgabe so stellen, dass der Hund sie lösen kann. Zielwert " +
-          "rund 80 Prozent Erfolgsquote. Praxiswert aus der " +
-          "Trainingsliteratur, keine Studie dazu bekannt." },
+    desc: "Die Aufgabe so stellen, dass der Hund sie lösen kann. Als " +
+          "Faustregel rund 80 Prozent Erfolgsquote." },
 ];

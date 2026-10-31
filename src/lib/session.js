@@ -26,20 +26,16 @@ export const sessionDuration = (typeId) => {
   return lo === hi ? `${lo} Min` : `${lo}-${hi} Min`;
 };
 
-// Aufwärm-Anleitung nach Profil (unsichtbare-inhalte.md, Abschnitt 2). Welpe und Senior: Ablauf wie "leicht",
-// bei unbekanntem Gelenkzustand kommt der Zusatz dazu; "deutlich" geht allem vor.
+// Aufwärm-Anleitung nach Profil (pfade-und-prinzipien.md, Abschnitt 5). Welpe, Junghund, Senior und unbekannter
+// Gelenkzustand: Ablauf wie "leicht"; "deutlich" geht allem vor.
 export const warmupGuideFor = (typeId, dog) => {
   const wc = WARMUP_COOLDOWN[typeId];
   const base = wc?.warmupGuide ?? null;
   const v = wc?.warmupGuideJoints;
   if (!v) return base;
   if (dog?.joints === "deutlich" && v.deutlich) return v.deutlich;
-  let guide = base;
-  if (v.leicht && (dog?.joints === "leicht" || WARMUP_GENTLE_AGES.includes(dog?.age))) {
-    guide = { ...guide, steps: guide.steps.map((s, i) => v.leicht.replaceSteps[i] ?? s) };
-  }
-  if (dog?.joints === "unbekannt" && v.unbekannt) guide = { ...guide, notes: [...guide.notes, v.unbekannt.addNote] };
-  return guide;
+  if (!["leicht", "unbekannt"].includes(dog?.joints) && !WARMUP_GENTLE_AGES.includes(dog?.age)) return base;
+  return { ...base, steps: base.steps.map((s, i) => v.leicht.replaceSteps[i] ?? s) };
 };
 
 // ─── Belastung ────────────────────────────────────────────────

@@ -2,10 +2,10 @@ import { GEAR_ITEMS, DUMMY_WEIGHT } from "../data/training.js";
 import { getLevel } from "./progress.js";
 
 // Dummy-Gewicht aus dem Profil
-export const dummyWeight = (dog) =>
-  DUMMY_WEIGHT.lightAges.includes(dog?.age) || DUMMY_WEIGHT.lightJoints.includes(dog?.joints)
-    ? DUMMY_WEIGHT.light
-    : DUMMY_WEIGHT.standard;
+export const dummyWeight = (dog) => {
+  if (DUMMY_WEIGHT.lightAges.includes(dog?.age) || DUMMY_WEIGHT.lightJoints.includes(dog?.joints)) return DUMMY_WEIGHT.light;
+  return DUMMY_WEIGHT.juniorAges.includes(dog?.age) ? DUMMY_WEIGHT.junior : DUMMY_WEIGHT.standard;
+};
 
 // Anzeige eines gear-Eintrags, z.B. "2 Dummys 500 g", "1 Dummy 500 g oder Juniordummy 400 g", "Pfeife".
 // Die Juniordummy-Alternative entfällt, wenn das Profil ohnehin ein leichteres Dummy vorsieht.
@@ -62,7 +62,9 @@ export const gearIcon = (item) => GEAR_ITEMS[item.id]?.icon ?? null;
 // Dummy: kommt ein Block mit "standard" vor, wird der Standard-Dummy gepackt, nicht die Oder-Variante.
 // item.steps: nur einpacken, wenn der Block heute auf einer dieser Stufen steht (block.step).
 // item.orMore: "10 oder mehr" bleibt in der Packliste erhalten.
-export const packingList = (blocks) => {
+// Dummy mit festem Gewicht, das dem Gewicht des Profils entspricht: zählt als derselbe Dummy (pfade-und-prinzipien.md, Abschnitt 5).
+export const packingList = (blocks, dog) => {
+  const packId = (id) => (GEAR_ITEMS[id]?.grams === dummyWeight(dog) ? "dummy" : id);
   const orMore = new Set();
   const need = new Map(); // id -> { req, opt } höchste Pflicht- bzw. optionale Stückzahl
   const dummyTypes = { required: new Set(), optional: new Set() };
@@ -71,13 +73,14 @@ export const packingList = (blocks) => {
     const lvl = getLevel(b.trackId, b.levelId);
     for (const item of lvl?.gear ?? []) {
       if (item.steps && !item.steps.includes(b.step)) continue;
-      if (item.orMore) orMore.add(item.id);
-      const cur = need.get(item.id) ?? { req: 0, opt: 0 };
+      const id = packId(item.id);
+      if (item.orMore) orMore.add(id);
+      const cur = need.get(id) ?? { req: 0, opt: 0 };
       const optional = !!item.optional;
       if (optional) cur.opt = Math.max(cur.opt, item.n);
       else cur.req = Math.max(cur.req, item.n);
-      need.set(item.id, cur);
-      if (item.id === "dummy") dummyTypes[optional ? "optional" : "required"].add(lvl.dummyType ?? "standard");
+      need.set(id, cur);
+      if (id === "dummy") dummyTypes[optional ? "optional" : "required"].add(lvl.dummyType ?? "standard");
     }
   }
   // Dummy-Typ aus den Pflicht-Dummys; nur wenn es keinen gibt, aus den optionalen

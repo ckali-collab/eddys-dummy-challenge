@@ -6,9 +6,9 @@ const { BASICS_SECTIONS, BASICS_GROUPS } = await import("../src/data/basics.js")
 const { GLOSSAR } = await import("../src/data/glossar.js");
 const { findTerms } = await import("../src/lib/glossar.js");
 const { freshState } = await import("../src/lib/storage.js");
-const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress } = await import("../src/lib/progress.js");
+const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
-const { gearAllSteps, gearLabel } = await import("../src/lib/gear.js");
+const { gearAllSteps, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
 const { conditionText } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
@@ -106,34 +106,44 @@ test("Aufwärmen nach Profil", () => {
   assert.equal(light.steps[3], "Ein paar kontrollierte Galoppsprints, kurz halten.");
   assert.match(light.steps[4], /^Dann Stopps aus dem Trab und weite Wendungen/);
   assert.equal(light.steps.length, 6);
-  for (const age of ["welpe", "senior"]) assert.deepEqual(warmupGuideFor("voll", dog("ok", age)), light, age);
-  assert.deepEqual(warmupGuideFor("voll", dog("ok", "junghund")), plain);
+  for (const age of ["welpe", "junghund", "senior"]) assert.deepEqual(warmupGuideFor("voll", dog("ok", age)), light, age);
+  assert.deepEqual(warmupGuideFor("voll", dog("unbekannt")), light);
   const hard = warmupGuideFor("voll", dog("deutlich", "welpe"));
   assert.equal(hard.steps[3], "Weite Bögen statt enger Wendungen. Keine Galoppsprints.");
   assert.match(hard.notes[0], /Tierarzt/);
   assert.match(hard.notes[1], /30 Prozent/);
-  const unknown = warmupGuideFor("voll", dog("unbekannt"));
-  assert.deepEqual(unknown.steps, plain.steps);
-  assert.match(unknown.notes.at(-1), /Gelenkzustand nicht kennst/);
-  assert.equal(warmupGuideFor("voll", dog("unbekannt", "senior")).steps[3], light.steps[3]);
-  assert.match(warmupGuideFor("kurz", dog("deutlich")).notes[0], /weite Bögen/);
-  assert.match(warmupGuideFor("kurz", dog("ok")).notes[0], /ein paar Wendungen/);
+  for (const d of [dog("ok"), dog("leicht"), dog("deutlich"), dog("ok", "welpe")]) assert.match(warmupGuideFor("kurz", d).notes[0], /weite Bögen/);
 });
 
 test("Zurückgehaltene Inhalte erscheinen nicht in den Basics", () => {
   const text = JSON.stringify(BASICS_SECTIONS);
-  for (const s of ["Retrieve-Limit", "Kein eigener Track","Warm-up und Abschluss", "Fiept oder winselt", "Läuft am Dummy vorbei", "Drei erfolgreiche Retrieves", "nimmst du 200 Gramm", "Eine Variable pro Steigerung"]) {
+  for (const s of ["Retrieve-Limit", "Kein eigener Track", "Warm-up und Abschluss", "Fiept oder winselt", "Stoppt von selbst", "Drei erfolgreiche Retrieves", "Eine Variable pro Steigerung", "Linie deines Hundes"]) {
     assert.ok(!text.includes(s), s);
   }
-  for (const s of ["Stoppt von selbst", "Kein Absprung von Uferkanten", "Fast alle Canvas-Dummys", "keine neue Schwierigkeit", "nicht über 30 Prozent"]) {
+  for (const s of ["Kein Absprung von Uferkanten", "Fast alle Canvas-Dummys", "keine neue Schwierigkeit", "nicht über 30 Prozent", "für Junghunde und Senioren 400", "Die fünf Fehlerursachen"]) {
     assert.ok(text.includes(s), s);
   }
 });
 
-test("E Silber: festes Gewicht, Hinweis für Welpe und Junghund", () => {
+test("Dummygewicht nach Profil, Packliste führt gleiche Gewichte zusammen", () => {
+  const dog = (age, joints = "ok") => ({ age, joints });
+  assert.deepEqual(["welpe", "junghund", "erwachsen", "senior"].map((a) => dummyWeight(dog(a))), [200, 400, 500, 400]);
+  assert.equal(dummyWeight(dog("senior", "deutlich")), 200);
+  assert.equal(firstStep(dog("junghund"), level("E", "bronze")), 2, "der Welpendummy entfällt");
+  assert.equal(firstStep(dog("welpe"), level("E", "bronze")), 1);
+  const block = (trackId, levelId, step = 2) => ({ kind: "level", trackId, levelId, step });
+  const items = (blocks, d) => packingList(blocks, d).items.map((g) => `${g.id}:${g.n}`);
+  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("erwachsen")), ["pfeife:1", "dummy:1"]);
+  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("welpe")), ["pfeife:1", "dummy:1", "standarddummy:1"]);
+  assert.deepEqual(items([block("E", "bronze"), block("A", "gold")], dog("junghund")), ["pfeife:1", "dummy:1"]);
+});
+
+test("E Silber: festes Gewicht, Hinweis nach Profil; E Gold mit Belastung 5", () => {
   const l = level("E", "silber");
   assert.deepEqual(gearAllSteps(l.gear, 1).map((g) => gearLabel(g, l.dummyType, { age: "welpe", joints: "ok" })), ["1 Standarddummy 500 g"]);
-  assert.deepEqual(l.profileNote.ages, ["welpe", "junghund"]);
+  assert.deepEqual(l.profileNotes[0].joints, ["deutlich"], "der Gelenkbefund geht vor");
+  assert.deepEqual(l.profileNotes[1].ages, ["welpe", "junghund"]);
+  assert.equal(level("E", "gold").load, 5);
 });
 
 test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
@@ -146,7 +156,7 @@ test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
 test("Glossar und Basics: neue Einträge, Gruppen vollständig", () => {
   assert.deepEqual(findTerms("Variante Voran auf der Uhr: aus derselben").map((h) => h.id), ["voran-uhr"]);
   assert.ok(!/Sichthilfe/.test(JSON.stringify(GLOSSAR.find((e) => e.id === "markierstab"))));
-  assert.equal(BASICS_SECTIONS.length, 13);
+  assert.equal(BASICS_SECTIONS.length, 12);
   assert.ok(BASICS_SECTIONS.every((s) => BASICS_GROUPS.some((g) => g.id === s.group)));
   const order = BASICS_SECTIONS.map((s) => s.group);
   assert.deepEqual(order.filter((g, i) => g !== order[i - 1]), BASICS_GROUPS.map((g) => g.id), "jede Gruppe am Stück");

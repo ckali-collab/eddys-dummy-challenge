@@ -8,7 +8,7 @@
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
  * group:    Zwischenüberschrift (BASICS_GROUPS, rubriken-review.md, Abschnitt 7c)
  */
-import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES, TROUBLESHOOTING } from "./training.js";
+import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
 
 const t = (content) => ({ type: "text", content });
@@ -179,6 +179,7 @@ const SECTIONS = [
         ["Standarddummy", "500 g", "Normalfall, alle Prüfungsklassen"],
         ["Suchendummy", "80 g", "Kleine Suche, Suchenpfiff bei geringer Witterung"],
       ] },
+      t(EQUIPMENT_NOTES.gewichte),
       // Farbtext: einzige Quelle DUMMY_FACTS (profil-und-aufraeumen.md, Abschnitt 3)
       t("**Farben**\n" + DUMMY_FACTS.farben),
       t("**Markierstäbe**\n" + DUMMY_FACTS.markierstab),
@@ -202,7 +203,7 @@ const SECTIONS = [
       t("**Die acht Bedingungen, die du variieren kannst**\nHaltung und Gestik, Trainingsort, Trainingsgegenstände, Entfernung und Position des Führers, Verleitungen, Ausgangssituation, Aufbewahrungsort der Belohnung, Wetter."),
       t("**Belohnen, nicht bestechen**\nDer Verstärker kommt nach der Ausführung. Zeigst du ihn vorher, wird er Teil des Signals, und der Hund wartet künftig ab, ob es etwas gibt. Bewahre Leckerchen in etwas auf, das nicht knistert: das Knistern und die Hand in der Tasche sind Vorboten, an denen der Hund abliest, ob die Arbeit sich lohnt."),
       t("Alltägliche Dinge taugen als Belohnung: rennen dürfen, ein Dummy holen dürfen, schwimmen dürfen. Oft wirksamer als das Leckerchen."),
-      t("**Wenn etwas nicht klappt, fünf mögliche Ursachen**"),
+      t("**Die fünf Fehlerursachen**"),
       ol("Überforderung, körperlich oder geistig. Pause.",
          "Unpassende Methode. Pause und überdenken.",
          "Ein neues Detail wurde eingeführt, das Alte wird vorübergehend schlechter. Ignorieren, nicht maßregeln. Es verschwindet von allein.",
@@ -226,12 +227,6 @@ const SECTIONS = [
       ul(...shown(WATER_MODULE.rules).map((r) => r.text)),
       note(WATER_MODULE.jointWarning),
     ],
-  },
-  {
-    id: "probleme",
-    group: "nach",
-    title: "Wenn etwas nicht klappt",
-    blocks: shown(TROUBLESHOOTING).map((p) => t(`**${p.problem}**\n${p.cause} ${p.fix}`)),
   },
   {
     id: "glossar",
@@ -277,5 +272,5 @@ const SECTIONS = [
   },
 ];
 
-const ORDER = ["einstieg", "vorbereitung", "ziel", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "probleme", "glossar", "wasser", "recht", "quellen"];
+const ORDER = ["einstieg", "vorbereitung", "ziel", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "glossar", "wasser", "recht", "quellen"];
 export const BASICS_SECTIONS = ORDER.map((id) => SECTIONS.find((s) => s.id === id));

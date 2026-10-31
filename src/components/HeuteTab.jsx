@@ -313,7 +313,7 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
   const plan = buildPlan(st, today.type, today.offsets, today.picks);
   const rest = restStatus(st);
   const type = getSessionType(today.type);
-  const pack = packingList(plan.blocks);
+  const pack = packingList(plan.blocks, st.dog);
   const reminder = exportReminder(st);
 
   // Gewählte Level festhalten, damit ein Reload denselben Plan zeigt
