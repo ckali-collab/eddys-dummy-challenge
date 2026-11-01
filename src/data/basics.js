@@ -169,7 +169,7 @@ const SECTIONS = [
       t("**Suchen:** Arm seitlich nach unten, Handfläche zum Hund."),
       t("**Reihenfolge im Aufbau:** Voran, dann Back, dann Rechts und Links. Die Seitenrichtungen sind für den Hund leichter, werden aber zuletzt aufgebaut, um ihn nicht zu verwirren."),
       t("**Drei Regeln zum Voran, die leicht übersehen werden**"),
-      ul("Üben Sie Voran niemals mit Wind von vorn. Bei Gegenwind reviert der Hund statt zu laufen.",
+      ul("Übe Voran nie mit Wind von vorn. Bei Gegenwind reviert der Hund, statt zu laufen.",
          "Ritualisieren: immer dieselbe Körperhaltung. Ändert sie sich, fehlt dem Hund die Motivation.",
          "Pushen: das Signal vor Hindernissen wiederholen."),
       t("Eine elegante Unterscheidung, wenn du sie von Anfang an durchhältst: linker Arm für Voran, rechter Arm für Markierungen."),

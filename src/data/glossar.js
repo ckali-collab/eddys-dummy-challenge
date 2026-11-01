@@ -333,7 +333,7 @@ export const GLOSSAR = [
   {
     id: "pfeife", term: "Pfeife", group: "ausruestung", aliases: [],
     short: "Für mehr Reichweite eine Pfeife mit Erbse, für leise Signale eine ohne.",
-    long: [t("Für mehr Reichweite eine Pfeife mit Erbse, für leise Signale eine ohne. Im Training und in der Prüfung gehört sie **in die Hand oder besser direkt in den Mund**, nicht in die Tasche: \"Sie müssen deshalb sofort reagieren können, wenn Ihr Hund Ihre Hilfe braucht.\"")],
+    long: [t("Für mehr Reichweite eine Pfeife mit Erbse, für leise Signale eine ohne. Im Training und in der Prüfung gehört sie **in die Hand oder besser direkt in den Mund**, nicht in die Tasche: Du musst deshalb sofort reagieren können, wenn dein Hund deine Hilfe braucht.")],
   },
 
   // ─── Der Hund als Sinneswesen ─────────────────────────────────
@@ -477,7 +477,7 @@ export const GLOSSAR = [
     long: [
       t("Der Hund läuft in gerader Linie von dir weg, bis ein neues Signal kommt. **Handzeichen: flache Hand hochkant, 20 bis 30 cm vor dem Kopf des HUNDES, \"wie über Kimme und Korn\".** Die Hand zeigt die Laufrichtung. Ausgangslage: Hund in Grundstellung neben dir."),
       t("Drei Regeln aus dem Buch, alle drei leicht zu übersehen:"),
-      ul("**\"Üben Sie Voran niemals mit Wind von vorn.\"** Bei Gegenwind reviert der Hund statt zu laufen.",
+      ul("**Übe Voran nie mit Wind von vorn.** Bei Gegenwind reviert der Hund, statt zu laufen.",
          "**Ritualisieren:** immer dieselbe Körperhaltung. Ändert sie sich, fehlt dem Hund die Motivation.",
          "**Pushen:** das Signal vor Hindernissen wiederholen."),
       t("Elegante Unterscheidung: linker Arm für Voran, rechter Arm für Markierungen."),

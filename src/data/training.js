@@ -755,18 +755,18 @@ export const TRACKS = [
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
-        setup: ["Eine zweite Person", "Gelände mit Sichtkante oder Wasser"], // Gelände, Helfer, Werfer: nicht in die Packliste
+        setup: ["Eine zweite Person", "Gelände mit Sichtkante, ab Stufe 3 mit Wasser oder mehreren Wechseln"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Zwei Dummys werfen lassen, am Anfang weit auseinander, etwa 10 Uhr und 2 Uhr. Erst wenn beide Apporte sauber sitzen, den Winkel über mehrere Einheiten zusammenziehen. Je enger die beiden Fallstellen beieinanderliegen, desto schwerer wird es für ihn, sie auseinanderzuhalten.",
           "Der Hund wartet beide Würfe ab, ohne einzuspringen.",
           "Reihenfolge vorher festlegen, in der Prüfung sagst du sie dem Richter an. Im Training wechseln, damit der Hund keine Gewohnheit aufbaut.",
-          "Mindestens ein Dummy hinter einer Sichtkante oder im Wasser.",
+          "Ab Stufe 3 mindestens ein Dummy ins Wasser oder darüber. Geht Wasser gerade nicht, reicht ein Gelände mit mehreren Wechseln.",
           "Zweites Dummy erst schicken, wenn das erste korrekt abgegeben ist.",
         ],
         tips: [
-          "Mehrere Markierstäbe aufstellen, Dummy nur bei einem. Sonst lernt er, zum nächsten Stab zu laufen, statt sich die Fallstelle zu merken.",
+          "Mehr Markierstäbe aufstellen, als Dummys fallen. Sonst lernt er, zum nächsten Stab zu laufen, statt sich die Fallstelle zu merken.",
           "Am Anfang den zuletzt geworfenen zuerst schicken, der liegt frischer im Gedächtnis. Sobald das sitzt, die Reihenfolge wechseln. In der Prüfung sagst du sie vorher an, und dann muss er genau die bringen.",
         ],
         warning: null,
@@ -925,7 +925,7 @@ export const TRACKS = [
         ],
         tips: [
           "Hand hochkant, 20 bis 30 cm vor dem Hundekopf, wie über Kimme und Korn.",
-          "Üben Sie Voran niemals mit Wind von vorn. Bei Gegenwind reviert der Hund statt zu laufen.",
+          "Übe Voran nie mit Wind von vorn. Bei Gegenwind reviert der Hund, statt zu laufen.",
           "Ritualisieren: immer dieselbe Körperhaltung. Ändert sie sich, fehlt dem Hund die Motivation.",
           "Pushen: das Signal vor Hindernissen wiederholen.",
           "Linker Arm für Voran, rechter Arm für Markierungen, als klare Unterscheidung.",
@@ -1311,7 +1311,7 @@ export const LOAD_LIMITS = {
 export const JOINT_WARNINGS = {
   waterIf:    "Wenn du ins Wasser gehst: nur flacher Einstieg, kein Absprung von Uferkanten.", // Stufe 4 geht auch an Land (f-abschluss.md, Abschnitt 5)
   multiMark:  "Viele Starts und Stopps, hohe Gelenkbelastung. Danach zwei Ruhetage.",
-  doubleMarkF: "Zwei Apports bis 80 Meter, einer durch Deckung oder Wasser. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.",
+  doubleMarkF: "Zwei Apports bis 80 Meter. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.",
   hardStop:   "Stopp-Pfiff bevorzugt aus dem Trab üben, nicht aus dem vollen Galopp.",
   directions: "Enge Wendungen begrenzen.",
 };

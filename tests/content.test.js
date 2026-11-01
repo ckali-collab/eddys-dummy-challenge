@@ -262,6 +262,17 @@ test("Heute entschlacken: Dauer, Pause, Begriffe, Sie-Form", () => {
   assert.deepEqual(migrate(freshState()).settings.phaseOpen, { warmup: false, cooldown: false });
 });
 
+test("F Gold: Wasser zuerst, Markierstäbe für zwei Dummys, Anrede", () => {
+  const g = level("F", "gold");
+  assert.ok(g.steps.includes("Ab Stufe 3 mindestens ein Dummy ins Wasser oder darüber. Geht Wasser gerade nicht, reicht ein Gelände mit mehreren Wechseln."));
+  assert.ok(g.setup.includes("Gelände mit Sichtkante, ab Stufe 3 mit Wasser oder mehreren Wechseln"));
+  assert.equal(JOINT_WARNINGS.doubleMarkF, "Zwei Apports bis 80 Meter. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.");
+  assert.ok(g.tips.some((x) => x.startsWith("Mehr Markierstäbe aufstellen, als Dummys fallen.")));
+  const all = JSON.stringify([TRACKS, BASICS_SECTIONS, GLOSSAR]);
+  assert.ok(!all.includes("Üben Sie Voran") && !all.includes("wenn Ihr Hund Ihre Hilfe"));
+  assert.ok(all.includes("Übe Voran nie mit Wind von vorn."));
+});
+
 test("Check-in ist auch aus den Tracks raus", () => {
   assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
   assert.ok(!JSON.stringify(TRACKS).includes("off-lead"));
