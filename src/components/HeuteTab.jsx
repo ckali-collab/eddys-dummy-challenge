@@ -2,10 +2,10 @@ import { useState, useEffect, useRef, Fragment } from "react";
 import {
   SESSION_TYPES, SESSION_FALLBACKS, FALLBACK_NOTES, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
   FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
-  RATING_HINTS, MIN_AGE_NOTES_SHORT,
+  RATING_HINTS, RATING_SIDE_NOTE, MIN_AGE_NOTES_SHORT, WATER_MODULE,
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount, levelCounter } from "../lib/progress.js";
-import { sessionSteps, stepText, withDummySignal } from "../lib/steps.js";
+import { sessionSteps, stepText, withDummySignal, isWaterStep } from "../lib/steps.js";
 import { warmupGuideFor, buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -190,6 +190,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
       {level.run && <p className="block-hint"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
       {beginnerNote && <p className="small muted">{beginnerNote}</p>}
       {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
+      {block.role === "main" && isWaterStep(level, block.step) && WATER_MODULE.seasonNote.map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
       {gearForStep(level.gear, block.step ?? 1).length > 0 && (
         <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
       )}
@@ -227,11 +228,13 @@ const Rating = ({ plan, onSave, onCancel }) => {
     <section className="section">
       <h2>Wie lief’s?</h2>
       <p className="muted">Bewertet wird die Zielstufe im Hauptteil. Gezählt wird einmal pro Tag.</p>
-      <ul className="b-list small">{RATING_HINTS.map((x) => <li key={x}><RichText text={x} /></li>)}</ul>
       {plan.blocks.map((b, i) => (
         <div key={b.role} className="card rate-card">
           <p className="block-role">{b.label}</p>
           <p className="rate-name">{blockName(b)}</p>
+          {b.role === "main"
+            ? b.kind === "level" && <ul className="b-list small">{RATING_HINTS.map((x) => <li key={x}><RichText text={x} /></li>)}</ul>
+            : <p className="small muted">{RATING_SIDE_NOTE}</p>}
           <div className="segmented rate-seg" role="group" aria-label={`Bewertung ${b.label}`}>
             {RATINGS.map((r) => (
               <button key={r.id} type="button" aria-pressed={ratings[i] === r.id} className={`rate-${r.id}`}

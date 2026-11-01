@@ -89,8 +89,8 @@ const setLevel = (st, trackId, levelId, value) => ({
 //   gut        → Zähler +1, Schritt +1 (max. 4)
 //   okay       → nichts
 //   nein       → Schritt -1 (min. 1), Zähler bleibt
-// Der Zähler zählt höchstens einmal pro Tag. Der Schritt geht nur mit dem Zähler weiter, damit beide synchron
-// bleiben. Ausnahme: Zähler schon voll (nach einer Rückstufung) → nur der Schritt geht weiter, bis Schritt 4.
+// Der Zähler zählt höchstens einmal pro Tag, jedes "gut" speichert sein Datum (wasser-und-randfaelle.md, Abschnitt 2).
+// Nach einer Rückstufung läuft er über level.reps hinaus: Die Anzeige rechnet das mit (levelCounter).
 // Fertig ist das Level mit einem "gut" auf Schritt 4 (vier-durchgaenge.md, Abschnitt 2).
 // Ein abgeschlossenes Level ändert sich nie.
 export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
@@ -102,14 +102,12 @@ export const rateLevel = (st, trackId, levelId, rating, now = new Date()) => {
     return step > firstStep(st.dog, lvl) ? setLevel(st, trackId, levelId, { ...cur, step: step - 1 }) : st;
   }
   if (rating !== "gut") return st;
-  const canCount = cur.reps < lvl.reps && !countedToday(cur, now);
-  if (!canCount && cur.reps < lvl.reps) return st; // heute schon gezählt
-  const reps = canCount ? cur.reps + 1 : cur.reps;
+  if (countedToday(cur, now)) return st;
   const nextStep = Math.min(STEP_MAX, step + 1);
   return setLevel(st, trackId, levelId, {
     ...cur,
-    reps,
-    dates: canCount ? [...cur.dates, now.toISOString()] : cur.dates,
+    reps: cur.reps + 1,
+    dates: [...cur.dates, now.toISOString()],
     step: nextStep,
     doneAt: step >= STEP_MAX ? now.toISOString() : null,
   });

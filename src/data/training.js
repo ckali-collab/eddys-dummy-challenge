@@ -77,6 +77,7 @@ export const STEPS_TYPES = {
 };
 
 // Über den Bewertungsknöpfen (vier-durchgaenge.md, Abschnitt 3)
+export const RATING_SIDE_NOTE = "Bewertung nur zur Erinnerung, sie zählt nicht auf ein Level."; // wasser-und-randfaelle.md, Abschnitt 2
 export const RATING_HINTS = [
   "**gut** heißt: Diese Stufe sitzt, wir können weiter.",
   "**okay** heißt: Hat geklappt, aber noch nicht sicher. Dieselbe Stufe noch einmal.",
@@ -1034,6 +1035,11 @@ export const WATER_MODULE = {
   // Wasser ist im D/G-Modell die Geländestufe G4 (fundament-umbau-2.md, Abschnitt 0). Kein eigener Track.
   examNote: "Wasser ist in Dummy A ein eigenes Prüfungsfach.",
   gearLabel: "1 Dummy, schwimmfähig",
+  // Bei jeder Stufe mit Geländestufe 4 (wasser-und-randfaelle.md, Abschnitt 1)
+  seasonNote: [
+    "**Wasser und Jahreszeit:** Ans Wasser gewöhnen, also der erste Kontakt und die ersten Schwimmversuche, gehört in den Sommer. Ein Hund, der sicher schwimmt, kann auch bei kühlerem Wetter arbeiten. Grenzen: kein Eis, keine starke Strömung, und danach bewegen statt stehen, damit er nicht auskühlt.",
+    "Geht Wasser gerade nicht, erfüllt auch ein Gelände mit mehreren Wechseln diese Stufe.",
+  ],
   // desc und die mit held markierte Regel werden nicht angezeigt, Widerspruch gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
   desc: "Kein eigener Track, sondern eine Variante. Jede Übung aus Marking, Nasenarbeit oder Richtung kann ans Wasser verlegt werden, sobald sie an Land auf Silber sitzt.",
   rules: [

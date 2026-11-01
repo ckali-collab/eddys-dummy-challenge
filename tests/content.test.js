@@ -9,6 +9,7 @@ const { freshState, migrate } = await import("../src/lib/storage.js");
 const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
 const { gearAllSteps, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
+const { isWaterStep } = await import("../src/lib/steps.js");
 const { conditionText } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
@@ -66,6 +67,26 @@ test("Abschluss lässt sich zurücknehmen, auch bei vollem Zähler", () => {
   assert.equal(isLevelDone(res.state, "A", "bronze"), true);
   assert.equal(res.counted[0].completed, true);
   assert.equal(isLevelDone(undoLastSession(res.state), "A", "bronze"), false);
+});
+
+test("Tagessperre gilt überall, auch nach Rückstufung mit vollem Zähler", () => {
+  const s = adult();
+  s.tracks.A.bronze = { reps: 4, dates: [], doneAt: null, step: 3 };
+  const once = rateLevel(s, "A", "bronze", "gut", day(5));
+  assert.equal(levelProgress(once, "A", "bronze").step, 4);
+  assert.equal(levelProgress(once, "A", "bronze").dates.length, 1);
+  assert.equal(rateLevel(once, "A", "bronze", "gut", day(5)), once, "zweites gut am selben Tag");
+  assert.equal(isLevelDone(rateLevel(once, "A", "bronze", "gut", day(6)), "A", "bronze"), true);
+  assert.deepEqual(levelCounter(once, "A", "bronze"), { have: 5, need: 6 });
+});
+
+test("Wasserhinweis nur auf Geländestufe 4", () => {
+  const stages = (t, l) => [1, 2, 3, 4].filter((n) => isWaterStep(level(t, l), n));
+  assert.deepEqual(stages("F", "silber"), [4]);
+  assert.deepEqual(stages("F", "gold"), [3, 4]);
+  assert.deepEqual(stages("G", "gold"), [3, 4]);
+  assert.deepEqual(stages("F", "bronze"), []);
+  assert.deepEqual(stages("E", "gold"), []);
 });
 
 test("Das kann er schon: Stufe weiter, Zähler bleibt, nichts wird abgeschlossen", () => {

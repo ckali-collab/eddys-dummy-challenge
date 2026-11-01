@@ -36,6 +36,9 @@ export const stepText = (level, n, first = 1, dog) => {
   return s ? `Stufe ${shown} - ${withDummySignal(s.main, dog)}` : `Stufe ${shown}`;
 };
 
+// Stufe mit Geländestufe 4, "Wasser oder mehrere Wechsel" (wasser-und-randfaelle.md, Abschnitt 1)
+export const isWaterStep = (level, n) => level?.path?.[n - 1]?.g === 4;
+
 // Geländestufen eines Levels aus dem Pfad, z.B. "offen und einsehbar bis niedrige Deckung" (null ohne path)
 export const terrainRange = (level) => {
   if (level?.path?.some((p) => p.text)) return null; // eigene Stufentexte nennen es selbst (stufen-feinschliff.md, Abschnitt 3)

@@ -73,6 +73,7 @@ const SECTIONS = [
       ] },
       // Soll-Werte, keine Grenzen (regelwerk-korrektur.md, Abschnitt 3)
       t("Apporte sollen diese Distanzen nicht überschreiten, angepasst an Gelände und Witterung."),
+      t("Wie lange das dauert, hängt vom Hund ab. Bei zwei Einheiten pro Woche sind es bis Gold etwa ein Jahr. Bei einem Senior oder einem Hund mit Gelenkbefund, der nur eine Vollsession pro Woche macht, entsprechend länger. Das ist kein Rückstand: Die Stufen sind an Prüfungen geeicht, nicht an einem Zeitplan."),
       note(DPE_SHOT_NOTE),
     ],
   },

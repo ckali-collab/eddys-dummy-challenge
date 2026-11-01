@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, MIN_AGE_NOTES_SHORT, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, MIN_AGE_NOTES_SHORT, WATER_MODULE, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings, firstStep, effectiveStep, canSkipStep, levelCounter,
@@ -8,7 +8,7 @@ import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal } from "../lib/steps.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal, isWaterStep } from "../lib/steps.js";
 import { dummyWeight, gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
@@ -138,6 +138,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
           ))}
           {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
           {beginnerNote && <p className="small muted">{beginnerNote}</p>}
+          {!done && isWaterStep(level, current) && WATER_MODULE.seasonNote.map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
           {/* Nur bei Profilen mit 500 g stimmen "leichter" und "500 Gramm ab Silber" */}
           {level.todayNote && dummyWeight(st.dog) === 500 && <p className="small muted">{level.todayNote}</p>}
           {profileNote && <p className="small muted">{profileNote.text}</p>}
@@ -218,9 +219,9 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
 
           <div className="stack" style={{ gap: 10 }}>
             <button type="button" className="btn" disabled={done || today} onClick={() => onCount(trackId, levelId)}>
-              {today && !done ? "Heute schon gezählt" : "Heutigen Durchgang zählen"}
+              {today && !done ? "Heute schon gezählt" : "Diese Stufe sitzt, zählen"}
             </button>
-            {!done && <p className="small muted">Zählt einmal pro Tag und geht eine Stufe weiter. Geschafft mit dem Durchgang auf Stufe {5 - first}.</p>}
+            {!done && <p className="small muted">Zählt einen Durchgang und setzt die Stufe eine weiter. Wenn es noch nicht sicher sitzt, zähl ihn nicht. Geschafft mit dem Durchgang auf Stufe {5 - first}.</p>}
             {confirmReset ? (
               <button type="button" className="btn btn-danger"
                 onClick={() => {
