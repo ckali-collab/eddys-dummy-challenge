@@ -77,7 +77,6 @@ export const STEPS_TYPES = {
 };
 
 // Über den Bewertungsknöpfen (vier-durchgaenge.md, Abschnitt 3)
-export const RATING_SIDE_NOTE = "Bewertung nur zur Erinnerung, sie zählt nicht auf ein Level."; // wasser-und-randfaelle.md, Abschnitt 2
 export const RATING_HINTS = [
   "**gut** heißt: Diese Stufe sitzt, wir können weiter.",
   "**okay** heißt: Hat geklappt, aber noch nicht sicher. Dieselbe Stufe noch einmal.",
@@ -312,7 +311,7 @@ export const TRACKS = [
         diagram: null,
         stepsType: "varianten",
         steps: [
-          "Check-in trainieren, bevor du pfeifst. Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
+          "Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
           "Rückruf auf großer Distanz. Erst wenn Schritt 1 sicher sitzt. Hund ist in Sichtweite, aber nicht im Spiel.",
           "Distanz schrittweise verkürzen. Nur eine Stufe weiter nach fünf schnellen Reaktionen in Folge.",
           "Rückruf aus dem Spiel. Erst ganz am Ende. Danach wieder freigeben und weiterspielen lassen.",
@@ -651,12 +650,12 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Mit einem nassen Dummy aus dem Wasser." },
+          { condition: "gegenstand", variant: "Mit einem nassen Dummy." },
           { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand." },
           { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar bereit." },
           { condition: "ort", variant: "Mit Zuschauern, die zusehen und sich bewegen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy aus dem Wasser, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Vier Durchgänge.",
+        criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Vier Durchgänge.",
         run: "3 Retrieves einzeln in der Situation der heutigen Stufe, jedes Mal bei hoher Erregung, dazwischen etwas anderes machen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang: drei Abgaben plus die Apports davor (pfade-und-prinzipien.md, Abschnitt 5)
@@ -666,6 +665,7 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
+          "Für das nasse Dummy reicht ein Eimer Wasser, wenn gerade kein Gewässer verfügbar ist.",
           "Bei Wasser: direkt an der Wasserkante stehen. Verhindert Ablegen am Ufer und Schütteln vor der Abgabe.",
           "Erregung herstellen: mehrere Apports hintereinander laufen lassen, dann die Abgabe prüfen. Nicht drei Abgaben am Stück verlangen.",
         ],
@@ -731,6 +731,7 @@ export const TRACKS = [
         title: "Doppelmarke",
         exam: "markierung",
         examClass: "A",
+        examDoneNote: "Für die Anfänger-Klasse brauchst du eine Einzelmarkierung über Wasser. Wenn du dieses Level ohne Wasser abgeschlossen hast, hol das nach, bevor du zu einer Prüfung gehst.", // erst nach Abschluss (wind-und-checkin.md, Abschnitt 4)
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in richtiger Reihenfolge, Winkel mindestens 90 Grad, vier Durchgänge.",
@@ -762,6 +763,7 @@ export const TRACKS = [
         title: "Doppelmarkierung auf F-Niveau",
         exam: "markierung",
         examClass: "F",
+        examDoneNote: "In der Fortgeschrittenen-Klasse muss mindestens ein Dummy der Doppelmarkierung ins Wasser oder darüber.", // erst nach Abschluss (wind-und-checkin.md, Abschnitt 4)
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Vier Durchgänge.",
@@ -1039,6 +1041,10 @@ export const WATER_MODULE = {
   seasonNote: [
     "**Wasser und Jahreszeit:** Ans Wasser gewöhnen, also der erste Kontakt und die ersten Schwimmversuche, gehört in den Sommer. Ein Hund, der sicher schwimmt, kann auch bei kühlerem Wetter arbeiten. Grenzen: kein Eis, keine starke Strömung, und danach bewegen statt stehen, damit er nicht auskühlt.",
     "Geht Wasser gerade nicht, erfüllt auch ein Gelände mit mehreren Wechseln diese Stufe.",
+  ],
+  // Stattdessen bei Track G, eine Verlorensuche braucht keine Schwimmversuche (troubleshooting-geprueft.md, Abschnitt 3)
+  searchNote: [
+    "**Gelände dieser Stufe:** Mehrere Geländewechsel hintereinander, etwa Wiese zu Graben zu Hecke. Ein Suchengebiet am oder im Wasser erfüllt die Stufe ebenfalls, ist aber nicht nötig.",
   ],
   // desc und die mit held markierte Regel werden nicht angezeigt, Widerspruch gemeldet (unsichtbare-inhalte.md, Abschnitt 1)
   desc: "Kein eigener Track, sondern eine Variante. Jede Übung aus Marking, Nasenarbeit oder Richtung kann ans Wasser verlegt werden, sobald sie an Land auf Silber sitzt.",
@@ -1374,13 +1380,13 @@ export const DISCLAIMER =
 // Glossar: src/data/glossar.js (docs/glossar-v5.md)
 
 // ─── Troubleshooting ──────────────────────────────────────────
-// Noch nicht angezeigt: Prüfung gegen Buch und Regelwerk steht aus (pfade-und-prinzipien.md, Abschnitt 4)
+// Geprüft gegen Buch und Regelwerk (troubleshooting-geprueft.md, Abschnitt 1)
 export const TROUBLESHOOTING = [
   {
     id: "recall-dogs",
     problem: "Überhört den Rückruf bei spielenden Hunden",
-    cause: "Nie unter dieser Reizstärke trainiert. Pfiff wurde in aussichtsloser Lage wiederholt.",
-    fix: "Distanz massiv vergrößern, Check-in-Verhalten aufbauen, erst dann pfeifen. Nie zweimal pfeifen. Nach dem Rückruf wieder freigeben.",
+    cause: "Nie unter dieser Reizstärke trainiert. Der Pfiff wurde in einer Lage wiederholt, in der er ohnehin nicht gehört wurde.",
+    fix: "Distanz zu den anderen Hunden massiv vergrößern. Erst belohnen, wenn er von selbst zu dir schaut, dann pfeifen. Nie zweimal pfeifen. Nach dem Rückruf wieder freigeben, sonst wird der Rückruf von Woche zu Woche langsamer.",
     track: "B",
   },
   {
@@ -1393,8 +1399,8 @@ export const TROUBLESHOOTING = [
   {
     id: "whining",
     problem: "Fiept oder winselt vor dem Schicken",
-    cause: "Erwartungsdruck, zu viele Wiederholungen.",
-    fix: "Anzahl der Retrieves pro Session reduzieren. Längere Pausen. Session beenden, bevor die Erregung hochkocht.",
+    cause: "Erwartungsdruck, zu viele Wiederholungen. Winseln verstärkt sich selbst, wenn es zum Schicken führt.",
+    fix: "Nicht schicken, solange er fiept. Unterbrich die Situation, geh ein paar Schritte weg und setz neu an. Dazu die Zahl der Retrieves senken und die Session beenden, bevor die Erregung hochkocht. Ignorieren allein hilft hier nicht, aber körperliche Einwirkung ist auch nicht nötig. Im Regelwerk ist Winseln eine Nullwertung.",
     track: "D",
   },
   {
@@ -1414,8 +1420,8 @@ export const TROUBLESHOOTING = [
   {
     id: "overrun",
     problem: "Läuft am Dummy vorbei",
-    cause: "Distanz vor dem Gelände erhöht.",
-    fix: "Eine Variable zurück. Distanz verkürzen oder einfacheres Gelände.",
+    cause: "Er hat sich die Fallstelle nicht genau genug gemerkt. Oft, weil die Flugbahn schlecht zu sehen war, etwa durch eine Sichtkante oder schlechtes Licht gegen die Sonne.",
+    fix: "Eine Stufe zurück. Mehrere Markierstäbe aufstellen, Dummy nur bei einem, damit der Stab nicht zum Ziel wird.",
     track: "F",
   },
   {
@@ -1428,8 +1434,8 @@ export const TROUBLESHOOTING = [
   {
     id: "offline",
     problem: "Weicht beim Blind von der Linie ab",
-    cause: "Ausrichtung vor dem Schicken war ungenau.",
-    fix: "Vor dem Schicken Körperachse prüfen. Mehrere Markierstäbe aufstellen, Dummy nur bei einem. So lernt er, auf deine Richtungsangabe zu achten statt auf den nächstbesten Stab.",
+    cause: "Die Ausrichtung vor dem Schicken war ungenau.",
+    fix: "Vor dem Schicken die eigene Körperachse prüfen. Ist der Führer richtig ausgerichtet, ist der Hund es auch. Die feste Fußposition existiert genau dafür.",
     track: "H",
   },
   {

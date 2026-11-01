@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, MIN_AGE_NOTES_SHORT, WATER_MODULE, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
+import { LEVEL_CHANGE_WARNING, MIN_AGE_NOTES, MIN_AGE_NOTES_SHORT, STEPS_TYPES, DPE_AGE_NOTE, DISTANCE_LEGAL_NOTE } from "../data/training.js";
 import {
   LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, nextLevel,
   countedToday, jointWarnings, firstStep, effectiveStep, canSkipStep, levelCounter,
@@ -8,7 +8,7 @@ import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal, isWaterStep } from "../lib/steps.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal, waterNotes } from "../lib/steps.js";
 import { dummyWeight, gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
@@ -138,7 +138,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
           ))}
           {level.run && <p className="run"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
           {beginnerNote && <p className="small muted">{beginnerNote}</p>}
-          {!done && isWaterStep(level, current) && WATER_MODULE.seasonNote.map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
+          {!done && waterNotes(trackId, level, current).map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
           {/* Nur bei Profilen mit 500 g stimmen "leichter" und "500 Gramm ab Silber" */}
           {level.todayNote && dummyWeight(st.dog) === 500 && <p className="small muted">{level.todayNote}</p>}
           {profileNote && <p className="small muted">{profileNote.text}</p>}
@@ -246,6 +246,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
         <summary><span>Hintergrund</span><IconChevron size={20} /></summary>
         <div className="acc-body b-blocks">
           {exam && <p><strong>Prüfungsbezug:</strong> {exam}</p>}
+          {done && level.examDoneNote && <p>{level.examDoneNote}</p>}
           {level.examHint && <p className="small muted">{level.examHint}</p>}
           {phase && (
             <div>

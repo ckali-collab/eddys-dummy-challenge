@@ -1,4 +1,4 @@
-import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES, SIGNAL_FIELDS } from "../data/training.js";
+import { DISTANCE_STEPS, TERRAIN_STEPS, CONDITIONS, LEARNING_PHASES, SIGNAL_FIELDS, WATER_MODULE } from "../data/training.js";
 import { getLevel, firstStep, effectiveStep } from "./progress.js";
 
 // Vier-Schritt-Pfad eines Levels (fundament-umbau.md, Abschnitt 7; fundament-umbau-2.md, Abschnitt 1).
@@ -38,6 +38,9 @@ export const stepText = (level, n, first = 1, dog) => {
 
 // Stufe mit Geländestufe 4, "Wasser oder mehrere Wechsel" (wasser-und-randfaelle.md, Abschnitt 1)
 export const isWaterStep = (level, n) => level?.path?.[n - 1]?.g === 4;
+// Hinweis zu dieser Stufe: Track G hat einen eigenen (troubleshooting-geprueft.md, Abschnitt 3)
+export const waterNotes = (trackId, level, n) =>
+  !isWaterStep(level, n) ? [] : trackId === "G" ? WATER_MODULE.searchNote : WATER_MODULE.seasonNote;
 
 // Geländestufen eines Levels aus dem Pfad, z.B. "offen und einsehbar bis niedrige Deckung" (null ohne path)
 export const terrainRange = (level) => {

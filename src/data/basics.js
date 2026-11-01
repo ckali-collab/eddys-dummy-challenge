@@ -8,7 +8,7 @@
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
  * group:    Zwischenüberschrift (BASICS_GROUPS, rubriken-review.md, Abschnitt 7c)
  */
-import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES, PRINCIPLES } from "./training.js";
+import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES, PRINCIPLES, TROUBLESHOOTING } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
 
 const t = (content) => ({ type: "text", content });
@@ -73,7 +73,7 @@ const SECTIONS = [
       ] },
       // Soll-Werte, keine Grenzen (regelwerk-korrektur.md, Abschnitt 3)
       t("Apporte sollen diese Distanzen nicht überschreiten, angepasst an Gelände und Witterung."),
-      t("Wie lange das dauert, hängt vom Hund ab. Bei zwei Einheiten pro Woche sind es bis Gold etwa ein Jahr. Bei einem Senior oder einem Hund mit Gelenkbefund, der nur eine Vollsession pro Woche macht, entsprechend länger. Das ist kein Rückstand: Die Stufen sind an Prüfungen geeicht, nicht an einem Zeitplan."),
+      t("Wie lange das dauert, hängt vom Hund ab. Bei zwei Einheiten pro Woche und einer Stufe pro Einheit wären es bis Gold etwa ein Jahr. Realistisch ist länger: Eine Stufe braucht oft mehrere Einheiten, bis sie sitzt, und genau dafür gibt es die Bewertung \"okay\". Bei einem Senior oder einem Hund mit Gelenkbefund, der nur eine Vollsession pro Woche macht, entsprechend mehr. Das ist kein Rückstand: Die Stufen sind an Prüfungen geeicht, nicht an einem Zeitplan."),
       note(DPE_SHOT_NOTE),
     ],
   },
@@ -236,6 +236,12 @@ const SECTIONS = [
     ],
   },
   {
+    id: "probleme",
+    group: "nach",
+    title: "Wenn etwas nicht klappt",
+    blocks: shown(TROUBLESHOOTING).map((p) => t(`**${p.problem}**\n${p.cause} ${p.fix}`)),
+  },
+  {
     id: "glossar",
     group: "nach",
     title: "Glossar",
@@ -279,5 +285,5 @@ const SECTIONS = [
   },
 ];
 
-const ORDER = ["einstieg", "vorbereitung", "ziel", "prinzipien", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "glossar", "wasser", "recht", "quellen"];
+const ORDER = ["einstieg", "vorbereitung", "ziel", "prinzipien", "einwirkung", "lernen", "handzeichen", "ausruestung", "sinne", "probleme", "glossar", "wasser", "recht", "quellen"];
 export const BASICS_SECTIONS = ORDER.map((id) => SECTIONS.find((s) => s.id === id));

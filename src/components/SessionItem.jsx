@@ -13,6 +13,8 @@ export const RATINGS = [
   { id: "nein", label: "noch nicht", mark: "✗" },
 ];
 const ratingOf = (id) => RATINGS.find((r) => r.id === id);
+// Erster Teil und Abschluss haben seit troubleshooting-geprueft.md (Abschnitt 2) keine Bewertung mehr, alte Einträge schon
+const hasRating = (b) => b?.role === "main" || !!b?.rating;
 
 const validDate = (iso) => { const d = new Date(iso); return iso && !isNaN(d) ? d : null; };
 export const fmtShort = (iso) =>
@@ -70,8 +72,8 @@ const SummaryLine = ({ blocks }) => {
     <span className="sess-marks" ref={ref}>
       {shown.map((b, i) => (
         <span key={i} className="sess-mark">
-          <span className={`rate-dot rate-${ratingOf(b?.rating)?.id ?? "none"}`}
-            aria-label={`Bewertung: ${ratingOf(b?.rating)?.label ?? "unbekannt"}`} role="img" />
+          {hasRating(b) && <span className={`rate-dot rate-${ratingOf(b?.rating)?.id ?? "none"}`}
+            aria-label={`Bewertung: ${ratingOf(b?.rating)?.label ?? "unbekannt"}`} role="img" />}
           <span className="sess-mark-text">{blockName(b)}</span>
         </span>
       ))}
@@ -117,7 +119,7 @@ export default function SessionItem({ s, defaultOpen = false }) {
               <span className="sess-role">{ROLE_LABEL[b?.role] ?? NA}</span>
               <span className="sess-name">{blockName(b)}</span>
               <span className="sess-reps">{b?.trackId ? blockLoad(b) : NA}{b?.cut ? ` · ${b.cut}` : ""}</span>
-              <RatingPill id={b?.rating} />
+              {hasRating(b) && <RatingPill id={b?.rating} />}
             </li>
           ))}
           {!blocks.length && <li className="muted">Keine Blöcke gespeichert ({NA})</li>}

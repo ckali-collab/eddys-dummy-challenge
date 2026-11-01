@@ -9,7 +9,7 @@ const { freshState, migrate } = await import("../src/lib/storage.js");
 const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
 const { gearAllSteps, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
-const { isWaterStep } = await import("../src/lib/steps.js");
+const { isWaterStep, waterNotes } = await import("../src/lib/steps.js");
 const { conditionText } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
@@ -184,9 +184,51 @@ test("Aufwärmen nach Profil", () => {
   for (const d of [dog("ok"), dog("leicht"), dog("deutlich"), dog("ok", "welpe")]) assert.match(warmupGuideFor("kurz", d).notes[0], /weite Bögen/);
 });
 
+test("Troubleshooting steht vollständig in den Basics", () => {
+  const section = BASICS_SECTIONS.find((s) => s.id === "probleme");
+  assert.equal(section.blocks.length, 12);
+  const text = JSON.stringify(section);
+  for (const s of ["Fiept oder winselt", "Nicht schicken, solange er fiept", "Winseln eine Nullwertung", "von selbst zu dir schaut", "feste Fußposition", "damit der Stab nicht zum Ziel wird"]) assert.ok(text.includes(s), s);
+  for (const s of ["Check-in", "nächstbesten Stab", "Distanz vor dem Gelände", "wind", "Fußposition links"]) assert.ok(!text.includes(s), s);
+});
+
+test("Hinweis auf Geländestufe 4: Track G hat einen eigenen, ohne Sommer", () => {
+  assert.match(waterNotes("G", level("G", "gold"), 3)[0], /Mehrere Geländewechsel/);
+  assert.equal(waterNotes("G", level("G", "gold"), 3).length, 1);
+  assert.match(waterNotes("F", level("F", "silber"), 4)[0], /Sommer/);
+  assert.deepEqual(waterNotes("G", level("G", "gold"), 1), []);
+});
+
+test("Check-in ist auch aus den Tracks raus", () => {
+  assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
+  assert.ok(level("B", "gold").steps[0].startsWith("Große Distanz"));
+});
+
+test("Prüfungshinweis nur bei F Silber und F Gold", () => {
+  assert.match(level("F", "silber").examDoneNote, /Einzelmarkierung über Wasser/);
+  assert.match(level("F", "gold").examDoneNote, /ins Wasser oder darüber/);
+  assert.deepEqual(TRACKS.flatMap((t) => t.levels.filter((l) => l.examDoneNote).map((l) => `${t.id}:${l.id}`)), ["F:silber", "F:gold"]);
+});
+
+test("E Gold Stufe 1 hängt nicht am Gewässer", () => {
+  const l = level("E", "gold");
+  assert.equal(l.conditionPath[0].variant, "Mit einem nassen Dummy.");
+  assert.ok(!l.criteria.includes("aus dem Wasser"));
+  assert.ok(l.steps.some((x) => x.includes("Eimer Wasser")));
+});
+
+test("Nebenblöcke ohne Bewertung: Session speichert, nur der Hauptteil zählt", () => {
+  const s = adult();
+  const p = buildPlan(s, "voll");
+  const res = recordSession(s, p, p.blocks.map((b) => (b.role === "main" ? "gut" : null)), day(5));
+  const saved = res.state.sessions.at(-1).blocks;
+  assert.equal(saved.find((b) => b.role === "main").rating, "gut");
+  assert.ok(saved.filter((b) => b.role !== "main").every((b) => !b.rating));
+});
+
 test("Zurückgehaltene Inhalte erscheinen nicht in den Basics", () => {
   const text = JSON.stringify(BASICS_SECTIONS);
-  for (const s of ["Retrieve-Limit", "Kein eigener Track", "Warm-up und Abschluss", "Fiept oder winselt", "Stoppt von selbst", "Drei erfolgreiche Retrieves", "Praxiswert", "Nie Distanz und Gelände", "Linie deines Hundes"]) {
+  for (const s of ["Retrieve-Limit", "Kein eigener Track", "Warm-up und Abschluss", "Check-in", "Drei erfolgreiche Retrieves", "Praxiswert", "Nie Distanz und Gelände", "Linie deines Hundes"]) {
     assert.ok(!text.includes(s), s);
   }
   for (const s of ["Kein Absprung von Uferkanten", "Fast alle Canvas-Dummys", "keine neue Schwierigkeit", "nicht über 30 Prozent", "für Junghunde und Senioren 400", "Die fünf Fehlerursachen", "Eine Variable pro Steigerung.", "Meilensteine", "Als Faustregel rund 80 Prozent"]) {
@@ -225,7 +267,7 @@ test("Mini-Session: elf Level, E Silber nicht mehr dabei", () => {
 test("Glossar und Basics: neue Einträge, Gruppen vollständig", () => {
   assert.deepEqual(findTerms("Variante Voran auf der Uhr: aus derselben").map((h) => h.id), ["voran-uhr"]);
   assert.ok(!/Sichthilfe/.test(JSON.stringify(GLOSSAR.find((e) => e.id === "markierstab"))));
-  assert.equal(BASICS_SECTIONS.length, 13);
+  assert.equal(BASICS_SECTIONS.length, 14);
   assert.equal(BASICS_SECTIONS.find((s) => s.id === "prinzipien").blocks.length, 7);
   assert.ok(BASICS_SECTIONS.every((s) => BASICS_GROUPS.some((g) => g.id === s.group)));
   const order = BASICS_SECTIONS.map((s) => s.group);
