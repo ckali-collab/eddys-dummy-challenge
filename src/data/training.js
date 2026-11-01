@@ -124,7 +124,6 @@ export const TRACKS = [
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Hund geht bei Fuß. Leise den Stopp-Pfiff geben. Er setzt sich sofort hin.",
@@ -159,7 +158,6 @@ export const TRACKS = [
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund sucht oder schnüffelt frei auf etwa 35 Meter. Stopp-Pfiff. Er stoppt, sitzt, schaut dich an.",
@@ -194,7 +192,6 @@ export const TRACKS = [
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Dummy werfen, Hund schicken.",
@@ -243,7 +240,6 @@ export const TRACKS = [
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Hund läuft frei auf etwa 20 Meter.",
@@ -276,7 +272,6 @@ export const TRACKS = [
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Warten, bis er wirklich in etwas vertieft ist.",
@@ -308,7 +303,6 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         setup: ["Zwei oder mehr Hunde anderer Halter"], // Gelände, zweite Person: nicht in die Packliste
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
@@ -358,7 +352,6 @@ export const TRACKS = [
         load: 0, // Belastungspunkte pro Durchgang
         gear: [],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Bewusste Fuß-Phase ankündigen, 50 Meter gehen, dann freigeben.",
@@ -387,7 +380,6 @@ export const TRACKS = [
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2, steps: [1] }, { id: "dummy", n: 1, steps: [4] }], // Stufe 1: Dummys am Weg, Stufe 4: er trägt ein Dummy
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Erst 100 Meter am Stück auf bekanntem Weg, ohne Ablenkung.",
@@ -419,7 +411,6 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 1, steps: [2] }],
         setup: [{ text: "Eine zweite Person", steps: [3] }], // Stufe 3 nennt sie
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "An belebteren Wegen üben.",
@@ -464,7 +455,6 @@ export const TRACKS = [
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund sitzt ohne Leine in der Fußposition.",
@@ -500,7 +490,6 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 1 }],
         setup: [{ text: "Eine zweite Person", steps: [2] }], // Gelände, zweite Person: nicht in die Packliste
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Dummy werfen, du machst einen Schritt zur Seite.",
@@ -535,7 +524,6 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 2 }, { id: "schreckschuss", n: 1, steps: [3], optional: true }],
         setup: ["Eine zweite Person, mit oder ohne Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: "walkup",
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "In der Linie gehen, Hund frei bei Fuß. Walk-up ohne Leine ab etwa 12 Monaten.",
@@ -589,7 +577,6 @@ export const TRACKS = [
         gear: [{ id: "welpendummy", n: 1, steps: [1], swap: true }, { id: "juniordummy", n: 1, steps: [2, 3, 4], swap: true }], // praxistauglichkeit.md, Abschnitt 3; Standard 500 g erst ab E Silber
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        diagram: null,
         stepsType: "varianten",
         steps: [
           "Kurze Retrieves, maximal 10 Meter.",
@@ -628,7 +615,6 @@ export const TRACKS = [
         ],
         dummyType: "standard", // null | "standard" | "junior"; hier geht es um schwere Gegenstände, deshalb nicht in der Mini-Session (nachtrag-review.md, Abschnitt 5)
         amount: { n: 5, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Erst wenn Bronze sicher sitzt.",
@@ -661,7 +647,6 @@ export const TRACKS = [
         load: 5, // Belastungspunkte pro Durchgang: drei Abgaben plus die Apports davor (pfade-und-prinzipien.md, Abschnitt 5)
         gear: [{ id: "dummy", n: 2 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
@@ -696,7 +681,7 @@ export const TRACKS = [
         signals: ["fetch"], // im Heute-Block (kriterien-und-stufen.md, Abschnitt 8)
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Einzelmarke",
-        exam: "markierapport", // dp-e-korrektur.md, Abschnitt 4
+        exam: ["markierapport", "doppelmarkierung"], // f-abschluss.md, Abschnitt 3
         examClass: "DP-E",
         maxDistanceStep: 2,
         path: [{ d: 1, g: 1 }, { d: 2, g: 1 }, { d: 1, g: 2 }, { d: 2, g: 2 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
@@ -708,7 +693,6 @@ export const TRACKS = [
         setup: ["Optional eine zweite Person für das Halbblind"], // Gelände, zweite Person: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 5, min: 3, unit: "Einzelmarken" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        diagram: "single-mark",
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Hund sitzt in der Fußposition neben dir.",
@@ -741,7 +725,6 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 1, reserve: true, steps: [1, 2, 3], swap: true }, { id: "dummy", n: 1, reserve: true, floats: true, steps: [4], swap: true }], // f-silber-aufbau.md, Abschnitt 2
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 3, unit: "Einzelmarkierungen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy sichtbar werfen, auf der Distanz der heutigen Stufe. Hund wartet.",
@@ -765,14 +748,13 @@ export const TRACKS = [
         examDoneNote: "In der Fortgeschrittenen-Klasse muss mindestens ein Dummy der Doppelmarkierung ins Wasser oder darüber. Wenn du dieses Level ohne Wasser abgeschlossen hast, hol das nach, bevor du zu einer Prüfung gehst.", // erst nach Abschluss (wind-und-checkin.md, Abschnitt 4)
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Vier Durchgänge.",
+        criteria: "Beide Dummys in der vorgegebenen Reihenfolge, Winkel enger als 90 Grad, bis 80 Meter, mindestens ein Dummy in Deckung oder im Wasser. Vier Durchgänge.",
         run: "Eine Doppelmarkierung auf Distanz und Gelände der heutigen Stufe.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
         setup: ["Eine zweite Person", "Gelände mit Sichtkante oder Wasser"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm (vorher triple-mark)
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Zwei Dummys werfen lassen, am Anfang mit weitem Winkel, etwa 10 Uhr und 2 Uhr. Erst wenn beide Apporte sauber sitzen, den Winkel über mehrere Einheiten zusammenziehen, bis er enger als 90 Grad ist. Der enge Winkel ist die eigentliche Schwierigkeit.",
@@ -827,7 +809,6 @@ export const TRACKS = [
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }, { id: "suchdummy", n: 2, steps: [1, 2] }], // Suchendummys als Aufbauhilfe nur auf Schritt 1 und 2 (Teil 3, Abschnitt 5)
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [ // fundament-umbau-4.md, Abschnitt 2
           "Suchengebiet mit natürlicher Begrenzung wählen, etwa Hecke, Weg oder Grabenkante. Die Begrenzung hält den Hund im Gebiet, ohne dass du lenken musst.",
@@ -856,7 +837,6 @@ export const TRACKS = [
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [ // fundament-umbau-4.md, Abschnitt 2
           "Zehn oder mehr Dummys im Halbkreis auslegen, ohne dass der Hund zusieht.",
@@ -883,7 +863,6 @@ export const TRACKS = [
         load: 3, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 10, orMore: true }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null,
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [ // fundament-umbau-4.md, Abschnitt 2
           "Suchengebiet von 50 mal 50 Metern abstecken, so groß wie in der Prüfung.",
@@ -933,7 +912,6 @@ export const TRACKS = [
         gear: [{ id: "futterschuessel", n: 1, steps: [1], swap: true }, { id: "dummy", n: 1, steps: [2, 3, 4], swap: true }],
         setup: ["Leitlinie im Gelände", { text: "Eine zweite Person", steps: [3] }], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Futterschüssel an einer Leitlinie (Weg, Zaun, Grabenkante) auslegen, Hund daneben ausrichten, Handzeichen, Signal. Die Leitlinie macht die gerade Linie für den Hund selbsterklärend.",
@@ -973,7 +951,6 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }],
         setup: ["Offenes Gelände"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: "directions",
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Erst eine Richtung allein, dann die andere allein, dann beide mit Wahl.",
@@ -1010,7 +987,6 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }, { id: "suchdummy", n: 1, optional: true, steps: [3, 4] }], // Suchendummy optional für die Kleine Suche am Zielort (Teil 3, Abschnitt 5)
         setup: [{ text: "Suchengelände mit natürlicher Begrenzung", steps: [3, 4] }], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        diagram: "einweisen-gelaende",
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy ohne Hund auslegen, Auslegefährte vermeiden (nicht auf direktem Weg zurücklaufen).",
@@ -1328,6 +1304,7 @@ export const LOAD_LIMITS = {
 
 export const JOINT_WARNINGS = {
   water:      "Nur flacher Einstieg, kein Absprung von Uferkanten.",
+  waterIf:    "Wenn du ins Wasser gehst: nur flacher Einstieg, kein Absprung von Uferkanten.", // Stufe 4 geht auch an Land (f-abschluss.md, Abschnitt 5)
   multiMark:  "Viele Starts und Stopps, hohe Gelenkbelastung. Danach zwei Ruhetage.",
   doubleMarkF: "Zwei Apports bis 80 Meter, einer durch Deckung oder Wasser. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.",
   hardStop:   "Stopp-Pfiff bevorzugt aus dem Trab üben, nicht aus dem vollen Galopp.",
@@ -1339,7 +1316,7 @@ export const JOINT_WARNING_LEVELS = {
   "A:silber": ["hardStop"],
   "A:gold":   ["hardStop"],
   "E:gold":   ["water", "multiMark"],
-  "F:silber": [{ key: "water", steps: [4] }], // nur auf der Wasserstufe (f-nacharbeit.md, Abschnitt 5)
+  "F:silber": [{ key: "waterIf", steps: [4] }], // nur auf der Wasserstufe (f-nacharbeit.md, Abschnitt 5)
   "F:gold":   ["doubleMarkF"], // Teil 3, Abschnitt 6
   "H:silber": ["directions"],
   "H:gold":   ["directions"],

@@ -53,7 +53,7 @@ export const terrainRange = (level) => {
 
 // Prüfungsbezug: Klasse und Fach aus examClass/exam (fundament-umbau.md, Abschnitt 6)
 const CLASS_LABEL = { "DP-E": "DP-E", A: "Dummy A", F: "Dummy F", O: "Klasse O" };
-// DP-E-Fächer nach dp-e-korrektur.md, Abschnitt 4. exam kann eine Liste sein.
+// DP-E-Fächer nach dp-e-korrektur.md, Abschnitt 4. exam kann eine Liste sein (F Bronze: zwei Fächer).
 const EXAM_LABEL = {
   appell: "Appell", markierung: "Markierung", suche: "Suche", einweisen: "Einweisen", walkup: "Walk Up",
   unterordnung: "Unterordnung", doppelmarkierung: "Doppelmarkierung", verspaetet: "Apportieren mit verspätetem Schicken",
