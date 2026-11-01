@@ -130,17 +130,31 @@ const StepPlan = ({ st, trackId, levelId }) => {
 // Aufwärmen und Cool Down je Sessiontyp (fundament-umbau.md, Abschnitt 10)
 // Eigene Zeile außerhalb der Blöcke, ohne Übungsinhalt und Equipment (stufen-texte.md, Abschnitt 4)
 const minText = (m) => (Array.isArray(m) ? `${m[0]}-${m[1]} Min` : `${m} Min`);
-const PhaseNote = ({ typeId, role, dog }) => {
+// Vollsession: einklappbar, offen oder zu wird je Phase gemerkt (heute-entschlacken.md, Abschnitt 3)
+const PhaseNote = ({ typeId, role, dog, open, onToggle }) => {
   const wc = WARMUP_COOLDOWN[typeId];
   const guide = role === "warmup" ? warmupGuideFor(typeId, dog) : wc?.cooldownGuide;
   const min = role === "warmup" ? wc?.warmupMin : wc?.cooldownMin;
   if (min == null) return null;
-  return (
-    <div className="phase-line">
-      <p className="phase-line-head">{role === "warmup" ? "Aufwärmen" : "Cool Down"} · {minText(min)}</p>
+  const head = `${role === "warmup" ? "Aufwärmen" : "Cool Down"} · ${minText(min)}`;
+  const body = (
+    <>
       {guide?.steps && <ol className="b-list is-ordered small">{guide.steps.map((x) => <li key={x}>{x}</li>)}</ol>}
       {guide?.notes?.map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
-    </div>
+    </>
+  );
+  if (!guide?.steps) return <div className="phase-line"><p className="phase-line-head">{head}</p>{body}</div>;
+  return (
+    <details className="recent phase-fold" open={open} onToggle={(e) => { if (e.currentTarget.open !== open) onToggle(e.currentTarget.open); }}>
+      <summary>
+        <span className="phase-fold-text">
+          <span className="phase-line-head">{head}</span>
+          {guide.summary && <span className="small muted">{guide.summary}</span>}
+        </span>
+        <IconChevron size={20} />
+      </summary>
+      <div className="phase-fold-body">{body}</div>
+    </details>
   );
 };
 
@@ -166,9 +180,17 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
   const counter = levelCounter(st, block.trackId, block.levelId);
   const beginnerNote = block.role === "main" && st.dog.experience === "keine" && MIN_AGE_NOTES_SHORT[`${block.trackId}:${block.levelId}`];
   const joints = block.role === "main" ? jointWarnings(st.dog, block.trackId, block.levelId, block.step) : [];
+  // Die ganze Karte öffnet das Level, außer Tauschen und Glossarbegriffen (heute-entschlacken.md, Abschnitt 2).
+  // Ein Tipp, der nur eine offene Glossar-Blase schließt, öffnet nichts.
+  const bubbleWasOpen = useRef(false);
+  const openFromCard = (e) => {
+    if (bubbleWasOpen.current || e.target.closest("button, a, .gl-wrap")) return;
+    onOpen(block.trackId, block.levelId);
+  };
 
   return (
-    <article className={`card block lvl-${block.levelId}`}>
+    <article className={`card block is-tappable lvl-${block.levelId}`} onClick={openFromCard}
+      onPointerDownCapture={() => { bubbleWasOpen.current = !!document.querySelector(".gl-bubble"); }}>
       <div className="block-head">
         <span className="block-role">{block.label}</span>
         {meta && <span className="block-meta">{meta}</span>}
@@ -288,7 +310,7 @@ const Rating = ({ plan, onSave, onCancel }) => {
         <label className="option water-toggle">
           <input type="checkbox" checked={water} onChange={(e) => setWater(e.target.checked)} />
           <span className="check-box" aria-hidden="true" />
-          <span>Heute ging ein Dummy über Wasser <span className="muted">(optional)</span></span>
+          <span>Heute ging ein Dummy ins Wasser oder darüber <span className="muted">(optional)</span></span>
         </label>
       )}
       <div className="stack" style={{ gap: 10 }}>
@@ -335,6 +357,8 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
       offsets: { ...t.offsets, [role]: (t.offsets[role] || 0) + 1 },
       picks: role === "main" || !t.picks ? null : { ...t.picks, [role]: undefined },
     }));
+  const setPhaseOpen = (role) => (open) =>
+    setSt((p) => ({ ...p, settings: { ...p.settings, phaseOpen: { ...p.settings.phaseOpen, [role]: open } } }));
   const setType = (id) => setToday((t) => ({ ...t, type: id, offsets: {}, picks: null }));
 
   // Hauptteil ohne offenes Level: nicht abschließbar; welcher Sessiontyp hat noch etwas offen?
@@ -453,13 +477,13 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
           <Fragment key={b.role}>
             {i > 0 && plan.type === "voll" && (
               <div className="block-pause">
-                <p className="block-break">Pause</p>
+                <p className="block-break">Pause · {WARMUP_COOLDOWN[plan.type].pauseMin} Min</p>
                 <p className="small muted">{SESSION_GUIDANCE.pause}{st.dog.experience === "keine" && ` ${SESSION_GUIDANCE.pauseBeginner}`}</p>
               </div>
             )}
-            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" dog={st.dog} />}
+            {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" dog={st.dog} open={st.settings.phaseOpen?.warmup === true} onToggle={setPhaseOpen("warmup")} />}
             <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
-            {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" />}
+            {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" open={st.settings.phaseOpen?.cooldown === true} onToggle={setPhaseOpen("cooldown")} />}
           </Fragment>
         ))}
       </div>

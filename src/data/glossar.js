@@ -40,7 +40,7 @@ export const GLOSSAR = [
       t("Einsteigerprüfung des Golden Retriever Club e.V., in zwei Varianten: mit Schuss (m. S.) und ohne (o. S.). Nicht Teil der DRC-Ordnung. Der Hund muss am Prüfungstag mindestens 12 Monate alt sein."),
       t("Apportdistanzen sollen 30 Meter nicht überschreiten, angepasst an Gelände und Witterung."),
       t("Fünf Fächer zu je 20 Punkten: Unterordnung, Doppelmarkierung, Apportieren mit verspätetem Schicken, Apportieren von zwei Dummys, Markierapport. Bestanden ab 50 Punkten, wenn kein Fach mit null Punkten bewertet wurde."),
-      t("Die DP-E enthält keine Verlorensuche, kein Einweisen und keine Wasserarbeit. Dafür eine Doppelmarkierung, in einer leichteren Form als die Fortgeschrittenen-Klasse: Der Führer holt den zuerst geworfenen Dummy selbst, der Hund nur den zuletzt geworfenen."),
+      t("Die DP-E enthält keine Verlorensuche, kein Einweisen und keine Wasserarbeit. Dafür eine Doppelmarkierung, in einer leichteren Form als die Fortgeschrittenen-Klasse: Der Hundeführer holt den zuerst geworfenen Dummy selbst, der Hund nur den zuletzt geworfenen."),
     ],
   },
   {
@@ -85,15 +85,15 @@ export const GLOSSAR = [
   },
   {
     id: "doppelmarkierung", term: "Doppelmarkierung", group: "pruefungsfaecher", aliases: [],
-    short: "Zwei sichtbar geworfene Dummys. Der Führer gibt die Reihenfolge vor, der Hund soll sie befolgen.",
+    short: "Zwei sichtbar geworfene Dummys. Der Hundeführer sagt dem Richter vorher an, in welcher Reihenfolge der Hund sie bringt, und der Hund muss sie genau so bringen.",
     long: [
-      t("Zwei sichtbar geworfene Dummys. Der Führer gibt die Reihenfolge vor, der Hund soll sie befolgen. In Dummy F muss mindestens ein Dummy ins Wasser oder über ein Gewässer."),
+      t("Zwei sichtbar geworfene Dummys. Der Hundeführer sagt dem Richter vorher an, in welcher Reihenfolge der Hund sie bringt, und der Hund muss sie genau so bringen. In Dummy F muss mindestens ein Dummy ins Wasser oder über ein Gewässer."),
       t("Schon in der DP-E, dort in einer eigenen, leichteren Form:"),
       { type: "table", head: ["Form", "Winkel", "Wer holt was"], rows: [
-        ["DP-E", "mindestens 90 Grad", "Führer holt den ersten, Hund den zuletzt geworfenen"],
-        ["Dummy F", "enger als 90 Grad ist schwer", "Hund holt beide, Reihenfolge wird vorgegeben"],
+        ["DP-E", "mindestens 90 Grad", "Hundeführer holt den ersten, Hund den zuletzt geworfenen"],
+        ["Dummy F", "keine Vorgabe", "Hund holt beide, Reihenfolge sagt der Hundeführer an"],
       ] },
-      t("Im Training die Reihenfolge wechseln, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen. Der Winkel zwischen den beiden Würfen ist die eigentliche Schwierigkeit: enger als 90 Grad ist schwer, weit auseinander leicht."),
+      t("Im Training die Reihenfolge wechseln, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen. Je enger die beiden Fallstellen beieinanderliegen, desto schwerer wird es für ihn, sie auseinanderzuhalten."),
     ],
   },
   {
@@ -112,9 +112,9 @@ export const GLOSSAR = [
   },
   {
     id: "einweisen", term: "Einweisen", group: "pruefungsfaecher", aliases: [],
-    short: "Der Führer kennt die Lage des Dummys, der Hund nicht.",
+    short: "Du kennst die Lage des Dummys, der Hund nicht.",
     long: [
-      t("Der Führer kennt die Lage des Dummys, der Hund nicht. Der Führer lenkt ihn mit Pfeife und Handzeichen dorthin. **Kommt erst in Dummy F vor.**"),
+      t("Du kennst die Lage des Dummys, der Hund nicht. Du lenkst ihn mit Pfeife und Handzeichen dorthin. **Kommt erst in Dummy F vor.**"),
       t("Reihenfolge immer: erst Stopp-Signal, dann Richtungszeichen. Ohne Stopp sieht der Hund das Zeichen nicht und rät."),
       t("Und der Satz, der die ganze Distanzlogik umdreht: **\"Nicht die Entfernung macht das Einweisen schwer, sondern vielmehr alle anderen Einflussfaktoren.\"** S. 228."),
     ],
@@ -128,8 +128,8 @@ export const GLOSSAR = [
   // ─── Markieren und Apportieren ────────────────────────────────
   {
     id: "apportieren", term: "Apportieren", group: "markieren", aliases: [],
-    short: "Der Hund trägt dem Führer die Beute zu.",
-    long: [t("Der Hund trägt dem Führer die Beute zu. Vom lateinischen apporto, herbeitragen. Gezieltes Apportiertraining beginnt **nach dem Zahnwechsel, mit etwa neun bis zehn Monaten.**")],
+    short: "Der Hund trägt dem Hundeführer die Beute zu.",
+    long: [t("Der Hund trägt dem Hundeführer die Beute zu. Vom lateinischen apporto, herbeitragen. Gezieltes Apportiertraining beginnt **nach dem Zahnwechsel, mit etwa neun bis zehn Monaten.**")],
   },
   {
     id: "markieren", term: "Markieren", group: "markieren", aliases: [],
@@ -159,7 +159,7 @@ export const GLOSSAR = [
          "Ein Dummy, das an eine bereits gearbeitete Fallstelle gelegt wird."),
       t("Gemeinsam ist allen: Der Hund hat das Dummy gesehen, arbeitet es aber nicht sofort und nicht unter den Bedingungen, unter denen er es gesehen hat. In Dummy A wird Memory zusammen mit dem Appell geprüft, nicht beim Einweisen."),
       t("**Umstritten ist die Rolle als Vorstufe zum Blind.** Eine verbreitete Position sieht Memory genau dafür vor, zum Aufbau von Merkfähigkeit und Handvertrauen. Die Gegenposition sagt, geworfene Memorys erschweren den Blind-Aufbau: Der Hund lernt, das Richtungssignal bedeute einen Weg zu einer gesehenen Stelle. Beim echten Blind fehlt diese Sicherheit, und er bleibt stehen oder weicht ab. Dazu bleiben so aufgebaute Hunde an Altfallstellen hängen."),
-      t("Die Gegenposition schlägt den **Standortwechsel** vor: Der Hund sieht das Dummy an Stelle X, dann wechselt der Führer die Position und schickt ihn von dort. Damit wird die Hand zur Richtungsanzeige und nicht zur bloßen Freigabe. Diese Form ist gleichzeitig Lesart 2 und damit unstrittig."),
+      t("Die Gegenposition schlägt den **Standortwechsel** vor: Der Hund sieht das Dummy an Stelle X, dann wechselst du die Position und schickst ihn von dort. Damit wird die Hand zur Richtungsanzeige und nicht zur bloßen Freigabe. Diese Form ist gleichzeitig Lesart 2 und damit unstrittig."),
     ],
   },
 
@@ -172,10 +172,10 @@ export const GLOSSAR = [
   {
     id: "grosse-suche", term: "Große Suche, Verlorensuche, Frei-Verloren-Suche", group: "suchen",
     aliases: ["Große Suche", "Verlorensuche", "Frei-Verloren-Suche"],
-    short: "Mehrere Dummys liegen in einem abgegrenzten Gebiet. Weder Hund noch Führer kennen die Fallstellen.",
+    short: "Mehrere Dummys liegen in einem abgegrenzten Gebiet. Weder Hund noch Hundeführer kennen die Fallstellen.",
     long: [
-      t("Mehrere Dummys liegen in einem abgegrenzten Gebiet, bei Prüfungen 50 mal 50 Meter. **Weder Hund noch Führer kennen die Fallstellen.** Der Führer zeigt mit einer Handbewegung das Gebiet und betritt es während der Arbeit nicht. Der Hund arbeitet mit hoher Nase, reviert in den Wind und soll selbstständig bleiben. Dummy A: drei bis fünf Dummys, Dummy F: acht."),
-      t("Abgrenzung zum Einweisen: Dort weiß der Führer, wo es liegt, und lenkt. Hier weiß er es nicht und überlässt dem Hund die Arbeit."),
+      t("Mehrere Dummys liegen in einem abgegrenzten Gebiet, bei Prüfungen 50 mal 50 Meter. **Weder Hund noch Hundeführer kennen die Fallstellen.** Der Hundeführer zeigt mit einer Handbewegung das Gebiet und betritt es während der Arbeit nicht. Der Hund arbeitet mit hoher Nase, reviert in den Wind und soll selbstständig bleiben. Dummy A: drei bis fünf Dummys, Dummy F: acht."),
+      t("Abgrenzung zum Einweisen: Dort weiß der Hundeführer, wo es liegt, und lenkt. Hier weiß er es nicht und überlässt dem Hund die Arbeit."),
     ],
   },
   {
@@ -208,7 +208,7 @@ export const GLOSSAR = [
       t("Beendet nur die betroffene Aufgabe, das Gespann arbeitet weiter. Die Ordnung nennt elf Fälle:"),
       ul("Einspringen", "Winseln oder Bellen", "Schussscheue", "Wasser verweigern",
          "Apport verweigern, also das Dummy nicht aufnehmen", "Tauschen von Dummys", "Hetzen",
-         "Außer Kontrolle geraten", "Weitersuchen mit Dummy im Fang", "Nicht-Zurückbringen zum Führer",
+         "Außer Kontrolle geraten", "Weitersuchen mit Dummy im Fang", "Nicht-Zurückbringen zum Hundeführer",
          "Starkes Knautschen oder Lochen des Dummys"),
       t("**Eine Aufgabe mit null Punkten oder eine Gesamtpunktzahl unter der Hälfte der erreichbaren bedeutet, die Prüfung ist nicht bestanden.** Eine Nullwertung beendet die Prüfung also nicht, kostet sie aber trotzdem."),
       t("Im britischen Regelwerk heißen die Kategorien anders: eliminating faults und major faults im Field Trial, serious faults im Working Test. Für Retriever zählen dort Hard mouth, Running in, Refusal to retrieve und Chasing zu den Ausscheidungsfehlern, und **\"noisy or inappropriate handling\"** zu den major faults."),
@@ -220,7 +220,7 @@ export const GLOSSAR = [
     long: [
       t("Der Hund verlässt seinen Platz ohne Aufforderung, um zu apportieren. Das Gegenteil von Steadiness, Nullwertung."),
       t("Reaktion im Training: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen. Nicht hinterherschicken, das belohnt genau das Einspringen."),
-      t("Häufige unbemerkte Ursache: Der Führer fuchtelt mit den Händen. Der Hund liest das als Startsignal."),
+      t("Häufige unbemerkte Ursache: Du fuchtelst mit den Händen. Der Hund liest das als Startsignal."),
       t("In der DP-E wird ein einmaliges, haltbares Einspringen nur mit der halben Punktzahl bewertet statt mit null. Die Einsteigerprüfung ist an dieser Stelle milder als die APD/R."),
     ],
   },
@@ -267,24 +267,24 @@ export const GLOSSAR = [
   // ─── Position und Fußarbeit ───────────────────────────────────
   {
     id: "fussarbeit", term: "Fußarbeit", group: "position", aliases: [],
-    short: "Der Hund geht auf Kommando an der Seite des Führers, etwa auf Kniehöhe. Die Seite ist links.",
+    short: "Der Hund geht auf Kommando an deiner Seite, etwa auf Kniehöhe. Die Seite ist links.",
     long: [
-      t("Der Hund geht auf Kommando an der Seite des Führers, etwa auf Kniehöhe, und verlässt die Position nicht selbstständig."),
-      t("**Die Seite ist links.** Das Buch begründet es mit der Ausrichtung beim Einweisen: Ist der Führer richtig ausgerichtet, ist der Hund es auch, und das funktioniert nur von einer festen Seite aus. Wer eine zweite Seite nutzt, braucht dafür ein eigenes Wort."),
+      t("Der Hund geht auf Kommando an deiner Seite, etwa auf Kniehöhe, und verlässt die Position nicht selbstständig."),
+      t("**Die Seite ist links.** Das Buch begründet es mit der Ausrichtung beim Einweisen: Ist der Hundeführer richtig ausgerichtet, ist der Hund es auch, und das funktioniert nur von einer festen Seite aus. Wer eine zweite Seite nutzt, braucht dafür ein eigenes Wort."),
     ],
   },
   { id: "vorprellen", term: "Vorprellen", group: "position", aliases: [], short: "Der Hund läuft bei der Fußarbeit zu weit vorne." },
   { id: "haengen", term: "Hängen", group: "position", aliases: [], short: "Der Hund bleibt bei der Fußarbeit zu weit hinten." },
   {
     id: "grundstellung", term: "Grundstellung", group: "position", aliases: [],
-    short: "Der Hund sitzt nah und gerade am Bein, in dieselbe Richtung ausgerichtet wie der Führer.",
-    long: [t("Der Hund sitzt nah und gerade am Bein, in dieselbe Richtung ausgerichtet wie der Führer. Ausgangsposition fast aller Übungen und Voraussetzung für eine saubere Linie: Kopf, Wirbelsäule und Rute sollen in die Laufrichtung zeigen.")],
+    short: "Der Hund sitzt nah und gerade am Bein, in dieselbe Richtung ausgerichtet wie du.",
+    long: [t("Der Hund sitzt nah und gerade am Bein, in dieselbe Richtung ausgerichtet wie du. Ausgangsposition fast aller Übungen und Voraussetzung für eine saubere Linie: Kopf, Wirbelsäule und Rute sollen in die Laufrichtung zeigen.")],
   },
   {
     id: "vorsitzen", term: "Vorsitzen", group: "position", aliases: [],
-    short: "Der Hund setzt sich bei der Rückkehr vor den Führer. Beim Junghund kontraproduktiv.",
+    short: "Der Hund setzt sich bei der Rückkehr vor dich. Beim Junghund kontraproduktiv.",
     long: [
-      t("Der Hund setzt sich bei der Rückkehr vor den Führer, statt vorbeizulaufen oder ihn zu umkreisen."),
+      t("Der Hund setzt sich bei der Rückkehr vor dich, statt vorbeizulaufen oder dich zu umkreisen."),
       t("**Beim Junghund kontraproduktiv.** S. 354 f.: Vorsitzen erzeugt Druck zu Lasten eines schnellen Returns. Das Buch nennt zwei korrekte Varianten: Abgabe vorn im Stehen, und Abgabe seitlich aus der Fußposition. Im Regelwerk ist Vorsitzen nicht gefordert."),
     ],
   },
@@ -293,10 +293,10 @@ export const GLOSSAR = [
   {
     id: "steadiness", term: "Steadiness, Standruhe", group: "steadiness",
     aliases: ["Steadiness", "Standruhe"],
-    short: "Der Hund sitzt neben dem Führer und wartet, bis er geschickt wird.",
+    short: "Der Hund sitzt neben dir und wartet, bis er geschickt wird.",
     long: [
-      t("Der Hund sitzt neben dem Führer und wartet, bis er geschickt wird. Er darf den Kopf bewegen, um besser zu markieren, soll aber still sitzen und nicht lautgeben. Im britischen Regelwerk als \"steady to shot and fall\" formuliert, dazu \"retrieve only on command\"."),
-      t("**Das Trainingsverhältnis ist 80 zu 20:** Von den geworfenen Dummys holt der Führer 80 Prozent selbst, der Hund nur 20. S. 212. Wer den Hund jedes geworfene Dummy holen lässt, trainiert Einspringen."),
+      t("Der Hund sitzt neben dir und wartet, bis er geschickt wird. Er darf den Kopf bewegen, um besser zu markieren, soll aber still sitzen und nicht lautgeben. Im britischen Regelwerk als \"steady to shot and fall\" formuliert, dazu \"retrieve only on command\"."),
+      t("**Das Trainingsverhältnis ist 80 zu 20:** Von den geworfenen Dummys holst du 80 Prozent selbst, der Hund nur 20. S. 212. Wer den Hund jedes geworfene Dummy holen lässt, trainiert Einspringen."),
     ],
   },
 
@@ -348,8 +348,8 @@ export const GLOSSAR = [
   },
   {
     id: "sehen", term: "Sehen", group: "sinne", aliases: ["Bewegungsseher"],
-    short: "Hunde sind Bewegungsseher. Das deutlichste Handzeichen ist das, das die Silhouette des Führers am stärksten verändert.",
-    long: [t("Hunde sind **Bewegungsseher.** Das deutlichste Handzeichen ist deshalb das, das die Silhouette des Führers am stärksten verändert. Ein ausgestreckter Zeigefinger ist auf Distanz schlecht zu erkennen. In der Dämmerung verstärkt das Tapetum Lucidum die Lichtausbeute um etwa 50 Prozent, das Bild wird dabei aber unschärfer.")],
+    short: "Hunde sind Bewegungsseher. Das deutlichste Handzeichen ist das, das deine Silhouette am stärksten verändert.",
+    long: [t("Hunde sind **Bewegungsseher.** Das deutlichste Handzeichen ist deshalb das, das deine Silhouette am stärksten verändert. Ein ausgestreckter Zeigefinger ist auf Distanz schlecht zu erkennen. In der Dämmerung verstärkt das Tapetum Lucidum die Lichtausbeute um etwa 50 Prozent, das Bild wird dabei aber unschärfer.")],
   },
   {
     id: "nase", term: "Nase", group: "sinne", aliases: ["Nasenarbeit"],
@@ -374,7 +374,7 @@ export const GLOSSAR = [
   {
     id: "acht-bedingungen", term: "Die acht veränderbaren Bedingungen", group: "lernen", aliases: [],
     short: "Die Variantenachse für alles, was nicht über Distanz gesteigert wird.",
-    long: [t("Die Variantenachse für alles, was nicht über Distanz gesteigert wird: Haltung und Gestik, Trainingsort, Trainingsgegenstände, Entfernung und Position des Führers, Verleitungen, Ausgangssituation, Aufbewahrungsort der Belohnung, Wetter.")],
+    long: [t("Die Variantenachse für alles, was nicht über Distanz gesteigert wird: Haltung und Gestik, Trainingsort, Trainingsgegenstände, deine Entfernung und Position, Verleitungen, Ausgangssituation, Aufbewahrungsort der Belohnung, Wetter.")],
   },
   {
     id: "belohnen", term: "Belohnen gegen Bestechen", group: "lernen", aliases: [],
@@ -424,7 +424,7 @@ export const GLOSSAR = [
   {
     id: "trainingsvorbereitung", term: "Trainingsvorbereitung", group: "lernen", aliases: [],
     short: "Alles vorbereiten, bevor der Hund aus dem Auto kommt.",
-    long: [t("Alles vorbereiten, **bevor** der Hund aus dem Auto kommt: Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. \"Erst wenn alles vorbereitet ist, sollten Sie den Hund aus dem Auto holen.\" Dann lösen lassen, anleinen, auf die Aufgabe konzentrieren.")],
+    long: [t("Alles vorbereiten, **bevor** der Hund aus dem Auto kommt: Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. \"Erst wenn alles vorbereitet ist, sollten Sie den Hund aus dem Auto holen.\" Dann lösen lassen und auf die Aufgabe konzentrieren.")],
   },
   {
     id: "voran-uhr", term: "Voran auf der Uhr", group: "lernen", aliases: [], // erklaeren-statt-nennen.md, Abschnitt 6
@@ -439,7 +439,7 @@ export const GLOSSAR = [
     short: "Erst die Sitz-Geschwindigkeit direkt am Fuß verbessern, erst danach Distanz und Tempo.",
     long: [
       t("Erst die **Sitz-Geschwindigkeit direkt am Fuß** verbessern: \"In der Geschwindigkeit, in der er sich bei Ihnen am Fuß hinsetzt, wird er sich bestenfalls beim Abstoppen setzen.\" Erst danach Distanz und Tempo."),
-      t("Setzt der Hund sich näher beim Führer als gestoppt, ist das **Unsicherheit, nicht Ungehorsam.** Der Sicherheitsabstand wächst von allein. Zurückbringen, dort absitzen lassen, aus der Entfernung loben."),
+      t("Setzt der Hund sich näher bei dir als gestoppt, ist das **Unsicherheit, nicht Ungehorsam.** Der Sicherheitsabstand wächst von allein. Zurückbringen, dort absitzen lassen, aus der Entfernung loben."),
       t("Stoppt er nicht: nach dem **ersten** nicht befolgten Pfiff aktiv werden, **kein zweites Mal pfeifen**, hingehen, an die Stelle zurückbringen."),
     ],
   },
@@ -447,9 +447,9 @@ export const GLOSSAR = [
   // ─── Signale (Topf 2) ─────────────────────────────────────────
   {
     id: "signal-stop", term: "Stopp-Signal", group: "signale", aliases: [], signal: ["stop"], fallback: "dein Stopp-Signal",
-    short: "Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht den Führer an.",
+    short: "Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht dich an.",
     long: [
-      t("Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht den Führer an. Verbreitet ist ein kurzer Pfiff. Leise pfeifen, siehe Gehör."),
+      t("Der Hund stoppt sofort, setzt sich je nach Aufbau und sieht dich an. Verbreitet ist ein kurzer Pfiff. Leise pfeifen, siehe Gehör."),
       t("Begleitend wird oft der Arm erhoben. Er hält den Hund aufmerksam, bis das nächste Signal kommt. Für ein Richtungssignal muss der Arm erst wieder herunter, sonst fehlt die Bewegung, die das neue Signal trägt."),
     ],
   },
@@ -469,13 +469,13 @@ export const GLOSSAR = [
   {
     id: "signal-area", term: "Gebietssignal", group: "signale", aliases: [], signal: ["area"], fallback: "dein Gebietssignal",
     short: "Schickt den Hund in die Große Suche in einem abgegrenzten Gebiet.",
-    long: [t("Schickt den Hund in die **Große Suche** in einem abgegrenzten Gebiet. Der Führer zeigt das Gebiet mit einer Handbewegung und betritt es nicht. Das Zeichen zeigt die Zone, nicht das Dummy.")],
+    long: [t("Schickt den Hund in die **Große Suche** in einem abgegrenzten Gebiet. Du zeigst das Gebiet mit einer Handbewegung und betrittst es nicht. Das Zeichen zeigt die Zone, nicht das Dummy.")],
   },
   {
     id: "signal-out", term: "Richtungssignal geradeaus, Voran", group: "signale", aliases: ["Voran"], signal: ["out"], fallback: "dein Richtungssignal geradeaus",
-    short: "Der Hund läuft in gerader Linie vom Führer weg, bis ein neues Signal kommt.",
+    short: "Der Hund läuft in gerader Linie von dir weg, bis ein neues Signal kommt.",
     long: [
-      t("Der Hund läuft in gerader Linie vom Führer weg, bis ein neues Signal kommt. **Handzeichen: flache Hand hochkant, 20 bis 30 cm vor dem Kopf des HUNDES, \"wie über Kimme und Korn\".** Die Hand zeigt die Laufrichtung. Ausgangslage: Hund in Grundstellung neben dem Führer."),
+      t("Der Hund läuft in gerader Linie von dir weg, bis ein neues Signal kommt. **Handzeichen: flache Hand hochkant, 20 bis 30 cm vor dem Kopf des HUNDES, \"wie über Kimme und Korn\".** Die Hand zeigt die Laufrichtung. Ausgangslage: Hund in Grundstellung neben dir."),
       t("Drei Regeln aus dem Buch, alle drei leicht zu übersehen:"),
       ul("**\"Üben Sie Voran niemals mit Wind von vorn.\"** Bei Gegenwind reviert der Hund statt zu laufen.",
          "**Ritualisieren:** immer dieselbe Körperhaltung. Ändert sie sich, fehlt dem Hund die Motivation.",
@@ -487,8 +487,8 @@ export const GLOSSAR = [
     id: "signal-back", term: "Richtungssignal in die Tiefe, Back", group: "signale", aliases: ["Back"], signal: ["back"], fallback: "dein Richtungssignal in die Tiefe",
     short: "Der Hund dreht sich um 180 Grad und läuft dann geradeaus weiter. Arm senkrecht über den eigenen Kopf.",
     long: [
-      t("Der Hund dreht sich um 180 Grad und läuft dann geradeaus weiter. **Handzeichen: Arm senkrecht über den EIGENEN Kopf.** **Timing:** Stopp-Pfiff, Arm in **neutrale Position vor der Brust**, **zwei Sekunden Pause**, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen. Drehrichtung: rechter Arm, Hund dreht über die **linke** Schulter. Spiegelbildlich, weil er dich ansieht. Ausgangslage: Hund steht entfernt, nach dem Stopp-Signal, und sieht den Führer an."),
-      t("**Unterschied zu geradeaus:** Zwei verschiedene Köpfe. Geradeaus ist die Hand über dem Kopf des **Hundes** und ein Startsignal aus der Grundstellung. In die Tiefe ist der Arm über dem Kopf des **Führers** und ein Fortsetzungssignal auf Distanz."),
+      t("Der Hund dreht sich um 180 Grad und läuft dann geradeaus weiter. **Handzeichen: Arm senkrecht über den EIGENEN Kopf.** **Timing:** Stopp-Pfiff, Arm in **neutrale Position vor der Brust**, **zwei Sekunden Pause**, dann Arm nach oben schnellen, Signal während der Armbewegung. Arm oben stehen lassen. Drehrichtung: rechter Arm, Hund dreht über die **linke** Schulter. Spiegelbildlich, weil er dich ansieht. Ausgangslage: Hund steht entfernt, nach dem Stopp-Signal, und sieht dich an."),
+      t("**Unterschied zu geradeaus:** Zwei verschiedene Köpfe. Geradeaus ist die Hand über dem Kopf des **Hundes** und ein Startsignal aus der Grundstellung. In die Tiefe ist der Arm über **deinem** Kopf und ein Fortsetzungssignal auf Distanz."),
     ],
   },
   {

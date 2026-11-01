@@ -177,7 +177,7 @@ export default function Settings({ state, focus, onTheme, onProfile, onExport, o
       <section className="section">
         <h2>Hundeprofil</h2>
         <div className="card">
-          <ProfileForm initial={state.dog} submitLabel="Profil speichern" showSignals
+          <ProfileForm initial={state.dog} submitLabel="Profil speichern" showSignals signalsOpen={focus === "signals"}
             onSubmit={(dog) => { onProfile(dog); setSaved(true); }} />
           {saved && <p className="saved" role="status" style={{ marginTop: 12 }}>Gespeichert</p>}
         </div>

@@ -8,7 +8,7 @@
  * kind:     "glossar" rendert den Glossar-Abschnitt statt blocks
  * group:    Zwischenüberschrift (BASICS_GROUPS, rubriken-review.md, Abschnitt 7c)
  */
-import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_RULES, PRINCIPLES, TROUBLESHOOTING } from "./training.js";
+import { DISTANCE_STEPS, WARMUP_COOLDOWN, SESSION_TYPES, DUMMY_FACTS, DPE_SHOT_NOTE, WATER_MODULE, EQUIPMENT_NOTES, SESSION_GUIDANCE, SESSION_RULES, PRINCIPLES, TROUBLESHOOTING } from "./training.js";
 import { GLOSSAR_SOURCES } from "./glossar.js";
 
 const t = (content) => ({ type: "text", content });
@@ -111,18 +111,18 @@ const SECTIONS = [
     group: "vorher",
     title: "Vor der Einheit",
     blocks: [
-      t("**Alles vorbereiten, bevor der Hund aus dem Auto kommt.** Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. Erst wenn alles steht, den Hund holen, lösen lassen, anleinen und auf die Aufgabe konzentrieren. Nur wenn Hund und Führer aufeinander konzentriert sind, bilden sie ein Team."),
+      t("**Alles vorbereiten, bevor der Hund aus dem Auto kommt.** Dummys auslegen, zweite Person instruieren, Hindernis aufstellen. Erst wenn alles steht, den Hund holen, lösen lassen und auf die Aufgabe konzentrieren. Nur wenn ihr aufeinander konzentriert seid, bildet ihr ein Team."),
       t("**Checkliste**"),
       { type: "check", items: [
         "Dummys ausgelegt, wenn Einweisen geübt wird",
         "Zweite Person instruiert, wenn Markierungen geübt werden",
         "Jacke zugeknöpft",
         "Pfeife in der Hand oder im Mund",
-        "Hund gelöst, angeleint, konzentriert",
+        "Hund gelöst und aufmerksam",
       ] },
       t("**Warum die Jacke zugeknöpft gehört:** Eine offene Jacke flattert im Wind und trifft den bei Fuß sitzenden Hund im Gesicht. Manche Hunde halten deshalb Abstand. Die nach vorn stehende Ecke des Saums kann ihm außerdem die Sicht nehmen, und damit die Markierung verderben."),
       t("**Warum die Pfeife nicht in die Tasche gehört:** Du musst sofort reagieren können, wenn der Hund Hilfe braucht. Deine Aufmerksamkeit soll beim Hund sein, nicht bei der Suche nach der Pfeife."),
-      t("**Und was mit den Händen:** In die Jackentaschen, während du wartest. Ein häufiger Grund für Einspringen ist, dass der Führer mit den Händen herumfuchtelt und der Hund das als Startsignal liest."),
+      t("**Und was mit den Händen:** In die Jackentaschen, während du wartest. Ein häufiger Grund für Einspringen ist, dass du mit den Händen herumfuchtelst und der Hund das als Startsignal liest."),
       t("**Fünf Fragen, bevor es losgeht**"),
       ol("In welche Teilziele zerlege ich die heutige Aufgabe?",
          "Was übe ich in welcher Reihenfolge?",
@@ -130,6 +130,7 @@ const SECTIONS = [
          "Wie reagiere ich darauf, oder wie vermeide ich sie?",
          "Welches Ziel will ich heute erreichen?"),
       t("**Verschiedene Übungen am selben Tag trennen**, zeitlich und bei Anfängern auch räumlich. Der Grund: \"Die Gefahr der Verwechslungen und die daraus resultierende Verwirrung des Hundes muss so gering wie möglich gehalten werden. Je einfacher eine Trainingseinheit aufgebaut ist, umso schneller versteht der Hund.\""),
+      t(SESSION_GUIDANCE.pauseWhy),
       ...shown(SESSION_RULES).map((r) => t(r.text)),
       // Zahlen aus WARMUP_COOLDOWN, wie im Session-Builder (basics-umsetzung.md, Abschnitt 5)
       t("**Aufwärmen und Cool Down**"),
@@ -207,7 +208,7 @@ const SECTIONS = [
       ] },
       t("Nicht das Erlernen eines Signals kostet Zeit, sondern das Absichern unter verschiedenen Bedingungen. Und: Übe keine Übung mit Ablenkung, die noch nicht gefestigt ist. Das senkt das erreichte Niveau wieder."),
       t("**Wie viele Wiederholungen?**\nVier bis fünf Apports sind für den Hund mehr als genug. Das gilt für Markierungen, Suchen und Einweisen, also für alles, was Nase und Kopf fordert. Kurze Retrieves im Nahbereich, bei denen der Hund weder sucht noch markiert, zählen in dieser Rechnung halb. Deshalb stehen bei der Abgabe im Nahbereich zehn Wiederholungen, bei allem anderen vier bis fünf."),
-      t("**Die acht Bedingungen, die du variieren kannst**\nHaltung und Gestik, Trainingsort, Trainingsgegenstände, Entfernung und Position des Führers, Verleitungen, Ausgangssituation, Aufbewahrungsort der Belohnung, Wetter."),
+      t("**Die acht Bedingungen, die du variieren kannst**\nHaltung und Gestik, Trainingsort, Trainingsgegenstände, deine Entfernung und Position, Verleitungen, Ausgangssituation, Aufbewahrungsort der Belohnung, Wetter."),
       t("**Belohnen, nicht bestechen**\nDer Verstärker kommt nach der Ausführung. Zeigst du ihn vorher, wird er Teil des Signals, und der Hund wartet künftig ab, ob es etwas gibt. Bewahre Leckerchen in etwas auf, das nicht knistert: das Knistern und die Hand in der Tasche sind Vorboten, an denen der Hund abliest, ob die Arbeit sich lohnt."),
       t("Alltägliche Dinge taugen als Belohnung: rennen dürfen, ein Dummy holen dürfen, schwimmen dürfen. Oft wirksamer als das Leckerchen."),
       t("**Die fünf Fehlerursachen**"),

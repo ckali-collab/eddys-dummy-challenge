@@ -16,13 +16,15 @@ export const dayKeyOf = (d = new Date()) =>
 
 export const getSessionType = (typeId) => SESSION_TYPES.find((t) => t.id === typeId) || SESSION_TYPES[0];
 
-// Gesamtdauer: Aufwärmen + Übungsblöcke + Cool Down, z.B. "50 Min" oder "15-17 Min" (Spannen bleiben Spannen)
+// Gesamtdauer: Aufwärmen + Übungsblöcke + Pausen + Cool Down, z.B. "Rund 55 Min" oder "15-17 Min" (Spannen bleiben Spannen).
+// Mit Pausen gerundet auf fünf Minuten (heute-entschlacken.md, Abschnitt 5)
 export const sessionDuration = (typeId) => {
   const type = getSessionType(typeId);
   const wc = WARMUP_COOLDOWN[type.id] || {};
   const parts = [wc.warmupMin, ...type.blocks.map((b) => b.minutes), wc.cooldownMin].filter((x) => x != null);
   const lo = parts.reduce((n, x) => n + (Array.isArray(x) ? x[0] : x), 0);
   const hi = parts.reduce((n, x) => n + (Array.isArray(x) ? x[1] : x), 0);
+  if (wc.pauseMin) return `Rund ${Math.round((lo + wc.pauseMin * (type.blocks.length - 1)) / 5) * 5} Min`;
   return lo === hi ? `${lo} Min` : `${lo}-${hi} Min`;
 };
 
@@ -244,7 +246,7 @@ export const sessionChecklist = (blocks) => {
 // "gut" zählt den Tag (einmal pro Tag) und hebt den Schritt, "noch nicht" senkt nur den Schritt.
 // Kein Zähler wird je verringert, kein abgeschlossenes Level zurückgesetzt.
 // steps: Schrittänderungen dieser Session ({ trackId, levelId, from, to }), für Rückgängig.
-// extra.water: "Heute ging ein Dummy über Wasser" (nur Vollsession), für die Trophäe Wasserratte
+// extra.water: "Heute ging ein Dummy ins Wasser oder darüber" (nur Vollsession), für die Trophäe Wasserratte
 // extra.cause: Fehlerursache (FAILURE_CAUSES id) bei "noch nicht" im Hauptteil
 // extra.signs: angekreuzte Übersprungszeichen (Indizes in DISPLACEMENT_SIGNS)
 // extra.downgrade: vorgeschlagene Rückstufung angenommen → Hauptteil ein Schritt unter den Stand vor der Session

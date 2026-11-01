@@ -41,7 +41,7 @@ export const CONDITIONS = [
     examples: "Bewuchs, Hintergrund, Untergrund, Haus, Garten" },
   { id: "gegenstand", label: "Trainingsgegenstände",
     examples: "Dummygewichte, Ball, Spezialdummy" },
-  { id: "position",   label: "Entfernung und Position des Führers",
+  { id: "position",   label: "Deine Entfernung und Position",
     examples: "neben, vor, nah, fern" },
   { id: "verleitung", label: "Verleitungen",
     examples: "andere Hunde, Menschen, Gegenstände, Winkel, andere Sequenzen" },
@@ -85,7 +85,7 @@ export const RATING_HINTS = [
 
 // Bei jedem Levelwechsel anzuzeigen (Zvolsky, wörtlich)
 export const LEVEL_CHANGE_WARNING =
-  "Vermeiden Sie, eine noch nicht genügend gefestigte Übung mit Ablenkung zu trainieren. Das bereits erreichte Niveau wird gesenkt und somit das vorangegangene Training ad absurdum geführt.";
+  "Trainier eine Übung nicht unter Ablenkung, solange sie nicht sicher sitzt. Sonst sinkt das Niveau wieder, das du schon erreicht hattest.";
 
 // Erster Tipp in allen A-Leveln (erklaeren-statt-nennen.md, Abschnitt 3)
 const LEISE_PFEIFEN = "Immer leise pfeifen. Hunde hören viermal leiser als wir und aus viermal größerer Entfernung. Er hört dich. Wenn du immer laut pfeifst, hast du keine Reserve mehr für Distanz, Wind und Deckung, und im Regelwerk ist lautes Handling ein schwerer Fehler.";
@@ -119,7 +119,7 @@ export const TRACKS = [
           { condition: "position", variant: "Der Hund ist etwa 25 Meter entfernt, rund 35 Schritte." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Sitzt sofort auf den leisen Stopp-Pfiff, auch auf 25 Meter. Fünf von fünf Fällen, an vier verschiedenen Tagen.",
-        run: "5 Stopps auf den leisen Stopp-Pfiff in der Situation der heutigen Stufe, über die Einheit verteilt. Dazwischen normal weitergehen.",
+        run: "5 Stopps auf den Stopp-Pfiff in der Situation der heutigen Stufe, über die Einheit verteilt. Dazwischen normal weitergehen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
@@ -234,7 +234,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Mensch steht oder geht in der Nähe." },
           { condition: "position", variant: "Du drehst dich weg und rufst, ohne ihn anzusehen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt beim Führer und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
+        criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt bei dir und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
         run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
@@ -249,6 +249,7 @@ export const TRACKS = [
         ],
         tips: [
           "Schritt 4 ist der wichtigste. Wenn der Rückruf immer das Ende der Freiheit bedeutet, wird er schlechter.",
+          LEISE_PFEIFEN,
         ],
         warning: null,
       },
@@ -279,7 +280,7 @@ export const TRACKS = [
           "Kommt er: große Belohnung, dann wieder freigeben.",
           "Kommt er nicht: hingehen, ruhig holen, keine Strafe. Nächster Versuch leichter.",
         ],
-        tips: ["Niemals zweimal pfeifen."],
+        tips: ["Niemals zweimal pfeifen.", LEISE_PFEIFEN],
         warning: null,
       },
       {
@@ -314,6 +315,7 @@ export const TRACKS = [
           "Niemals zweimal pfeifen.",
           "Nach einer langsamen Reaktion darf er nicht sofort zur Ablenkung zurück. Sonst lernt er, dich auszusitzen.",
           "Übe lieber mit Hunden, deren Halter du kennst und die auf Zuruf abrufbar sind, als mit fremden Hunden im Park.",
+          LEISE_PFEIFEN,
         ],
         warning: null,
       },
@@ -533,9 +535,9 @@ export const TRACKS = [
           "Steigerung: Schuss statt Zuruf als Signal für den Wurf.",
         ],
         tips: [
-          "80 Prozent der geworfenen Dummys holt der Führer selbst, der Hund nur 20 Prozent. Das ist das Verhältnis, mit dem Steadiness entsteht.",
+          "80 Prozent der geworfenen Dummys holst du selbst, der Hund nur 20 Prozent. Das ist das Verhältnis, mit dem Steadiness entsteht.",
           "Springt der Hund ein: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen. Nicht hinterherschicken, das belohnt genau das Einspringen.",
-          "Hände in die Jackentaschen während der Wartezeit. Hunde springen oft ein, weil der Führer mit den Händen herumfuchtelt.",
+          "Hände in die Jackentaschen während der Wartezeit. Hunde springen oft ein, wenn du mit den Händen herumfuchtelst.",
         ],
         warning: null,
       },
@@ -548,7 +550,7 @@ export const TRACKS = [
     icon: "delivery",
     group: "apport",
     short: "Sauber in die Hand geben",
-    desc: "Die meisten Abgabeprobleme entstehen drei bis vier Schritte vor dem Hundeführer.",
+    desc: "Die meisten Abgabeprobleme entstehen drei bis vier Schritte vor dir.",
     axis: "bedingungen", // "bedingungen" | "distanz"
     examNote: "Kein eigenes Prüfungsfach, wird in jedem Fach mitbewertet.",
     minAgeMonths: null, // Hinweis, keine Prüfung (fundament-umbau-2.md, Abschnitt 3)
@@ -651,7 +653,7 @@ export const TRACKS = [
         steps: [
           "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
           "Für das nasse Dummy reicht ein Eimer Wasser, wenn gerade kein Gewässer verfügbar ist.",
-          "Bei Wasser: direkt an der Wasserkante stehen. Verhindert Ablegen am Ufer und Schütteln vor der Abgabe.",
+          "Bei Wasser: direkt an der Wasserkante stehen und abnehmen, bevor er sich schüttelt oder das Dummy ablegt. Flacher Einstieg, kein Absprung von Uferkanten.",
           "Erregung herstellen: mehrere Apports hintereinander laufen lassen, dann die Abgabe prüfen. Nicht drei Abgaben am Stück verlangen.",
         ],
         tips: [
@@ -745,10 +747,10 @@ export const TRACKS = [
         title: "Doppelmarkierung auf F-Niveau",
         exam: "markierung",
         examClass: "F",
-        examDoneNote: "In der Fortgeschrittenen-Klasse muss mindestens ein Dummy der Doppelmarkierung ins Wasser oder darüber. Wenn du dieses Level ohne Wasser abgeschlossen hast, hol das nach, bevor du zu einer Prüfung gehst.", // erst nach Abschluss (wind-und-checkin.md, Abschnitt 4)
+        examDoneNote: "In der Fortgeschrittenen-Klasse muss mindestens ein Dummy der Doppelmarkierung ins Wasser oder darüber. Ist kein geeignetes Gewässer da, wird an Land gearbeitet und zusätzlich eine Markierung aus tiefem Wasser verlangt, die nur bestanden oder nicht bestanden zählt. Wenn du dieses Level ohne Wasser abgeschlossen hast, hol das nach, bevor du zu einer Prüfung gehst.", // erst nach Abschluss (wind-und-checkin.md, Abschnitt 4)
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
-        criteria: "Beide Dummys in der vorgegebenen Reihenfolge, Winkel enger als 90 Grad, bis 80 Meter, mindestens ein Dummy in Deckung oder im Wasser. Vier Durchgänge.",
+        criteria: "Holt beide Dummys einer Doppelmarkierung in der Reihenfolge, die du ansagst, bis 80 Meter, auch im schweren Gelände. Vier Durchgänge.",
         run: "Eine Doppelmarkierung auf Distanz und Gelände der heutigen Stufe.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
@@ -757,15 +759,15 @@ export const TRACKS = [
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
-          "Zwei Dummys werfen lassen, am Anfang mit weitem Winkel, etwa 10 Uhr und 2 Uhr. Erst wenn beide Apporte sauber sitzen, den Winkel über mehrere Einheiten zusammenziehen, bis er enger als 90 Grad ist. Der enge Winkel ist die eigentliche Schwierigkeit.",
+          "Zwei Dummys werfen lassen, am Anfang weit auseinander, etwa 10 Uhr und 2 Uhr. Erst wenn beide Apporte sauber sitzen, den Winkel über mehrere Einheiten zusammenziehen. Je enger die beiden Fallstellen beieinanderliegen, desto schwerer wird es für ihn, sie auseinanderzuhalten.",
           "Der Hund wartet beide Würfe ab, ohne einzuspringen.",
-          "Reihenfolge vorgeben, in der Prüfung gibt sie der Richter vor. Im Training wechseln, damit der Hund keine Gewohnheit aufbaut.",
-          "Mindestens ein Dummy hinter einer Sichtkante oder über Wasser.",
+          "Reihenfolge vorher festlegen, in der Prüfung sagst du sie dem Richter an. Im Training wechseln, damit der Hund keine Gewohnheit aufbaut.",
+          "Mindestens ein Dummy hinter einer Sichtkante oder im Wasser.",
           "Zweites Dummy erst schicken, wenn das erste korrekt abgegeben ist.",
         ],
         tips: [
           "Mehrere Markierstäbe aufstellen, Dummy nur bei einem. Sonst lernt er, zum nächsten Stab zu laufen, statt sich die Fallstelle zu merken.",
-          "Am Anfang den zuletzt geworfenen zuerst schicken, der liegt frischer im Gedächtnis. Sobald das sitzt, die Reihenfolge wechseln. In der Prüfung gibt der Richter sie vor.",
+          "Am Anfang den zuletzt geworfenen zuerst schicken, der liegt frischer im Gedächtnis. Sobald das sitzt, die Reihenfolge wechseln. In der Prüfung sagst du sie vorher an, und dann muss er genau die bringen.",
         ],
         warning: null,
       },
@@ -786,7 +788,7 @@ export const TRACKS = [
     searchRules: [
       "Suchengebiet mit natürlicher Begrenzung, bei Prüfungen 50 mal 50 Meter.",
       "Halbkreisförmiges Auslegen um den Hund herum, 10 bis 15 Meter Abstand. Das minimiert die Tauschgefahr.",
-      "Immer zehn oder mehr Dummys auslegen, aber den Hund nur einen wechselnden Teil holen lassen. Den Rest holt der Führer selbst, sichtbar für den Hund.",
+      "Immer zehn oder mehr Dummys auslegen, aber den Hund nur einen wechselnden Teil holen lassen. Den Rest holst du selbst, sichtbar für den Hund.",
       "Anzahl variieren, sonst gewöhnt sich der Hund an eine feste Zahl.",
       "Wind: Gegenwind bedeutet frühes Revieren. Seitenwind ist leicht, den Ansatzpunkt wandern lassen. Rückenwind heißt erst tief hinein, dann zurücksuchen.",
       "Suchenstil messen: farbige Dummys in farbgleichen Reihen auslegen. An der Farbe erkennt man, ob der Hund vorne oder hinten sucht.",
@@ -905,7 +907,7 @@ export const TRACKS = [
           { d: 2, g: 1, text: "Halbblind: eine zweite Person legt nach, während er zurückläuft. Bis 30 Meter." },
           { d: 2, g: 1, text: "Vollblind: vorher ausgelegt, er hat nichts gesehen. Bis 30 Meter." },
         ],
-        criteria: "Läuft auf Handzeichen und Signal in gerader Linie vom Führer weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Vier Durchgänge.",
+        criteria: "Läuft auf Handzeichen und Signal in gerader Linie von dir weg und nimmt ein nicht sichtbar ausgelegtes Dummy auf. Bis 30 Meter. Vier Durchgänge.",
         run: "Ein Durchgang auf der heutigen Stufe: ausrichten, Handzeichen, Voran.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
@@ -1119,8 +1121,9 @@ export const WARMUP_COOLDOWN = {
   // warmup/cooldown: Kurzform für die Tabelle im Basics-Tab. warmupGuide/cooldownGuide: Anleitung im Heute-Tab
   // (erklaeren-statt-nennen.md, Abschnitt 1).
   voll: {
-    warmupMin: 15, cooldownMin: 10, warmup: "15 min, nie unter 10. Er soll danach warm sein, nicht müde.", cooldown: "ca. 10 min",
+    warmupMin: 15, cooldownMin: 10, pauseMin: 3, warmup: "15 min, nie unter 10. Er soll danach warm sein, nicht müde.", cooldown: "ca. 10 min",
     warmupGuide: {
+      summary: "Traben, Schritt, Trab, kurze Galoppsprints, Stopps, Dehnen.", // zugeklappt (heute-entschlacken.md, Abschnitt 3); bei "deutlich" eine eigene ohne Sprints
       steps: [
         "Lockeres Traben, ein paar Minuten.",
         "Kontrolliertes Schrittgehen.",
@@ -1135,6 +1138,7 @@ export const WARMUP_COOLDOWN = {
     // "leicht" gilt auch für "unbekannt" und WARMUP_GENTLE_AGES; "deutlich" geht vor.
     warmupGuideJoints: {
       deutlich: {
+        summary: "Trab, Schritt, Trab, weite Bögen, Gehorsam im Schritt, Dehnen.",
         steps: [
           "Lockeres Traben, etwas länger als sonst.",
           "Kontrolliertes Schrittgehen.",
@@ -1154,6 +1158,7 @@ export const WARMUP_COOLDOWN = {
       } },
     },
     cooldownGuide: {
+      summary: "Lockerer Trab, Schritt bis die Atmung normal ist, Dehnen.",
       steps: [
         "Lockerer Trab.",
         "Schritt gehen, bis die Atmung wieder normal ist.",
@@ -1161,7 +1166,7 @@ export const WARMUP_COOLDOWN = {
       ],
       notes: [
         "**Selbstständig** heißt: Der Hund dehnt sich selbst, du dehnst ihn nicht. Gib ihm nach der Arbeit ein paar ruhige Minuten, dann macht er es von allein: sich lang strecken mit den Vorderbeinen vorn und dem Hinterteil hoch, sich nach hinten recken, schütteln. Das sind die Bewegungen, um die es geht.",
-        "Ihn selbst zu ziehen oder Beine zu strecken ist etwas anderes und gehört in die Hand einer Hundephysiotherapeutin. Wer gezielte Dehnübungen machen will, lässt sie sich einmal zeigen, statt sie aus einer App zu lernen.",
+        "Ihn selbst zu ziehen oder Beine zu strecken ist etwas anderes und gehört in die Hand einer Hundephysiotherapeutin.",
       ],
     },
   },
@@ -1191,7 +1196,7 @@ export const SESSION_GUIDANCE = {
   // S. 87, wörtlich. Umsetzung: beim Fortsetzen den Schritt vor dem erreichten vorschlagen, überschreibbar.
   startOneStepBack: "Beginnen Sie an jedem Trainingstag mit der jeweiligen Übung (Trainingseinheit) immer einen Schritt vor dem Punkt, an dem Sie das letzte Mal aufgehört haben. Somit geben Sie dem Hund die Möglichkeit, sich an die Übung zu erinnern.",
   // Umsetzung: nach einem gelungenen Durchgang Pause vorschlagen, nicht die nächste Wiederholung
-  afterSuccess: "Hat die Übung geklappt, dann machen Sie erst einmal eine Pause. Eine gerade gelungene Übung noch mehrmals zu wiederholen oder gar die Anforderungen gleich zu steigern, ist in der Regel kontraproduktiv.",
+  afterSuccess: "Hat die Übung geklappt, dann mach erst einmal eine Pause. Eine gerade gelungene Übung noch mehrmals zu wiederholen oder gar die Anforderungen gleich zu steigern, ist in der Regel kontraproduktiv.",
   // S. 86: alles vorbereiten, bevor der Hund aus dem Auto kommt. when: wann der Punkt heute gilt
   // (praxistauglichkeit.md, Abschnitt 2; ausgewertet in sessionChecklist)
   checklist: [
@@ -1200,9 +1205,9 @@ export const SESSION_GUIDANCE = {
     { text: "Suchengebiet abgesteckt", when: "trackG" },
     { text: "Jacke zugeknöpft", when: "immer" },
     { text: "Pfeife in der Hand oder im Mund", when: "pfeife" },
-    { text: "Hund gelöst, angeleint, konzentriert", when: "immer" },
+    { text: "Hund gelöst und aufmerksam", when: "immer" },
   ],
-  handsNote: "Hände während der Wartezeiten in die Jackentaschen. Hunde springen oft ein, weil der Führer mit den Händen herumfuchtelt.",
+  handsNote: "Hände während der Wartezeiten in die Jackentaschen. Hunde springen oft ein, wenn du mit den Händen herumfuchtelst.",
   // Optional vor der Vollsession
   planningQuestions: [
     "In welche Teilziele zerlege ich die heutige Aufgabe?",
@@ -1212,7 +1217,8 @@ export const SESSION_GUIDANCE = {
     "Welches Ziel will ich heute erreichen?",
   ],
   // Zwischen den Blöcken (erklaeren-statt-nennen.md, Abschnitt 2); pauseBeginner bei Erfahrung "keine"
-  pause: "Mach ein paar Minuten etwas anderes, bevor der nächste Block kommt. Zwei Übungen direkt hintereinander verwechselt der Hund leicht, und was er einmal verwechselt hat, muss man mühsam wieder trennen.",
+  pause: "Ein paar Minuten etwas anderes machen.",
+  pauseWhy: "Zwischen zwei Blöcken gehören ein paar Minuten Abstand. Zwei Übungen direkt hintereinander verwechselt der Hund leicht, und was er einmal verwechselt hat, muss man mühsam wieder trennen.", // Begründung in den Basics (heute-entschlacken.md, Abschnitt 4)
   pauseBeginner: "Wechsle dabei auch den Ort, nicht nur die Zeit.",
   whenToHelp: "Wenn Sie den Eindruck gewinnen, Ihr Hund verzweifelt an der gestellten Aufgabe; wenn Sie beobachten, dass seine Motivation schwindet oder dass er unsicher wird, dann müssen Sie ihm unbedingt helfen.",
   whenNotToHelp: "Sonst nicht: er muss lernen, selbstständig zu arbeiten und eigene Erfahrungen zu sammeln.",
@@ -1303,7 +1309,6 @@ export const LOAD_LIMITS = {
 };
 
 export const JOINT_WARNINGS = {
-  water:      "Nur flacher Einstieg, kein Absprung von Uferkanten.",
   waterIf:    "Wenn du ins Wasser gehst: nur flacher Einstieg, kein Absprung von Uferkanten.", // Stufe 4 geht auch an Land (f-abschluss.md, Abschnitt 5)
   multiMark:  "Viele Starts und Stopps, hohe Gelenkbelastung. Danach zwei Ruhetage.",
   doubleMarkF: "Zwei Apports bis 80 Meter, einer durch Deckung oder Wasser. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.",
@@ -1315,7 +1320,7 @@ export const JOINT_WARNINGS = {
 export const JOINT_WARNING_LEVELS = {
   "A:silber": ["hardStop"],
   "A:gold":   ["hardStop"],
-  "E:gold":   ["water", "multiMark"],
+  "E:gold":   ["multiMark"],
   "F:silber": [{ key: "waterIf", steps: [4] }], // nur auf der Wasserstufe (f-nacharbeit.md, Abschnitt 5)
   "F:gold":   ["doubleMarkF"], // Teil 3, Abschnitt 6
   "H:silber": ["directions"],
@@ -1411,7 +1416,7 @@ export const TROUBLESHOOTING = [
     id: "offline",
     problem: "Weicht beim Blind von der Linie ab",
     cause: "Die Ausrichtung vor dem Schicken war ungenau.",
-    fix: "Vor dem Schicken die eigene Körperachse prüfen. Ist der Führer richtig ausgerichtet, ist der Hund es auch. Die feste Fußposition existiert genau dafür.",
+    fix: "Vor dem Schicken die eigene Körperachse prüfen. Bist du richtig ausgerichtet, ist er es auch. Die feste Fußposition existiert genau dafür.",
     track: "H",
   },
   {
@@ -1505,7 +1510,7 @@ export const TROPHIES = [
   { id: "sessions-50",    name: "Dauerläufer",       desc: "50 Sessions dokumentiert",               type: "milestone", condition: { sessions: 50 } },
   { id: "all-bronze",     name: "Fundament",          desc: "Bereit für die DP-E: Alle acht Tracks auf Bronze. Damit deckst du die Einsteigerprüfung ab.", type: "milestone", condition: { allTracks: "bronze" } },
   { id: "all-silber",     name: "Fortgeschritten",    desc: "Bereit für die Anfänger-Klasse: Alle acht Tracks auf Silber.", type: "milestone", condition: { allTracks: "silber" } },
-  { id: "first-water",    name: "Wasserratte",        desc: "Eine Session abgeschlossen, in der ein Dummy über Wasser ging.", type: "milestone", condition: { water: 1 } },
+  { id: "first-water",    name: "Wasserratte",        desc: "Eine Session abgeschlossen, in der ein Dummy ins Wasser oder darüber ging.", type: "milestone", condition: { water: 1 } },
   { id: "one-cast",       name: "One-Cast Blind",     desc: "Blind ohne eine einzige Korrektur",      type: "milestone", condition: { manual: true } },
   { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final",     condition: { allTracks: "gold" } },
 ];

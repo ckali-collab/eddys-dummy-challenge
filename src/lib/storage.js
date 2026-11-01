@@ -87,7 +87,7 @@ export const freshState = () => ({
   sessions: [],
   trophies: [],
   // lastExportAt, exportSnoozedAt, signalHintSeen: additiv, kein Schema-Bump (fehlende Werte füllt normalize)
-  settings: { theme: "system", lastExportAt: null, exportSnoozedAt: null, signalHintSeen: false },
+  settings: { theme: "system", lastExportAt: null, exportSnoozedAt: null, signalHintSeen: false, phaseOpen: { warmup: false, cooldown: false } },
   plan: null, // heutiger Sessionplan: { date, type, offsets, picks }
 });
 
@@ -135,6 +135,8 @@ export const normalize = (raw) => {
       lastExportAt: typeof raw.settings?.lastExportAt === "string" ? raw.settings.lastExportAt : null,
       exportSnoozedAt: typeof raw.settings?.exportSnoozedAt === "string" ? raw.settings.exportSnoozedAt : null,
       signalHintSeen: raw.settings?.signalHintSeen === true,
+      // Aufwärmen und Cool Down auf- oder zugeklappt, je Phase (heute-entschlacken.md, Abschnitt 3)
+      phaseOpen: { warmup: raw.settings?.phaseOpen?.warmup === true, cooldown: raw.settings?.phaseOpen?.cooldown === true },
     },
   };
 };

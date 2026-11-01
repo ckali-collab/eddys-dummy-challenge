@@ -1,13 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const { TRACKS, TROPHIES, SESSION_TYPES, JOINT_WARNINGS } = await import("../src/data/training.js");
+const { TRACKS, TROPHIES, SESSION_TYPES, JOINT_WARNINGS, SESSION_GUIDANCE, WARMUP_COOLDOWN, LEVEL_CHANGE_WARNING } = await import("../src/data/training.js");
 const { BASICS_SECTIONS, BASICS_GROUPS } = await import("../src/data/basics.js");
 const { GLOSSAR } = await import("../src/data/glossar.js");
 const { findTerms } = await import("../src/lib/glossar.js");
 const { freshState, migrate } = await import("../src/lib/storage.js");
 const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter, jointWarnings } = await import("../src/lib/progress.js");
-const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
+const { buildPlan, recordSession, undoLastSession, warmupGuideFor, sessionDuration } = await import("../src/lib/session.js");
 const { gearAllSteps, gearForStep, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
 const { isWaterStep, waterNotes, examLine } = await import("../src/lib/steps.js");
 const { conditionText } = await import("../src/lib/trophies.js");
@@ -215,14 +215,20 @@ test("F Silber ist die Einzelmarkierung, F Gold baut die Doppelmarkierung auf", 
   assert.ok(!JSON.stringify(l.steps).includes("Graben"));
   assert.deepEqual(jointWarnings({ joints: "leicht" }, "F", "silber", 3), []);
   assert.deepEqual(jointWarnings({ joints: "leicht" }, "F", "silber", 4), ["Wenn du ins Wasser gehst: nur flacher Einstieg, kein Absprung von Uferkanten."]);
-  assert.ok(jointWarnings({ joints: "leicht" }, "E", "gold", 1).includes("Nur flacher Einstieg, kein Absprung von Uferkanten."));
+  assert.deepEqual(jointWarnings({ joints: "leicht" }, "E", "gold", 1), [JOINT_WARNINGS.multiMark]);
   assert.deepEqual(jointWarnings({ joints: "ok" }, "F", "silber", 4), []);
-  assert.equal(jointWarnings({ joints: "leicht" }, "E", "gold", 1).length, 2);
   assert.equal(examLine(TRACKS.find((t) => t.id === "D"), level("D", "bronze")), "Zählt für DP-E, Apportieren mit verspätetem Schicken");
   const g = level("F", "gold");
-  assert.ok(g.steps[0].startsWith("Zwei Dummys werfen lassen, am Anfang mit weitem Winkel"));
+  assert.ok(g.steps[0].startsWith("Zwei Dummys werfen lassen, am Anfang weit auseinander"));
+  assert.ok(!/90 Grad|gibt sie der Richter|Richter sie vor/.test(JSON.stringify(g)));
+  assert.ok(level("F", "bronze").steps.some((x) => x.includes("mindestens 90 Grad")));
+  assert.equal(TROPHIES.find((t) => t.id === "track-F").desc, "Holt beide Dummys einer Doppelmarkierung in der Reihenfolge, die du ansagst, bis 80 Meter, auch im schweren Gelände.");
+  for (const lid of ["bronze", "silber", "gold"]) assert.ok(level("B", lid).tips.some((x) => x.startsWith("Immer leise pfeifen")), lid);
+  assert.match(SESSION_GUIDANCE.afterSuccess, /dann mach erst einmal/);
+  assert.ok(!/anleinen/.test(JSON.stringify([BASICS_SECTIONS, GLOSSAR])));
+  assert.ok(!/\bFührers?\b/.test(JSON.stringify(GLOSSAR)));
   assert.ok(!JSON.stringify(g).includes("dritte Marke"));
-  assert.match(g.criteria, /Winkel enger als 90 Grad, bis 80 Meter, mindestens ein Dummy in Deckung oder im Wasser/);
+  assert.match(g.criteria, /in der Reihenfolge, die du ansagst, bis 80 Meter, auch im schweren Gelände/);
   assert.equal(examLine(TRACKS.find((t) => t.id === "F"), level("F", "bronze")), "Zählt für DP-E, Markierapport und Doppelmarkierung");
   assert.ok(TRACKS.flatMap((t) => t.levels).every((x) => !("diagram" in x)));
   assert.equal(g.run, "Eine Doppelmarkierung auf Distanz und Gelände der heutigen Stufe.");
@@ -239,6 +245,23 @@ test("Packliste nennt Reserve und schwimmfähig, ab zwei Dummys ohne Reserve", (
   assert.deepEqual(label([{ ...f, step: 2 }, { kind: "level", trackId: "D", levelId: "silber", step: 1 }]), ["2 Dummys 500 g"]);
 });
 
+test("Heute entschlacken: Dauer, Pause, Begriffe, Sie-Form", () => {
+  assert.equal(sessionDuration("voll"), "Rund 55 Min");
+  assert.equal(sessionDuration("kurz"), "15-17 Min");
+  assert.equal(SESSION_GUIDANCE.pause, "Ein paar Minuten etwas anderes machen.");
+  assert.ok(JSON.stringify(BASICS_SECTIONS).includes(SESSION_GUIDANCE.pauseWhy));
+  assert.ok(!JSON.stringify([TRACKS, BASICS_SECTIONS]).includes("angeleint, konzentriert"));
+  assert.ok(!JSON.stringify(WARMUP_COOLDOWN).includes("aus einer App"));
+  assert.ok(!level("A", "bronze").run.includes("leise") && level("A", "bronze").criteria.includes("leisen"));
+  assert.ok(!LEVEL_CHANGE_WARNING.includes("Vermeiden Sie"));
+  assert.ok(!/\bFührers?\b/.test(JSON.stringify([TRACKS, BASICS_SECTIONS])));
+  const g = (joints) => warmupGuideFor("voll", { joints, age: "erwachsen" }).summary;
+  assert.match(g("ok"), /Galoppsprints/);
+  assert.match(g("leicht"), /Galoppsprints/);
+  assert.ok(!/Galopp|Sprint/.test(g("deutlich")), "bei deutlichem Befund keine Sprints in der Kurzzeile");
+  assert.deepEqual(migrate(freshState()).settings.phaseOpen, { warmup: false, cooldown: false });
+});
+
 test("Check-in ist auch aus den Tracks raus", () => {
   assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
   assert.ok(!JSON.stringify(TRACKS).includes("off-lead"));
@@ -247,7 +270,7 @@ test("Check-in ist auch aus den Tracks raus", () => {
 
 test("Prüfungshinweis nur bei F Silber und F Gold", () => {
   assert.match(level("F", "silber").examDoneNote, /Einzelmarkierung im Wasser/);
-  assert.match(level("F", "gold").examDoneNote, /ins Wasser oder darüber\. Wenn du dieses Level ohne Wasser/);
+  assert.match(level("F", "gold").examDoneNote, /ins Wasser oder darüber\. Ist kein geeignetes Gewässer da.* Wenn du dieses Level ohne Wasser/);
   assert.deepEqual(TRACKS.flatMap((t) => t.levels.filter((l) => l.examDoneNote).map((l) => `${t.id}:${l.id}`)), ["F:silber", "F:gold"]);
 });
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PROFILE_FIELDS, DISCLAIMER, SIGNAL_FIELDS, SIGNAL_SEARCH_NOTE, SIGNAL_DEFAULTS } from "../data/training.js";
+import { IconChevron } from "./Icons.jsx";
 
 const OptionGroup = ({ name, label, options, value, onChange }) => (
   <fieldset className="field">
@@ -21,10 +22,15 @@ const OptionGroup = ({ name, label, options, value, onChange }) => (
 );
 
 // Meine Signale (docs/profil-und-aufraeumen.md, Abschnitt 2): eine Zeile pro Funktion, frei editierbar
-const SignalFields = ({ signals, onChange }) => (
-  <fieldset className="field" id="meine-signale">
-    <legend className="field-label">Meine Signale</legend>
-    <div className="stack" style={{ gap: 12 }}>
+// Zugeklappt als Standard, die Zeile nennt die belegten Signale (heute-entschlacken.md, Abschnitt 11)
+const SignalFields = ({ signals, onChange, defaultOpen }) => (
+  <details className="recent" id="meine-signale" open={defaultOpen}>
+    <summary>
+      <span>Meine Signale</span>
+      <span className="recent-count">{SIGNAL_FIELDS.filter((f) => signals[f.key]?.trim()).length} von {SIGNAL_FIELDS.length} belegt</span>
+      <IconChevron size={20} />
+    </summary>
+    <div className="signals-fold-body">
       {SIGNAL_FIELDS.map((f) => (
         <div key={f.key} className="signal-row">
           <label className="small" htmlFor={`sig-${f.key}`}>{f.label}{f.optional ? " (optional)" : ""}</label>
@@ -34,12 +40,12 @@ const SignalFields = ({ signals, onChange }) => (
         </div>
       ))}
     </div>
-  </fieldset>
+  </details>
 );
 
 // Wird im Onboarding und in den Einstellungen genutzt. showSignals: "Meine Signale" (nur Einstellungen;
 // im Onboarding gelten die Vorbelegungen)
-export default function ProfileForm({ initial, submitLabel, onSubmit, showSignals = false }) {
+export default function ProfileForm({ initial, submitLabel, onSubmit, showSignals = false, signalsOpen = false }) {
   const [dog, setDog] = useState(() => ({ ...initial, signals: { ...SIGNAL_DEFAULTS, ...(initial.signals || {}) } }));
   const set = (key) => (val) => setDog((d) => ({ ...d, [key]: val }));
   const setSignal = (key, val) => setDog((d) => ({ ...d, signals: { ...d.signals, [key]: val } }));
@@ -76,7 +82,7 @@ export default function ProfileForm({ initial, submitLabel, onSubmit, showSignal
           onChange={(e) => set("notes")(e.target.value)} />
       </div>
 
-      {showSignals && <SignalFields signals={dog.signals} onChange={setSignal} />}
+      {showSignals && <SignalFields signals={dog.signals} onChange={setSignal} defaultOpen={signalsOpen} />}
 
       <p className="notice">{DISCLAIMER}</p>
 
