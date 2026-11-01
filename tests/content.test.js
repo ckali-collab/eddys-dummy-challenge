@@ -1,15 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const { TRACKS, TROPHIES, SESSION_TYPES } = await import("../src/data/training.js");
+const { TRACKS, TROPHIES, SESSION_TYPES, JOINT_WARNINGS } = await import("../src/data/training.js");
 const { BASICS_SECTIONS, BASICS_GROUPS } = await import("../src/data/basics.js");
 const { GLOSSAR } = await import("../src/data/glossar.js");
 const { findTerms } = await import("../src/lib/glossar.js");
 const { freshState, migrate } = await import("../src/lib/storage.js");
-const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter } = await import("../src/lib/progress.js");
+const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter, jointWarnings } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor } = await import("../src/lib/session.js");
-const { gearAllSteps, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
-const { isWaterStep, waterNotes } = await import("../src/lib/steps.js");
+const { gearAllSteps, gearForStep, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
+const { isWaterStep, waterNotes, examLine } = await import("../src/lib/steps.js");
 const { conditionText } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
@@ -199,14 +199,42 @@ test("Hinweis auf Geländestufe 4: Track G hat einen eigenen, ohne Sommer", () =
   assert.deepEqual(waterNotes("G", level("G", "gold"), 1), []);
 });
 
+test("F Silber ist die Einzelmarkierung, F Gold baut die Doppelmarkierung auf", () => {
+  const dog = { age: "erwachsen", joints: "ok" };
+  const l = level("F", "silber");
+  assert.equal(l.title, "Einzelmarkierung Land und Wasser");
+  assert.equal(examLine(TRACKS.find((t) => t.id === "F"), l), "Zählt für Dummy A, Einzelmarkierung Land und Wasser");
+  assert.ok(!l.criteria.includes("Wasser"), "die Ausweichregel gilt, das Kriterium verlangt kein Wasser");
+  assert.equal(l.load, 2);
+  assert.deepEqual(l.amount, { n: 3, unit: "Einzelmarkierungen" });
+  assert.deepEqual(gearForStep(l.gear, 3).map((g) => gearLabel(g, l.dummyType, dog)), ["1 Dummy 500 g plus Reserve"]);
+  assert.deepEqual(gearForStep(l.gear, 4).map((g) => gearLabel(g, l.dummyType, dog)), ["1 Dummy 500 g plus Reserve, schwimmfähig"]);
+  assert.ok(l.steps.at(-1).startsWith("Variante Memory"));
+  assert.deepEqual(jointWarnings({ joints: "leicht" }, "F", "silber"), [JOINT_WARNINGS.waterWork]);
+  const g = level("F", "gold");
+  assert.ok(g.steps[0].startsWith("Am Anfang mit weitem Winkel"));
+  assert.ok(!JSON.stringify(g).includes("dritte Marke"));
+  assert.ok(g.tips.includes("Zuletzt geworfenen zuerst schicken. Der liegt frischer im Gedächtnis."));
+});
+
+test("Packliste nennt Reserve und schwimmfähig, ab zwei Dummys ohne Reserve", () => {
+  const dog = { age: "erwachsen", joints: "ok" };
+  const f = { kind: "level", trackId: "F", levelId: "silber" };
+  const label = (blocks) => packingList(blocks, dog).items.filter((i) => i.id === "dummy").map((i) => gearLabel(i, "standard", dog));
+  assert.deepEqual(label([{ ...f, step: 2 }]), ["1 Dummy 500 g plus Reserve"]);
+  assert.deepEqual(label([{ ...f, step: 4 }]), ["1 Dummy 500 g plus Reserve, schwimmfähig"]);
+  assert.deepEqual(label([{ ...f, step: 2 }, { kind: "level", trackId: "D", levelId: "silber", step: 1 }]), ["2 Dummys 500 g"]);
+});
+
 test("Check-in ist auch aus den Tracks raus", () => {
   assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
+  assert.ok(!JSON.stringify(TRACKS).includes("off-lead"));
   assert.ok(level("B", "gold").steps[0].startsWith("Große Distanz"));
 });
 
 test("Prüfungshinweis nur bei F Silber und F Gold", () => {
-  assert.match(level("F", "silber").examDoneNote, /Einzelmarkierung über Wasser/);
-  assert.match(level("F", "gold").examDoneNote, /ins Wasser oder darüber/);
+  assert.match(level("F", "silber").examDoneNote, /Einzelmarkierung im Wasser/);
+  assert.match(level("F", "gold").examDoneNote, /ins Wasser oder darüber\. Wenn du dieses Level ohne Wasser/);
   assert.deepEqual(TRACKS.flatMap((t) => t.levels.filter((l) => l.examDoneNote).map((l) => `${t.id}:${l.id}`)), ["F:silber", "F:gold"]);
 });
 

@@ -17,6 +17,8 @@ export const gearLabel = (item, dummyType, dog) => {
   if (item.id === "dummy") {
     text += ` ${dummyWeight(dog)} g`;
     if (dummyType === "junior" && dummyWeight(dog) > DUMMY_WEIGHT.junior) text += ` oder Juniordummy ${DUMMY_WEIGHT.junior} g`;
+    if (item.reserve) text += " plus Reserve";
+    if (item.floats) text += ", schwimmfähig";
   }
   if (item.steps) text += ` (Stufe ${item.steps.join(" und ")})`; // item.steps meint Stufen im Pfad
   if (item.optional) return `${text} (optional)`;
@@ -79,6 +81,8 @@ export const packingList = (blocks, dog) => {
       const optional = !!item.optional;
       if (optional) cur.opt = Math.max(cur.opt, item.n);
       else cur.req = Math.max(cur.req, item.n);
+      if (item.reserve) cur.reserve = true;
+      if (item.floats) cur.floats = true;
       need.set(id, cur);
       if (id === "dummy") dummyTypes[optional ? "optional" : "required"].add(lvl.dummyType ?? "standard");
     }
@@ -90,9 +94,10 @@ export const packingList = (blocks, dog) => {
     dummyType,
     items: Object.keys(GEAR_ITEMS).filter((id) => need.has(id))
       .map((id) => {
-        const { req, opt } = need.get(id);
+        const { req, opt, reserve, floats } = need.get(id);
         const n = Math.max(req, opt);
-        const more = orMore.has(id) ? { orMore: true } : {};
+        // Ab zwei Dummys ist die Reserve schon dabei
+        const more = { ...(orMore.has(id) ? { orMore: true } : {}), ...(reserve && n === 1 ? { reserve: true } : {}), ...(floats ? { floats: true } : {}) };
         if (!req) return { id, n, optional: true, ...more };
         return n > req ? { id, n, optionalCount: n - req, ...more } : { id, n, ...more };
       }),

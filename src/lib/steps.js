@@ -57,7 +57,7 @@ const CLASS_LABEL = { "DP-E": "DP-E", A: "Dummy A", F: "Dummy F", O: "Klasse O" 
 const EXAM_LABEL = {
   appell: "Appell", markierung: "Markierung", suche: "Suche", einweisen: "Einweisen", walkup: "Walk Up",
   unterordnung: "Unterordnung", doppelmarkierung: "Doppelmarkierung", verspaetet: "verspätetes Schicken",
-  markierapport: "Markierapport", verlorensuche: "Verlorensuche",
+  markierapport: "Markierapport", verlorensuche: "Verlorensuche", einzelmarkierung: "Einzelmarkierung Land und Wasser",
 };
 export const examLine = (track, level) => {
   if (track.examNote) return track.examNote;
