@@ -210,11 +210,21 @@ test("F Silber ist die Einzelmarkierung, F Gold baut die Doppelmarkierung auf", 
   assert.deepEqual(gearForStep(l.gear, 3).map((g) => gearLabel(g, l.dummyType, dog)), ["1 Dummy 500 g plus Reserve"]);
   assert.deepEqual(gearForStep(l.gear, 4).map((g) => gearLabel(g, l.dummyType, dog)), ["1 Dummy 500 g plus Reserve, schwimmfähig"]);
   assert.ok(l.steps.at(-1).startsWith("Variante Memory"));
-  assert.deepEqual(jointWarnings({ joints: "leicht" }, "F", "silber"), [JOINT_WARNINGS.waterWork]);
+  assert.equal(l.stepsType, "ablauf");
+  assert.equal(l.diagram, null);
+  assert.match(l.run, /Drei an Land, zwei im Wasser/);
+  assert.ok(!JSON.stringify(l.steps).includes("Graben"));
+  assert.deepEqual(jointWarnings({ joints: "leicht" }, "F", "silber", 3), []);
+  assert.deepEqual(jointWarnings({ joints: "leicht" }, "F", "silber", 4), [JOINT_WARNINGS.water]);
+  assert.deepEqual(jointWarnings({ joints: "ok" }, "F", "silber", 4), []);
+  assert.equal(jointWarnings({ joints: "leicht" }, "E", "gold", 1).length, 2);
+  assert.equal(examLine(TRACKS.find((t) => t.id === "D"), level("D", "bronze")), "Zählt für DP-E, Apportieren mit verspätetem Schicken");
   const g = level("F", "gold");
-  assert.ok(g.steps[0].startsWith("Am Anfang mit weitem Winkel"));
+  assert.ok(g.steps[0].startsWith("Zwei Dummys werfen lassen, am Anfang mit weitem Winkel"));
   assert.ok(!JSON.stringify(g).includes("dritte Marke"));
-  assert.ok(g.tips.includes("Zuletzt geworfenen zuerst schicken. Der liegt frischer im Gedächtnis."));
+  assert.equal(g.run, "Eine Doppelmarkierung auf Distanz und Gelände der heutigen Stufe.");
+  assert.ok(g.tips.some((x) => x.startsWith("Am Anfang den zuletzt geworfenen zuerst schicken")));
+  assert.ok(!JSON.stringify(g.tips).includes("Nicht immer dieselbe Reihenfolge"));
 });
 
 test("Packliste nennt Reserve und schwimmfähig, ab zwei Dummys ohne Reserve", () => {

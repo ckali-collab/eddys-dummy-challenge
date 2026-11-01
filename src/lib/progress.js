@@ -74,9 +74,11 @@ const dayKey = (iso) => new Date(iso).toDateString();
 export const countedToday = (progress, now = new Date()) =>
   progress.dates.some((d) => dayKey(d) === now.toDateString());
 
-export const jointWarnings = (dog, trackId, levelId) => {
+export const jointWarnings = (dog, trackId, levelId, step) => {
   if (!JOINT_RESTRICTED.includes(dog.joints)) return [];
-  return (JOINT_WARNING_LEVELS[`${trackId}:${levelId}`] || []).map((k) => JOINT_WARNINGS[k]);
+  return (JOINT_WARNING_LEVELS[`${trackId}:${levelId}`] || [])
+    .filter((k) => !k.steps || k.steps.includes(step))
+    .map((k) => JOINT_WARNINGS[k.key ?? k]);
 };
 
 // ─── State-Updates (pure) ─────────────────────────────────────

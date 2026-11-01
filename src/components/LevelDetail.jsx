@@ -99,9 +99,9 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
   const beginnerNote = st.dog?.experience === "keine" && MIN_AGE_NOTES_SHORT[`${trackId}:${levelId}`];
   const profileNote = level.profileNotes?.find((n) => n.joints?.includes(st.dog?.joints) || n.ages?.includes(st.dog?.age));
   const idx = track.levels.findIndex((l) => l.id === levelId);
-  const joints = jointWarnings(st.dog, trackId, levelId);
   const first = firstStep(st.dog, level);
   const current = effectiveStep(st, trackId, levelId);
+  const joints = jointWarnings(st.dog, trackId, levelId, current);
   const signals = signalLines(level, st.dog, current);
   const todayGear = gearForStep(level.gear, current);
   const todaySetup = setupForStep(level.setup, current);

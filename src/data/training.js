@@ -449,7 +449,7 @@ export const TRACKS = [
         signals: ["fetch"], // im Heute-Block (kriterien-und-stufen.md, Abschnitt 8)
         phase: "erlernen", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Warten nach dem Wurf",
-        exam: ["doppelmarkierung", "verspaetet"], // dp-e-korrektur.md, Abschnitt 4
+        exam: "verspaetet", // f-nacharbeit.md, Abschnitt 8
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
@@ -735,23 +735,22 @@ export const TRACKS = [
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Holt einzelne Markierungen sauber, bis 50 Meter, auch im schweren Gelände. Vier Durchgänge.",
-        run: "Drei Einzelmarkierungen auf Distanz und Gelände der heutigen Stufe.",
+        run: "Einzelmarkierungen auf Distanz und Gelände der heutigen Stufe. Drei an Land, zwei im Wasser.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1, reserve: true, steps: [1, 2, 3], swap: true }, { id: "dummy", n: 1, reserve: true, floats: true, steps: [4], swap: true }], // f-silber-aufbau.md, Abschnitt 2
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 3, unit: "Einzelmarkierungen" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        diagram: "double-mark",
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        diagram: null,
+        stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
           "Dummy sichtbar werfen, auf der Distanz der heutigen Stufe. Hund wartet.",
           "Schicken, abnehmen, kurze Pause.",
           "Die zweite und dritte Marke in eine andere Richtung werfen. Sonst merkt er sich die Stelle statt den Wurf.",
-          "Ab Stufe 4: ins Wasser oder über einen schmalen Graben, mit schwimmfähigem Dummy. Geht Wasser gerade nicht, erfüllt auch ein Gelände mit mehreren Wechseln diese Stufe.",
+          "Ab Stufe 4 ins Wasser oder über einen schmalen Fluss oder Kanal, mit schwimmfähigem Dummy.",
           "Variante Memory: Dummy sichtbar werfen, Hund wartet, ihr wechselt die Position um mindestens 20 Meter, dann von dort schicken.",
         ],
         tips: [
-          "Im Wasser reichen zwei Marken statt drei.",
           "Voraussetzung: Steadiness Silber muss sitzen.",
         ],
         warning: null,
@@ -767,7 +766,7 @@ export const TRACKS = [
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4 }], // Distanz- und Geländestufe je Schritt (Abschnitt 7)
         criteria: "Beide Dummys in der vorgegebenen Reihenfolge, bis 80 Meter, mindestens ein Dummy in Deckung oder über Wasser. Vier Durchgänge.",
-        run: "Zwei Dummys im engen Winkel, auf Distanz und Gelände der heutigen Stufe. Reihenfolge vorgeben, bevor du schickst.",
+        run: "Eine Doppelmarkierung auf Distanz und Gelände der heutigen Stufe.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 4 }],
@@ -776,16 +775,15 @@ export const TRACKS = [
         diagram: null, // offen: fundament-umbau-2.md nennt kein Diagramm (vorher triple-mark)
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [
-          "Am Anfang mit weitem Winkel, etwa 10 Uhr und 2 Uhr. Erst wenn beide Apporte sauber sitzen, den Winkel über mehrere Einheiten zusammenziehen. Der enge Winkel ist die eigentliche Schwierigkeit.",
+          "Zwei Dummys werfen lassen, am Anfang mit weitem Winkel, etwa 10 Uhr und 2 Uhr. Erst wenn beide Apporte sauber sitzen, den Winkel über mehrere Einheiten zusammenziehen, bis er enger als 90 Grad ist. Der enge Winkel ist die eigentliche Schwierigkeit.",
           "Der Hund wartet beide Würfe ab, ohne einzuspringen.",
           "Reihenfolge vorgeben, in der Prüfung gibt sie der Richter vor. Im Training wechseln, damit der Hund keine Gewohnheit aufbaut.",
           "Mindestens ein Dummy hinter einer Sichtkante oder über Wasser.",
           "Zweites Dummy erst schicken, wenn das erste korrekt abgegeben ist.",
         ],
         tips: [
-          "Nicht immer dieselbe Reihenfolge verlangen, sonst merkt sich der Hund die Reihenfolge statt die Fallstellen.",
           "Mehrere Markierstäbe aufstellen, Dummy nur bei einem. Sonst lernt er, zum nächsten Stab zu laufen, statt sich die Fallstelle zu merken.",
-          "Zuletzt geworfenen zuerst schicken. Der liegt frischer im Gedächtnis.",
+          "Am Anfang den zuletzt geworfenen zuerst schicken, der liegt frischer im Gedächtnis. Sobald das sitzt, die Reihenfolge wechseln. In der Prüfung gibt der Richter sie vor.",
         ],
         warning: null,
       },
@@ -1330,19 +1328,18 @@ export const LOAD_LIMITS = {
 
 export const JOINT_WARNINGS = {
   water:      "Nur flacher Einstieg, kein Absprung von Uferkanten.",
-  waterWork:  "Schwimmen ist anstrengender, als es aussieht. Nach Wasserarbeit nicht stehen lassen, sondern bewegen, damit er nicht auskühlt. Kein Eis, keine starke Strömung.", // f-silber-aufbau.md, Abschnitt 2
   multiMark:  "Viele Starts und Stopps, hohe Gelenkbelastung. Danach zwei Ruhetage.",
   doubleMarkF: "Zwei Apports bis 80 Meter, einer durch Deckung oder Wasser. Bei Gelenkbefund die Distanz reduzieren, nicht die Zahl der Apports.",
   hardStop:   "Stopp-Pfiff bevorzugt aus dem Trab üben, nicht aus dem vollen Galopp.",
   directions: "Enge Wendungen begrenzen.",
 };
 
-// Welche Level von welcher Gelenkwarnung betroffen sind ("Track:Level" → Keys aus JOINT_WARNINGS)
+// Welche Level von welcher Gelenkwarnung betroffen sind ("Track:Level" → Keys aus JOINT_WARNINGS, optional an Stufen gebunden)
 export const JOINT_WARNING_LEVELS = {
   "A:silber": ["hardStop"],
   "A:gold":   ["hardStop"],
   "E:gold":   ["water", "multiMark"],
-  "F:silber": ["waterWork"],
+  "F:silber": [{ key: "water", steps: [4] }], // nur auf der Wasserstufe (f-nacharbeit.md, Abschnitt 5)
   "F:gold":   ["doubleMarkF"], // Teil 3, Abschnitt 6
   "H:silber": ["directions"],
   "H:gold":   ["directions"],

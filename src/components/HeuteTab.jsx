@@ -165,7 +165,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
   const level = getLevel(block.trackId, block.levelId);
   const counter = levelCounter(st, block.trackId, block.levelId);
   const beginnerNote = block.role === "main" && st.dog.experience === "keine" && MIN_AGE_NOTES_SHORT[`${block.trackId}:${block.levelId}`];
-  const joints = block.role === "main" ? jointWarnings(st.dog, block.trackId, block.levelId) : [];
+  const joints = block.role === "main" ? jointWarnings(st.dog, block.trackId, block.levelId, block.step) : [];
 
   return (
     <article className={`card block lvl-${block.levelId}`}>
