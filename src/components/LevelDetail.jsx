@@ -152,10 +152,6 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
         </div>
       </Section>
 
-      <Section title="Geschafft wenn">
-        <p className="criteria"><RichText text={withDummySignal(level.criteria, st.dog)} gloss /></p>
-      </Section>
-
       {stepCount(level) > 0 && (
         <Section title="Stufen">
           <StepPath level={level} current={current} done={done} dog={st.dog} first={first}
@@ -163,6 +159,11 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
           {level.maxDistanceStep >= 3 && <p className="small muted" style={{ marginTop: 8 }}>{DISTANCE_LEGAL_NOTE}</p>}
         </Section>
       )}
+
+      {/* Ziel des Levels nach dem Weg dorthin: heute, Stufen, Ziel (uebungsablauf.md, Abschnitt 6) */}
+      <Section title="Am Ende des Levels">
+        <p className="criteria"><RichText text={withDummySignal(level.criteria, st.dog)} gloss /></p>
+      </Section>
 
       {/* Bei F und G und bei H Gold bleibt der Block sichtbar; bei A bis E, H Bronze und H Silber steht der Aufbau im Hintergrund */}
       {!stepsInBackground && <Section title={stepsType.title}>
