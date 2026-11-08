@@ -113,22 +113,20 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ausgang", variant: "Der Hund sitzt neben dir, wenn du pfeifst." },
-          { condition: "ausgang", variant: "Der Hund steht oder geht neben dir, wenn du pfeifst." },
-          { condition: "position", variant: "Der Hund ist etwa 10 Meter entfernt, rund 15 Schritte." },
-          { condition: "position", variant: "Der Hund ist etwa 25 Meter entfernt, rund 35 Schritte." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "ausgang", variant: "Der Hund sitzt neben dir in der Fußposition. Du gibst den Stopp-Pfiff. Er bleibt sitzen und sieht dich an." },
+          { condition: "ausgang", variant: "Der Hund geht bei Fuß. Du gibst den Stopp-Pfiff. Er setzt sich sofort, du gehst weiter." },
+          { condition: "position", variant: "Der Hund läuft frei etwa 10 Meter vor dir, rund 15 Schritte. Du gibst den Stopp-Pfiff. Er setzt sich dort, wo er ist." },
+          { condition: "position", variant: "Der Hund läuft frei etwa 25 Meter vor dir, rund 35 Schritte. Du gibst den Stopp-Pfiff. Er setzt sich dort, wo er ist." },
+        ], // je Stufe Ausgangslage, Signal, erwartete Reaktion (track-a-stufen.md, Abschnitt 1)
         criteria: "Sitzt sofort auf den leisen Stopp-Pfiff, auch auf 25 Meter. Fünf von fünf Fällen, an vier verschiedenen Tagen.",
-        run: "5 Stopps auf den Stopp-Pfiff in der Situation der heutigen Stufe, über die Einheit verteilt. Dazwischen normal weitergehen.",
+        run: "Fünfmal über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
-        steps: [
-          "Hund geht bei Fuß. Leise den Stopp-Pfiff geben. Er setzt sich sofort hin.",
+        steps: [ // track-a-stufen.md, Abschnitt 4: was die Stufen nicht schon sagen
           "Hund sitzt 20 große Schritte vor dir. Stopp-Pfiff geben. Er bleibt sitzen und schaut dich an.",
-          "Rückruf pfeifen, dann auf halbem Weg den Stopp-Pfiff. Er stoppt sofort.",
           "Er stöbert wenige Meter vor dir. Stopp-Pfiff geben und gleichzeitig einen Dummy werfen. Der Dummy ist die Belohnung für den Stopp.",
         ],
         tips: [
@@ -147,25 +145,22 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ausgang", variant: "Der Hund läuft auf dich zu, wenn du pfeifst." },
-          { condition: "ausgang", variant: "Der Hund läuft von dir weg, wenn du pfeifst." },
-          { condition: "position", variant: "Der Hund ist etwa 35 Meter entfernt, rund 45 Schritte." },
-          { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände, während du pfeifst." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "ausgang", variant: "Du rufst den Hund aus etwa 20 Metern zurück. Während er auf dich zuläuft, gibst du den Stopp-Pfiff. Er stoppt sofort und setzt sich." },
+          { condition: "ausgang", variant: "Der Hund läuft von dir weg, etwa 20 Meter. Du gibst den Stopp-Pfiff. Er stoppt, setzt sich und dreht sich zu dir." },
+          { condition: "position", variant: "Der Hund sucht oder schnüffelt frei auf etwa 35 Meter, rund 45 Schritte. Du gibst den Stopp-Pfiff. Er stoppt und setzt sich." },
+          { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände. Der Hund arbeitet auf etwa 35 Meter. Du gibst den Stopp-Pfiff. Er stoppt, auch mit dem Dummy im Blick." },
+        ], // je Stufe Ausgangslage, Signal, erwartete Reaktion (track-a-stufen.md, Abschnitt 2)
         criteria: "Stoppt auf 35 Meter, auch aus der Bewegung und wenn ein Dummy sichtbar im Gelände liegt. Vier saubere Stopps in Folge, an drei verschiedenen Orten.",
-        run: "4 saubere Stopps in der Situation der heutigen Stufe, über die Einheit verteilt. Jeder Stopp wird belohnt, mit Rückruf oder Dummywurf.",
+        run: "Viermal über die Einheit verteilt. Jeder Stopp wird belohnt, mit Rückruf oder Dummywurf.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "Hund sucht oder schnüffelt frei auf etwa 35 Meter. Stopp-Pfiff. Er stoppt, sitzt, schaut dich an.",
-          "Nach dem Stopp: Rückruf pfeifen und loben, oder einen Dummy werfen. Der Stopp muss sich lohnen.",
-          "Distanz schrittweise auf 35 Meter steigern.",
-        ],
+        steps: [], // Aufbau entfällt, die Stufen tragen ihn (track-a-stufen.md, Abschnitt 4)
         tips: [
           LEISE_PFEIFEN,
+          "Nach dem Stopp: Rückruf pfeifen und loben, oder einen Dummy werfen. Der Stopp muss sich lohnen.",
           "Wenn er nicht stoppt: nicht nachpfeifen. Hingehen, zurück zum Ausgangspunkt, Distanz verkürzen.",
           "Bei Gelenkeinschränkung aus dem Trab üben, nicht aus dem Galopp.",
         ],
@@ -180,23 +175,23 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ausgang", variant: "Der Hund ist etwa 40 Meter entfernt auf dem Weg zu einem Dummy, wenn du pfeifst." },
-          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite." },
-          { condition: "verleitung", variant: "Ein Dummy fliegt oder eine Person läuft los, während er arbeitet." },
-          { condition: "ort", variant: "Ein Gelände, in dem ihr noch nie trainiert habt." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "ausgang", variant: "Du wirfst ein Dummy und schickst den Hund. Auf etwa 40 Metern, während er läuft, gibst du den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter zum Dummy." },
+          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite. Du wirfst ein Dummy und schickst den Hund. Auf etwa 40 Metern gibst du den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter." },
+          { condition: "verleitung", variant: "Du wirfst ein Dummy und schickst den Hund. Während er läuft, fliegt ein zweites Dummy oder eine Person läuft los. Du gibst den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter zum ersten Dummy." },
+          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart: Du wirfst ein Dummy und schickst den Hund. Auf etwa 40 Metern gibst du den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter." },
+        ], // je Stufe Ausgangslage, Signal, erwartete Reaktion (track-a-stufen.md, Abschnitt 3)
         examHint: "In der Prüfung und auf der Jagd ist die Ablenkung aufgehendes Wild. Wer die Situation nicht herstellen kann, übt mit einer Ablenkung, die er auslösen kann.", // praxis-nachtrag.md, Abschnitt 5
         criteria: "Stoppt auf 40 Meter im Lauf zum Dummy, auch bei realer Ablenkung und in unbekanntem Gelände. Vier Durchgänge an vier Tagen.",
-        run: "Ein Stopp während des Laufs auf den Dummy, danach weiterschicken. Mehr nicht.",
+        run: "Ein Durchgang. Mehr nicht.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        stepsType: "varianten",
+        stepsType: "ablauf", // track-a-stufen.md, Abschnitt 4
         steps: [
           "Dummy werfen, Hund schicken.",
           "Während er auf den Dummy zugaloppiert, trittst du vor ihn und gibst gleichzeitig den Stopp-Pfiff.",
-          "Er stoppt. Danach schickst du ihn weiter auf den Dummy - der Stopp war keine Absage, sondern eine Zwischenstation.",
+          "Er stoppt. Danach schickst du ihn weiter auf den Dummy. Der Stopp war keine Absage, sondern eine Zwischenstation.",
           "Schrittweise weniger vortreten, bis der Pfiff allein reicht.",
         ],
         tips: [

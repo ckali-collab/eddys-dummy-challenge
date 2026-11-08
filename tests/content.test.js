@@ -299,6 +299,16 @@ test("Erstmale: Zwei auf einmal aus den Blöcken, Weit draußen erst mit gespeic
   assert.ok(!synced.unlocked.includes("first-double"), "rückwirkend ohne Animation");
 });
 
+test("Track A: Stufen mit Ausgangslage, Signal und Reaktion", () => {
+  for (const lid of ["bronze", "silber", "gold"]) {
+    for (const s of level("A", lid).conditionPath) assert.match(s.variant, /Du gibst den Stopp-Pfiff|gibst du den Stopp-Pfiff/, s.variant);
+  }
+  assert.equal(level("A", "bronze").steps.length, 2);
+  assert.deepEqual(level("A", "silber").steps, []);
+  assert.equal(level("A", "gold").stepsType, "ablauf");
+  assert.ok(!JSON.stringify(level("A", "gold")).includes(" - "));
+});
+
 test("Check-in ist auch aus den Tracks raus", () => {
   assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
   assert.ok(!JSON.stringify(TRACKS).includes("off-lead"));
