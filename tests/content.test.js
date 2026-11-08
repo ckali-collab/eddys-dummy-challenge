@@ -10,7 +10,7 @@ const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelU
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor, sessionDuration } = await import("../src/lib/session.js");
 const { gearAllSteps, gearForStep, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
 const { isWaterStep, waterNotes, examLine } = await import("../src/lib/steps.js");
-const { conditionText, trophyProgress } = await import("../src/lib/trophies.js");
+const { conditionText, trophyProgress, syncTrophies } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
   const s = freshState();
@@ -290,6 +290,13 @@ test("Erstmale: Zwei auf einmal aus den Blöcken, Weit draußen erst mit gespeic
   const saved = recordSession(adult(), p, p.blocks.map((b) => (b.role === "main" ? "gut" : null)), day(5)).state.sessions.at(-1);
   assert.ok(saved.blocks.filter((b) => b.trackId).every((b) => Number.isInteger(b.step)), "jede Session speichert die Stufe");
   assert.equal(level("B", "bronze").trophy, by("level-B-bronze").desc);
+  assert.match(by("track-G").desc, /bis 80 Meter, auch mit fünf Minuten Verzögerung\.$/);
+  assert.deepEqual([by("first-distance").tier, by("first-double").tier], ["bronze", "gold"]);
+  const r = adult();
+  r.sessions = [{ id: "x", date: day(3).toISOString(), blocks: [blk("F", "gold", 1)] }, { id: "y", date: day(7).toISOString(), blocks: [blk("F", "gold", 2)] }];
+  const synced = syncTrophies(r, day(20));
+  assert.equal(synced.state.trophies.find((t) => t.id === "first-double").at, day(3).toISOString(), "Datum der ersten passenden Session");
+  assert.ok(!synced.unlocked.includes("first-double"), "rückwirkend ohne Animation");
 });
 
 test("Check-in ist auch aus den Tracks raus", () => {

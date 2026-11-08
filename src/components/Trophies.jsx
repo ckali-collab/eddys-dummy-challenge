@@ -57,8 +57,9 @@ export const TROPHY_ART = {
 
   "first-water":    { tier: "silber", icon: true, art: iconEmblem("first-water") },
   "one-cast":       { tier: "gold",   icon: true, art: iconEmblem("blind") },
-  "first-distance": { tier: "silber", icon: true, art: iconEmblem("first-distance") },
-  "first-double":   { tier: "silber", icon: true, art: iconEmblem("first-double") },
+  // Metall nach Schwierigkeit: Distanz kommt nach wenigen Wochen, die Doppelmarkierung erst mit F Gold
+  "first-distance": { tier: "bronze", icon: true, art: iconEmblem("first-distance") },
+  "first-double":   { tier: "gold",   icon: true, art: iconEmblem("first-double") },
 
   "all-gold": { tier: "gold", art: (
     <>

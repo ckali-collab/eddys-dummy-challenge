@@ -7,9 +7,11 @@ const entries = (st) => (Array.isArray(st.trophies) ? st.trophies.filter((t) => 
 
 const tracksAt = (st, level) => TRACKS.filter((t) => isLevelDone(st, t.id, level)).length;
 const waterSessions = (st) => st.sessions.filter((s) => s?.water === true).length;
-const levelBlocks = (st) => st.sessions.flatMap((s) => (Array.isArray(s?.blocks) ? s.blocks : [])).filter((b) => b?.trackId && b?.levelId);
+const levelBlocks = (st) => st.sessions.flatMap((s) => (Array.isArray(s?.blocks) ? s.blocks.map((b) => ({ ...b, date: s.date })) : [])).filter((b) => b?.trackId && b?.levelId);
 // Distanzstufe eines gespeicherten Blocks aus dem Pfad des Levels (nur Sessions mit gespeicherter Stufe)
 const blockDistance = (b) => (Number.isInteger(b.step) ? getLevel(b.trackId, b.levelId)?.path?.[b.step - 1]?.d ?? 0 : 0);
+// Erster passender Block der Erstmale (Sessions liegen in zeitlicher Reihenfolge)
+const firstMatch = (st, c) => levelBlocks(st).find((b) => (c.distance ? blockDistance(b) >= c.distance : `${b.trackId}:${b.levelId}` === c.level));
 
 // Fortschritt einer Trophäe: { met, have, need } (have/need nur, wo eine Zahl sinnvoll ist)
 export const trophyProgress = (st, trophy) => {
@@ -18,8 +20,7 @@ export const trophyProgress = (st, trophy) => {
   if (c.sessions) return { met: st.sessions.length >= c.sessions, have: st.sessions.length, need: c.sessions };
   if (c.allTracks) { const have = tracksAt(st, c.allTracks); return { met: have >= TRACKS.length, have, need: TRACKS.length }; }
   if (c.water) { const have = waterSessions(st); return { met: have >= c.water, have, need: c.water }; }
-  if (c.distance) return { met: levelBlocks(st).some((b) => blockDistance(b) >= c.distance) };
-  if (c.level) return { met: levelBlocks(st).some((b) => `${b.trackId}:${b.levelId}` === c.level) };
+  if (c.distance || c.level) return { met: !!firstMatch(st, c) };
   if (c.manual) return { met: entries(st).some((e) => e.id === trophy.id && e.manual) };
   return { met: false };
 };
@@ -44,7 +45,9 @@ export const syncTrophies = (st, now = new Date()) => {
     const old = prev.get(t.id);
     // Level, die schon vor heute geschafft waren (neue Level-Trophäen, Import): mit dem Abschlussdatum eintragen
     // und ohne Feier, auch wenn die App schon läuft. Wer heute abschließt, bekommt die Animation wie bisher.
-    const doneAt = t.condition?.track ? st.tracks?.[t.condition.track]?.[t.condition.level]?.doneAt : null;
+    // Erstmale: Datum der ersten passenden Session (trophaeen-texte.md, Nachtrag)
+    const c = t.condition || {};
+    const doneAt = c.track ? st.tracks?.[c.track]?.[c.level]?.doneAt : c.distance || c.level ? firstMatch(st, c)?.date : null;
     const earlier = !old && doneAt && !isNaN(new Date(doneAt)) && new Date(doneAt).toDateString() !== now.toDateString();
     next.push(old ?? { id: t.id, at: earlier ? new Date(doneAt).toISOString() : now.toISOString() });
     if (!old && !earlier) unlocked.push(t.id);

@@ -863,6 +863,7 @@ export const TRACKS = [
         maxDistanceStep: 4,
         path: [{ d: 3, g: 3 }, { d: 4, g: 3 }, { d: 3, g: 4 }, { d: 4, g: 4, delay: "5 Minuten" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
         criteria: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter. Auf der letzten Stufe mit fünf Minuten Verzögerung. Vier Durchgänge.",
+        trophy: "Findet acht Dummys in einem Suchengebiet von 50 mal 50 Metern, bis 80 Meter, auch mit fünf Minuten Verzögerung.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "Suchengebiet mit natürlicher Begrenzung abstecken, zehn oder mehr Dummys auslegen, acht holen lassen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
@@ -1531,8 +1532,8 @@ export const TROPHIES = [
   { id: "first-water",    name: "Wasserratte",        desc: "Eine Session abgeschlossen, in der ein Dummy ins Wasser oder darüber ging.", type: "milestone", group: "momente", icon: "first-water", condition: { water: 1 } },
   { id: "one-cast",       name: "One-Cast Blind",     desc: "Blind ohne eine einzige Korrektur",      type: "milestone", group: "momente", icon: "blind", condition: { manual: true } },
   // Erstmale (trophaeen-texte.md, Abschnitt 5). distance: Distanzstufe aus dem Pfad, ab dem Speichern der Stufe pro Session
-  { id: "first-distance", name: "Weit draußen",       desc: "Erste Einheit auf Distanzstufe 3, also über 30 Meter.", type: "milestone", group: "momente", icon: "first-distance", condition: { distance: 3 } },
-  { id: "first-double",   name: "Zwei auf einmal",    desc: "Erste Doppelmarkierung, also F Gold.",   type: "milestone", group: "momente", icon: "first-double", condition: { level: "F:gold" } },
+  { id: "first-distance", name: "Weit draußen",       desc: "Die erste Einheit mit einem Apport über 30 Meter.", type: "milestone", group: "momente", tier: "bronze", icon: "first-distance", condition: { distance: 3 } },
+  { id: "first-double",   name: "Zwei auf einmal",    desc: "Die erste Doppelmarkierung.", type: "milestone", group: "momente", tier: "gold", icon: "first-double", condition: { level: "F:gold" } },
   { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final", group: "pruefung", condition: { allTracks: "gold" } },
 ];
 
