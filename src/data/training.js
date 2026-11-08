@@ -1533,7 +1533,7 @@ export const TROPHIES = [
   { id: "one-cast",       name: "One-Cast Blind",     desc: "Blind ohne eine einzige Korrektur",      type: "milestone", group: "momente", icon: "blind", condition: { manual: true } },
   // Erstmale (trophaeen-texte.md, Abschnitt 5). distance: Distanzstufe aus dem Pfad, ab dem Speichern der Stufe pro Session
   { id: "first-distance", name: "Weit draußen",       desc: "Die erste Einheit mit einem Apport über 30 Meter.", type: "milestone", group: "momente", tier: "bronze", icon: "first-distance", condition: { distance: 3 } },
-  { id: "first-double",   name: "Zwei auf einmal",    desc: "Die erste Doppelmarkierung.", type: "milestone", group: "momente", tier: "gold", icon: "first-double", condition: { level: "F:gold" } },
+  { id: "first-double",   name: "Zwei auf einmal",    desc: "Die erste Doppelmarkierung.", type: "milestone", group: "momente", tier: "silber", icon: "first-double", condition: { level: "F:gold" } },
   { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final", group: "pruefung", condition: { allTracks: "gold" } },
 ];
 

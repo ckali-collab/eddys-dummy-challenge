@@ -291,7 +291,7 @@ test("Erstmale: Zwei auf einmal aus den Blöcken, Weit draußen erst mit gespeic
   assert.ok(saved.blocks.filter((b) => b.trackId).every((b) => Number.isInteger(b.step)), "jede Session speichert die Stufe");
   assert.equal(level("B", "bronze").trophy, by("level-B-bronze").desc);
   assert.match(by("track-G").desc, /bis 80 Meter, auch mit fünf Minuten Verzögerung\.$/);
-  assert.deepEqual([by("first-distance").tier, by("first-double").tier], ["bronze", "gold"]);
+  assert.deepEqual([by("first-distance").tier, by("first-double").tier], ["bronze", "silber"]);
   const r = adult();
   r.sessions = [{ id: "x", date: day(3).toISOString(), blocks: [blk("F", "gold", 1)] }, { id: "y", date: day(7).toISOString(), blocks: [blk("F", "gold", 2)] }];
   const synced = syncTrophies(r, day(20));
