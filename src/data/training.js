@@ -235,6 +235,7 @@ export const TRACKS = [
           { condition: "position", variant: "Du drehst dich weg und rufst, ohne ihn anzusehen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt bei dir und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
+        trophy: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt bei dir und wartet auf die Freigabe. Auf 20 Meter.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
@@ -572,6 +573,7 @@ export const TRACKS = [
           { condition: "position", variant: "Er gibt im Stehen vor dir ab, ohne sich zu setzen." },
         ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
         criteria: "Bringt den Dummy bis in die Hand und legt nicht ab, bei zehn Retrieves in Folge ohne Fehler. Die zehn dürfen auf mehrere Gruppen verteilt sein.",
+        trophy: "Bringt den Dummy bis in die Hand und legt nicht ab, zehnmal in Folge.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "10 kurze Retrieves bis 10 Meter, in Gruppen von drei bis vier. Nach jeder Gruppe freigeben und etwas anderes machen, dann weiter.",
         todayNote: "Das leichtere Dummy ist Absicht: Hier geht es um die saubere Abgabe, nicht um das Gewicht. Mit 500 Gramm arbeitest du ab Silber.", // nur bei Profilen, die wirklich 500 g bekommen
         reps: 4, // Tage mit gelungenem Durchgang
@@ -834,6 +836,7 @@ export const TRACKS = [
         maxDistanceStep: 3,
         path: [{ d: 2, g: 2 }, { d: 3, g: 2 }, { d: 2, g: 3 }, { d: 3, g: 3, delay: "2 Minuten zwischen Auslegen und Schicken" }], // Distanz- und Geländestufe je Schritt (Abschnitt 7), Verzögerung nur auf Schritt 4 (fundament-umbau-2.md, Abschnitt 6)
         criteria: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter. Auf der letzten Stufe mit zwei Minuten Verzögerung zwischen Auslegen und Schicken. Vier Durchgänge.",
+        trophy: "Findet drei bis fünf Dummys in einem begrenzten Suchengebiet, bis 50 Meter, auch mit zwei Minuten Verzögerung.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "Zehn oder mehr Dummys im Halbkreis auslegen, den Hund drei bis fünf holen lassen, den Rest selbst holen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 3, // Belastungspunkte pro Durchgang
@@ -947,6 +950,7 @@ export const TRACKS = [
           { d: 2, g: 1, text: "Back und beide Seiten gemischt, du wählst die Richtung. Bis 30 Meter." },
         ],
         criteria: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung. Das Wort ist für beide Seiten dasselbe, die Richtung zeigt der Arm. Wer zwei Wörter nutzt, trägt beide in das Profilfeld ein, etwa \"Rechts, Links\". Bis 30 Meter. Vier Durchgänge.",
+        trophy: "Nimmt nach dem Stopp-Pfiff Back, Rechts und Links an und läuft in die gezeigte Richtung, bis 30 Meter.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "Hund auf Distanz stoppen, dann ein Richtungssignal. Bei Back: Arm neutral vor die Brust, zwei Sekunden warten.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
@@ -1217,7 +1221,7 @@ export const SESSION_GUIDANCE = {
     "Welches Ziel will ich heute erreichen?",
   ],
   // Zwischen den Blöcken (erklaeren-statt-nennen.md, Abschnitt 2); pauseBeginner bei Erfahrung "keine"
-  pause: "Ein paar Minuten etwas anderes machen.",
+  pause: "Ein paar Minuten nichts verlangen. Laufen und schnüffeln lassen.",
   pauseWhy: "Zwischen zwei Blöcken gehören ein paar Minuten Abstand. Zwei Übungen direkt hintereinander verwechselt der Hund leicht, und was er einmal verwechselt hat, muss man mühsam wieder trennen.", // Begründung in den Basics (heute-entschlacken.md, Abschnitt 4)
   pauseBeginner: "Wechsle dabei auch den Ort, nicht nur die Zeit.",
   whenToHelp: "Wenn Sie den Eindruck gewinnen, Ihr Hund verzweifelt an der gestellten Aufgabe; wenn Sie beobachten, dass seine Motivation schwindet oder dass er unsicher wird, dann müssen Sie ihm unbedingt helfen.",
@@ -1492,27 +1496,44 @@ export const DUMMY_FACTS = {
 };
 
 // ─── Trophaeen ────────────────────────────────────────────────
-// Track-Trophäe: was der Hund dann kann, aus dem Gold-Kriterium ohne Zählregel (rubriken-review.md, Abschnitt 7)
-const goldAbility = (t) => t.levels.find((l) => l.id === "gold").criteria.replace(/\s*(Vier Durchgänge[^.]*|Fünfmal in Folge)\.$/, "");
+// Level-Trophäe: was der Hund dann kann, aus dem Kriterium ohne Zählregel (rubriken-review.md, Abschnitt 7;
+// trophaeen-komplett.md, Abschnitt 2: jedes Level bekommt eine). Gold behält die id track-X und den Namen "gemeistert".
+const COUNT_RULE = /\s*(Vier Durchgänge[^.]*|Fünfmal in Folge|Fünf von fünf Fällen[^.]*|Vier saubere Stopps in Folge[^.]*|Fünf schnelle Reaktionen in Folge|Fünf Retrieves)\.$/;
+const levelAbility = (l) => l.trophy ?? l.criteria.replace(COUNT_RULE, "");
+const TIER_LABEL = { bronze: "Bronze", silber: "Silber", gold: "Gold" };
+// Gruppen der Trophäen-Seite (trophaeen-komplett.md, Abschnitt 5)
+export const TROPHY_GROUPS = [
+  { id: "koennen",      label: "Können" },
+  { id: "momente",      label: "Besondere Momente" },
+  { id: "dabeibleiben", label: "Dabeibleiben" },
+  { id: "pruefung",     label: "Prüfungsreife" },
+];
 export const TROPHIES = [
-  // Track-Trophaeen
-  ...TRACKS.map((t) => ({
-    id: `track-${t.id}`,
-    name: `${t.name} gemeistert`,
-    desc: goldAbility(t),
-    type: "track",
-    condition: { track: t.id, level: "gold" },
-  })),
+  // Level-Trophäen, je Track Bronze, Silber, Gold
+  ...TRACKS.flatMap((t) => t.levels.map((l) => ({
+    id: l.id === "gold" ? `track-${t.id}` : `level-${t.id}-${l.id}`,
+    name: l.id === "gold" ? `${t.name} gemeistert` : `${t.name} ${TIER_LABEL[l.id]}`,
+    desc: levelAbility(l),
+    type: l.id === "gold" ? "track" : "level",
+    group: "koennen",
+    track: t.id,
+    tier: l.id,
+    icon: `${t.icon}-${l.id}`,
+    condition: { track: t.id, level: l.id },
+  }))),
   // Meilensteine
-  { id: "first-session",  name: "Erster Schritt",     desc: "Erste Session dokumentiert",             type: "milestone", condition: { sessions: 1 } },
-  { id: "sessions-10",    name: "Dranbleiber",        desc: "10 Sessions dokumentiert",               type: "milestone", condition: { sessions: 10 } },
-  { id: "sessions-25",    name: "Routinier",          desc: "25 Sessions dokumentiert",               type: "milestone", condition: { sessions: 25 } },
-  { id: "sessions-50",    name: "Dauerläufer",       desc: "50 Sessions dokumentiert",               type: "milestone", condition: { sessions: 50 } },
-  { id: "all-bronze",     name: "Fundament",          desc: "Bereit für die DP-E: Alle acht Tracks auf Bronze. Damit deckst du die Einsteigerprüfung ab.", type: "milestone", condition: { allTracks: "bronze" } },
-  { id: "all-silber",     name: "Fortgeschritten",    desc: "Bereit für die Anfänger-Klasse: Alle acht Tracks auf Silber.", type: "milestone", condition: { allTracks: "silber" } },
-  { id: "first-water",    name: "Wasserratte",        desc: "Eine Session abgeschlossen, in der ein Dummy ins Wasser oder darüber ging.", type: "milestone", condition: { water: 1 } },
-  { id: "one-cast",       name: "One-Cast Blind",     desc: "Blind ohne eine einzige Korrektur",      type: "milestone", condition: { manual: true } },
-  { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final",     condition: { allTracks: "gold" } },
+  { id: "first-session",  name: "Erster Schritt",     desc: "Erste Session dokumentiert",             type: "milestone", group: "dabeibleiben", condition: { sessions: 1 } },
+  { id: "sessions-10",    name: "Dranbleiber",        desc: "10 Sessions dokumentiert",               type: "milestone", group: "dabeibleiben", condition: { sessions: 10 } },
+  { id: "sessions-25",    name: "Routinier",          desc: "25 Sessions dokumentiert",               type: "milestone", group: "dabeibleiben", condition: { sessions: 25 } },
+  { id: "sessions-50",    name: "Dauerläufer",       desc: "50 Sessions dokumentiert",               type: "milestone", group: "dabeibleiben", condition: { sessions: 50 } },
+  { id: "all-bronze",     name: "Fundament",          desc: "Bereit für die DP-E: Alle acht Tracks auf Bronze. Damit deckst du die Einsteigerprüfung ab.", type: "milestone", group: "pruefung", condition: { allTracks: "bronze" } },
+  { id: "all-silber",     name: "Fortgeschritten",    desc: "Bereit für die Anfänger-Klasse: Alle acht Tracks auf Silber.", type: "milestone", group: "pruefung", condition: { allTracks: "silber" } },
+  { id: "first-water",    name: "Wasserratte",        desc: "Eine Session abgeschlossen, in der ein Dummy ins Wasser oder darüber ging.", type: "milestone", group: "momente", icon: "first-water", condition: { water: 1 } },
+  { id: "one-cast",       name: "One-Cast Blind",     desc: "Blind ohne eine einzige Korrektur",      type: "milestone", group: "momente", icon: "blind", condition: { manual: true } },
+  // Erstmale (trophaeen-texte.md, Abschnitt 5). distance: Distanzstufe aus dem Pfad, ab dem Speichern der Stufe pro Session
+  { id: "first-distance", name: "Weit draußen",       desc: "Erste Einheit auf Distanzstufe 3, also über 30 Meter.", type: "milestone", group: "momente", icon: "first-distance", condition: { distance: 3 } },
+  { id: "first-double",   name: "Zwei auf einmal",    desc: "Erste Doppelmarkierung, also F Gold.",   type: "milestone", group: "momente", icon: "first-double", condition: { level: "F:gold" } },
+  { id: "all-gold",       name: "Gundog",             desc: "Bereit für die Fortgeschrittenen-Klasse: Alle acht Tracks auf Gold.", type: "final", group: "pruefung", condition: { allTracks: "gold" } },
 ];
 
 // ─── Methodische Grundprinzipien (Basics-Tab; Prinzip 3: meilensteine.md, Abschnitt 1) ──

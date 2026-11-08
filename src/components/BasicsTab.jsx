@@ -113,13 +113,9 @@ const GlossarSection = ({ dog, focusId }) => {
 // focus: { id, n } aus einer Sprechblase ("Im Glossar ansehen"); n erzwingt den Sprung auch beim selben Begriff
 export default function BasicsTab({ st, focus }) {
   const sections = BASICS_SECTIONS.filter((s) => visible(s, st.dog));
-  const [open, setOpen] = useState(() => new Set([...sections.filter((s) => s.open).map((s) => s.id), ...(focus?.id ? ["glossar"] : [])]));
+  // Alle Abschnitte zu per Standard: Die zugeklappte Liste ist das Inhaltsverzeichnis (basics-und-trophaeen.md, Abschnitt 1 und 2)
+  const [open, setOpen] = useState(() => new Set(focus?.id ? ["glossar"] : []));
   const glossarRef = useRef(null);
-  // Inhaltsverzeichnis: Abschnitt öffnen und hinspringen
-  const jump = (id) => {
-    setOpen((s) => new Set(s).add(id));
-    setTimeout(() => document.getElementById(`sec-${id}`)?.scrollIntoView({ block: "start" }), 60);
-  };
 
   useEffect(() => {
     if (focus?.id) setOpen((s) => new Set(s).add("glossar"));
@@ -127,19 +123,6 @@ export default function BasicsTab({ st, focus }) {
 
   return (
     <div className="basics">
-      <nav className="basics-toc" aria-label="Inhalt">
-        {BASICS_GROUPS.map((g) => {
-          const list = sections.filter((s) => s.group === g.id);
-          return list.length > 0 && (
-            <div key={g.id}>
-              <p className="small muted">{g.label}</p>
-              <ul>
-                {list.map((s) => <li key={s.id}><button type="button" className="link-btn" onClick={() => jump(s.id)}>{s.title}</button></li>)}
-              </ul>
-            </div>
-          );
-        })}
-      </nav>
       {sections.map((s, i) => (
         <Fragment key={s.id}>
         {sections[i - 1]?.group !== s.group && (

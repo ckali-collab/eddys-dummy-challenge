@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { TROPHIES } from "../data/training.js";
 import { TrophyMedal, TROPHY_ART } from "./Trophies.jsx";
 
-const KICKER = { track: "Track abgeschlossen", milestone: "Meilenstein", final: "Alle acht Tracks" };
+const KICKER = { level: "Level geschafft", track: "Track abgeschlossen", milestone: "Meilenstein", final: "Alle acht Tracks" };
 
 // Sternenexplosion wie in docs/trophy-reference.html: zwei Wellen, große Sterne weit, kleine dicht.
 // Farben kommen über Tokens (--spark-a/b/c), Silber-Medaillen funkeln kühler.

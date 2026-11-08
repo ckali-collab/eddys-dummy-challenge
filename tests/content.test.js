@@ -10,7 +10,7 @@ const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelU
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor, sessionDuration } = await import("../src/lib/session.js");
 const { gearAllSteps, gearForStep, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
 const { isWaterStep, waterNotes, examLine } = await import("../src/lib/steps.js");
-const { conditionText } = await import("../src/lib/trophies.js");
+const { conditionText, trophyProgress } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
   const s = freshState();
@@ -145,8 +145,9 @@ test("Trophäen: Namen bleiben, Beschreibungen sagen, was erreicht ist", () => {
   assert.equal(by("all-gold").name, "Gundog");
   assert.equal(by("first-water").name, "Wasserratte");
   assert.match(by("all-bronze").desc, /^Bereit für die DP-E/);
-  for (const t of TROPHIES.filter((x) => x.type === "track")) {
-    assert.ok(!/Durchgänge|in Folge|\.\./.test(t.desc), t.desc);
+  assert.equal(TROPHIES.length, 35);
+  for (const t of TROPHIES.filter((x) => x.condition?.track)) {
+    assert.ok(!/Durchgänge|Fünfmal in Folge|Profilfeld|Gruppen verteilt|\.\./.test(t.desc), t.desc);
     assert.ok(t.desc.endsWith("."), t.desc);
     assert.equal(conditionText(t), t.desc);
   }
@@ -248,7 +249,7 @@ test("Packliste nennt Reserve und schwimmfähig, ab zwei Dummys ohne Reserve", (
 test("Heute entschlacken: Dauer, Pause, Begriffe, Sie-Form", () => {
   assert.equal(sessionDuration("voll"), "Rund 55 Min");
   assert.equal(sessionDuration("kurz"), "15-17 Min");
-  assert.equal(SESSION_GUIDANCE.pause, "Ein paar Minuten etwas anderes machen.");
+  assert.equal(SESSION_GUIDANCE.pause, "Ein paar Minuten nichts verlangen. Laufen und schnüffeln lassen.");
   assert.ok(JSON.stringify(BASICS_SECTIONS).includes(SESSION_GUIDANCE.pauseWhy));
   assert.ok(!JSON.stringify([TRACKS, BASICS_SECTIONS]).includes("angeleint, konzentriert"));
   assert.ok(!JSON.stringify(WARMUP_COOLDOWN).includes("aus einer App"));
@@ -271,6 +272,24 @@ test("F Gold: Wasser zuerst, Markierstäbe für zwei Dummys, Anrede", () => {
   const all = JSON.stringify([TRACKS, BASICS_SECTIONS, GLOSSAR]);
   assert.ok(!all.includes("Üben Sie Voran") && !all.includes("wenn Ihr Hund Ihre Hilfe"));
   assert.ok(all.includes("Übe Voran nie mit Wind von vorn."));
+});
+
+test("Erstmale: Zwei auf einmal aus den Blöcken, Weit draußen erst mit gespeicherter Stufe", () => {
+  const by = (id) => TROPHIES.find((t) => t.id === id);
+  const s = adult();
+  const blk = (trackId, levelId, step) => ({ role: "main", trackId, levelId, ...(step ? { step } : {}), rating: "gut" });
+  assert.equal(trophyProgress(s, by("first-double")).met, false);
+  s.sessions = [{ id: "a", date: day(1).toISOString(), blocks: [blk("F", "gold")] }];
+  assert.equal(trophyProgress(s, by("first-double")).met, true, "rückwirkend aus Track und Level");
+  assert.equal(trophyProgress(s, by("first-distance")).met, false, "ohne gespeicherte Stufe nicht messbar");
+  s.sessions = [{ id: "b", date: day(1).toISOString(), blocks: [blk("F", "silber", 1)] }];
+  assert.equal(trophyProgress(s, by("first-distance")).met, false, "F Silber Stufe 1 ist Distanzstufe 2");
+  s.sessions = [{ id: "c", date: day(1).toISOString(), blocks: [blk("F", "silber", 2)] }];
+  assert.equal(trophyProgress(s, by("first-distance")).met, true, "F Silber Stufe 2 ist Distanzstufe 3");
+  const p = buildPlan(adult(), "voll");
+  const saved = recordSession(adult(), p, p.blocks.map((b) => (b.role === "main" ? "gut" : null)), day(5)).state.sessions.at(-1);
+  assert.ok(saved.blocks.filter((b) => b.trackId).every((b) => Number.isInteger(b.step)), "jede Session speichert die Stufe");
+  assert.equal(level("B", "bronze").trophy, by("level-B-bronze").desc);
 });
 
 test("Check-in ist auch aus den Tracks raus", () => {

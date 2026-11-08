@@ -1,9 +1,10 @@
-// Trophies.jsx - die 17 Trophaeen-Medaillen.
-// Die acht Track-Trophaeen nutzen die vorhandenen Icons aus public/icons/,
-// schwarz gefiltert als Silhouette. Es braucht KEINE neuen Bilddateien.
+// Trophies.jsx - die Trophaeen-Medaillen.
+// Level-Trophaeen, Wasserratte und One-Cast Blind nutzen eigene Icons aus public/icons/ (trophaeen-komplett.md, Abschnitt 1).
+// Farbe oder Silhouette steuert das CSS (.trophy image), nicht das Bild selbst.
 // Die Metallverlaeufe entsprechen docs/trophy-reference.html.
 
 import { useId } from "react";
+import { TROPHIES } from "../data/training.js";
 
 // Metallfarben bewusst hart codiert, NICHT tokenisieren: Sie dürfen sich mit dem Theme nicht ändern,
 // Bronze bleibt Bronze. Gleiches gilt für INK (Prägung auf dem Metall).
@@ -24,21 +25,17 @@ const num = (t, size = 44) => (
         fontFamily="Archivo, system-ui, sans-serif" fill={INK}>{t}</text>
 );
 
-const trackEmblem = (icon) => (
-  <image href={`/icons/${icon}.webp`} x="25" y="25" width="50" height="50"
-         style={{ filter: "brightness(0)", opacity: 0.86 }} />
+const iconEmblem = (icon) => (
+  <image href={`/icons/${icon}.webp`} x="18" y="18" width="64" height="64" />
 );
+// Innenfeld: cremefarbene Scheibe auf 70 Prozent des Durchmessers, das Metall bleibt als Rand (trophaeen-texte.md, Abschnitt 3).
+// Das Icon füllt es bis auf etwa 3 Einheiten Creme-Rand.
+const FIELD = "#F5E6D3";
 
 // Emblem je Trophaee. Schluessel sind die ids aus TROPHIES in training.js.
 export const TROPHY_ART = {
-  "track-A": { tier: "gold",   art: trackEmblem("stop-whistle") },
-  "track-B": { tier: "gold",   art: trackEmblem("recall") },
-  "track-C": { tier: "gold",   art: trackEmblem("heel") },
-  "track-D": { tier: "gold",   art: trackEmblem("steadiness") },
-  "track-E": { tier: "gold",   art: trackEmblem("delivery") },
-  "track-F": { tier: "gold",   art: trackEmblem("marking") },
-  "track-G": { tier: "gold",   art: trackEmblem("scenting") },
-  "track-H": { tier: "gold",   art: trackEmblem("directions") },
+  // 24 Level-Trophaeen: Metall nach Stufe, Icon <track>-<stufe>
+  ...Object.fromEntries(TROPHIES.filter((t) => t.condition?.track).map((t) => [t.id, { tier: t.tier, icon: true, art: iconEmblem(t.icon) }])),
 
   "first-session": { tier: "bronze", art: num("1", 46) },
   "sessions-10":   { tier: "bronze", art: num("10", 40) },
@@ -58,20 +55,10 @@ export const TROPHY_ART = {
       <path d="M32 74 L50 56 L68 74" />
     </g>) },
 
-  "first-water": { tier: "silber", art: (
-    <g fill="none" stroke={INK} strokeWidth="7" strokeLinecap="round">
-      <path d="M26 42 q12 -10 24 0 t24 0" />
-      <path d="M26 56 q12 -10 24 0 t24 0" />
-      <path d="M26 70 q12 -10 24 0 t24 0" />
-    </g>) },
-
-  "one-cast": { tier: "gold", art: (
-    <>
-      <path d="M24 50 L66 50" fill="none" stroke={INK} strokeWidth="7" strokeLinecap="round" />
-      <path d="M54 36 L68 50 L54 64" fill="none" stroke={INK} strokeWidth="7"
-            strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="78" cy="50" r="5" fill={INK} />
-    </>) },
+  "first-water":    { tier: "silber", icon: true, art: iconEmblem("first-water") },
+  "one-cast":       { tier: "gold",   icon: true, art: iconEmblem("blind") },
+  "first-distance": { tier: "silber", icon: true, art: iconEmblem("first-distance") },
+  "first-double":   { tier: "silber", icon: true, art: iconEmblem("first-double") },
 
   "all-gold": { tier: "gold", art: (
     <>
@@ -109,7 +96,9 @@ export function TrophyMedal({ id, size = 88, earned = true }) {
       </defs>
       <circle cx="50" cy="50" r="47" fill={`url(#${gid})`} />
       <circle cx="50" cy="50" r="47" fill="none" stroke={c} strokeWidth="2.5" opacity=".7" />
-      {entry.art}
+      <circle cx="50" cy="50" r="35" fill={FIELD} stroke={c} strokeWidth="1.5" />
+      {/* Gezeichnete Motive (Zahlen, Stufen, Kranz) sind auf die ganze Medaille ausgelegt: aufs Innenfeld verkleinern */}
+      {entry.icon ? entry.art : <g transform="translate(50 50) scale(0.83) translate(-50 -50)">{entry.art}</g>}
     </svg>
   );
 }

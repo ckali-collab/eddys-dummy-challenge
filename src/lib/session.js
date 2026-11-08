@@ -296,6 +296,7 @@ export const recordSession = (st, plan, ratings, now = new Date(), extra = {}) =
       role: b.role,
       trackId: b.trackId ?? null,
       levelId: b.levelId ?? null,
+      ...(Number.isInteger(b.step) ? { step: b.step } : {}), // Stufe des Tages (trophaeen-texte.md, Abschnitt 5)
       load: b.load,
       ...(b.cut ? { cut: b.cut.text } : {}),
       rating: ratings[i],

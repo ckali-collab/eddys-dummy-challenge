@@ -42,7 +42,6 @@ const SECTIONS = [
     id: "einstieg",
     group: "vorher",
     title: "So fängst du an",
-    open: true,
     showWhen: { experience: "keine" },
     blocks: [
       t("**Die ersten vier Wochen**\nFang mit Fuß, Abgabe und Stopp-Pfiff an. Fuß und Abgabe verzeihen Fehler, die korrigierst du nächste Woche. Beim Pfiff ist das anders: Ein Signal, auf das der Hund gelernt hat nicht zu reagieren, kostet Monate."),
@@ -61,7 +60,6 @@ const SECTIONS = [
     id: "ziel",
     group: "wie",
     title: "Worauf das Training hinarbeitet",
-    open: true,
     blocks: [
       lead("Die Übungen folgen den deutschen Dummyprüfungen. Bronze ist die Einsteigerprüfung DP-E des Golden Retriever Club, Silber die Anfänger-Klasse und Gold die Fortgeschrittenen-Klasse der DRC-Ordnung. Die Apportdistanzen sollen dort 30, 50 beziehungsweise 80 Meter nicht überschreiten, werden aber an Gelände und Witterung angepasst. Deshalb heißt Bronze nicht einfach leicht, sondern Einsteigerniveau. Du musst nie zu einer Prüfung gehen, aber die Stufen bedeuten etwas außerhalb dieser App."),
       t("**Distanz ist nicht die Hauptschwierigkeit.** Die vier Stufen eines Levels steigern Distanz und Geländeschwierigkeit abwechselnd. Wird das Gelände schwerer, geht die Distanz eine Stufe zurück. Das ist keine Bequemlichkeit, sondern eine Regel aus der Fachliteratur: \"Erhöhen Sie im Training die Schwierigkeitsstufe, dann müssen Sie erst einmal wieder die Entfernung verkürzen.\" Distanz, Gelände und Wartezeit steigern sich über die Stufen hinweg. Wo einmal zwei zugleich steigen, liegen zwischen den Stufen mehrere Einheiten, in denen du die Regel einhältst: erst das Gelände schwerer machen und die Entfernung verkürzen, dann die Entfernung über mehrere Einheiten wieder verlängern."),
@@ -87,7 +85,6 @@ const SECTIONS = [
     id: "einwirkung",
     group: "wie",
     title: "Einwirkung und Korrektur",
-    open: true, // bleibt offen (rubriken-review.md, Abschnitt 7c)
     blocks: [
       t("**Die Haltung dieser App**"),
       t("Neues Verhalten entsteht über Belohnung. Bekanntes Verhalten wird eingefordert, nicht verhandelt: unerwünschtes Verhalten wird unterbrochen und in erwünschtes umgelenkt, nicht ausgesessen. **Körperliche Einwirkung ist kein Mittel dieser App.**"),
