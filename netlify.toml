@@ -1,7 +1,10 @@
 [build]
   publish = "dist"
   command = "npm run build"
-  # Nur docs/ geändert: kein Build. Ohne Vergleichsstand oder ohne Cache (beide Refs gleich): immer bauen.
+  # Baut nicht, wenn ein Commit nur docs/ berührt.
+  # Netlify zeigt solche Laeufe als "Failed" mit der Meldung
+  # "Canceled build due to no content change". Das ist kein Fehler.
+  # Ohne Vergleichsstand oder ohne Cache (beide Refs gleich): immer bauen.
   ignore = '''[ -n "$CACHED_COMMIT_REF" ] && [ "$CACHED_COMMIT_REF" != "$COMMIT_REF" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)docs' '''
 
 [[headers]]
