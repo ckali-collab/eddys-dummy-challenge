@@ -122,8 +122,8 @@ export const TRACKS = [
         run: "Fünfmal über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }],
-        dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }], // Dummy nur für die Variante mit Dummywurf (track-a-nacharbeit.md, Abschnitt 1)
+        dummyType: null, // bleibt null, sonst fällt A Bronze aus der Mini-Session; Gewicht kommt aus dem Profil
         stepsType: "varianten",
         steps: [ // track-a-stufen.md, Abschnitt 4: was die Stufen nicht schon sagen
           "Hund sitzt 20 große Schritte vor dir. Stopp-Pfiff geben. Er bleibt sitzen und schaut dich an.",
@@ -138,7 +138,7 @@ export const TRACKS = [
       },
       {
         id: "silber",
-        signals: ["stop"], // im Heute-Block (kriterien-und-stufen.md, Abschnitt 8)
+        signals: ["stop", { key: "recall", steps: [1] }], // Rückruf nur auf Stufe 1 (track-a-nacharbeit.md, Abschnitt 2)
         phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
         title: "Stopp auf Distanz und aus der Bewegung",
         exam: "appell",
@@ -151,10 +151,10 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände. Der Hund arbeitet auf etwa 35 Meter. Du gibst den Stopp-Pfiff. Er stoppt, auch mit dem Dummy im Blick." },
         ], // je Stufe Ausgangslage, Signal, erwartete Reaktion (track-a-stufen.md, Abschnitt 2)
         criteria: "Stoppt auf 35 Meter, auch aus der Bewegung und wenn ein Dummy sichtbar im Gelände liegt. Vier saubere Stopps in Folge, an drei verschiedenen Orten.",
-        run: "Viermal über die Einheit verteilt. Jeder Stopp wird belohnt, mit Rückruf oder Dummywurf.",
+        run: "Viermal über die Einheit verteilt.", // Belohnung steht im Tipp (track-a-nacharbeit.md, Abschnitt 3)
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1, optional: true }],
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }], // Stufe 4 und Dummywurf (track-a-nacharbeit.md, Abschnitt 1)
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [], // Aufbau entfällt, die Stufen tragen ihn (track-a-stufen.md, Abschnitt 4)
@@ -176,22 +176,21 @@ export const TRACKS = [
         maxDistanceStep: null,
         conditionPath: [
           { condition: "ausgang", variant: "Du wirfst ein Dummy und schickst den Hund. Auf etwa 40 Metern, während er läuft, gibst du den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter zum Dummy." },
-          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite. Du wirfst ein Dummy und schickst den Hund. Auf etwa 40 Metern gibst du den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter." },
-          { condition: "verleitung", variant: "Du wirfst ein Dummy und schickst den Hund. Während er läuft, fliegt ein zweites Dummy oder eine Person läuft los. Du gibst den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter zum ersten Dummy." },
-          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart: Du wirfst ein Dummy und schickst den Hund. Auf etwa 40 Metern gibst du den Stopp-Pfiff. Er stoppt, danach schickst du ihn weiter." },
-        ], // je Stufe Ausgangslage, Signal, erwartete Reaktion (track-a-stufen.md, Abschnitt 3)
+          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite. Dummy werfen, Hund schicken, auf 40 Metern Stopp-Pfiff, dann weiterschicken." },
+          { condition: "verleitung", variant: "Während er läuft, fliegt ein zweites Dummy oder eine Person läuft los. Dummy werfen, Hund schicken, auf 40 Metern Stopp-Pfiff, dann weiter zum ersten Dummy." },
+          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart. Dummy werfen, Hund schicken, auf 40 Metern Stopp-Pfiff, dann weiterschicken." },
+        ], // Stufe 1 vollständig, 2 bis 4 Erschwernis zuerst, Ablauf verkürzt (track-a-nacharbeit.md, Abschnitt 4)
         examHint: "In der Prüfung und auf der Jagd ist die Ablenkung aufgehendes Wild. Wer die Situation nicht herstellen kann, übt mit einer Ablenkung, die er auslösen kann.", // praxis-nachtrag.md, Abschnitt 5
         criteria: "Stoppt auf 40 Meter im Lauf zum Dummy, auch bei realer Ablenkung und in unbekanntem Gelände. Vier Durchgänge an vier Tagen.",
         run: "Ein Durchgang. Mehr nicht.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }],
+        gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }], // track-a-nacharbeit.md, Abschnitt 1
+        setup: [{ text: "Eine zweite Person", steps: [3] }], // Stufe 3, alternativ ein zweites Dummy (steht im Stufentext)
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "ablauf", // track-a-stufen.md, Abschnitt 4
-        steps: [
-          "Dummy werfen, Hund schicken.",
+        steps: [ // nur, was die Stufen nicht sagen (track-a-nacharbeit.md, Abschnitt 4)
           "Während er auf den Dummy zugaloppiert, trittst du vor ihn und gibst gleichzeitig den Stopp-Pfiff.",
-          "Er stoppt. Danach schickst du ihn weiter auf den Dummy. Der Stopp war keine Absage, sondern eine Zwischenstation.",
           "Schrittweise weniger vortreten, bis der Pfiff allein reicht.",
         ],
         tips: [

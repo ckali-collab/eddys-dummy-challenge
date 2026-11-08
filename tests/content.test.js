@@ -301,8 +301,13 @@ test("Erstmale: Zwei auf einmal aus den Blöcken, Weit draußen erst mit gespeic
 
 test("Track A: Stufen mit Ausgangslage, Signal und Reaktion", () => {
   for (const lid of ["bronze", "silber", "gold"]) {
-    for (const s of level("A", lid).conditionPath) assert.match(s.variant, /Du gibst den Stopp-Pfiff|gibst du den Stopp-Pfiff/, s.variant);
+    for (const s of level("A", lid).conditionPath) assert.match(s.variant, /Stopp-Pfiff/, s.variant);
   }
+  assert.deepEqual(level("A", "silber").signals, ["stop", { key: "recall", steps: [1] }]);
+  assert.equal(level("A", "silber").run, "Viermal über die Einheit verteilt.");
+  assert.deepEqual(level("A", "gold").gear.find((g) => g.id === "dummy"), { id: "dummy", n: 2 });
+  assert.equal(level("A", "gold").steps.length, 2);
+  assert.ok(level("A", "bronze").gear.some((g) => g.id === "dummy" && g.optional));
   assert.equal(level("A", "bronze").steps.length, 2);
   assert.deepEqual(level("A", "silber").steps, []);
   assert.equal(level("A", "gold").stepsType, "ablauf");
@@ -355,9 +360,10 @@ test("Dummygewicht nach Profil, Packliste führt gleiche Gewichte zusammen", () 
   assert.equal(firstStep(dog("welpe"), level("E", "bronze")), 1);
   const block = (trackId, levelId, step = 2) => ({ kind: "level", trackId, levelId, step });
   const items = (blocks, d) => packingList(blocks, d).items.map((g) => `${g.id}:${g.n}`);
-  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("erwachsen")), ["pfeife:1", "dummy:1"]);
-  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("welpe")), ["pfeife:1", "dummy:1", "standarddummy:1"]);
-  assert.deepEqual(items([block("E", "bronze"), block("A", "gold")], dog("junghund")), ["pfeife:1", "dummy:1"]);
+  // A Gold braucht zwei Dummys (track-a-nacharbeit.md, Abschnitt 1)
+  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("erwachsen")), ["pfeife:1", "dummy:2"]);
+  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("welpe")), ["pfeife:1", "dummy:2", "standarddummy:1"]);
+  assert.deepEqual(items([block("E", "bronze"), block("A", "gold")], dog("junghund")), ["pfeife:1", "dummy:2"]);
 });
 
 test("E Silber: festes Gewicht, Hinweis nach Profil; E Gold mit Belastung 5", () => {
