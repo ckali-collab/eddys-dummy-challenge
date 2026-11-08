@@ -74,6 +74,8 @@ export const LEARNING_PHASES = [
 export const STEPS_TYPES = {
   varianten: { title: "Aufbau über mehrere Wochen", intro: "In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen." },
   ablauf:    { title: "Ablauf eines Durchgangs",    intro: "So läuft ein Durchgang ab, von oben nach unten." },
+  // Schritte, die über mehrere Einheiten aufeinander aufbauen (A Gold)
+  progression: { title: "Aufbau über mehrere Wochen", intro: "Diese Schritte bauen aufeinander auf, einer nach dem anderen über mehrere Einheiten." },
 };
 
 // Über den Bewertungsknöpfen (vier-durchgaenge.md, Abschnitt 3)
@@ -188,7 +190,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 2 }], // track-a-nacharbeit.md, Abschnitt 1
         setup: [{ text: "Eine zweite Person", steps: [3] }], // Stufe 3, alternativ ein zweites Dummy (steht im Stufentext)
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
-        stepsType: "ablauf", // track-a-stufen.md, Abschnitt 4
+        stepsType: "progression", // die Schritte gehen über Wochen, nicht durch einen Durchgang
         steps: [ // nur, was die Stufen nicht sagen (track-a-nacharbeit.md, Abschnitt 4)
           "Während er auf den Dummy zugaloppiert, trittst du vor ihn und gibst gleichzeitig den Stopp-Pfiff.",
           "Schrittweise weniger vortreten, bis der Pfiff allein reicht.",

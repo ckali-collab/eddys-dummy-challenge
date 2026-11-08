@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-const { TRACKS, TROPHIES, SESSION_TYPES, JOINT_WARNINGS, SESSION_GUIDANCE, WARMUP_COOLDOWN, LEVEL_CHANGE_WARNING } = await import("../src/data/training.js");
+const { TRACKS, TROPHIES, SESSION_TYPES, JOINT_WARNINGS, SESSION_GUIDANCE, WARMUP_COOLDOWN, LEVEL_CHANGE_WARNING, STEPS_TYPES } = await import("../src/data/training.js");
 const { BASICS_SECTIONS, BASICS_GROUPS } = await import("../src/data/basics.js");
 const { GLOSSAR } = await import("../src/data/glossar.js");
 const { findTerms } = await import("../src/lib/glossar.js");
@@ -310,7 +310,8 @@ test("Track A: Stufen mit Ausgangslage, Signal und Reaktion", () => {
   assert.ok(level("A", "bronze").gear.some((g) => g.id === "dummy" && g.optional));
   assert.equal(level("A", "bronze").steps.length, 2);
   assert.deepEqual(level("A", "silber").steps, []);
-  assert.equal(level("A", "gold").stepsType, "ablauf");
+  assert.equal(level("A", "gold").stepsType, "progression");
+  assert.equal(STEPS_TYPES.progression.intro, "Diese Schritte bauen aufeinander auf, einer nach dem anderen über mehrere Einheiten.");
   assert.ok(!JSON.stringify(level("A", "gold")).includes(" - "));
 });
 
