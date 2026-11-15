@@ -186,20 +186,45 @@ const PhaseNote = ({ typeId, role, dog, open, onToggle }) => {
   );
 };
 
-const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
+// Nebenblock einklappbar, wie Aufwärmen und Cool Down (heute-entschlacken.md, Abschnitt 3):
+// zugeklappt bleiben Kopfzeile und die erste Zeile sichtbar, offen oder zu steht in settings.
+const SideFold = ({ className, head, line, open, onToggle, children }) => (
+  <details className={`${className} side-fold`} open={open}
+    onToggle={(e) => { if (e.currentTarget.open !== open) onToggle(e.currentTarget.open); }}>
+    <summary className="side-fold-sum">
+      {head}
+      <span className="side-fold-line">
+        <span className="block-title">{line}</span>
+        <IconChevron size={20} />
+      </span>
+    </summary>
+    <div className="side-fold-body">{children}</div>
+  </details>
+);
+
+const BlockCard = ({ st, typeId, block, onSwap, onOpen, fold }) => {
   const meta = block.hideMinutes ? "" : `${block.minutes} Min`; // Belastung steht nur in der Kopfzeile
+  const head = (
+    <div className="block-head">
+      <span className="block-role">{block.label}</span>
+      {meta && <span className="block-meta">{meta}</span>}
+    </div>
+  );
 
   if (block.kind === "fallback") {
     const fb = SESSION_FALLBACKS[block.role];
-    return (
-      <article className="card block is-fallback">
-        <div className="block-head">
-          <span className="block-role">{block.label}</span>
-          {meta && <span className="block-meta">{meta}</span>}
-        </div>
-        <h3 className="block-title">{fb.title}</h3>
+    const body = (
+      <>
         <p className="block-hint">{fb.desc}</p>
         {FALLBACK_NOTES[block.role] && doneLevelCount(st) === 0 && <p className="small muted">{FALLBACK_NOTES[block.role]}</p>}
+      </>
+    );
+    if (fold) return <SideFold className="card block is-fallback" head={head} line={fb.title} {...fold}>{body}</SideFold>;
+    return (
+      <article className="card block is-fallback">
+        {head}
+        <h3 className="block-title">{fb.title}</h3>
+        {body}
       </article>
     );
   }
@@ -216,13 +241,35 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
     onOpen(block.trackId, block.levelId);
   };
 
+  if (fold) {
+    // Nebenblock mit Level: zugeklappt Track und Level, aufgeklappt wie bisher Durchgang und Equipment
+    return (
+      <SideFold className={`card block lvl-${block.levelId}`} head={head}
+        line={`${trackName(block.trackId)} ${LEVEL_LABEL[block.levelId]}`} {...fold}>
+        <button type="button" className="block-main" onClick={() => onOpen(block.trackId, block.levelId)}>
+          <IconTile name={getTrack(block.trackId)?.icon} fit="block" />
+          <span className="block-text">
+            <span className="block-level">
+              <Medal level={block.levelId} size={16} />
+              <span>{level.title}</span>
+            </span>
+          </span>
+        </button>
+        {level.run && <p className="block-hint"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
+        {gearForStep(level.gear, block.step ?? 1).length > 0 && (
+          <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
+        )}
+        <button type="button" className="swap-btn" onClick={onSwap} disabled={block.options < 2}>
+          <IconSwap size={18} /> {block.options < 2 ? "Keine Alternative" : "Tauschen"}
+        </button>
+      </SideFold>
+    );
+  }
+
   return (
     <article className={`card block is-tappable lvl-${block.levelId}`} onClick={openFromCard}
       onPointerDownCapture={() => { bubbleWasOpen.current = !!document.querySelector(".gl-bubble"); }}>
-      <div className="block-head">
-        <span className="block-role">{block.label}</span>
-        {meta && <span className="block-meta">{meta}</span>}
-      </div>
+      {head}
       <button type="button" className="block-main" onClick={() => onOpen(block.trackId, block.levelId)}>
         <IconTile name={getTrack(block.trackId)?.icon} fit="block" />
         <span className="block-text">
@@ -243,8 +290,6 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
           <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />
           {level.steps.length > 0 && (
             <BlockSection title={(STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten).title}>
-              {/* Auf Heute nur die kurze Einleitung, die lange steht auf der Levelseite */}
-              {STEPS_TYPES[level.stepsType]?.short && <p className="small muted">{STEPS_TYPES[level.stepsType].short}</p>}
               <ol className="steps small">
                 {level.steps.map((s, i) => <li key={i}><span><RichText text={withSecondSide(s, st.dog)} gloss /></span></li>)}
               </ol>
@@ -419,6 +464,9 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
     }));
   const setPhaseOpen = (role) => (open) =>
     setSt((p) => ({ ...p, settings: { ...p.settings, phaseOpen: { ...p.settings.phaseOpen, [role]: open } } }));
+  // Nebenblöcke (Erster Teil, Abschluss) auf- oder zugeklappt, je Rolle
+  const setSideOpen = (role) => (open) =>
+    setSt((p) => ({ ...p, settings: { ...p.settings, sideOpen: { ...p.settings.sideOpen, [role]: open } } }));
   const setType = (id) => setToday((t) => ({ ...t, type: id, offsets: {}, picks: null }));
 
   // Hauptteil ohne offenes Level: nicht abschließbar; welcher Sessiontyp hat noch etwas offen?
@@ -542,7 +590,8 @@ export default function HeuteTab({ st, setSt, today, setToday, onOpen, onOpenAll
               </div>
             )}
             {b.role === "warmup" && <PhaseNote typeId={plan.type} role="warmup" dog={st.dog} open={st.settings.phaseOpen?.warmup === true} onToggle={setPhaseOpen("warmup")} />}
-            <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen} />
+            <BlockCard st={st} typeId={plan.type} block={b} onSwap={() => swap(b.role)} onOpen={onOpen}
+              fold={b.role === "main" ? null : { open: st.settings.sideOpen?.[b.role] === true, onToggle: setSideOpen(b.role) }} />
             {b.role === "cooldown" && <PhaseNote typeId={plan.type} role="cooldown" open={st.settings.phaseOpen?.cooldown === true} onToggle={setPhaseOpen("cooldown")} />}
           </Fragment>
         ))}

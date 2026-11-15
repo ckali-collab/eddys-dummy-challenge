@@ -72,7 +72,7 @@ export const LEARNING_PHASES = [
 
 // Überschrift und Einleitung der steps-Liste je stepsType (fundament-umbau-5.md, Abschnitt 3)
 export const STEPS_TYPES = {
-  varianten: { title: "Varianten zum Abwechseln", intro: "In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen.", short: "Eine davon pro Durchgang." }, // short: auf Heute (heute-laenge, Runde 15.11.)
+  varianten: { title: "Varianten zum Abwechseln", intro: "In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen." },
   ablauf:    { title: "Ablauf eines Durchgangs",    intro: "So läuft ein Durchgang ab, von oben nach unten." },
   // Schritte, die über mehrere Einheiten aufeinander aufbauen (A Gold)
   progression: { title: "Aufbau über mehrere Wochen", intro: "Diese Schritte bauen aufeinander auf, einer nach dem anderen über mehrere Einheiten." },

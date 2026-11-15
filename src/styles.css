@@ -677,6 +677,13 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .block-sec .steps { gap: 6px; }
 .block-sec .tips { gap: 6px; }
 .block-sec .link-btn { justify-self: start; }
+/* Nebenblöcke einklappbar (wie .phase-fold) */
+.side-fold-sum { display: grid; gap: 6px; cursor: pointer; list-style: none; }
+.side-fold-sum::-webkit-details-marker { display: none; }
+.side-fold-line { display: flex; align-items: center; gap: 10px; }
+.side-fold-line svg { margin-left: auto; flex: none; transition: transform 0.2s; }
+.side-fold[open] .side-fold-line svg { transform: rotate(180deg); }
+.side-fold-body { display: grid; gap: 10px; margin-top: 10px; }
 .block-warn {
   display: flex;
   gap: 8px;

@@ -261,6 +261,7 @@ test("Heute entschlacken: Dauer, Pause, Begriffe, Sie-Form", () => {
   assert.match(g("leicht"), /Galoppsprints/);
   assert.ok(!/Galopp|Sprint/.test(g("deutlich")), "bei deutlichem Befund keine Sprints in der Kurzzeile");
   assert.deepEqual(migrate(freshState()).settings.phaseOpen, { warmup: false, cooldown: false });
+  assert.deepEqual(migrate(freshState()).settings.sideOpen, { warmup: false, cooldown: false }, "Nebenblöcke starten zugeklappt");
 });
 
 test("F Gold: Wasser zuerst, Markierstäbe für zwei Dummys, Anrede", () => {
