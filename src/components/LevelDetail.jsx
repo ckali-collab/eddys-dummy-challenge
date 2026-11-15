@@ -92,9 +92,6 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
   const phase = phaseOf(level);
   const age = minAgeOf(track, level);
   const stepsType = STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten;
-  // A bis E (Bedingungs-Tracks): Aufbau ist Kontext, nicht die heutige Anweisung (stufen-texte.md, Abschnitt 1)
-  // Mit eigenen Stufentexten tragen die Stufen die Anweisung (h-stufen.md, Abschnitt 4)
-  const stepsInBackground = track.axis === "bedingungen" || (level.stepsType === "varianten" && level.path?.some((p) => p.text));
   const apportNote = MIN_AGE_NOTES[`${trackId}:${levelId}`];
   const dpe = level.examClass === "DP-E";
   const counter = levelCounter(st, trackId, levelId);
@@ -154,24 +151,13 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
         </div>
       </Section>
 
-      {stepCount(level) > 0 && (
-        <Section title="Stufen">
-          <StepPath level={level} current={current} done={done} dog={st.dog} first={first}
-            onSkip={canSkipStep(st, trackId, levelId) ? () => onSkipStep(trackId, levelId) : null} />
-          {level.maxDistanceStep >= 3 && <p className="small muted" style={{ marginTop: 8 }}>{DISTANCE_LEGAL_NOTE}</p>}
+      {/* Ablauf für alle Tracks an derselben Stelle, direkt unter Heute (uebungsbeschreibung.md, Abschnitt 3) */}
+      {level.steps.length > 0 && (
+        <Section title={stepsType.title}>
+          <p className="muted">{stepsType.intro}</p>
+          <StepsList steps={level.steps} dog={st.dog} />
         </Section>
       )}
-
-      {/* Ziel des Levels nach dem Weg dorthin: heute, Stufen, Ziel (uebungsablauf.md, Abschnitt 6) */}
-      <Section title="Am Ende des Levels">
-        <p className="criteria"><RichText text={withDummySignal(level.criteria, st.dog)} gloss /></p>
-      </Section>
-
-      {/* Bei F und G und bei H Gold bleibt der Block sichtbar; bei A bis E, H Bronze und H Silber steht der Aufbau im Hintergrund */}
-      {!stepsInBackground && <Section title={stepsType.title}>
-        <p className="muted">{stepsType.intro}</p>
-        <StepsList steps={level.steps} dog={st.dog} />
-      </Section>}
 
       {level.tips.length > 0 && (
         <Section title="Tipps">
@@ -188,6 +174,19 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
           </ul>
         </Section>
       )}
+
+      {/* Die Stufen als Überblick über das Level, unter den Tipps (uebungsbeschreibung.md, Abschnitt 3) */}
+      {stepCount(level) > 0 && (
+        <Section title="Stufen">
+          <StepPath level={level} current={current} done={done} dog={st.dog} first={first}
+            onSkip={canSkipStep(st, trackId, levelId) ? () => onSkipStep(trackId, levelId) : null} />
+          {level.maxDistanceStep >= 3 && <p className="small muted" style={{ marginTop: 8 }}>{DISTANCE_LEGAL_NOTE}</p>}
+        </Section>
+      )}
+
+      <Section title="Am Ende des Levels">
+        <p className="criteria"><RichText text={withDummySignal(level.criteria, st.dog)} gloss /></p>
+      </Section>
 
       {(level.warning || joints.length > 0) && (
         <div className="stack">
@@ -256,6 +255,8 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
               <p><strong>Lernphase: {phase.label}</strong></p>
               <p className="small">Verstärkung: {phase.reinforce}</p>
               <p className="small muted">Rahmen: {phase.conditions} · Ziel: {phase.goal}</p>
+              {/* Warum die Menge so ist, wie sie ist: Begründung, kein Trainingstipp (uebungsbeschreibung.md, Abschnitt 5.3) */}
+              {level.loadNote && <p className="small muted">{level.loadNote}</p>}
             </div>
           )}
           {(age.months || apportNote || dpe) && (
@@ -264,13 +265,6 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
               {age.months && <p>Ab etwa {age.months} Monaten{age.suffix ? `, ${age.suffix}` : ""}. <span className="muted">{age.note}.</span></p>}
               {apportNote && <p className="small muted"><RichText text={apportNote} /></p>}
               {dpe && <p className="small muted">{DPE_AGE_NOTE}</p>}
-            </div>
-          )}
-          {stepsInBackground && level.steps.length > 0 && (
-            <div>
-              <p><strong>{stepsType.title}</strong></p>
-              <p className="small muted">{stepsType.intro}</p>
-              <StepsList steps={level.steps} dog={st.dog} />
             </div>
           )}
           {idx > 0 && (

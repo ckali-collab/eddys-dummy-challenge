@@ -671,6 +671,12 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 .step-line { display: grid; gap: 2px; font-size: var(--fs-body); }
 .step-tag { font-size: var(--fs-label); color: var(--muted); }
 .step-line.is-target span:last-child { font-weight: 600; }
+.step-note { font-size: var(--fs-label); color: var(--muted); font-style: italic; }
+/* Abschnitte im Hauptteil der Heute-Karte (uebungsbeschreibung.md, Abschnitt 2) */
+.block-sec { display: grid; gap: 4px; }
+.block-sec .steps { gap: 6px; }
+.block-sec .tips { gap: 6px; }
+.block-sec .link-btn { justify-self: start; }
 .block-warn {
   display: flex;
   gap: 8px;

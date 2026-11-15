@@ -153,7 +153,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Ein Dummy liegt sichtbar im Gelände. Der Hund arbeitet auf etwa 35 Meter. Du gibst den Stopp-Pfiff. Er stoppt, auch mit dem Dummy im Blick." },
         ], // je Stufe Ausgangslage, Signal, erwartete Reaktion (track-a-stufen.md, Abschnitt 2)
         criteria: "Stoppt auf 35 Meter, auch aus der Bewegung und wenn ein Dummy sichtbar im Gelände liegt. Vier saubere Stopps in Folge, an drei verschiedenen Orten.",
-        run: "Viermal über die Einheit verteilt.", // Belohnung steht im Tipp (track-a-nacharbeit.md, Abschnitt 3)
+        run: "Viermal über die Einheit verteilt. Nach jedem Stopp: Rückruf pfeifen und loben, oder einen Dummy werfen. Der Stopp muss sich lohnen.", // uebungsbeschreibung.md, Abschnitt 5.1
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }, { id: "dummy", n: 1 }], // Stufe 4 und Dummywurf (track-a-nacharbeit.md, Abschnitt 1)
@@ -162,7 +162,6 @@ export const TRACKS = [
         steps: [], // Aufbau entfällt, die Stufen tragen ihn (track-a-stufen.md, Abschnitt 4)
         tips: [
           LEISE_PFEIFEN,
-          "Nach dem Stopp: Rückruf pfeifen und loben, oder einen Dummy werfen. Der Stopp muss sich lohnen.",
           "Wenn er nicht stoppt: nicht nachpfeifen. Hingehen, zurück zum Ausgangspunkt, Distanz verkürzen.",
           "Bei Gelenkeinschränkung aus dem Trab üben, nicht aus dem Galopp.",
         ],
@@ -472,7 +471,7 @@ export const TRACKS = [
         run: "4 Wiederholungen nacheinander, dazwischen kurz freigeben.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }], // Markierstab entfällt (stufen-texte-b-e.md, Abschnitt 7.3)
+        gear: [{ id: "dummy", n: 1, steps: [1, 3, 4], swap: true }, { id: "dummy", n: 2, steps: [2], swap: true }], // zwei nur auf Stufe 2 (uebungsbeschreibung.md, Abschnitt 4)
         setup: [{ text: "Eine zweite Person", steps: [1] }], // Stufe 1 nach der Umsortierung
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
@@ -561,9 +560,9 @@ export const TRACKS = [
           "Dummy ruhig abnehmen, eine Hand von unten unter das Kinn.",
           "Nicht sofort wegnehmen. Kurz halten, loben, dann abnehmen.",
         ],
+        loadNote: "Zehn Wiederholungen klingen viel. Für Markierungen und Suchen wären sie es auch, dort sind vier bis fünf genug. Hier geht es um zehn Meter hin und zurück, ohne Suchen und ohne Nasenarbeit: Das zählt in der Belastung halb.", // im Hintergrund (uebungsbeschreibung.md, Abschnitt 5.3)
         tips: [
-          "Zehn Wiederholungen klingen viel. Für Markierungen und Suchen wären sie es auch, dort sind vier bis fünf genug. Hier geht es um zehn Meter hin und zurück, ohne Suchen und ohne Nasenarbeit: Das zählt in der Belastung halb.",
-          "Häufige Ursachen: Dummy zu schnell abgenommen, zu großes Theater, Hund kommt nicht weit genug heran.",
+          "Wenn er ablegt oder knautscht, liegt es meist an einem von drei Dingen: Dummy zu schnell abgenommen, zu großes Theater bei der Abgabe, oder er kommt nicht weit genug heran.",
         ],
         warning: null,
       },
@@ -592,12 +591,12 @@ export const TRACKS = [
         ],
         dummyType: "standard", // null | "standard" | "junior"; hier geht es um schwere Gegenstände, deshalb nicht in der Mini-Session (nachtrag-review.md, Abschnitt 5)
         amount: { n: 5, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
+        loadNote: "Hier sind es fünf, nicht zehn: Die Distanz ist nicht mehr begrenzt, und schwere oder ungewohnte Gegenstände kosten Kraft und Konzentration.", // im Hintergrund (uebungsbeschreibung.md, Abschnitt 5.3)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [],
         tips: [
           "Erst anfangen, wenn Bronze sicher sitzt.",
           "Geduld aufbauen: Wenn er in der Fußposition sitzt, gehst du ein paar Schritte rückwärts, kommst zurück und nimmst erst dann ab.",
-          "Hier sind es fünf, nicht zehn: Die Distanz ist nicht mehr begrenzt, und schwere oder ungewohnte Gegenstände kosten Kraft und Konzentration.",
           "Nie hetzen. Die Ruhe bei der Abgabe überträgt sich.",
         ],
         warning: null,
@@ -662,22 +661,22 @@ export const TRACKS = [
         run: "5 Einzelmarken auf der Distanz und im Gelände der heutigen Stufe, in zwei Gruppen, dazwischen freigeben.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 4, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 1 }, { id: "markierstab", n: 4, optional: true }],
+        gear: [{ id: "dummy", n: 2, optionalCount: 1 }, { id: "markierstab", n: 4, optional: true }], // das zweite Dummy für die Varianten (uebungsbeschreibung.md, Abschnitt 4)
         setup: ["Optional eine zweite Person für das Halbblind"], // Gelände, zweite Person: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 5, min: 3, unit: "Einzelmarken" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
+        stepsType: "ablauf", // die Varianten stehen in den Tipps (uebungsbeschreibung.md, Abschnitt 5.2)
         steps: [
           "Hund sitzt in der Fußposition neben dir.",
           "Dummy hoch und weit werfen, damit die Flugbahn gut sichtbar ist.",
           "Warten, bis er fokussiert ist, dann schickst du ihn.",
-          "Abgabe nach Track E.",
-          "Variante Doppelmarkierung DP-E: Zwei Dummys werfen lassen, Winkel mindestens 90 Grad. Du holst den zuerst geworfenen selbst, der Hund bleibt sitzen. Dann schickst du ihn zum zuletzt geworfenen.",
-          "Variante Halbblind: Hund holt ein geworfenes Dummy. Während er zurückläuft, legt eine zweite Person an derselben Stelle ein zweites ab. Dann schicke ihn erneut.",
+          "Er bringt bis in die Hand und legt nicht ab.",
         ],
         tips: [
           "Maximal drei bis fünf Würfe.",
           "Markierstab optional, hilft dir selbst bei der Orientierung.",
+          "Variante Doppelmarkierung DP-E: Zwei Dummys werfen lassen, Winkel mindestens 90 Grad. Du holst den zuerst geworfenen selbst, der Hund bleibt sitzen. Dann schickst du ihn zum zuletzt geworfenen.",
+          "Variante Halbblind: Hund holt ein geworfenes Dummy. Während er zurückläuft, legt eine zweite Person an derselben Stelle ein zweites ab. Dann schicke ihn erneut.",
         ],
         warning: null,
       },

@@ -2,10 +2,10 @@ import { useState, useEffect, useRef, Fragment } from "react";
 import {
   SESSION_TYPES, SESSION_FALLBACKS, FALLBACK_NOTES, WARMUP_COOLDOWN, SESSION_GUIDANCE, LEVEL_CHANGE_WARNING,
   FAILURE_CAUSES, FAILURE_UNCLEAR, DISPLACEMENT_SIGNS, DISPLACEMENT_NOTE, DISPLACEMENT_DOWNGRADE_ABOVE,
-  RATING_HINTS, MIN_AGE_NOTES_SHORT,
+  RATING_HINTS, MIN_AGE_NOTES_SHORT, STEPS_TYPES,
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount, levelCounter } from "../lib/progress.js";
-import { sessionSteps, stepText, withDummySignal, waterNotes } from "../lib/steps.js";
+import { sessionSteps, stepText, withDummySignal, withSecondSide, waterNotes } from "../lib/steps.js";
 import { warmupGuideFor, buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -106,23 +106,51 @@ const Checklist = ({ blocks }) => {
   );
 };
 
-// ─── Einstieg und Ziel (fundament-umbau-2.md, Abschnitt 1) ────
-// Nur im Hauptteil: Er ist der einzige bewertete Block.
+// ─── Übung und Einstieg (fundament-umbau-2.md, Abschnitt 1; uebungsbeschreibung.md, Abschnitt 2) ────
+// Nur im Hauptteil: Er ist der einzige bewertete Block. Die Übung zuerst, der Einstieg ist die Wiederholung von gestern.
 const StepPlan = ({ st, trackId, levelId }) => {
   const { level, first, target, entry } = sessionSteps(st, trackId, levelId);
   return (
     <div className="step-plan">
+      <p className="step-line is-target">
+        <span className="step-tag">Das übst du heute</span>
+        <span className="step-note">wird bewertet</span>
+        <span>{stepText(level, target, first, st.dog)}</span>
+      </p>
       {entry && (
         <p className="step-line">
           <span className="step-tag">Einstieg (zum Erinnern, wird nicht bewertet)</span>
           <span>{stepText(level, entry, first, st.dog)}</span>
         </p>
       )}
-      <p className="step-line is-target">
-        <span className="step-tag">Ziel heute (wird bewertet)</span>
-        <span>{stepText(level, target, first, st.dog)}</span>
-      </p>
     </div>
+  );
+};
+
+// Abschnitt im Hauptteil mit kleiner Überschrift
+const BlockSection = ({ title, children }) => (
+  <div className="block-sec">
+    <p className="step-tag">{title}</p>
+    {children}
+  </div>
+);
+
+// Die ersten zwei Tipps, der Rest hinter "mehr" (uebungsbeschreibung.md, Abschnitt 2)
+const TIPS_SHOWN = 2;
+const TipsPreview = ({ tips }) => {
+  const [all, setAll] = useState(false);
+  const shown = all ? tips : tips.slice(0, TIPS_SHOWN);
+  return (
+    <>
+      <ul className="tips small">
+        {shown.map((t, i) => <li key={i}><span><RichText text={t} gloss /></span></li>)}
+      </ul>
+      {tips.length > TIPS_SHOWN && (
+        <button type="button" className="link-btn small" onClick={() => setAll((x) => !x)}>
+          {all ? "weniger" : `mehr (${tips.length - TIPS_SHOWN})`}
+        </button>
+      )}
+    </>
   );
 };
 
@@ -208,13 +236,43 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
             : `an ${counter.have} von ${counter.need} Tagen geschafft · Stufe ${effectiveStep(st, block.trackId, block.levelId) - firstStep(st.dog, level) + 1} von ${5 - firstStep(st.dog, level)}`}</span>
         </span>
       </button>
-      {/* Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
-      {level.run && <p className="block-hint"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
       {beginnerNote && <p className="small muted">{beginnerNote}</p>}
-      {block.role === "main" && <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />}
-      {block.role === "main" && waterNotes(block.trackId, level, block.step).map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
-      {gearForStep(level.gear, block.step ?? 1).length > 0 && (
-        <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
+      {block.role === "main" ? (
+        <>
+          {/* Hauptteil: Übung, Ablauf, Menge, Hinweise, Mitnehmen (uebungsbeschreibung.md, Abschnitt 2) */}
+          <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />
+          {level.steps.length > 0 && (
+            <BlockSection title={(STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten).title}>
+              <ol className="steps small">
+                {level.steps.map((s, i) => <li key={i}><span><RichText text={withSecondSide(s, st.dog)} gloss /></span></li>)}
+              </ol>
+            </BlockSection>
+          )}
+          {level.run && (
+            <BlockSection title="Wie oft">
+              <p><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>
+            </BlockSection>
+          )}
+          {level.tips.length > 0 && (
+            <BlockSection title="Worauf du achtest">
+              <TipsPreview tips={level.tips} />
+            </BlockSection>
+          )}
+          {waterNotes(block.trackId, level, block.step).map((x) => <p key={x} className="small muted"><RichText text={x} /></p>)}
+          {gearForStep(level.gear, block.step ?? 1).length > 0 && (
+            <BlockSection title="Mitnehmen">
+              <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
+            </BlockSection>
+          )}
+        </>
+      ) : (
+        <>
+          {/* Nebenblöcke: Was in diesem Durchgang zu tun ist (run), nicht das Kriterium über mehrere Tage */}
+          {level.run && <p className="block-hint"><RichText text={withDummySignal(level.run, st.dog)} gloss /></p>}
+          {gearForStep(level.gear, block.step ?? 1).length > 0 && (
+            <GearList gear={gearForStep(level.gear, block.step ?? 1)} dummyType={level.dummyType} dog={st.dog} compact />
+          )}
+        </>
       )}
       {block.cut && (block.cut.neutral
         ? <p className="block-note">Heute: {block.cut.text}</p>

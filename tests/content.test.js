@@ -222,7 +222,7 @@ test("F Silber ist die Einzelmarkierung, F Gold baut die Doppelmarkierung auf", 
   const g = level("F", "gold");
   assert.ok(g.steps[0].startsWith("Zwei Dummys werfen lassen, am Anfang weit auseinander"));
   assert.ok(!/90 Grad|gibt sie der Richter|Richter sie vor/.test(JSON.stringify(g)));
-  assert.ok(level("F", "bronze").steps.some((x) => x.includes("mindestens 90 Grad")));
+  assert.ok(level("F", "bronze").tips.some((x) => x.includes("mindestens 90 Grad")));
   assert.equal(TROPHIES.find((t) => t.id === "track-F").desc, "Holt beide Dummys einer Doppelmarkierung in der Reihenfolge, die du ansagst, bis 80 Meter, auch im schweren Gelände.");
   for (const lid of ["bronze", "silber", "gold"]) assert.ok(level("B", lid).tips.some((x) => x.startsWith("Immer leise pfeifen")), lid);
   assert.match(SESSION_GUIDANCE.afterSuccess, /dann mach erst einmal/);
@@ -243,7 +243,7 @@ test("Packliste nennt Reserve und schwimmfähig, ab zwei Dummys ohne Reserve", (
   const label = (blocks) => packingList(blocks, dog).items.filter((i) => i.id === "dummy").map((i) => gearLabel(i, "standard", dog));
   assert.deepEqual(label([{ ...f, step: 2 }]), ["1 Dummy 500 g plus Reserve"]);
   assert.deepEqual(label([{ ...f, step: 4 }]), ["1 Dummy 500 g plus Reserve, schwimmfähig"]);
-  assert.deepEqual(label([{ ...f, step: 2 }, { kind: "level", trackId: "D", levelId: "silber", step: 1 }]), ["2 Dummys 500 g"]);
+  assert.deepEqual(label([{ ...f, step: 2 }, { kind: "level", trackId: "D", levelId: "silber", step: 2 }]), ["2 Dummys 500 g"]);
 });
 
 test("Heute entschlacken: Dauer, Pause, Begriffe, Sie-Form", () => {
@@ -304,7 +304,8 @@ test("Track A: Stufen mit Ausgangslage, Signal und Reaktion", () => {
     for (const s of level("A", lid).conditionPath) assert.match(s.variant, /Stopp-Pfiff/, s.variant);
   }
   assert.deepEqual(level("A", "silber").signals, ["stop", { key: "recall", steps: [1] }]);
-  assert.equal(level("A", "silber").run, "Viermal über die Einheit verteilt.");
+  assert.match(level("A", "silber").run, /^Viermal über die Einheit verteilt\. Nach jedem Stopp/);
+  assert.ok(!level("A", "silber").tips.some((x) => x.startsWith("Nach dem Stopp")), "nicht doppelt in run und Tipp");
   assert.deepEqual(level("A", "gold").gear.find((g) => g.id === "dummy"), { id: "dummy", n: 2 });
   assert.equal(level("A", "gold").steps.length, 2);
   assert.ok(level("A", "bronze").gear.some((g) => g.id === "dummy" && g.optional));
@@ -347,6 +348,21 @@ test("B bis E: Stufentexte nach stufen-texte-b-e.md", () => {
   // Anzeige: Stufen mit Lücke
   assert.equal(stepList([1, 3, 4]), "1, 3 und 4");
   assert.deepEqual(gearNotesAtStep(level("E", "silber").gear, 1, 1)[0].seen, [1, 3, 4]);
+});
+
+test("Übungsbeschreibung: Belastungsbegründung im Hintergrund, F Bronze als Ablauf, Equipment", () => {
+  assert.ok(level("E", "bronze").loadNote.startsWith("Zehn Wiederholungen"));
+  assert.ok(level("E", "silber").loadNote.startsWith("Hier sind es fünf"));
+  assert.ok(!level("E", "bronze").tips.some((x) => x.startsWith("Zehn")) && !level("E", "silber").tips.some((x) => x.startsWith("Hier sind")));
+  assert.ok(level("E", "bronze").tips[0].startsWith("Wenn er ablegt oder knautscht"));
+  const f = level("F", "bronze");
+  assert.equal(f.stepsType, "ablauf");
+  assert.equal(f.steps.length, 4);
+  assert.ok(!JSON.stringify(f).includes("nach Track E"));
+  assert.deepEqual(f.gear[0], { id: "dummy", n: 2, optionalCount: 1 });
+  const d = level("D", "silber");
+  assert.deepEqual(gearForStep(d.gear, 2), [{ id: "dummy", n: 2, swap: true }]);
+  assert.deepEqual(gearForStep(d.gear, 3), [{ id: "dummy", n: 1, swap: true }]);
 });
 
 test("Check-in ist auch aus den Tracks raus", () => {
