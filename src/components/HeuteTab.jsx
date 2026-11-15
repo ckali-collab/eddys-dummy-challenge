@@ -5,7 +5,7 @@ import {
   RATING_HINTS, MIN_AGE_NOTES_SHORT, STEPS_TYPES,
 } from "../data/training.js";
 import { LEVEL_LABEL, getTrack, getLevel, levelProgress, isLevelDone, jointWarnings, firstStep, effectiveStep, doneLevelCount, levelCounter } from "../lib/progress.js";
-import { sessionSteps, stepText, withDummySignal, withSecondSide, waterNotes } from "../lib/steps.js";
+import { sessionSteps, stepText, withDummySignal, withSecondSide, waterNotes, tipText } from "../lib/steps.js";
 import { warmupGuideFor, buildPlan, restStatus, recordSession, undoLastSession, getSessionType, trackName, sessionDuration, sessionChecklist } from "../lib/session.js";
 import Medal from "./Medal.jsx";
 import { IconTile } from "./TrackIcon.jsx";
@@ -142,8 +142,8 @@ const TipsPreview = ({ tips }) => {
   const shown = all ? tips : tips.slice(0, TIPS_SHOWN);
   return (
     <>
-      <ul className="tips small">
-        {shown.map((t, i) => <li key={i}><span><RichText text={t} gloss /></span></li>)}
+      <ul className="tips">
+        {shown.map((t, i) => <li key={i}><span><RichText text={tipText(t, true)} gloss /></span></li>)}
       </ul>
       {tips.length > TIPS_SHOWN && (
         <button type="button" className="link-btn small" onClick={() => setAll((x) => !x)}>
@@ -290,7 +290,7 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen, fold }) => {
           <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />
           {level.steps.length > 0 && (
             <BlockSection title={(STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten).title}>
-              <ol className="steps small">
+              <ol className="steps">
                 {level.steps.map((s, i) => <li key={i}><span><RichText text={withSecondSide(s, st.dog)} gloss /></span></li>)}
               </ol>
             </BlockSection>

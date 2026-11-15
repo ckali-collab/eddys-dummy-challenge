@@ -9,7 +9,7 @@ const { freshState, migrate } = await import("../src/lib/storage.js");
 const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter, jointWarnings } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor, sessionDuration } = await import("../src/lib/session.js");
 const { gearAllSteps, gearForStep, gearLabel, dummyWeight, packingList, stepList, gearNotesAtStep } = await import("../src/lib/gear.js");
-const { isWaterStep, waterNotes, examLine, stepText, withSecondSide } = await import("../src/lib/steps.js");
+const { isWaterStep, waterNotes, examLine, stepText, withSecondSide, tipText } = await import("../src/lib/steps.js");
 const { conditionText, trophyProgress, syncTrophies } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
@@ -367,12 +367,12 @@ test("Übungsbeschreibung: Belastungsbegründung im Hintergrund, F Bronze als Ab
 });
 
 test("Tipp-Reihenfolge: der wichtigste vorn, Pfeif-Begründung nur bei A Bronze", () => {
-  const first = (t, l) => level(t, l).tips[0];
+  const first = (t, l) => tipText(level(t, l).tips[0]);
   assert.ok(first("A", "bronze").startsWith("Immer leise pfeifen. Hunde hören"));
   for (const [t, l] of [["A", "silber"], ["A", "gold"], ["B", "bronze"], ["B", "silber"], ["B", "gold"]]) {
     assert.equal(level(t, l).tips.at(-1), "Immer leise pfeifen, auch auf Distanz.", `${t} ${l}`);
   }
-  assert.equal(TRACKS.flatMap((t) => t.levels).filter((l) => l.tips.some((x) => x.includes("viermal leiser"))).length, 1);
+  assert.equal(TRACKS.flatMap((t) => t.levels).filter((l) => l.tips.some((x) => tipText(x).includes("viermal leiser"))).length, 1);
   assert.ok(first("A", "silber").startsWith("Wenn er nicht stoppt"));
   assert.ok(first("A", "gold").startsWith("Maximal einmal pro Session"));
   assert.ok(first("C", "gold").startsWith("Auch wenn die Ablenkung"));
@@ -382,6 +382,10 @@ test("Tipp-Reihenfolge: der wichtigste vorn, Pfeif-Begründung nur bei A Bronze"
   assert.ok(first("F", "bronze").startsWith("Variante Doppelmarkierung DP-E: Zwei Dummys werfen,"));
   assert.ok(first("F", "silber").startsWith("Die Memory-Variante setzt Steadiness Silber voraus"));
   assert.ok(level("A", "bronze").tips.includes("Nur eine Übungseinheit pro Spaziergang, nicht mehr."));
+  // Heute zeigt die Kurzform, die Levelseite den vollen Text
+  assert.equal(tipText(level("A", "bronze").tips[0], true), "Immer leise pfeifen, auch auf Distanz.");
+  assert.ok(tipText(level("A", "bronze").tips[0]).includes("viermal leiser"));
+  assert.ok(TRACKS.flatMap((t) => t.levels).every((l) => l.tips.every((x) => typeof tipText(x) === "string" && tipText(x, true).length > 0)));
   const gone = ["Unvorhersehbar sein", "Maximal drei bis fünf", "Erst anfangen, wenn Bronze", "Voraussetzung: Steadiness"];
   assert.ok(!gone.some((g) => JSON.stringify(TRACKS).includes(g)));
 });

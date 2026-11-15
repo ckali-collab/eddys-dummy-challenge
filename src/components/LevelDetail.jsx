@@ -8,7 +8,7 @@ import { IconAlert, IconCheck, IconChevron } from "./Icons.jsx";
 import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
-import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal, waterNotes } from "../lib/steps.js";
+import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal, waterNotes, tipText } from "../lib/steps.js";
 import { dummyWeight, gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep, stepList, isContiguous } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
@@ -162,7 +162,7 @@ export default function LevelDetail({ st, trackId, levelId, onCount, onReset, on
       {level.tips.length > 0 && (
         <Section title="Tipps">
           <ul className="tips">
-            {level.tips.map((t, i) => <li key={i}><span><RichText text={t} gloss /></span></li>)}
+            {level.tips.map((t, i) => <li key={i}><span><RichText text={tipText(t)} gloss /></span></li>)}
           </ul>
         </Section>
       )}

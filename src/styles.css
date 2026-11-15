@@ -675,7 +675,8 @@ textarea.input { min-height: 96px; resize: vertical; line-height: 1.45; }
 /* Abschnitte im Hauptteil der Heute-Karte (uebungsbeschreibung.md, Abschnitt 2) */
 .block-sec { display: grid; gap: 4px; }
 .block-sec .steps { gap: 6px; }
-.block-sec .tips { gap: 6px; }
+/* Tipps sind Zusatzinfo: 14 px; der Aufbau ist Anweisung und bleibt bei 16 px (heute-entschlacken.md, Abschnitt 6) */
+.block-sec .tips { gap: 6px; font-size: var(--fs-label); }
 .block-sec .link-btn { justify-self: start; }
 /* Nebenblöcke einklappbar (wie .phase-fold) */
 .side-fold-sum { display: grid; gap: 6px; cursor: pointer; list-style: none; }

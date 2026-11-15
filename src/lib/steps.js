@@ -77,6 +77,9 @@ export const signalLines = (level, dog, step) =>
     return word && term ? [`Dein ${term}: ${word}`] : [];
   });
 
+// Tipp: Text oder { text, short }. Levelseite zeigt text, Heute zeigt short ?? text (A Bronze, Pfeif-Tipp)
+export const tipText = (t, short = false) => (typeof t === "string" ? t : short ? t.short ?? t.text : t.text);
+
 // Aufbautexte: "in der Fußposition" ergänzt die zweite Seite, wenn das Profil eine nennt
 export const withSecondSide = (text, dog) =>
   dog?.signals?.side2

@@ -132,7 +132,7 @@ export const TRACKS = [
           "Er stöbert wenige Meter vor dir. Stopp-Pfiff geben und gleichzeitig einen Dummy werfen. Der Dummy ist die Belohnung für den Stopp.",
         ],
         tips: [
-          LEISE_PFEIFEN,
+          { text: LEISE_PFEIFEN, short: "Immer leise pfeifen, auch auf Distanz." }, // Heute zeigt die Kurzform
           "Im Alltag das Wort Sitz durch den Pfiff ersetzen. Kostet keine Trainingszeit.",
           "Nur eine Übungseinheit pro Spaziergang, nicht mehr.",
         ],
