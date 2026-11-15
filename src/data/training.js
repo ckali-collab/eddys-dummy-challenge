@@ -225,11 +225,11 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ort", variant: "Im Garten oder auf einer eingezäunten Fläche, etwa 20 Meter." },
-          { condition: "ort", variant: "Auf einer bekannten Wiese, ohne andere Hunde." },
-          { condition: "verleitung", variant: "Ein Mensch steht oder geht in der Nähe." },
-          { condition: "position", variant: "Du drehst dich weg und rufst, ohne ihn anzusehen." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "ort", variant: "Im Garten oder auf einer eingezäunten Fläche. Der Hund läuft frei etwa 20 Meter von dir weg, rund 25 Schritte. Du gibst den Rückruf-Pfiff. Er kommt in gerader Linie und bleibt vor dir stehen." },
+          { condition: "ort", variant: "Auf einer bekannten Wiese, keine anderen Hunde in Sicht. Der Hund läuft frei auf etwa 20 Meter. Du gibst den Rückruf-Pfiff. Er kommt in gerader Linie, ohne unterwegs zu schnüffeln." },
+          { condition: "verleitung", variant: "Ein Mensch steht oder geht etwa 20 Meter entfernt. Der Hund läuft frei auf etwa 20 Meter. Du gibst den Rückruf-Pfiff. Er kommt zu dir, ohne zu dem Menschen abzubiegen." },
+          { condition: "position", variant: "Der Hund läuft frei auf etwa 20 Meter. Du drehst dich von ihm weg und gibst den Rückruf-Pfiff, ohne ihn anzusehen. Er kommt und bleibt vor dir stehen." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt bei dir und wartet auf die Freigabe. Fünfmal in Folge auf 20 Meter.",
         trophy: "Kommt auf den ersten Pfiff in gerader Linie zurück, bleibt bei dir und wartet auf die Freigabe. Auf 20 Meter.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "5 Rückrufe auf 20 Meter, jeder mit Lob und anschließender Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
@@ -238,12 +238,7 @@ export const TRACKS = [
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
-        steps: [
-          "Hund läuft frei auf etwa 20 Meter.",
-          "Den Rückruf-Pfiff geben. Er kommt direkt und gerade.",
-          "Er kommt bei dir an und bleibt stehen. Loben.",
-          "Wieder freigeben.",
-        ],
+        steps: [], // Freilaufen, Pfiff, Ankommen in den Stufen, Lob und Freigabe in run (stufen-texte-b-e.md, Abschnitt 3)
         tips: [
           "Schritt 4 ist der wichtigste. Wenn der Rückruf immer das Ende der Freiheit bedeutet, wird er schlechter.",
           LEISE_PFEIFEN,
@@ -259,25 +254,24 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart, etwa 40 Meter." },
-          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite, angeleint." },
-          { condition: "ausgang", variant: "Du rufst, während er mit der Nase am Boden ist." },
-          { condition: "ausgang", variant: "Du rufst, während er rennt." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart. Der Hund läuft frei etwa 40 Meter von dir weg, rund 55 Schritte. Du gibst den Rückruf-Pfiff. Er kommt sofort und in gerader Linie." },
+          { condition: "verleitung", variant: "Ein fremder Hund ist in Sichtweite und angeleint. Der Hund läuft frei auf etwa 40 Meter. Du gibst den Rückruf-Pfiff. Er kommt, ohne zu dem anderen Hund abzubiegen." },
+          { condition: "ausgang", variant: "Der Hund schnüffelt auf etwa 40 Meter mit der Nase am Boden. Du gibst den Rückruf-Pfiff. Er hebt den Kopf und kommt sofort." },
+          { condition: "ausgang", variant: "Der Hund rennt frei auf etwa 40 Meter umher. Du gibst den Rückruf-Pfiff mitten in der Bewegung. Er dreht ab und kommt direkt zu dir." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Kommt auf den ersten Pfiff aus 40 Metern zurück, auch aus dem Schnüffeln und aus dem Lauf. Fünf schnelle Reaktionen in Folge.",
-        run: "5 Rückrufe in der Situation der heutigen Stufe, jeder mit Lob und Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
+        run: "5 Rückrufe auf 40 Meter, jeder mit Lob und Freigabe, über die Einheit verteilt, dazwischen normal weitergehen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
-        steps: [
-          "Warten, bis er wirklich in etwas vertieft ist.",
-          "Den Rückruf-Pfiff einmal geben.",
-          "Kommt er: große Belohnung, dann wieder freigeben.",
-          "Kommt er nicht: hingehen, ruhig holen, keine Strafe. Nächster Versuch leichter.",
+        steps: [],
+        tips: [
+          "Niemals zweimal pfeifen.",
+          "Kommt er nicht: hingehen, ruhig holen, keine Strafe. Den nächsten Versuch leichter machen, näher oder mit weniger Ablenkung.",
+          LEISE_PFEIFEN,
         ],
-        tips: ["Niemals zweimal pfeifen.", LEISE_PFEIFEN],
         warning: null,
       },
       {
@@ -289,27 +283,23 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Zwei oder mehr Hunde spielen in Sichtweite." },
-          { condition: "verleitung", variant: "Er hat frische Wildwitterung aufgenommen." },
-          { condition: "ort", variant: "Im Wald, wo er dich zeitweise nicht sieht." },
-          { condition: "wetter", variant: "Bei Wind von vorn, der deine Stimme wegträgt." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Kommt auf das erste Signal, auch wenn andere Hunde spielen, bei Wildwitterung, wenn er dich zeitweise nicht sieht und bei Wind von vorn. Vier Durchgänge an verschiedenen Tagen.",
-        run: "Ein Rückruf in der Situation der heutigen Stufe, danach wieder freigeben und weiterspielen lassen.",
+          { condition: "wetter", variant: "Bei Wind von vorn, der den Schall wegträgt. Der Hund läuft frei auf etwa 40 Meter. Du gibst den Rückruf-Pfiff, leise wie immer. Er kommt sofort." },
+          { condition: "ort", variant: "Im Wald. Der Hund ist frei und zeitweise hinter Bewuchs, sodass er dich nicht sieht. Du gibst den Rückruf-Pfiff, ohne dich zu bewegen. Er kommt." },
+          { condition: "verleitung", variant: "Zwei oder mehr Hunde spielen in Sichtweite, dein Hund spielt mit. Du gibst den Rückruf-Pfiff. Er löst sich aus dem Spiel und kommt zu dir." },
+          { condition: "verleitung", variant: "Der Hund hat frische Wildwitterung aufgenommen und arbeitet mit der Nase. Du gibst den Rückruf-Pfiff. Er bricht ab und kommt." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
+        criteria: "Kommt auf das erste Signal, auch bei Wind von vorn, wenn er dich im Wald zeitweise nicht sieht, aus dem Spiel mit anderen Hunden und aus frischer Wildwitterung. Vier Durchgänge an verschiedenen Tagen.",
+        run: "Ein einziger Rückruf, danach wieder freigeben und weiterspielen lassen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
-        setup: ["Zwei oder mehr Hunde anderer Halter"], // Gelände, zweite Person: nicht in die Packliste
+        setup: [{ text: "Zwei oder mehr Hunde anderer Halter", steps: [3] }], // nur die Spielstufe (stufen-texte-b-e.md, Abschnitt 7.2)
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
-        steps: [
-          "Große Distanz zu den spielenden Hunden. Sobald er die anderen ansieht und dann von selbst zu dir schaut: belohnen.",
-          "Rückruf auf großer Distanz. Erst wenn Schritt 1 sicher sitzt. Hund ist in Sichtweite, aber nicht im Spiel.",
-          "Distanz schrittweise verkürzen. Nur eine Stufe weiter nach fünf schnellen Reaktionen in Folge.",
-          "Rückruf aus dem Spiel. Erst ganz am Ende. Danach wieder freigeben und weiterspielen lassen.",
-        ],
+        steps: [], // Aufbau der Spielstufe steht als Tipp (stufen-texte-b-e.md, Abschnitt 3)
         tips: [
           "Niemals zweimal pfeifen.",
+          "Die Spielstufe baust du über mehrere Einheiten auf: erst aus großer Distanz belohnen, wenn er von selbst zu dir schaut, dann Rückruf in Sichtweite, aber außerhalb des Spiels, dann näher heran, zuletzt aus dem Spiel heraus. Eine Stufe weiter erst nach fünf schnellen Reaktionen in Folge.",
           "Nach einer langsamen Reaktion darf er nicht sofort zur Ablenkung zurück. Sonst lernt er, dich auszusitzen.",
           "Übe lieber mit Hunden, deren Halter du kennst und die auf Zuruf abrufbar sind, als mit fremden Hunden im Park.",
           LEISE_PFEIFEN,
@@ -340,53 +330,53 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "haltung", variant: "Eine gerade Strecke von 50 Metern, gleichmäßiges Tempo." },
-          { condition: "haltung", variant: "Mit Rechts-, Links- und Kehrtwendungen." },
-          { condition: "haltung", variant: "Mit Wechsel zwischen langsam, normal und zügig." },
-          { condition: "haltung", variant: "Du bleibst stehen, er setzt sich ohne Signal." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "haltung", variant: "Eine gerade Strecke von 50 Metern, rund 65 Schritte. Der Hund geht ohne Leine in der Fußposition, etwa auf Kniehöhe. Gleichmäßiges Tempo, keine Wendungen." },
+          { condition: "haltung", variant: "Dieselben 50 Meter, aber mit Wendungen: zweimal rechts, zweimal links, einmal kehrt. Der Hund bleibt in der Position, auch in der Kehrtwendung." },
+          { condition: "haltung", variant: "50 Meter mit Tempowechsel: etwa 15 Schritte langsam, 15 normal, 15 zügig, dann wieder normal. Der Hund passt sein Tempo an, ohne vorzuziehen oder zurückzufallen." },
+          { condition: "haltung", variant: "50 Meter mit zwei bis drei Halts. Du bleibst stehen und sagst nichts. Der Hund setzt sich von selbst neben dir." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Geht 50 Meter ohne Leine bei Fuß, bei Richtungs- und Tempowechseln, und setzt sich, wenn du stehen bleibst. Kein Vorlaufen, kein Zurückbleiben.",
-        run: "2 bewusste Fuß-Phasen à 50 Meter, jeweils angekündigt und mit Freigabe beendet.",
+        run: "2 bewusste Fuß-Phasen à 50 Meter, jeweils mit dem Fuß-Signal angekündigt und mit der Freigabe beendet.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [],
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "Bewusste Fuß-Phase ankündigen, 50 Meter gehen, dann freigeben.",
+        steps: [],
+        tips: [
+          "Kurze Phasen, dafür sauber. Nicht den ganzen Spaziergang.",
           "Wenn er vorzieht: stehen bleiben und warten, bis er zurückkommt. Kein Kommentar.",
         ],
-        tips: ["Kurze Phasen, dafür sauber. Nicht den ganzen Spaziergang."],
         warning: null,
       },
       {
         id: "silber",
         signals: ["heel"], // im Heute-Block (kriterien-und-stufen.md, Abschnitt 8)
         phase: "ueben", // Lernphase nach Stufe (fundament-umbau-2.md, Abschnitt 2)
-        title: "Tempo- und Richtungswechsel",
+        title: "100 Meter unter Ablenkung", // stufen-texte-b-e.md, Abschnitt 2.1
         exam: "appell",
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Dummys liegen sichtbar am Weg, 100 Meter am Stück." },
-          { condition: "ort", variant: "In einem Gelände, in dem ihr noch nie wart." },
-          { condition: "verleitung", variant: "Menschen gehen vorbei oder stehen in der Nähe." },
-          { condition: "gegenstand", variant: "Er trägt ein Dummy, während er bei Fuß geht." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "verleitung", variant: "Eine Strecke von 100 Metern, rund 135 Schritte. Zwei Dummys liegen sichtbar am Weg. Der Hund geht ohne Leine bei Fuß daran vorbei, ohne sie anzusteuern." },
+          { condition: "ort", variant: "100 Meter in einem Gelände, in dem ihr noch nie wart. Der Hund geht ohne Leine bei Fuß, ohne zu erkunden." },
+          { condition: "verleitung", variant: "100 Meter auf einem Weg, auf dem Menschen stehen oder vorbeigehen. Der Hund bleibt in der Position und geht nicht zu ihnen." },
+          { condition: "gegenstand", variant: "100 Meter, der Hund trägt dabei ein Dummy im Fang. Er bleibt in der Position und behält das Dummy, bis du es abnimmst." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Bleibt 100 Meter am Stück bei Fuß, auch wenn Dummys am Weg liegen, Menschen vorbeigehen und er selbst ein Dummy trägt.",
-        run: "100 Meter am Stück in der Situation der heutigen Stufe.",
+        run: "100 Meter am Stück, einmal.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 2, steps: [1] }, { id: "dummy", n: 1, steps: [4] }], // Stufe 1: Dummys am Weg, Stufe 4: er trägt ein Dummy
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "Erst 100 Meter am Stück auf bekanntem Weg, ohne Ablenkung.",
-          "Dann eine Ablenkung dazunehmen, nie zwei gleichzeitig.",
-          "Zuletzt mit Dummy im Fang. Das ist die schwerste Variante, weil er sich auf zwei Dinge gleichzeitig konzentrieren muss.",
-          "Er muss dich beobachten statt nebenher zu laufen.",
+        steps: [],
+        tips: [
+          "Unvorhersehbar sein. Das erzeugt Aufmerksamkeit.",
+          "Wenn 100 Meter am Stück für ihn neu sind: erst einmal auf bekanntem Weg ohne Ablenkung gehen, bevor du mit Stufe 1 beginnst.",
+          "Stufe 4 ist die schwerste, weil er sich auf zwei Dinge gleichzeitig konzentrieren muss: die Position und das Dummy im Fang.",
+          "Er soll dich beobachten, nicht nur nebenher laufen.",
         ],
-        tips: ["Unvorhersehbar sein. Das erzeugt Aufmerksamkeit."],
         warning: null,
       },
       {
@@ -398,25 +388,25 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Fremde Hunde in Sichtweite." },
-          { condition: "verleitung", variant: "Ein Dummy fliegt, während ihr geht." },
-          { condition: "ort", variant: "Neben einer zweiten Person hergehen, die ebenfalls einen Hund führt oder Dummys trägt." },
-          { condition: "verleitung", variant: "Ein Radfahrer oder Jogger kommt vorbei." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "verleitung", variant: "Fremde Hunde sind in Sichtweite. Ihr geht bei Fuß. Du bleibst stehen und sagst nichts. Der Hund setzt sich von selbst neben dir." },
+          { condition: "verleitung", variant: "Ihr geht bei Fuß. Du wirfst ein Dummy nach vorn und bleibst stehen, ohne etwas zu sagen. Der Hund setzt sich von selbst und bleibt sitzen." },
+          { condition: "ort", variant: "Eine zweite Person geht neben euch her und führt einen Hund oder trägt Dummys. Du bleibst stehen und sagst nichts. Der Hund setzt sich von selbst." },
+          { condition: "verleitung", variant: "Ein Radfahrer oder Jogger kommt vorbei. Du bleibst stehen und sagst nichts. Der Hund setzt sich von selbst und bleibt sitzen, bis die Person vorbei ist." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Setzt sich automatisch, wenn du stehen bleibst, ohne Kommando. Auch bei fremden Hunden, bei fliegendem Dummy und wenn ein Radfahrer oder Jogger vorbeikommt. Fünfmal in Folge.",
-        run: "5 Halts in der Situation der heutigen Stufe, über die Einheit verteilt. Er setzt sich jedes Mal ohne Kommando.",
+        run: "5 Halts über die Einheit verteilt. Er setzt sich jedes Mal ohne Kommando.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1, steps: [2] }],
         setup: [{ text: "Eine zweite Person", steps: [3] }], // Stufe 3 nennt sie
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "An belebteren Wegen üben.",
-          "Du hältst an, sagst nichts. Er sitzt.",
-          "Wenn eine Ablenkung kommt: weiter nichts sagen.",
+        steps: [],
+        tips: [
+          "Das ist gleichzeitig die Basis für Walk-up in Track D.",
+          "An belebteren Wegen üben, dort kommen die Ablenkungen von selbst.",
+          "Auch wenn die Ablenkung kommt: nichts sagen. Das Sitzen soll seine Entscheidung sein, nicht deine Ansage.",
         ],
-        tips: ["Das ist gleichzeitig die Basis für Walk-up in Track D."],
         warning: null,
       },
     ],
@@ -443,24 +433,20 @@ export const TRACKS = [
         examClass: "DP-E",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Du lässt ein Dummy neben dir fallen, er wartet 3 Sekunden." },
-          { condition: "verleitung", variant: "Du wirfst ein Dummy wenige Meter weit, er wartet 5 Sekunden." },
-          { condition: "verleitung", variant: "Du wirfst ein Dummy so weit du kannst, er wartet 8 Sekunden." },
-          { condition: "position", variant: "Du gehst nach dem Wurf zwei Schritte weg, er wartet 8 Sekunden." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "verleitung", variant: "Der Hund sitzt ohne Leine in der Fußposition. Du lässt ein Dummy neben dir fallen und sagst nichts. Er bleibt 3 Sekunden sitzen, dann schickst du ihn." },
+          { condition: "verleitung", variant: "Der Hund sitzt ohne Leine in der Fußposition. Du wirfst ein Dummy wenige Meter weit und sagst nichts. Er bleibt 5 Sekunden sitzen, dann schickst du ihn." },
+          { condition: "verleitung", variant: "Der Hund sitzt ohne Leine in der Fußposition. Du wirfst ein Dummy so weit du kannst und sagst nichts. Er bleibt 8 Sekunden sitzen, dann schickst du ihn." },
+          { condition: "position", variant: "Der Hund sitzt ohne Leine in der Fußposition. Du wirfst ein Dummy, gehst dann zwei Schritte von ihm weg und sagst nichts. Er bleibt 8 Sekunden sitzen, dann schickst du ihn." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Wartet 8 Sekunden ruhig nach dem Dummy-Wurf, ohne durchzubrechen. Vier Durchgänge.",
-        run: "4 Würfe nacheinander mit der Wartezeit der heutigen Stufe, danach schickst du ihn. Dazwischen kurz freigeben.",
+        run: "4 Würfe nacheinander, dazwischen kurz freigeben.", // die Wartezeit steht in der Stufe
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "Hund sitzt ohne Leine in der Fußposition.",
-          "Dummy werfen. Nichts sagen.",
-          "3 Sekunden warten, dann schickst du ihn.",
-          "Schrittweise auf 5 und 8 Sekunden steigern.",
-          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 m vor ihm werfen lassen, dann mit dem Hund weitere 20 m gehen, setzen, und von dort schicken.",
+        steps: [ // nur die echte Variante (stufen-texte-b-e.md, Abschnitt 5)
+          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 Meter vor ihm werfen lassen, dann mit dem Hund weitere 20 Meter gehen, setzen, und von dort schicken.",
         ],
         tips: [
           "Wenn er durchbricht: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen.",
@@ -477,26 +463,24 @@ export const TRACKS = [
         examClass: "A",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Zwei Dummys fliegen nacheinander." },
-          { condition: "verleitung", variant: "Eine zweite Person wirft, nicht du." },
-          { condition: "position", variant: "Du holst das Dummy selbst, er bleibt sitzen." },
-          { condition: "ausgang", variant: "Das Dummy fliegt, während ihr in Bewegung seid." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
-        criteria: "Hält den Sitz, wenn zwei Dummys fliegen, wenn eine zweite Person wirft, wenn du das Dummy selbst holst und wenn ihr in Bewegung seid. Vier Durchgänge.",
-        run: "4 Wiederholungen in der Situation der heutigen Stufe, nacheinander, dazwischen kurz freigeben.",
+          { condition: "verleitung", variant: "Der Hund sitzt ohne Leine in der Fußposition. Eine zweite Person wirft ein Dummy, nicht du. Er bleibt sitzen, bis du ihn schickst." },
+          { condition: "verleitung", variant: "Der Hund sitzt ohne Leine in der Fußposition. Du wirfst zwei Dummys nacheinander in verschiedene Richtungen. Er bleibt sitzen, bis du ihn für das erste schickst." },
+          { condition: "position", variant: "Der Hund sitzt ohne Leine. Du wirfst ein Dummy, gehst hin und holst es selbst. Er bleibt die ganze Zeit sitzen und wird nicht geschickt." },
+          { condition: "ausgang", variant: "Ihr geht bei Fuß. Aus der Bewegung wirfst du ein Dummy nach vorn. Der Hund setzt sich von selbst und bleibt sitzen, bis du ihn schickst." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
+        criteria: "Hält den Sitz, wenn eine zweite Person wirft, wenn zwei Dummys nacheinander fliegen, wenn du das Dummy selbst holst und wenn das Dummy aus der Bewegung fliegt. Vier Durchgänge.",
+        run: "4 Wiederholungen nacheinander, dazwischen kurz freigeben.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 2, // Belastungspunkte pro Durchgang
-        gear: [{ id: "dummy", n: 2 }, { id: "markierstab", n: 1 }],
-        setup: [{ text: "Eine zweite Person", steps: [2] }], // Gelände, zweite Person: nicht in die Packliste
+        gear: [{ id: "dummy", n: 2 }], // Markierstab entfällt (stufen-texte-b-e.md, Abschnitt 7.3)
+        setup: [{ text: "Eine zweite Person", steps: [1] }], // Stufe 1 nach der Umsortierung
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
-        steps: [
-          "Dummy werfen, du machst einen Schritt zur Seite.",
-          "Dummy werfen, du gehst vier bis fünf Schritte weg.",
-          "Dummy werfen, du gehst raus und setzt einen Markierstab. Der Stab markiert hier deinen Weg, nicht ein Ziel für den Hund.",
-          "Ersten Dummy werfen, zweiten Dummy werfen, erst dann schicken.",
+        steps: [], // der Aufbau zum Weggehen steht als Tipp zu Stufe 3
+        tips: [
+          "Stufe 2 ist die direkte Vorbereitung auf Doppelmarken in Track F.",
+          "Stufe 3 baust du in kleinen Schritten auf: erst ein Schritt zur Seite, dann vier bis fünf Schritte weg, dann der ganze Weg bis zum Dummy. Nicht beim ersten Mal den ganzen Weg gehen.",
         ],
-        tips: ["Schritt 4 ist die direkte Vorbereitung auf Doppelmarken in Track F."],
         warning: null,
       },
       {
@@ -510,13 +494,13 @@ export const TRACKS = [
         examClass: "F",
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "verleitung", variant: "Eine zweite Person holt das Dummy zuerst, der Hund bleibt sitzen." },
-          { condition: "ausgang", variant: "Ihr geht zu zweit nebeneinander und bleibt in Bewegung." },
-          { condition: "verleitung", variant: "Ein lautes Signal oder ein Schuss fällt, bevor das Dummy fliegt." },
-          { condition: "ort", variant: "In einem unbekannten Gelände, mit Menschen und Ablenkung." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "verleitung", variant: "Ihr geht zu zweit nebeneinander, der Hund frei bei Fuß. Ein Dummy fliegt, ihr bleibt stehen, der Hund setzt sich ohne Signal. Die zweite Person holt das Dummy oder schickt ihren Hund. Dein Hund bleibt sitzen und sieht zu." },
+          { condition: "ausgang", variant: "Ihr geht zu zweit nebeneinander weiter, ohne anzuhalten. Aus der Bewegung fliegt ein Dummy. Der Hund setzt sich von selbst, während ihr stehen bleibt." },
+          { condition: "verleitung", variant: "Ihr geht zu zweit. Ein lautes Signal oder ein Schuss fällt, erst danach fliegt das Dummy. Der Hund setzt sich und bleibt sitzen." },
+          { condition: "ort", variant: "Dasselbe in einem Gelände, in dem ihr noch nie wart, mit Menschen und Betrieb. Der Hund setzt sich, wenn das Dummy fliegt, und bleibt bei Fuß sitzen." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Bleibt bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn eine zweite Person zuerst arbeitet, ein lautes Signal fällt und ihr in unbekanntem Gelände seid. Vier Durchgänge.",
-        run: "In Bewegung gehen, Dummy fliegt, in der Situation der heutigen Stufe.",
+        run: "Vier Durchgänge. In höchstens einem davon wird er geschickt, die anderen Dummys holst du oder die zweite Person.",
         examHint: "In der Prüfung fällt an dieser Stelle ein Schuss. Im Training ist ein Lautzeichen zulässig und gleichwertig: Die DP-E gibt es ausdrücklich in beiden Varianten, mit Schuss und ohne.", // praxistauglichkeit.md, Abschnitt 1
         reps: 4, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
@@ -524,13 +508,7 @@ export const TRACKS = [
         setup: ["Eine zweite Person, mit oder ohne Hund"], // Gelände, Helfer, Werfer: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "In der Linie gehen, Hund frei bei Fuß. Walk-up ohne Leine ab etwa 12 Monaten.",
-          "Aus der Bewegung fliegt ein Dummy. Die Linie bleibt stehen, der Hund setzt sich ohne Signal.",
-          "Eine zweite Person arbeitet zuerst. Der Hund bleibt sitzen und beobachtet.",
-          "Erst dann wird er geschickt, oder gar nicht.",
-          "Steigerung: Schuss statt Zuruf als Signal für den Wurf.",
-        ],
+        steps: [], // der Ablauf steht in den Stufen, der Schuss ist Stufe 3 (stufen-texte-b-e.md, Abschnitt 5)
         tips: [
           "80 Prozent der geworfenen Dummys holst du selbst, der Hund nur 20 Prozent. Das ist das Verhältnis, mit dem Steadiness entsteht.",
           "Springt der Hund ein: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen. Nicht hinterherschicken, das belohnt genau das Einspringen.",
@@ -563,11 +541,11 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Mit dem Welpendummy, 200 Gramm.", lightOnly: true },
-          { condition: "gegenstand", variant: "Mit dem Juniordummy, 400 Gramm." },
-          { condition: "belohnung", variant: "Du hast kein Leckerchen in der Hand, wenn er abgibt." },
-          { condition: "position", variant: "Er gibt im Stehen vor dir ab, ohne sich zu setzen." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "gegenstand", variant: "Mit dem Welpendummy, 200 Gramm. Du wirfst es etwa 10 Meter weit und schickst ihn. Er bringt es bis in deine Hand und legt es nicht ab.", lightOnly: true },
+          { condition: "gegenstand", variant: "Mit dem Juniordummy, 400 Gramm. Du wirfst es etwa 10 Meter weit und schickst ihn. Er bringt es bis in deine Hand und legt es nicht ab." },
+          { condition: "belohnung", variant: "Mit dem Juniordummy. Du hast kein Leckerchen in der Hand, wenn er ankommt. Er gibt trotzdem bis in die Hand ab, das Lob kommt erst danach." },
+          { condition: "position", variant: "Mit dem Juniordummy. Er kommt an und gibt im Stehen direkt vor dir ab, ohne sich hinzusetzen und ohne abzulegen." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Bringt den Dummy bis in die Hand und legt nicht ab, bei zehn Retrieves in Folge ohne Fehler. Die zehn dürfen auf mehrere Gruppen verteilt sein.",
         trophy: "Bringt den Dummy bis in die Hand und legt nicht ab, zehnmal in Folge.", // Trophäentext, wo das Abschneiden der Zählregel nicht reicht (trophaeen-texte.md, Abschnitt 2)
         run: "10 kurze Retrieves bis 10 Meter, in Gruppen von drei bis vier. Nach jeder Gruppe freigeben und etwas anderes machen, dann weiter.",
@@ -577,9 +555,8 @@ export const TRACKS = [
         gear: [{ id: "welpendummy", n: 1, steps: [1], swap: true }, { id: "juniordummy", n: 1, steps: [2, 3, 4], swap: true }], // praxistauglichkeit.md, Abschnitt 3; Standard 500 g erst ab E Silber
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         amount: { n: 10, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
-        stepsType: "varianten",
+        stepsType: "ablauf", // der Ablauf jeder einzelnen Abgabe (stufen-texte-b-e.md, Abschnitt 6)
         steps: [
-          "Kurze Retrieves, maximal 10 Meter.",
           "Sobald er zurückkommt: nicht stehen bleiben, sondern ein paar Schritte rückwärts gehen. Das zieht ihn bis an dich heran.",
           "Dummy ruhig abnehmen, eine Hand von unten unter das Kinn.",
           "Nicht sofort wegnehmen. Kurz halten, loben, dann abnehmen.",
@@ -599,16 +576,16 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Mit dem Standarddummy, 500 Gramm." },
-          { condition: "gegenstand", variant: "Mit einem Felldummy." },
-          { condition: "position", variant: "Er kommt in die Fußposition und gibt von dort ab." },
-          { condition: "ausgang", variant: "Er hält das Dummy, bis du das Aus-Signal gibst." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "gegenstand", variant: "Mit dem Standarddummy, 500 Gramm. Du wirfst es und schickst ihn. Er bringt es bis in deine Hand." },
+          { condition: "gegenstand", variant: "Mit einem Felldummy. Du wirfst es und schickst ihn. Er bringt es bis in deine Hand, ohne zu knautschen." },
+          { condition: "position", variant: "Er kommt mit dem Dummy zurück, geht an dir vorbei in die Fußposition und setzt sich dort. Von dort gibt er ab." },
+          { condition: "ausgang", variant: "Er sitzt in der Fußposition und hält das Dummy, bis du das Aus-Signal gibst. Vorher wartest du ein paar Sekunden." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Kommt in die Fußposition und hält das Dummy, bis du das Aus-Signal gibst. Fünf Retrieves.",
         run: "5 Retrieves am Stück, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst. Danach eine Pause.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
-        gear: [{ id: "standarddummy", n: 1 }], // feste Angabe, das Gewicht ist hier die Übung (unsichtbare-inhalte.md, Abschnitt 5)
+        gear: [{ id: "standarddummy", n: 1, steps: [1, 3, 4], swap: true }, { id: "felldummy", n: 1, steps: [2], swap: true }], // feste Angabe, das Gewicht ist hier die Übung; Felldummy für Stufe 2 (stufen-texte-b-e.md, Abschnitt 7.4)
         profileNotes: [ // der erste passende Hinweis gilt, der Gelenkbefund geht vor
           { joints: ["deutlich"], text: "Bei deutlichem Gelenkbefund ist dieses Level nicht geeignet. Bleib bei Bronze oder sprich das Gewicht mit dem Tierarzt ab." },
           { ages: ["welpe", "junghund"], text: "Dieses Level setzt voraus, dass er das Standarddummy tragen kann. Wenn nicht, bleib bei Bronze." },
@@ -616,12 +593,10 @@ export const TRACKS = [
         dummyType: "standard", // null | "standard" | "junior"; hier geht es um schwere Gegenstände, deshalb nicht in der Mini-Session (nachtrag-review.md, Abschnitt 5)
         amount: { n: 5, unit: "Retrieves" }, // zählbare Menge aus run, für Kürzung bei Belastungslimit
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "Erst wenn Bronze sicher sitzt.",
-          "Er kommt an, geht in die Fußposition und hält das Dummy.",
-          "Du gehst ein paar Schritte rückwärts, kommst zurück, nimmst dann erst ab. Das baut Geduld auf.",
-        ],
+        steps: [],
         tips: [
+          "Erst anfangen, wenn Bronze sicher sitzt.",
+          "Geduld aufbauen: Wenn er in der Fußposition sitzt, gehst du ein paar Schritte rückwärts, kommst zurück und nimmst erst dann ab.",
           "Hier sind es fünf, nicht zehn: Die Distanz ist nicht mehr begrenzt, und schwere oder ungewohnte Gegenstände kosten Kraft und Konzentration.",
           "Nie hetzen. Die Ruhe bei der Abgabe überträgt sich.",
         ],
@@ -636,27 +611,24 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Mit einem nassen Dummy." },
-          { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand." },
-          { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar bereit." },
-          { condition: "ort", variant: "Mit Zuschauern, die zusehen und sich bewegen." },
-        ], // je Stufe eine Bedingung (interne Kategorie) und ihr Text (stufen-texte.md, Abschnitt 2)
+          { condition: "gegenstand", variant: "Mit einem nassen Dummy. Lass ihn vorher zwei bis drei Apports laufen, damit die Erregung hoch ist. Dann wirfst du das nasse Dummy und schickst ihn. Er bringt es bis in die Hand und gibt sauber ab." },
+          { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand, wieder nach zwei bis drei Apports. Er bringt ihn bis in die Hand, ohne unterwegs abzulegen oder neu zu fassen." },
+          { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar in Sichtweite. Du schickst ihn auf das erste. Er bringt es bis in die Hand, ohne zum zweiten zu wechseln." },
+          { condition: "ort", variant: "Menschen stehen dabei, sehen zu und bewegen sich. Du schickst ihn. Er bringt das Dummy bis in die Hand und gibt ab, ohne sich ablenken zu lassen." },
+        ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Vier Durchgänge.",
-        run: "3 Retrieves einzeln in der Situation der heutigen Stufe, jedes Mal bei hoher Erregung, dazwischen etwas anderes machen.",
+        run: "3 Retrieves einzeln, dazwischen etwas anderes machen. Nicht drei Abgaben am Stück verlangen.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang: drei Abgaben plus die Apports davor (pfade-und-prinzipien.md, Abschnitt 5)
         gear: [{ id: "dummy", n: 2 }],
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [
-          "Nach langem Retrieve üben, wenn die Erregung hoch ist.",
-          "Für das nasse Dummy reicht ein Eimer Wasser, wenn gerade kein Gewässer verfügbar ist.",
-          "Bei Wasser: direkt an der Wasserkante stehen und abnehmen, bevor er sich schüttelt oder das Dummy ablegt. Flacher Einstieg, kein Absprung von Uferkanten.",
-          "Erregung herstellen: mehrere Apports hintereinander laufen lassen, dann die Abgabe prüfen. Nicht drei Abgaben am Stück verlangen.",
-        ],
+        steps: [],
         tips: [
           "Wenn er knautscht oder fallen lässt: Apportieren für diese Session beenden.",
           "Fehlverhalten nicht mit weiteren Retrieves belohnen.",
+          "Für das nasse Dummy auf Stufe 1 reicht ein Eimer Wasser, wenn gerade kein Gewässer da ist.",
+          "Am Gewässer: direkt an der Wasserkante stehen und abnehmen, bevor er sich schüttelt oder ablegt. Flacher Einstieg, kein Absprung von Uferkanten.",
         ],
         warning: null,
       },
@@ -1338,6 +1310,7 @@ export const GEAR_ITEMS = {
   dummy:       { one: "Dummy",       many: "Dummys",       icon: "dummy" },
   markierstab: { one: "Markierstab", many: "Markierstäbe", icon: "marker-pole" },
   futterschuessel: { one: "Futterschüssel", many: "Futterschüsseln", icon: null },
+  felldummy:   { one: "Felldummy",   many: "Felldummys",   icon: "dummy" }, // E Silber Stufe 2 (stufen-texte-b-e.md, Abschnitt 7.4)
   // Dummys mit festem Gewicht, unabhängig vom Profil
   standarddummy:   { one: "Standarddummy 500 g", many: "Standarddummys 500 g", icon: "dummy", grams: 500 },
   welpendummy:     { one: "Welpendummy 200 g", many: "Welpendummys 200 g", icon: "dummy", grams: 200 },

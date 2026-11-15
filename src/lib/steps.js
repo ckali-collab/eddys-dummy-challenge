@@ -33,7 +33,7 @@ export const stepParts = (level, n) => {
 export const stepText = (level, n, first = 1, dog) => {
   const s = stepParts(level, n);
   const shown = n - first + 1;
-  return s ? `Stufe ${shown} - ${withDummySignal(s.main, dog)}` : `Stufe ${shown}`;
+  return s ? `Stufe ${shown} - ${withSecondSide(withDummySignal(s.main, dog), dog)}` : `Stufe ${shown}`; // zweite Seite (stufen-texte-b-e.md, Abschnitt 7.1)
 };
 
 // Stufe mit Geländestufe 4, "Wasser oder mehrere Wechsel" (wasser-und-randfaelle.md, Abschnitt 1)

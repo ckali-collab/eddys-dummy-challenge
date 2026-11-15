@@ -9,7 +9,7 @@ const { freshState, migrate } = await import("../src/lib/storage.js");
 const { canSkipStep, skipStep, rateLevel, isLevelDone, isTrackUnlocked, isLevelUnlocked, levelProgress, firstStep, effectiveStep, levelCounter, jointWarnings } = await import("../src/lib/progress.js");
 const { buildPlan, recordSession, undoLastSession, warmupGuideFor, sessionDuration } = await import("../src/lib/session.js");
 const { gearAllSteps, gearForStep, gearLabel, dummyWeight, packingList } = await import("../src/lib/gear.js");
-const { isWaterStep, waterNotes, examLine } = await import("../src/lib/steps.js");
+const { isWaterStep, waterNotes, examLine, stepText } = await import("../src/lib/steps.js");
 const { conditionText, trophyProgress, syncTrophies } = await import("../src/lib/trophies.js");
 
 const adult = (patch = {}) => {
@@ -315,10 +315,30 @@ test("Track A: Stufen mit Ausgangslage, Signal und Reaktion", () => {
   assert.ok(!JSON.stringify(level("A", "gold")).includes(" - "));
 });
 
+test("B bis E: Stufentexte nach stufen-texte-b-e.md", () => {
+  const ids = ["B", "C", "D", "E"];
+  for (const t of ids) for (const lid of ["bronze", "silber", "gold"]) {
+    const l = level(t, lid);
+    assert.ok(!JSON.stringify(l).includes("heutigen Stufe"), `${t} ${lid}`);
+    assert.equal(l.steps.length > 0, ["D:bronze", "E:bronze"].includes(`${t}:${lid}`), `${t} ${lid} steps`);
+  }
+  assert.equal(level("C", "silber").title, "100 Meter unter Ablenkung");
+  assert.match(level("B", "gold").conditionPath[0].variant, /^Bei Wind von vorn/);
+  assert.match(level("B", "gold").conditionPath[3].variant, /Wildwitterung/);
+  assert.deepEqual(level("B", "gold").setup, [{ text: "Zwei oder mehr Hunde anderer Halter", steps: [3] }]);
+  assert.match(level("D", "silber").conditionPath[0].variant, /zweite Person wirft/);
+  assert.deepEqual(level("D", "silber").setup, [{ text: "Eine zweite Person", steps: [1] }]);
+  assert.ok(!level("D", "silber").gear.some((g) => g.id === "markierstab"));
+  assert.equal(level("E", "bronze").stepsType, "ablauf");
+  // zweite Seite auch im Stufentext (Abschnitt 7.1)
+  const dog = { signals: { side2: "Rechts" } };
+  assert.match(stepText(level("D", "bronze"), 1, 1, dog), /in der Fußposition oder auf der zweiten Seite \(Rechts\)/);
+});
+
 test("Check-in ist auch aus den Tracks raus", () => {
   assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
   assert.ok(!JSON.stringify(TRACKS).includes("off-lead"));
-  assert.ok(level("B", "gold").steps[0].startsWith("Große Distanz"));
+  assert.ok(level("B", "gold").tips.some((x) => x.startsWith("Die Spielstufe baust du")));
 });
 
 test("Prüfungshinweis nur bei F Silber und F Gold", () => {
@@ -329,9 +349,9 @@ test("Prüfungshinweis nur bei F Silber und F Gold", () => {
 
 test("E Gold Stufe 1 hängt nicht am Gewässer", () => {
   const l = level("E", "gold");
-  assert.equal(l.conditionPath[0].variant, "Mit einem nassen Dummy.");
+  assert.match(l.conditionPath[0].variant, /^Mit einem nassen Dummy\./);
   assert.ok(!l.criteria.includes("aus dem Wasser"));
-  assert.ok(l.steps.some((x) => x.includes("Eimer Wasser")));
+  assert.ok(l.tips.some((x) => x.includes("Eimer Wasser")));
 });
 
 test("Nebenblöcke ohne Bewertung: Session speichert, nur der Hauptteil zählt", () => {
@@ -362,14 +382,16 @@ test("Dummygewicht nach Profil, Packliste führt gleiche Gewichte zusammen", () 
   const block = (trackId, levelId, step = 2) => ({ kind: "level", trackId, levelId, step });
   const items = (blocks, d) => packingList(blocks, d).items.map((g) => `${g.id}:${g.n}`);
   // A Gold braucht zwei Dummys (track-a-nacharbeit.md, Abschnitt 1)
-  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("erwachsen")), ["pfeife:1", "dummy:2"]);
-  assert.deepEqual(items([block("E", "silber"), block("A", "gold")], dog("welpe")), ["pfeife:1", "dummy:2", "standarddummy:1"]);
+  // E Silber Stufe 1 (auf Stufe 2 liegt der Felldummy, stufen-texte-b-e.md Abschnitt 7.4)
+  assert.deepEqual(items([block("E", "silber", 1), block("A", "gold")], dog("erwachsen")), ["pfeife:1", "dummy:2"]);
+  assert.deepEqual(items([block("E", "silber", 1), block("A", "gold")], dog("welpe")), ["pfeife:1", "dummy:2", "standarddummy:1"]);
+  assert.deepEqual(items([block("E", "silber", 2)], dog("erwachsen")), ["felldummy:1"]);
   assert.deepEqual(items([block("E", "bronze"), block("A", "gold")], dog("junghund")), ["pfeife:1", "dummy:2"]);
 });
 
 test("E Silber: festes Gewicht, Hinweis nach Profil; E Gold mit Belastung 5", () => {
   const l = level("E", "silber");
-  assert.deepEqual(gearAllSteps(l.gear, 1).map((g) => gearLabel(g, l.dummyType, { age: "welpe", joints: "ok" })), ["1 Standarddummy 500 g"]);
+  assert.deepEqual(gearAllSteps(l.gear, 1).map((g) => gearLabel(g, l.dummyType, { age: "welpe", joints: "ok" })), ["1 Standarddummy 500 g (Stufe 1 und 3 und 4)", "1 Felldummy (Stufe 2)"]);
   assert.deepEqual(l.profileNotes[0].joints, ["deutlich"], "der Gelenkbefund geht vor");
   assert.deepEqual(l.profileNotes[1].ages, ["welpe", "junghund"]);
   assert.equal(level("E", "gold").load, 5);

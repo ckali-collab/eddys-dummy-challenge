@@ -46,7 +46,7 @@ const StepPath = ({ level, current, done, dog, first, onSkip }) => (
               </>
             ) : (
               <>
-                <span className="step-main"><RichText text={withDummySignal(s.variant, dog)} gloss /></span>
+                <span className="step-main"><RichText text={withSecondSide(withDummySignal(s.variant, dog), dog)} gloss /></span>
               </>
             )}
           </span>
