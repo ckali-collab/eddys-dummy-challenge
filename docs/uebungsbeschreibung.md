@@ -247,3 +247,11 @@ gehören dorthin. Falsch war nur, dass der Ablauf mit hineingerutscht ist.
 4. Abschnitt 5.2 F Bronze und 5.3 — Form und Tipps.
 5. H Bronze, H Silber und `stepsType` bei D Bronze und D Gold gehen mit den
    F-bis-H-Stufentexten zusammen, nicht hier.
+
+---
+
+## 8. Nachtrag nach der Umsetzung: Kartenlänge
+
+Gemessen bei 390 px, Hauptteil auf Heute (Stand `61216fa`): A Bronze Stufe 1
+840 px, Stufe 2 mit Einstieg 944 px. **G Bronze 1149 px, der Ablauf allein
+546 px.** Offen bis zur F-bis-H-Runde: Dort wird der Ablauf von G gekürzt.
