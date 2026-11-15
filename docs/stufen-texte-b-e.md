@@ -56,10 +56,14 @@ Fuß".
 ### 2.2 B Gold ist nach Schwierigkeit absteigend sortiert
 
 Heute: 1 spielende Hunde, 2 Wildwitterung, 3 Wald außer Sicht, 4 Wind von
-vorn. Die Stufen sollen aufsteigen, hier fallen sie ab. Wind ist für einen
-Pfiff kaum ein Hindernis — der Hinweis im Level sagt selbst, dass Hunde
-viermal leiser und aus viermal größerer Entfernung hören als wir. Frische
-Wildwitterung ist dagegen die härteste Ablenkung, die es gibt.
+vorn. Die Stufen sollen aufsteigen, hier fallen sie ab. Wind und Deckung
+kosten Hörbarkeit, dagegen hilft Lautstärkereserve (der Pfeif-Tipp im selben
+Level nennt genau das). Spiel und Wildwitterung kosten Motivation, dagegen
+hilft keine Lautstärke. Darum stehen sie hinten.
+
+*Korrigiert nach der Umsetzung: Die erste Fassung begründete die Reihenfolge
+damit, dass Wind für einen Pfiff kaum ein Hindernis sei. Das widersprach dem
+Pfeif-Tipp, der Wind ausdrücklich als Grund für Reserve nennt.*
 
 **Neue Reihenfolge: 1 Wind, 2 Wald, 3 spielende Hunde, 4 Wildwitterung.**
 

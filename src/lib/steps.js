@@ -79,7 +79,11 @@ export const signalLines = (level, dog, step) =>
 
 // Aufbautexte: "in der Fußposition" ergänzt die zweite Seite, wenn das Profil eine nennt
 export const withSecondSide = (text, dog) =>
-  dog?.signals?.side2 ? text.replace("in der Fußposition", `in der Fußposition oder auf der zweiten Seite (${dog.signals.side2})`) : text;
+  dog?.signals?.side2
+    ? text
+        .replace("in der Fußposition", `in der Fußposition oder auf der zweiten Seite (${dog.signals.side2})`)
+        .replace("in die Fußposition", `in die Fußposition oder auf die zweite Seite (${dog.signals.side2})`)
+    : text;
 
 // Ohne Aus-Signal im Profil nennen die Texte es nicht (ebenen-abgleich.md, Abschnitt 7)
 export const withDummySignal = (text, dog) =>

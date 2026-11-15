@@ -9,7 +9,7 @@ import { IconTile } from "./TrackIcon.jsx";
 import { GearList } from "./Gear.jsx";
 import { RichText } from "./Glossar.jsx";
 import { terrainRange, stepParts, stepText, stepCount, examLine, phaseOf, minAgeOf, signalLines, withSecondSide, withDummySignal, waterNotes } from "../lib/steps.js";
-import { dummyWeight, gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep } from "../lib/gear.js";
+import { dummyWeight, gearForStep, gearNotesAtStep, gearLabel, setupForStep, setupNotesAtStep, stepList, isContiguous } from "../lib/gear.js";
 
 const Section = ({ title, children }) => (
   <section className="section">
@@ -57,9 +57,11 @@ const StepPath = ({ level, current, done, dog, first, onSkip }) => (
           {setupNotesAtStep(level.setup, n, first).map((x) => (
             <span key={x.text} className="step-extra">{x.more ? "Ab Stufe" : "Stufe"} {shown}: {x.text}</span>
           ))}
-          {gearNotesAtStep(level.gear, n, first).map(({ item, from, to }) => {
+          {gearNotesAtStep(level.gear, n, first).map(({ item, from, to, seen }) => {
             const a = from - first + 1, b = to - first + 1, last = stepCount(level) - first + 1;
-            const where = a === b ? `Stufe ${a}` : b === last ? `Ab Stufe ${a}` : `Stufe ${a} bis ${b}`;
+            // Lücken in der Bindung: alle Stufen nennen statt "Ab Stufe" (stufen-texte-b-e.md, Nacharbeit 7)
+            const where = !isContiguous(seen) ? `Stufe ${stepList(seen.map((x) => x - first + 1))}`
+              : a === b ? `Stufe ${a}` : b === last ? `Ab Stufe ${a}` : `Stufe ${a} bis ${b}`;
             return (
               <span key={item.id} className="step-extra">
                 {where}: {item.swap ? "" : "zusätzlich "}{gearLabel(item, level.dummyType, dog)}

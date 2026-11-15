@@ -9,6 +9,11 @@ export const dummyWeight = (dog) => {
 
 // Anzeige eines gear-Eintrags, z.B. "2 Dummys 500 g", "1 Dummy 500 g oder Juniordummy 400 g", "Pfeife".
 // Die Juniordummy-Alternative entfällt, wenn das Profil ohnehin ein leichteres Dummy vorsieht.
+// Stufenliste als Text: "1", "1 und 2", "1, 3 und 4"
+export const stepList = (steps) => (steps.length < 2 ? `${steps[0] ?? ""}` : `${steps.slice(0, -1).join(", ")} und ${steps[steps.length - 1]}`);
+// true, wenn die Stufen lückenlos aufeinander folgen
+export const isContiguous = (steps) => steps.every((x, i) => i === 0 || x === steps[i - 1] + 1);
+
 export const gearLabel = (item, dummyType, dog) => {
   const def = GEAR_ITEMS[item.id];
   if (!def) return item.id;
@@ -20,7 +25,7 @@ export const gearLabel = (item, dummyType, dog) => {
     if (item.reserve) text += " plus Reserve";
     if (item.floats) text += ", schwimmfähig";
   }
-  if (item.steps) text += ` (Stufe ${item.steps.join(" und ")})`; // item.steps meint Stufen im Pfad
+  if (item.steps) text += ` (Stufe ${stepList(item.steps)})`; // item.steps meint Stufen im Pfad
   if (item.optional) return `${text} (optional)`;
   if (item.optionalCount > 0) return `${text} (${item.optionalCount} optional)`;
   return text;
@@ -40,11 +45,11 @@ export const gearAllSteps = (gear = [], first = 1) =>
     return seen.length === 5 - first ? [g] : [{ ...g, steps: seen }];
   });
 // Gebundenes Equipment für den Stufenblock: jeder Eintrag einmal, bei seiner ersten sichtbaren Stufe (ab first).
-// Liefert from/to der sichtbaren Stufen (aufeinanderfolgend).
+// Liefert from/to und alle sichtbaren Stufen (seen), auch mit Lücken (E Silber: 1, 3 und 4).
 export const gearNotesAtStep = (gear = [], step, first = 1) =>
   gear.flatMap(({ steps, ...g }) => {
     const seen = (steps || []).filter((x) => x >= first);
-    return seen[0] === step ? [{ item: g, from: seen[0], to: seen[seen.length - 1] }] : [];
+    return seen[0] === step ? [{ item: g, from: seen[0], to: seen[seen.length - 1], seen }] : [];
   });
 
 // setup-Einträge: Text oder { text, steps } (dieselbe Stufenbindung wie gear)

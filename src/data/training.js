@@ -128,7 +128,7 @@ export const TRACKS = [
         dummyType: null, // bleibt null, sonst fällt A Bronze aus der Mini-Session; Gewicht kommt aus dem Profil
         stepsType: "varianten",
         steps: [ // track-a-stufen.md, Abschnitt 4: was die Stufen nicht schon sagen
-          "Hund sitzt 20 große Schritte vor dir. Stopp-Pfiff geben. Er bleibt sitzen und schaut dich an.",
+          "Hund sitzt etwa 20 Meter vor dir. Stopp-Pfiff geben. Er bleibt sitzen und schaut dich an.",
           "Er stöbert wenige Meter vor dir. Stopp-Pfiff geben und gleichzeitig einen Dummy werfen. Der Dummy ist die Belohnung für den Stopp.",
         ],
         tips: [
@@ -240,7 +240,7 @@ export const TRACKS = [
         stepsType: "varianten",
         steps: [], // Freilaufen, Pfiff, Ankommen in den Stufen, Lob und Freigabe in run (stufen-texte-b-e.md, Abschnitt 3)
         tips: [
-          "Schritt 4 ist der wichtigste. Wenn der Rückruf immer das Ende der Freiheit bedeutet, wird er schlechter.",
+          "Die Freigabe nach dem Rückruf ist das Wichtigste. Wenn der Rückruf immer das Ende der Freiheit bedeutet, wird er schlechter.",
           LEISE_PFEIFEN,
         ],
         warning: null,
@@ -264,6 +264,7 @@ export const TRACKS = [
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
+        setup: [{ text: "Ein fremder Hund, angeleint", steps: [2] }], // Gelände, Helfer: nicht in die Packliste
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten",
         steps: [],
@@ -289,7 +290,7 @@ export const TRACKS = [
           { condition: "verleitung", variant: "Der Hund hat frische Wildwitterung aufgenommen und arbeitet mit der Nase. Du gibst den Rückruf-Pfiff. Er bricht ab und kommt." },
         ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Kommt auf das erste Signal, auch bei Wind von vorn, wenn er dich im Wald zeitweise nicht sieht, aus dem Spiel mit anderen Hunden und aus frischer Wildwitterung. Vier Durchgänge an verschiedenen Tagen.",
-        run: "Ein einziger Rückruf, danach wieder freigeben und weiterspielen lassen.",
+        run: "Ein einziger Rückruf. Danach gibst du ihn wieder frei und lässt ihn weitermachen, womit er beschäftigt war.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "pfeife", n: 1 }],
@@ -299,7 +300,7 @@ export const TRACKS = [
         steps: [], // Aufbau der Spielstufe steht als Tipp (stufen-texte-b-e.md, Abschnitt 3)
         tips: [
           "Niemals zweimal pfeifen.",
-          "Die Spielstufe baust du über mehrere Einheiten auf: erst aus großer Distanz belohnen, wenn er von selbst zu dir schaut, dann Rückruf in Sichtweite, aber außerhalb des Spiels, dann näher heran, zuletzt aus dem Spiel heraus. Eine Stufe weiter erst nach fünf schnellen Reaktionen in Folge.",
+          "Die Spielstufe baust du über mehrere Einheiten auf: erst aus großer Distanz belohnen, wenn er von selbst zu dir schaut, dann Rückruf in Sichtweite, aber außerhalb des Spiels, dann näher heran, zuletzt aus dem Spiel heraus. Weiter gehst du erst nach fünf schnellen Reaktionen in Folge.",
           "Nach einer langsamen Reaktion darf er nicht sofort zur Ablenkung zurück. Sonst lernt er, dich auszusitzen.",
           "Übe lieber mit Hunden, deren Halter du kennst und die auf Zuruf abrufbar sind, als mit fremden Hunden im Park.",
           LEISE_PFEIFEN,
@@ -398,7 +399,7 @@ export const TRACKS = [
         reps: 4, // Tage mit gelungenem Durchgang
         load: 0, // Belastungspunkte pro Durchgang
         gear: [{ id: "dummy", n: 1, steps: [2] }],
-        setup: [{ text: "Eine zweite Person", steps: [3] }], // Stufe 3 nennt sie
+        setup: [{ text: "Fremde Hunde in Sichtweite", steps: [1] }, { text: "Eine zweite Person", steps: [3] }], // Stufe 1 und 3 nennen sie
         dummyType: null, // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [],
@@ -445,12 +446,11 @@ export const TRACKS = [
         gear: [{ id: "dummy", n: 1 }],
         dummyType: "junior", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
-        steps: [ // nur die echte Variante (stufen-texte-b-e.md, Abschnitt 5)
-          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 Meter vor ihm werfen lassen, dann mit dem Hund weitere 20 Meter gehen, setzen, und von dort schicken.",
-        ],
+        steps: [], // die einzige Variante steht als Tipp
         tips: [
           "Wenn er durchbricht: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen.",
           "Niemals danach schicken - das belohnt das Durchbrechen.",
+          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 Meter vor ihm werfen, dann mit dem Hund weitere 20 Meter gehen, setzen, und von dort schicken.",
         ],
         warning: null,
       },
@@ -500,7 +500,7 @@ export const TRACKS = [
           { condition: "ort", variant: "Dasselbe in einem Gelände, in dem ihr noch nie wart, mit Menschen und Betrieb. Der Hund setzt sich, wenn das Dummy fliegt, und bleibt bei Fuß sitzen." },
         ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Bleibt bei Fuß, wenn aus der Bewegung ein Dummy fliegt, auch wenn eine zweite Person zuerst arbeitet, ein lautes Signal fällt und ihr in unbekanntem Gelände seid. Vier Durchgänge.",
-        run: "Vier Durchgänge. In höchstens einem davon wird er geschickt, die anderen Dummys holst du oder die zweite Person.",
+        run: "5 Würfe nacheinander in der Linie. Vier davon holst du oder die zweite Person, höchstens einen holt der Hund.",
         examHint: "In der Prüfung fällt an dieser Stelle ein Schuss. Im Training ist ein Lautzeichen zulässig und gleichwertig: Die DP-E gibt es ausdrücklich in beiden Varianten, mit Schuss und ohne.", // praxistauglichkeit.md, Abschnitt 1
         reps: 4, // Tage mit gelungenem Durchgang
         load: 1, // Belastungspunkte pro Durchgang (fundament-umbau-3.md, Abschnitt 7) // Belastungspunkte pro Durchgang
@@ -578,11 +578,11 @@ export const TRACKS = [
         conditionPath: [
           { condition: "gegenstand", variant: "Mit dem Standarddummy, 500 Gramm. Du wirfst es und schickst ihn. Er bringt es bis in deine Hand." },
           { condition: "gegenstand", variant: "Mit einem Felldummy. Du wirfst es und schickst ihn. Er bringt es bis in deine Hand, ohne zu knautschen." },
-          { condition: "position", variant: "Er kommt mit dem Dummy zurück, geht an dir vorbei in die Fußposition und setzt sich dort. Von dort gibt er ab." },
+          { condition: "position", variant: "Er kommt mit dem Dummy zurück, geht an dir vorbei und setzt sich in der Fußposition. Von dort gibt er ab." },
           { condition: "ausgang", variant: "Er sitzt in der Fußposition und hält das Dummy, bis du das Aus-Signal gibst. Vorher wartest du ein paar Sekunden." },
         ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Kommt in die Fußposition und hält das Dummy, bis du das Aus-Signal gibst. Fünf Retrieves.",
-        run: "5 Retrieves am Stück, jedes Mal hält er das Dummy, bis du das Aus-Signal gibst. Danach eine Pause.",
+        run: "5 Retrieves am Stück, danach eine Pause.", // das Aus-Signal steht in Stufe 4 und im Kriterium
         reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang
         gear: [{ id: "standarddummy", n: 1, steps: [1, 3, 4], swap: true }, { id: "felldummy", n: 1, steps: [2], swap: true }], // feste Angabe, das Gewicht ist hier die Übung; Felldummy für Stufe 2 (stufen-texte-b-e.md, Abschnitt 7.4)
@@ -611,16 +611,17 @@ export const TRACKS = [
         examClass: null,
         maxDistanceStep: null,
         conditionPath: [
-          { condition: "gegenstand", variant: "Mit einem nassen Dummy. Lass ihn vorher zwei bis drei Apports laufen, damit die Erregung hoch ist. Dann wirfst du das nasse Dummy und schickst ihn. Er bringt es bis in die Hand und gibt sauber ab." },
-          { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand, wieder nach zwei bis drei Apports. Er bringt ihn bis in die Hand, ohne unterwegs abzulegen oder neu zu fassen." },
-          { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar in Sichtweite. Du schickst ihn auf das erste. Er bringt es bis in die Hand, ohne zum zweiten zu wechseln." },
+          { condition: "gegenstand", variant: "Mit einem nassen Dummy. Du wirfst es und schickst ihn. Er bringt es bis in die Hand und gibt sauber ab." },
+          { condition: "gegenstand", variant: "Mit einem sperrigen oder ungewohnten Gegenstand. Er bringt ihn bis in die Hand, ohne unterwegs abzulegen oder neu zu fassen." },
+          { condition: "verleitung", variant: "Ein zweites Dummy liegt sichtbar in der Nähe. Du schickst ihn auf das erste. Er bringt es bis in die Hand, ohne zum zweiten zu wechseln." },
           { condition: "ort", variant: "Menschen stehen dabei, sehen zu und bewegen sich. Du schickst ihn. Er bringt das Dummy bis in die Hand und gibt ab, ohne sich ablenken zu lassen." },
         ], // Ausgangslage, Signal, erwartete Reaktion (stufen-texte-b-e.md)
         criteria: "Saubere Abgabe bei hoher Erregung: mit nassem Dummy, mit einem sperrigen Gegenstand, wenn ein zweites Dummy bereitliegt und wenn Zuschauer dabei sind. Vier Durchgänge.",
-        run: "3 Retrieves einzeln, dazwischen etwas anderes machen. Nicht drei Abgaben am Stück verlangen.",
+        run: "3 geprüfte Abgaben, einzeln über die Einheit verteilt. Vor jeder lässt du ihn zwei bis drei Apports laufen, damit die Erregung hoch ist. Nie drei geprüfte Abgaben hintereinander.",
         reps: 4, // Tage mit gelungenem Durchgang
         load: 5, // Belastungspunkte pro Durchgang: drei Abgaben plus die Apports davor (pfade-und-prinzipien.md, Abschnitt 5)
         gear: [{ id: "dummy", n: 2 }],
+        setup: [{ text: "Ein sperriger oder ungewohnter Gegenstand", steps: [2] }], // Gelände, Helfer, Gegenstände: nicht in die Packliste
         dummyType: "standard", // null | "standard" | "junior" (Juniordummy 400 g reicht)
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [],
