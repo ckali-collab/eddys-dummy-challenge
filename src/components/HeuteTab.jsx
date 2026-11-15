@@ -135,8 +135,8 @@ const BlockSection = ({ title, children }) => (
   </div>
 );
 
-// Die ersten zwei Tipps, der Rest hinter "mehr" (uebungsbeschreibung.md, Abschnitt 2)
-const TIPS_SHOWN = 2;
+// Der erste Tipp, der Rest hinter "mehr" (uebungsbeschreibung.md, Abschnitt 2; gekürzt nach Messung 1047 px)
+const TIPS_SHOWN = 1;
 const TipsPreview = ({ tips }) => {
   const [all, setAll] = useState(false);
   const shown = all ? tips : tips.slice(0, TIPS_SHOWN);
@@ -243,6 +243,8 @@ const BlockCard = ({ st, typeId, block, onSwap, onOpen }) => {
           <StepPlan st={st} trackId={block.trackId} levelId={block.levelId} />
           {level.steps.length > 0 && (
             <BlockSection title={(STEPS_TYPES[level.stepsType] ?? STEPS_TYPES.varianten).title}>
+              {/* Auf Heute nur die kurze Einleitung, die lange steht auf der Levelseite */}
+              {STEPS_TYPES[level.stepsType]?.short && <p className="small muted">{STEPS_TYPES[level.stepsType].short}</p>}
               <ol className="steps small">
                 {level.steps.map((s, i) => <li key={i}><span><RichText text={withSecondSide(s, st.dog)} gloss /></span></li>)}
               </ol>

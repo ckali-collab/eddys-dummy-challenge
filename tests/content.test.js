@@ -365,6 +365,26 @@ test("Übungsbeschreibung: Belastungsbegründung im Hintergrund, F Bronze als Ab
   assert.deepEqual(gearForStep(d.gear, 3), [{ id: "dummy", n: 1, swap: true }]);
 });
 
+test("Tipp-Reihenfolge: der wichtigste vorn, Pfeif-Begründung nur bei A Bronze", () => {
+  const first = (t, l) => level(t, l).tips[0];
+  assert.ok(first("A", "bronze").startsWith("Immer leise pfeifen. Hunde hören"));
+  for (const [t, l] of [["A", "silber"], ["A", "gold"], ["B", "bronze"], ["B", "silber"], ["B", "gold"]]) {
+    assert.equal(level(t, l).tips.at(-1), "Immer leise pfeifen, auch auf Distanz.", `${t} ${l}`);
+  }
+  assert.equal(TRACKS.flatMap((t) => t.levels).filter((l) => l.tips.some((x) => x.includes("viermal leiser"))).length, 1);
+  assert.ok(first("A", "silber").startsWith("Wenn er nicht stoppt"));
+  assert.ok(first("A", "gold").startsWith("Maximal einmal pro Session"));
+  assert.ok(first("C", "gold").startsWith("Auch wenn die Ablenkung"));
+  assert.ok(first("C", "silber").startsWith("Er soll dich beobachten"));
+  assert.ok(first("D", "bronze").startsWith("Variante verspätetes"));
+  assert.ok(first("D", "gold").startsWith("Springt der Hund ein"));
+  assert.ok(first("F", "bronze").startsWith("Variante Doppelmarkierung DP-E: Zwei Dummys werfen,"));
+  assert.ok(first("F", "silber").startsWith("Die Memory-Variante setzt Steadiness Silber voraus"));
+  assert.ok(level("A", "bronze").tips.includes("Nur eine Übungseinheit pro Spaziergang, nicht mehr."));
+  const gone = ["Unvorhersehbar sein", "Maximal drei bis fünf", "Erst anfangen, wenn Bronze", "Voraussetzung: Steadiness"];
+  assert.ok(!gone.some((g) => JSON.stringify(TRACKS).includes(g)));
+});
+
 test("Check-in ist auch aus den Tracks raus", () => {
   assert.ok(!JSON.stringify(TRACKS).includes("Check-in"));
   assert.ok(!JSON.stringify(TRACKS).includes("off-lead"));

@@ -72,7 +72,7 @@ export const LEARNING_PHASES = [
 
 // Überschrift und Einleitung der steps-Liste je stepsType (fundament-umbau-5.md, Abschnitt 3)
 export const STEPS_TYPES = {
-  varianten: { title: "Varianten zum Abwechseln", intro: "In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen." },
+  varianten: { title: "Varianten zum Abwechseln", intro: "In einem Durchgang arbeitest du an einer dieser Varianten, nicht an allen.", short: "Eine davon pro Durchgang." }, // short: auf Heute (heute-laenge, Runde 15.11.)
   ablauf:    { title: "Ablauf eines Durchgangs",    intro: "So läuft ein Durchgang ab, von oben nach unten." },
   // Schritte, die über mehrere Einheiten aufeinander aufbauen (A Gold)
   progression: { title: "Aufbau über mehrere Wochen", intro: "Diese Schritte bauen aufeinander auf, einer nach dem anderen über mehrere Einheiten." },
@@ -134,7 +134,7 @@ export const TRACKS = [
         tips: [
           LEISE_PFEIFEN,
           "Im Alltag das Wort Sitz durch den Pfiff ersetzen. Kostet keine Trainingszeit.",
-          "Ein Durchgang pro Spaziergang, nicht mehr.",
+          "Nur eine Übungseinheit pro Spaziergang, nicht mehr.",
         ],
         warning: "Zu viele Wiederholungen führen dazu, dass der Hund beim Rausschicken von selbst stoppt.",
       },
@@ -161,9 +161,9 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [], // Aufbau entfällt, die Stufen tragen ihn (track-a-stufen.md, Abschnitt 4)
         tips: [
-          LEISE_PFEIFEN,
           "Wenn er nicht stoppt: nicht nachpfeifen. Hingehen, zurück zum Ausgangspunkt, Distanz verkürzen.",
           "Bei Gelenkeinschränkung aus dem Trab üben, nicht aus dem Galopp.",
+          "Immer leise pfeifen, auch auf Distanz.",
         ],
         warning: null,
       },
@@ -195,8 +195,8 @@ export const TRACKS = [
           "Schrittweise weniger vortreten, bis der Pfiff allein reicht.",
         ],
         tips: [
-          LEISE_PFEIFEN,
           "Maximal einmal pro Session, sonst entsteht Zögern beim Rausschicken.",
+          "Immer leise pfeifen, auch auf Distanz.",
         ],
         warning: "Sparsam einsetzen. Diese Übung ist der häufigste Auslöser für antizipierendes Stoppen.",
       },
@@ -240,7 +240,7 @@ export const TRACKS = [
         steps: [], // Freilaufen, Pfiff, Ankommen in den Stufen, Lob und Freigabe in run (stufen-texte-b-e.md, Abschnitt 3)
         tips: [
           "Die Freigabe nach dem Rückruf ist das Wichtigste. Wenn der Rückruf immer das Ende der Freiheit bedeutet, wird er schlechter.",
-          LEISE_PFEIFEN,
+          "Immer leise pfeifen, auch auf Distanz.",
         ],
         warning: null,
       },
@@ -270,7 +270,7 @@ export const TRACKS = [
         tips: [
           "Niemals zweimal pfeifen.",
           "Kommt er nicht: hingehen, ruhig holen, keine Strafe. Den nächsten Versuch leichter machen, näher oder mit weniger Ablenkung.",
-          LEISE_PFEIFEN,
+          "Immer leise pfeifen, auch auf Distanz.",
         ],
         warning: null,
       },
@@ -299,10 +299,10 @@ export const TRACKS = [
         steps: [], // Aufbau der Spielstufe steht als Tipp (stufen-texte-b-e.md, Abschnitt 3)
         tips: [
           "Niemals zweimal pfeifen.",
-          "Die Spielstufe baust du über mehrere Einheiten auf: erst aus großer Distanz belohnen, wenn er von selbst zu dir schaut, dann Rückruf in Sichtweite, aber außerhalb des Spiels, dann näher heran, zuletzt aus dem Spiel heraus. Weiter gehst du erst nach fünf schnellen Reaktionen in Folge.",
           "Nach einer langsamen Reaktion darf er nicht sofort zur Ablenkung zurück. Sonst lernt er, dich auszusitzen.",
           "Übe lieber mit Hunden, deren Halter du kennst und die auf Zuruf abrufbar sind, als mit fremden Hunden im Park.",
-          LEISE_PFEIFEN,
+          "Die Spielstufe baust du über mehrere Einheiten auf: erst aus großer Distanz belohnen, wenn er von selbst zu dir schaut, dann Rückruf in Sichtweite, aber außerhalb des Spiels, dann näher heran, zuletzt aus dem Spiel heraus. Weiter gehst du erst nach fünf schnellen Reaktionen in Folge.",
+          "Immer leise pfeifen, auch auf Distanz.",
         ],
         warning: null,
       },
@@ -372,10 +372,9 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [],
         tips: [
-          "Unvorhersehbar sein. Das erzeugt Aufmerksamkeit.",
+          "Er soll dich beobachten, nicht nur nebenher laufen.",
           "Wenn 100 Meter am Stück für ihn neu sind: erst einmal auf bekanntem Weg ohne Ablenkung gehen, bevor du mit Stufe 1 beginnst.",
           "Stufe 4 ist die schwerste, weil er sich auf zwei Dinge gleichzeitig konzentrieren muss: die Position und das Dummy im Fang.",
-          "Er soll dich beobachten, nicht nur nebenher laufen.",
         ],
         warning: null,
       },
@@ -403,9 +402,9 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [],
         tips: [
-          "Das ist gleichzeitig die Basis für Walk-up in Track D.",
-          "An belebteren Wegen üben, dort kommen die Ablenkungen von selbst.",
           "Auch wenn die Ablenkung kommt: nichts sagen. Das Sitzen soll seine Entscheidung sein, nicht deine Ansage.",
+          "An belebteren Wegen üben, dort kommen die Ablenkungen von selbst.",
+          "Das ist gleichzeitig die Basis für Walk-up in Track D.",
         ],
         warning: null,
       },
@@ -447,9 +446,9 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [], // die einzige Variante steht als Tipp
         tips: [
+          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 Meter vor ihm werfen, dann mit dem Hund weitere 20 Meter gehen, setzen, und von dort schicken.",
           "Wenn er durchbricht: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen.",
           "Niemals danach schicken - das belohnt das Durchbrechen.",
-          "Variante verspätetes Schicken: Hund setzen, Dummy etwa 10 Meter vor ihm werfen, dann mit dem Hund weitere 20 Meter gehen, setzen, und von dort schicken.",
         ],
         warning: null,
       },
@@ -477,8 +476,8 @@ export const TRACKS = [
         stepsType: "varianten",
         steps: [], // der Aufbau zum Weggehen steht als Tipp zu Stufe 3
         tips: [
-          "Stufe 2 ist die direkte Vorbereitung auf Doppelmarken in Track F.",
           "Stufe 3 baust du in kleinen Schritten auf: erst ein Schritt zur Seite, dann vier bis fünf Schritte weg, dann der ganze Weg bis zum Dummy. Nicht beim ersten Mal den ganzen Weg gehen.",
+          "Stufe 2 ist die direkte Vorbereitung auf Doppelmarken in Track F.",
         ],
         warning: null,
       },
@@ -509,8 +508,8 @@ export const TRACKS = [
         stepsType: "ablauf", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [], // der Ablauf steht in den Stufen, der Schuss ist Stufe 3 (stufen-texte-b-e.md, Abschnitt 5)
         tips: [
-          "80 Prozent der geworfenen Dummys holst du selbst, der Hund nur 20 Prozent. Das ist das Verhältnis, mit dem Steadiness entsteht.",
           "Springt der Hund ein: Dummy selbst holen, zurück zum Ausgangspunkt, neu beginnen. Nicht hinterherschicken, das belohnt genau das Einspringen.",
+          "80 Prozent der geworfenen Dummys holst du selbst, der Hund nur 20 Prozent. Das ist das Verhältnis, mit dem Steadiness entsteht.",
           "Hände in die Jackentaschen während der Wartezeit. Hunde springen oft ein, wenn du mit den Händen herumfuchtelst.",
         ],
         warning: null,
@@ -595,7 +594,6 @@ export const TRACKS = [
         stepsType: "varianten", // "varianten" | "ablauf" (fundament-umbau-5.md, Abschnitt 3)
         steps: [],
         tips: [
-          "Erst anfangen, wenn Bronze sicher sitzt.",
           "Geduld aufbauen: Wenn er in der Fußposition sitzt, gehst du ein paar Schritte rückwärts, kommst zurück und nimmst erst dann ab.",
           "Nie hetzen. Die Ruhe bei der Abgabe überträgt sich.",
         ],
@@ -673,10 +671,9 @@ export const TRACKS = [
           "Er bringt bis in die Hand und legt nicht ab.",
         ],
         tips: [
-          "Maximal drei bis fünf Würfe.",
-          "Markierstab optional, hilft dir selbst bei der Orientierung.",
-          "Variante Doppelmarkierung DP-E: Zwei Dummys werfen lassen, Winkel mindestens 90 Grad. Du holst den zuerst geworfenen selbst, der Hund bleibt sitzen. Dann schickst du ihn zum zuletzt geworfenen.",
+          "Variante Doppelmarkierung DP-E: Zwei Dummys werfen, Winkel mindestens 90 Grad. Du holst den zuerst geworfenen selbst, der Hund bleibt sitzen. Dann schickst du ihn zum zuletzt geworfenen.",
           "Variante Halbblind: Hund holt ein geworfenes Dummy. Während er zurückläuft, legt eine zweite Person an derselben Stelle ein zweites ab. Dann schicke ihn erneut.",
+          "Markierstab optional, hilft dir selbst bei der Orientierung.",
         ],
         warning: null,
       },
@@ -706,7 +703,7 @@ export const TRACKS = [
           "Variante Memory: Dummy sichtbar werfen, Hund wartet, ihr wechselt die Position um mindestens 20 Meter, dann von dort schicken.",
         ],
         tips: [
-          "Voraussetzung: Steadiness Silber muss sitzen.",
+          "Die Memory-Variante setzt Steadiness Silber voraus: Der Hund muss sitzen bleiben, während du die Position wechselst.",
         ],
         warning: null,
       },
